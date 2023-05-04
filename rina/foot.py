@@ -8,6 +8,7 @@ import time
 from selenium.webdriver.common.by import By
 import os
 import sys
+import traceback
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from widget import pcmax, happymail
 from selenium.webdriver.support.ui import WebDriverWait
