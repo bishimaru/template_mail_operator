@@ -29,9 +29,19 @@ driver = webdriver.Chrome(service=service, options=options)
 try:   
   happymail.re_post(name,happy_windowhandle, driver)
 except Exception as e:
-  print('777')
+  print('=== エラー内容 ===')
+  print(traceback.format_exc())
+  print('type:' + str(type(e)))
+  print('args:' + str(e.args))
+  print('message:' + e.message)
+  print('e自身:' + str(e))
 try:
   pcmax.re_post(name, pcmax_windowhandle, driver)
 except Exception as e:
-  print('777')
+  print('=== エラー内容 ===')
+  print(traceback.format_exc())
+  print('type:' + str(type(e)))
+  print('args:' + str(e.args))
+  print('message:' + e.message)
+  print('e自身:' + str(e))
 driver.quit()

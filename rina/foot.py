@@ -40,5 +40,10 @@ driver = webdriver.Chrome(service=service, options=options)
 try:   
   happymail.return_footpoint(name,happy_windowhandle, driver, return_foot_message, cnt)
 except Exception as e:
-  print('error')
+  print('=== エラー内容 ===')
+  print(traceback.format_exc())
+  print('type:' + str(type(e)))
+  print('args:' + str(e.args))
+  print('message:' + e.message)
+  print('e自身:' + str(e))
 driver.quit()
