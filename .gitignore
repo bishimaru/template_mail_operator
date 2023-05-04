@@ -4,3 +4,4 @@ mail_operator_env
 chromedriver
 /setting.py
 setting.py
+__pycache__
