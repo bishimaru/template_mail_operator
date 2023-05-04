@@ -11,11 +11,11 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from widget import pcmax, happymail
 from selenium.webdriver.support.ui import WebDriverWait
+import setting
+import traceback
 
 
 name = "rina"
-happy_windowhandle = "504D4E1934235E88D40946D7223DA77A"
-pcmax_windowhandle = "A8940E1D39C82A9733E8BCA8F7A8B9BF"
 
 
 options = Options()
@@ -27,7 +27,7 @@ service = Service(executable_path="./chromedriver")
 driver = webdriver.Chrome(service=service, options=options)
 
 try:   
-  happymail.re_post(name,happy_windowhandle, driver)
+  happymail.re_post(name, setting.rina_happy_windowhandle, driver)
 except Exception as e:
   print('=== エラー内容 ===')
   print(traceback.format_exc())
@@ -36,7 +36,7 @@ except Exception as e:
   print('message:' + e.message)
   print('e自身:' + str(e))
 try:
-  pcmax.re_post(name, pcmax_windowhandle, driver)
+  pcmax.re_post(name, setting.rina_pcmax_windowhandle, driver)
 except Exception as e:
   print('=== エラー内容 ===')
   print(traceback.format_exc())

@@ -11,6 +11,7 @@ from selenium.webdriver.support.select import Select
 import random
 from selenium.webdriver.support.ui import WebDriverWait
 import traceback
+import setting
 
 
 post_area_tokyo = ["千代田区", "中央区", "港区", "新宿区", "文京区", "台東区",
@@ -38,7 +39,8 @@ def re_post(name, maiko_pcmax, driver):
   driver.switch_to.window(maiko_pcmax)
   wait_time = random.uniform(3, 4)
   try:
-    os.system("osascript -e 'display notification \"PCMAX掲示板再投稿中...\" with title \"{}\"'".format(name))
+    if setting.mac_os:
+      os.system("osascript -e 'display notification \"PCMAX掲示板再投稿中...\" with title \"{}\"'".format(name))
     # MENUをクリック
     menu = driver.find_element(By.ID, value='sp_nav')
     menu.click()
@@ -108,10 +110,12 @@ def re_post(name, maiko_pcmax, driver):
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", bulletin_board_history)
       bulletin_board_history.click()
       time.sleep(1)
-    os.system("osascript -e 'beep' -e 'display notification \"PCMAX掲示板再投稿に成功しました◎\" with title \"{}\"'".format(name))
+    if setting.mac_os:
+      os.system("osascript -e 'beep' -e 'display notification \"PCMAX掲示板再投稿に成功しました◎\" with title \"{}\"'".format(name))
 
   except Exception as e:
-      os.system("osascript -e 'display notification \"PCMAX掲示板再投稿中に失敗しました...\" with title \"{}\"'".format(name))
+      if setting.mac_os:
+        os.system("osascript -e 'display notification \"PCMAX掲示板再投稿中に失敗しました...\" with title \"{}\"'".format(name))
       print('=== エラー内容 ===')
       print(traceback.format_exc())
       print('type:' + str(type(e)))
@@ -120,7 +124,6 @@ def re_post(name, maiko_pcmax, driver):
       print('e自身:' + str(e))
   
 def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt):
-  print(555)
   wait = WebDriverWait(driver, 15)
   driver.switch_to.window(pcmax_windowhandle)
   wait_time = random.uniform(2, 3)

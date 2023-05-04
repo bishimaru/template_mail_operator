@@ -9,6 +9,7 @@ from selenium.webdriver.common.by import By
 import os
 import sys
 import traceback
+import setting
 
 
 def re_post(name, happy_windowhandle, driver):
@@ -17,7 +18,8 @@ def re_post(name, happy_windowhandle, driver):
   driver.switch_to.window(happy_windowhandle)
   wait_time = random.uniform(2, 3)
   try:
-    os.system("osascript -e 'display notification \"ハッピーメール掲示板再投稿中...\" with title \"{}\"'".format(name))
+    if setting.mac_os:
+      os.system("osascript -e 'display notification \"ハッピーメール掲示板再投稿中...\" with title \"{}\"'".format(name))
     # マイページをクリック
     nav_list = driver.find_element(By.ID, value='ds_nav')
     mypage = nav_list.find_element(By.LINK_TEXT, "マイページ")
@@ -61,10 +63,12 @@ def re_post(name, happy_windowhandle, driver):
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
       # id=modalの要素が出たら失敗 class=remodal-wrapperが4つともdiplay:noneなら成功
-    os.system("osascript -e 'display notification \"ハッピーメール掲示板再投稿中に成功しました◎\" with title \"{}\"'".format(name))
+    if setting.mac_os:
+       os.system("osascript -e 'display notification \"ハッピーメール掲示板再投稿中に成功しました◎\" with title \"{}\"'".format(name))
 
   except Exception as e:
-      os.system("osascript -e 'display notification \"ハッピーメール掲示板再投稿中に失敗しました...\" with title \"{}\"'".format(name))
+      if setting.mac_os:
+         os.system("osascript -e 'display notification \"ハッピーメール掲示板再投稿中に失敗しました...\" with title \"{}\"'".format(name))
       print('=== エラー内容 ===')
       print(traceback.format_exc())
       print('type:' + str(type(e)))
@@ -82,7 +86,8 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt)
     top_link.click()
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
     time.sleep(wait_time)
-    os.system("osascript -e 'beep' -e 'display notification \"ハッピーメール足跡返し実行中...\" with title \"{}\"'".format(name))
+    if setting.mac_os:
+       os.system("osascript -e 'beep' -e 'display notification \"ハッピーメール足跡返し実行中...\" with title \"{}\"'".format(name))
     try:
       i = 1
       for i in range(1):
@@ -156,13 +161,15 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt)
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(wait_time)
     except Exception as e:
-      os.system("osascript -e 'display notification \"ハッピーメール{}件目の足跡返しに失敗しました...\" with title \"{}\"'".format(i, name))
+      if setting.mac_os:
+         os.system("osascript -e 'display notification \"ハッピーメール{}件目の足跡返しに失敗しました...\" with title \"{}\"'".format(i, name))
       print('=== エラー内容 ===')
       print(traceback.format_exc())
       print('type:' + str(type(e)))
       print('args:' + str(e.args))
       print('message:' + e.message)
       print('e自身:' + str(e))
-    os.system("osascript -e 'beep' -e 'display notification \"ハッピーメール{}件の足跡返しに成功しました...\" with title \"{}\"'".format(i, name))
+    if setting.mac_os:
+       os.system("osascript -e 'beep' -e 'display notification \"ハッピーメール{}件の足跡返しに成功しました...\" with title \"{}\"'".format(i, name))
     print(dev_list)
   

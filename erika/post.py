@@ -11,12 +11,11 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from widget import pcmax, happymail
 from selenium.webdriver.support.ui import WebDriverWait
+import setting
+import traceback
 
 
 name = "えりか"
-happy_windowhandle = "B3D5ED5F7BEAA4F431DEECB340773A48"
-pcmax_windowhandle = "B965B0DF394F184BC5D23A57AEA3915F"
-
 
 options = Options()
 options.add_argument('--headless')
@@ -27,11 +26,21 @@ service = Service(executable_path="./chromedriver")
 driver = webdriver.Chrome(service=service, options=options)
 
 try:   
-  happymail.re_post(name,happy_windowhandle, driver)
+  happymail.re_post(name, setting.erika_happy_windowhandle, driver)
 except Exception as e:
-  print('777')
+  print('=== エラー内容 ===')
+  print(traceback.format_exc())
+  print('type:' + str(type(e)))
+  print('args:' + str(e.args))
+  print('message:' + e.message)
+  print('e自身:' + str(e))
 try:
-  pcmax.re_post(name, pcmax_windowhandle, driver)
+  pcmax.re_post(name, setting.erika_pcmax_windowhandle, driver)
 except Exception as e:
-  print('777')
+  print('=== エラー内容 ===')
+  print(traceback.format_exc())
+  print('type:' + str(type(e)))
+  print('args:' + str(e.args))
+  print('message:' + e.message)
+  print('e自身:' + str(e))
 driver.quit()

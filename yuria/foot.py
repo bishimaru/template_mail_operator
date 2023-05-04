@@ -11,11 +11,11 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from widget import pcmax, happymail
 from selenium.webdriver.support.ui import WebDriverWait
-
+import setting
+import traceback
 
 name = "ゆりあ"
-happy_windowhandle = "649D6CFA6496F61AB58D2762E7DC99B7"
-pcmax_windowhandle = "F88DA50E170152B3DB70FADC8465375A"
+
 return_foot_message = """足跡からです！ゆりあって言います♪
 都内で不動産関係のOLをしています！
 
@@ -38,7 +38,7 @@ service = Service(executable_path="./chromedriver")
 driver = webdriver.Chrome(service=service, options=options)
 
 try:   
-  happymail.return_footpoint(name,happy_windowhandle, driver, return_foot_message, cnt)
+  happymail.return_footpoint(name, setting.yuria_happy_windowhandle, driver, return_foot_message, cnt)
 except Exception as e:
   print('=== エラー内容 ===')
   print(traceback.format_exc())
