@@ -65,6 +65,8 @@ def re_post(name, maiko_pcmax, driver):
       time.sleep(wait_time)
       detail_selected = driver.find_element(By.XPATH, value="/html/body/form/div[2]/div[3]/div[2]")
       detail_selected = detail_selected.text.replace(' ', '')
+      print("前回の詳細地域")
+      print(detail_selected)
       # 前回の都道府県を取得
       last_area = driver.find_element(By.XPATH, value="/html/body/form/div[2]/div[2]/div[2]")
       last_area = last_area.text.replace(' ', '').replace('"', '')
@@ -90,8 +92,8 @@ def re_post(name, maiko_pcmax, driver):
       except ValueError:
         pass
       detail_area = random.choice(post_area_dic[last_area])
-      print('詳細地域のリスト')
-      print(post_area_dic[last_area])
+      print('選択した詳細地域')
+      print(detail_area)
       select.select_by_visible_text(detail_area)
       time.sleep(1)
       # メール受付数を変更
@@ -177,6 +179,5 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt)
     if len(sent):
       print('送信履歴があります')
       continue
-    print("うひょひょ")
   
 

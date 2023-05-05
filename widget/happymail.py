@@ -89,8 +89,8 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt)
     if setting.mac_os:
        os.system("osascript -e 'beep' -e 'display notification \"ハッピーメール足跡返し実行中...\" with title \"{}\"'".format(name))
     try:
-      i = 1
-      for i in range(1):
+      user_icon = 0
+      for i in range(cnt):
         # マイページをクリック
         nav_list = driver.find_element(By.ID, value='ds_nav')
         mypage = nav_list.find_element(By.LINK_TEXT, "マイページ")
@@ -101,7 +101,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt)
         return_footpoint = driver.find_element(By.CLASS_NAME, value="icon-ico_footprint")
         return_footpoint.click()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-        time.sleep(wait_time)      
+        time.sleep(wait_time)
         # メールアイコンがあるかチェック
         send_status = True
         f_user = driver.find_elements(By.CLASS_NAME, value="ds_post_head_main_info")
@@ -110,19 +110,26 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt)
           print('メールアイコンがあります')
           send_status = False
         # 足跡ユーザーをクリック
-        f_user[0].click()
+        driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", f_user[user_icon])
+        time.sleep(1)
+        f_user[user_icon].click()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(wait_time)
+        m = driver.find_elements(By.XPATH, value="//*[@id='ds_main']/div/p")
+        if len(m):
+          print(7777)
+          print(m[0].text)
+          if m[0].text == "プロフィール情報の取得に失敗しました":
+             print(6666)
+             user_icon += 1
+             continue
         # 自己紹介文に業者、通報が含まれているかチェック
         if len(driver.find_elements(By.CLASS_NAME, value="translate_body")):
-          print("自己紹介文がありました")
           contains_violations = driver.find_element(By.CLASS_NAME, value="translate_body")
           driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", contains_violations)
           text = contains_violations.text.replace(" ", "").replace("\n", "")
-          dev_list = []
-          if '通報' in test_text or '業者' in text:
+          if '通報' in text or '業者' in text:
               print('自己紹介文に危険なワードが含まれていました')
-              dev_list.append(text)
               send_status = False
         # メッセージ履歴があるかチェック
         mail_field = driver.find_element(By.ID, value="ds_nav")
@@ -132,8 +139,8 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt)
             print('メール履歴があります')   
             send_status = False
         # メールするをクリック
-        print('send_status = ' + str(send_status) +  ' ~' + str(i) + "~")
         if send_status:
+          print('send_status = ' + str(send_status) +  ' ~' + str(i) + "~")
           send_mail = mail_field.find_element(By.CLASS_NAME, value="ds_profile_target_btn")
           send_mail.click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -171,5 +178,4 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt)
       print('e自身:' + str(e))
     if setting.mac_os:
        os.system("osascript -e 'beep' -e 'display notification \"ハッピーメール{}件の足跡返しに成功しました...\" with title \"{}\"'".format(i, name))
-    print(dev_list)
   
