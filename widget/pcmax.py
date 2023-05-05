@@ -12,6 +12,7 @@ import random
 from selenium.webdriver.support.ui import WebDriverWait
 import traceback
 import setting
+import re
 
 
 post_area_tokyo = ["千代田区", "中央区", "港区", "新宿区", "文京区", "台東区",
@@ -46,6 +47,10 @@ def re_post(name, pcmax_windowhandle, driver):
     menu.click()
     time.sleep(wait_time)
     # 掲示板履歴をクリック　
+    # //*[@id="nav-content"]/dl/dd[17]/a
+    # //*[@id="nav-content"]/dl/dd[14]/a
+    # //*[@id="nav-content"]/dl/dd[16]/a
+    # //*[@id="nav-content"]/dl/dd[17]/a
     bulletin_board_history = driver.find_element(By.XPATH, value="//*[@id='nav-content']/dl/dd[17]/a")
     driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", bulletin_board_history)
     time.sleep(wait_time)
@@ -65,11 +70,12 @@ def re_post(name, pcmax_windowhandle, driver):
       time.sleep(wait_time)
       detail_selected = driver.find_element(By.XPATH, value="/html/body/form/div[2]/div[3]/div[2]")
       detail_selected = detail_selected.text.replace(' ', '')
-      print("前回の詳細地域")
-      print(detail_selected)
       # 前回の都道府県を取得
       last_area = driver.find_element(By.XPATH, value="/html/body/form/div[2]/div[2]/div[2]")
       last_area = last_area.text.replace(' ', '').replace('"', '')
+      print(last_area)
+      print("前回の詳細地域")
+      print(detail_selected)
       # 編集するをクリック 
       edit_post = driver.find_element(By.ID, value="alink")
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", edit_post)
@@ -168,17 +174,67 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt)
     # link = div[cnt].find_elements(By.TAG_NAME, value="a")[1].get_attribute("href")
     a_tags = div[cnt].find_elements(By.TAG_NAME, value="a")
     print("aタグの数：" + str(len(a_tags)))
-    if len(a_tags):
+    if len(a_tags) > 1:
       link = a_tags[1].get_attribute("href")
       print(link)
       link_list.append(link)
     cnt += 1
+  dev = 1
   for i in link_list:
     driver.get(i)
     # //*[@id="profile-box"]/div/div[2]/p/a/span
     sent = driver.find_elements(By.XPATH, value="//*[@id='profile-box']/div/div[2]/p/a/span")
     if len(sent):
       print('送信履歴があります')
+      continue  
+    # 自己紹介文をチェック
+    self_introduction = driver.find_elements(By.XPATH, value="/html/body/main/div[4]/div/p")
+    if len(self_introduction):
+      self_introduction = self_introduction[0].text.replace(" ", "").replace("\n", "")
+      if '通報' in self_introduction or '業者' in self_introduction:
+        print('自己紹介文に危険なワードが含まれていました')
+        continue
+    # 残ポイントチェック
+    point = driver.find_elements(By.ID, value="point")
+    if len(point):
+      point = point[0].find_element(By.TAG_NAME, value="span").text
+      pattern = r'\d+'
+      match = re.findall(pattern, point)
+      if int(match[0]) > 1:
+        maji_soushin = True
+        print(match[0]) 
+      else:
+        maji_soushin = False
+    else:
       continue
+    print("残ポイント")
+    print(match[0])
+    # メッセージをクリック
+    message = driver.find_element(By.ID, value="message1")
+    message.click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(3)
+    # メッセージを入力
+    text_area = driver.find_element(By.ID, value="mdc")
+    text_area.send_keys(return_foot_message)
+    time.sleep(4)
+    print("マジ送信 " + str(maji_soushin) + " ~" + str(dev) + "~")
+    # メッセージを送信
+    if maji_soushin:
+      send = driver.find_element(By.CLASS_NAME, value="maji_send")
+      send.click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(1)
+      send_link = driver.find_element(By.ID, value="link_OK")
+      send_link.click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(wait_time)
+    else:
+      send = driver.find_element(By.ID, value="send_n")
+      send.click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(wait_time)
+    dev += 1
+  driver.get("https://pcmax.jp/pcm/index.php")
   
 

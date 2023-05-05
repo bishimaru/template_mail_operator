@@ -14,9 +14,23 @@ from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
 
+name = "麻衣子"
 
-name = "えりか"
+return_foot_message = """足跡ありがとうございます！！
+声優志望の女子大生『麻衣子』です♪
 
+ここではセックスパートナーを探してます！
+エロいのキャラの声もやりたい♪
+
+セフレというとサバサバしててやり捨てされるのが嫌なので、たくさんいちゃいちゃできて何回も会える人がいいです。
+なのでセックスパートナーさん募集♪
+
+もし同じ気持ちだったらメッセージもらいたいです！"""
+
+if len(sys.argv) < 2:
+  cnt = 20
+else:
+  cnt = int(sys.argv[1])
 options = Options()
 options.add_argument('--headless')
 options.add_argument("--no-sandbox")
@@ -26,17 +40,7 @@ service = Service(executable_path="./chromedriver")
 driver = webdriver.Chrome(service=service, options=options)
 
 try:   
-  happymail.re_post(name, setting.erika_happy_windowhandle, driver)
-except Exception as e:
-  print('=== エラー内容 ===')
-  print(traceback.format_exc())
-  print('type:' + str(type(e)))
-  print('args:' + str(e.args))
-  print('message:' + e.message)
-  print('e自身:' + str(e))
-  
-try:
-  pcmax.re_post(name, setting.erika_pcmax_windowhandle, driver)
+  pcmax.return_footpoint(name, setting.maiko_pcmax_windowhandle, driver, return_foot_message, cnt)
 except Exception as e:
   print('=== エラー内容 ===')
   print(traceback.format_exc())

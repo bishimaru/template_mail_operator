@@ -15,8 +15,19 @@ import setting
 import traceback
 
 
-name = "えりか"
+name = "めあり"
 
+return_foot_message = """足跡ありがとうございます！
+ホテルで働いている『めあり』って言います◯
+
+前のせふれさんが職場が遠くなって会えなくなってしまったので、新しいせふれさんを探していますm(_ _)m
+
+性欲強めな私とのせふれ関係に興味ありませんか？？"""
+
+if len(sys.argv) < 2:
+  cnt = 20
+else:
+  cnt = int(sys.argv[1])
 options = Options()
 options.add_argument('--headless')
 options.add_argument("--no-sandbox")
@@ -26,17 +37,7 @@ service = Service(executable_path="./chromedriver")
 driver = webdriver.Chrome(service=service, options=options)
 
 try:   
-  happymail.re_post(name, setting.erika_happy_windowhandle, driver)
-except Exception as e:
-  print('=== エラー内容 ===')
-  print(traceback.format_exc())
-  print('type:' + str(type(e)))
-  print('args:' + str(e.args))
-  print('message:' + e.message)
-  print('e自身:' + str(e))
-  
-try:
-  pcmax.re_post(name, setting.erika_pcmax_windowhandle, driver)
+  happymail.return_footpoint(name, setting.meari_happy_windowhandle, driver, return_foot_message, cnt)
 except Exception as e:
   print('=== エラー内容 ===')
   print(traceback.format_exc())

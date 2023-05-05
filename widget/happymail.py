@@ -93,9 +93,10 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt)
     driver.switch_to.window(happy_windowhandle)
     wait_time = random.uniform(2, 3)
     # TOPに戻る
-    ds_logo = driver.find_element(By.CLASS_NAME, value="ds_logo")
-    top_link = ds_logo.find_element(By.TAG_NAME, value="a")
-    top_link.click()
+    # ds_logo = driver.find_element(By.CLASS_NAME, value="ds_logo")
+    # top_link = ds_logo.find_element(By.TAG_NAME, value="a")
+    # top_link.click()
+    driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
     time.sleep(wait_time)
     if setting.mac_os:
@@ -129,10 +130,8 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt)
         time.sleep(wait_time)
         m = driver.find_elements(By.XPATH, value="//*[@id='ds_main']/div/p")
         if len(m):
-          print(7777)
           print(m[0].text)
           if m[0].text == "プロフィール情報の取得に失敗しました":
-             print(6666)
              user_icon += 1
              continue
         # 自己紹介文に業者、通報が含まれているかチェック

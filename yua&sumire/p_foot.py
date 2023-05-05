@@ -12,16 +12,20 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from widget import pcmax, happymail
 from selenium.webdriver.support.ui import WebDriverWait
 import setting
+import traceback
 
-
-name = "めあり"
+name = "ゆあ&すみれ"
 
 return_foot_message = """足跡ありがとうございます！
-ホテルで働いている『めあり』って言います◯
+六本木の高級デリヘルに勤めてます『ゆあ』と『すみれ』です♪( ´θ｀)ノ
+気になってご連絡しちゃいました！
 
-前のせふれさんが職場が遠くなって会えなくなってしまったので、新しいせふれさんを探していますm(_ _)m
+お店で私たち２人の3Pコースがあるんですけど、
+2人とも３Pに目覚めちゃって笑
 
-性欲強めな私とのせふれ関係に興味ありませんか？？"""
+プライベートでも3Pを楽しみたいので、私たち2人の夜の専属パートナーを探しているところなんです♫
+
+ちょっと変わった内容なんですけど、そういう関係に興味あったりしませんか？？"""
 
 if len(sys.argv) < 2:
   cnt = 20
@@ -36,7 +40,12 @@ service = Service(executable_path="./chromedriver")
 driver = webdriver.Chrome(service=service, options=options)
 
 try:   
-  happymail.return_footpoint(name, setting.meari_happy_windowhandle, driver, return_foot_message, cnt)
+  pcmax.return_footpoint(name, setting.yua_happy_windowhandle, driver, return_foot_message, cnt)
 except Exception as e:
-  print('error')
+  print('=== エラー内容 ===')
+  print(traceback.format_exc())
+  print('type:' + str(type(e)))
+  print('args:' + str(e.args))
+  print('message:' + e.message)
+  print('e自身:' + str(e))
 driver.quit()

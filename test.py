@@ -11,9 +11,40 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from widget import pcmax, happymail
 from selenium.webdriver.support.ui import WebDriverWait
+import setting
 import traceback
-import widget.make_picture as make_picture
 
-make_picture.create_image_from_text('ナイスバディな韓国人女性')
+name = "ゆりあ"
 
+return_foot_message = """足跡からです！ゆりあって言います♪
+都内で不動産関係のOLをしています！
 
+仕事に少し慣れてきたこともあり、仕事終わりにお家に帰ると人肌恋しさを感じるようになってきました(>_<)
+いっぱいいちゃいちゃできるようなせふれさんとここで出会えたらいいなって思ってます( ´ ▽ ` )
+
+同じように人肌恋しいって感じたことありませんか？？
+"""
+
+if len(sys.argv) < 2:
+  cnt = 20
+else:
+  cnt = int(sys.argv[1])
+options = Options()
+options.add_argument('--headless')
+options.add_argument("--no-sandbox")
+options.add_argument("--remote-debugging-port=9222")
+options.add_experimental_option("detach", True)
+service = Service(executable_path="./chromedriver")
+driver = webdriver.Chrome(service=service, options=options)
+
+try:   
+  pcmax.return_footpoint(name, setting.yuria_happy_windowhandle, driver, return_foot_message, cnt)
+  driver.quit()
+except Exception as e:
+  print('=== エラー内容 ===')
+  print(traceback.format_exc())
+  print('type:' + str(type(e)))
+  print('args:' + str(e.args))
+  print('message:' + e.message)
+  print('e自身:' + str(e))
+  driver.quit()
