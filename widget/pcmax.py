@@ -33,10 +33,10 @@ post_area_chiba = ["千葉市中央区", "千葉市花見川区", "千葉市稲�
 post_area_dic = {"東京都":post_area_tokyo, "神奈川県":post_area_kanagawa, "埼玉県":post_area_saitama, "千葉県":post_area_chiba}
 # detail_post_area_list = [post_area_tokyo, post_area_kanagawa, post_area_saitama, post_area_chiba]
 
-def re_post(name, maiko_pcmax, driver):
+def re_post(name, pcmax_windowhandle, driver):
   wait = WebDriverWait(driver, 15)
   handle_array = driver.window_handles
-  driver.switch_to.window(maiko_pcmax)
+  driver.switch_to.window(pcmax_windowhandle)
   wait_time = random.uniform(3, 4)
   try:
     if setting.mac_os:
@@ -114,7 +114,7 @@ def re_post(name, maiko_pcmax, driver):
       time.sleep(1)
     if setting.mac_os:
       os.system("osascript -e 'beep' -e 'display notification \"PCMAX掲示板再投稿に成功しました◎\" with title \"{}\"'".format(name))
-
+      driver.get("https://pcmax.jp/pcm/index.php")
   except Exception as e:
       if setting.mac_os:
         os.system("osascript -e 'display notification \"PCMAX掲示板再投稿中に失敗しました...\" with title \"{}\"'".format(name))
@@ -124,6 +124,7 @@ def re_post(name, maiko_pcmax, driver):
       print('args:' + str(e.args))
       print('message:' + e.message)
       print('e自身:' + str(e))
+      driver.get("https://pcmax.jp/pcm/index.php")
   
 def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt):
   wait = WebDriverWait(driver, 15)

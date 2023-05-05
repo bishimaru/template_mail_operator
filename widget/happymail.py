@@ -17,6 +17,9 @@ def re_post(name, happy_windowhandle, driver):
   handle_array = driver.window_handles
   driver.switch_to.window(happy_windowhandle)
   wait_time = random.uniform(2, 3)
+  # TOPに戻る
+  driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
+
   try:
     if setting.mac_os:
       os.system("osascript -e 'display notification \"ハッピーメール掲示板再投稿中...\" with title \"{}\"'".format(name))
@@ -63,6 +66,12 @@ def re_post(name, happy_windowhandle, driver):
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
       # id=modalの要素が出たら失敗 class=remodal-wrapperが4つともdiplay:noneなら成功
+      warning = driver.find_elements(By.CLASS_NAME, value="remodal-wrapper ")
+      for i in warning:
+         display_property = driver.execute_script("return window.getComputedStyle(arguments[0]).getPropertyValue('display');", i)
+         if display_property == 'block':
+            os.system("osascript -e 'display notification \"ハッピーメール掲示板再投稿中に失敗しました...\" with title \"{}\"'".format(name))
+            print("Element is displayed as block")
     if setting.mac_os:
        os.system("osascript -e 'display notification \"ハッピーメール掲示板再投稿中に成功しました◎\" with title \"{}\"'".format(name))
 
@@ -75,6 +84,9 @@ def re_post(name, happy_windowhandle, driver):
       print('args:' + str(e.args))
       print('message:' + e.message)
       print('e自身:' + str(e))
+      # TOPに戻る
+      driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
+      
 
 def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt):
     wait = WebDriverWait(driver, 15)
@@ -159,7 +171,6 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt)
           top_link.click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(wait_time)
-          cnt += 1
         else:
           # TOPに戻る
           ds_logo = driver.find_element(By.CLASS_NAME, value="ds_logo")
