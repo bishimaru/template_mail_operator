@@ -16,6 +16,21 @@ import traceback
 
 
 name = "ゆりあ"
+title = "仕事終わりの人肌恋しさ共感できませんか？不動産OLしてます☆"
+text = """投稿見てくれて嬉しいです(^ ^)
+不動産の営業をしている『ゆりあ』って言います♪
+
+最初はなかなか慣れない仕事に休みの日やお家に帰ってからも悩まされていたのですが、最近ようやく時間に余裕が出てきました！
+そうなるとふとした瞬間に人肌恋しさが襲ってくるようになってきて(;o;)
+
+慣れてきたとはいえまだお仕事に集中したい気持ちがあるので、お互いのプライベートに干渉しないで人肌恋しさを埋め合えるような関係が理想です♪
+
+いっぱいいちゃいちゃできるようなせふれさんとここで出会えたらいいなって思ってます(*^▽^*)
+多くは望まないんですけどフィーリングが合えば嬉しいです！
+
+☆プロフィール
+・ゆりあ/24歳/Dcup
+・最近朝活をしようと思って、ちゃんと朝ごはんを自分で作るようにしています♪"""
 
 options = Options()
 options.add_argument('--headless')
@@ -25,18 +40,8 @@ options.add_experimental_option("detach", True)
 service = Service(executable_path="./chromedriver")
 driver = webdriver.Chrome(service=service, options=options)
 
-# try:   
-#   happymail.re_post(name, setting.yuria_happy_windowhandle, driver)
-# except Exception as e:
-#   print('=== エラー内容 ===')
-#   print(traceback.format_exc())
-#   print('type:' + str(type(e)))
-#   print('args:' + str(e.args))
-#   print('message:' + e.message)
-#   print('e自身:' + str(e))
-
-try:
-  pcmax.re_post(name, setting.yuria_pcmax_windowhandle, driver)
+try:   
+  happymail.re_post(name, setting.yuria_happy_windowhandle, driver, title, text)
 except Exception as e:
   print('=== エラー内容 ===')
   print(traceback.format_exc())
@@ -44,5 +49,15 @@ except Exception as e:
   print('args:' + str(e.args))
   print('message:' + e.message)
   print('e自身:' + str(e))
+
+# try:
+#   pcmax.re_post(name, setting.yuria_pcmax_windowhandle, driver)
+# except Exception as e:
+#   print('=== エラー内容 ===')
+#   print(traceback.format_exc())
+#   print('type:' + str(type(e)))
+#   print('args:' + str(e.args))
+#   print('message:' + e.message)
+#   print('e自身:' + str(e))
 
 driver.quit()

@@ -30,6 +30,9 @@ for i in range(len(handle_array)):
         name = driver.find_element(By.CLASS_NAME, "ds_user_display_name")
         window_handle_list[name.text + "ハッピー"] = handle_array[i]
     elif url == "https://pcmax.jp/pcm/index.php" or url == "https://pcmax.jp/pcm/member.php":
+        # //*[@id="sp_footer"]/a[5]/span[2]
+        # //*[@id="sp_footer"]/a[5]/span[2]
+        # //*[@id="sp_footer"]/a[5]/span
         name = driver.find_element(By.XPATH, "//*[@id='sp_footer']/a[5]/span[2]")
         window_handle_list[name.text + "PCMAX"] = handle_array[i]
     

@@ -34,11 +34,27 @@ post_area_chiba = ["千葉市中央区", "千葉市花見川区", "千葉市稲�
 post_area_dic = {"東京都":post_area_tokyo, "神奈川県":post_area_kanagawa, "埼玉県":post_area_saitama, "千葉県":post_area_chiba}
 # detail_post_area_list = [post_area_tokyo, post_area_kanagawa, post_area_saitama, post_area_chiba]
 
+def login(driver, wait):
+  driver.get("https://pcmax.jp/pcm/index.php")
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(2)
+  login = driver.find_elements(By.CLASS_NAME, value="login")
+  if len(login):    
+    login[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(2)
+    submit = driver.find_element(By.NAME, value="login")
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", submit)
+    submit.click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(2)
+
 def re_post(name, pcmax_windowhandle, driver):
   wait = WebDriverWait(driver, 15)
   handle_array = driver.window_handles
   driver.switch_to.window(pcmax_windowhandle)
   wait_time = random.uniform(3, 4)
+  login(driver, wait)
   try:
     if setting.mac_os:
       os.system("osascript -e 'display notification \"PCMAX掲示板再投稿中...\" with title \"{}\"'".format(name))
@@ -47,16 +63,16 @@ def re_post(name, pcmax_windowhandle, driver):
     menu.click()
     time.sleep(wait_time)
     # 掲示板履歴をクリック　
-    # //*[@id="nav-content"]/dl/dd[17]/a
-    # //*[@id="nav-content"]/dl/dd[14]/a
-    # //*[@id="nav-content"]/dl/dd[16]/a
-    # //*[@id="nav-content"]/dl/dd[17]/a
-    bulletin_board_history = driver.find_element(By.XPATH, value="//*[@id='nav-content']/dl/dd[17]/a")
-    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", bulletin_board_history)
-    time.sleep(wait_time)
-    bulletin_board_history.click()
-    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-    time.sleep(wait_time)
+    bulletin_board_history = driver.find_element(By.CLASS_NAME, value="nav-content-list")
+    bulletin_board_history = bulletin_board_history.find_elements(By.TAG_NAME, value="dd")
+    for i in bulletin_board_history:
+      if i.text == "投稿履歴・編集":
+        bulletin_board_history = i.find_element(By.TAG_NAME, value="a")
+        driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", bulletin_board_history)
+        bulletin_board_history.click()
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(wait_time)
+        break
     #掲示板4つ再投稿
     link_list = []
     copies = driver.find_elements(By.CLASS_NAME, value="copy_title")
@@ -73,9 +89,9 @@ def re_post(name, pcmax_windowhandle, driver):
       # 前回の都道府県を取得
       last_area = driver.find_element(By.XPATH, value="/html/body/form/div[2]/div[2]/div[2]")
       last_area = last_area.text.replace(' ', '').replace('"', '')
+      print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
       print(last_area)
-      print("前回の詳細地域")
-      print(detail_selected)
+      print("前回の詳細地域 ~" + str(detail_selected) + "~" )
       # 編集するをクリック 
       edit_post = driver.find_element(By.ID, value="alink")
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", edit_post)
@@ -98,8 +114,7 @@ def re_post(name, pcmax_windowhandle, driver):
       except ValueError:
         pass
       detail_area = random.choice(post_area_dic[last_area])
-      print('選択した詳細地域')
-      print(detail_area)
+      print('今回の詳細地域 ~' + str(detail_area) + "~")
       select.select_by_visible_text(detail_area)
       time.sleep(1)
       # メール受付数を変更

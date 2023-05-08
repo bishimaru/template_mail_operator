@@ -8,22 +8,22 @@ import time
 from selenium.webdriver.common.by import By
 import os
 import sys
-import traceback
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from widget import pcmax, happymail
 from selenium.webdriver.support.ui import WebDriverWait
 import setting
+import traceback
 
+name = "ゆりあ"
 
-name = "rina"
-return_foot_message = """はじめまして、りなです。
-私のプロフィールを見てくださって、ありがとうございます！
+return_foot_message = """足跡からです！ゆりあって言います♪
+都内で不動産関係のOLをしています！
 
-私は趣味でゲームや映画、お酒を楽しんだりしています(*'▽'*)
-まだ20代のうちに楽しみたいと思って、恋人というより長期的なせふれ関係になれる人を探しています♪
-でもいきなりそんな関係になるのは難しいと思うので、ゆっくり信頼関係を深められたらと思いますm(_ _)m
+仕事に少し慣れてきたこともあり、仕事終わりにお家に帰ると人肌恋しさを感じるようになってきました(>_<)
+いっぱいいちゃいちゃできるようなせふれさんとここで出会えたらいいなって思ってます( ´ ▽ ` )
 
-もしせふれさんを探していたらメッセージもらえると嬉しいです！"""
+同じように人肌恋しいって感じたことありませんか？？
+"""
 
 if len(sys.argv) < 2:
   cnt = 20
@@ -38,7 +38,7 @@ service = Service(executable_path="./chromedriver")
 driver = webdriver.Chrome(service=service, options=options)
 
 try:   
-  happymail.return_footpoint(name, setting.rina_happy_windowhandle, driver, return_foot_message, cnt)
+  pcmax.return_footpoint(name, setting.yuria_pcmax_windowhandle, driver, return_foot_message, cnt)
 except Exception as e:
   print('=== エラー内容 ===')
   print(traceback.format_exc())

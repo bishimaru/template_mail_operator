@@ -14,6 +14,24 @@ from selenium.webdriver.support.ui import WebDriverWait
 import setting
 
 name = "めあり"
+title = "せふれ募集◎性欲強めでもいいですか？？"
+text = """掲示板見てくれて嬉しいです( ´∀｀)
+ホテルで働いている『めあり』って言います◯
+
+大学生の頃から続いていたせふれさんがいたんですけど、お互いの勤務場所が離れてしまって会えなくなっちゃって（ ;  ; ）
+
+今出会いって言ったら職場くらいなんですけど、同僚とかお客様とそういう関係はよくないかなって思ってるんです。。。
+
+だから職場外でせふれさんが欲しくてここに登録しました！！
+
+簡単に自己紹介します(*´∇｀*)
+・めあり
+・24歳/156cm/Dcup
+・恥ずかしいんですけどかなり性欲強めです^^;
+お休みの日はいつもお家でドラマとか見ながらゴロゴロしてるんですけど、気づいたら1人でしちゃってたりもします(>_<)
+
+こんな私とせふれさんになりたいって思ってくれる人いたらメッセージお願いします！
+性欲強めで優しい方だと嬉しいです(*ﾟ▽ﾟ*)"""
 
 
 options = Options()
@@ -25,11 +43,11 @@ service = Service(executable_path="./chromedriver")
 driver = webdriver.Chrome(service=service, options=options)
 
 try:   
-  happymail.re_post(name, setting.meari_happy_windowhandle, driver)
+  happymail.re_post(name, setting.meari_happy_windowhandle, driver, title, text)
 except Exception as e:
   print('777')
-try:
-  pcmax.re_post(name, setting.meari_pcmax_windowhandle, driver)
-except Exception as e:
-  print('777')
+# try:
+#   pcmax.re_post(name, setting.meari_pcmax_windowhandle, driver)
+# except Exception as e:
+#   print('777')
 driver.quit()
