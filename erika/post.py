@@ -42,15 +42,15 @@ options.add_experimental_option("detach", True)
 service = Service(executable_path="./chromedriver")
 driver = webdriver.Chrome(service=service, options=options)
 
-# try:   
-#   happymail.re_post(name, setting.erika_happy_windowhandle, driver, title, text)
-# except Exception as e:
-#   print('=== エラー内容 ===')
-#   print(traceback.format_exc())
-#   print('type:' + str(type(e)))
-#   print('args:' + str(e.args))
-#   print('message:' + e.message)
-#   print('e自身:' + str(e))
+try:   
+  happymail.re_post(name, setting.erika_happy_windowhandle, driver, title, text)
+except Exception as e:
+  print('=== エラー内容 ===')
+  print(traceback.format_exc())
+  print('type:' + str(type(e)))
+  print('args:' + str(e.args))
+  print('message:' + e.message)
+  print('e自身:' + str(e))
   
 try:
   pcmax.re_post(name, setting.erika_pcmax_windowhandle, driver)
