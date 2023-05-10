@@ -41,10 +41,10 @@ options.add_experimental_option("detach", True)
 service = Service(executable_path="./chromedriver")
 driver = webdriver.Chrome(service=service, options=options)
 
-# try:   
-#   happymail.re_post(name, setting.maiko_happy_windowhandle, driver, title, text)
-# except Exception as e:
-#   print('777')
+try:   
+  happymail.re_post(name, setting.maiko_happy_windowhandle, driver, title, text)
+except Exception as e:
+  print('777')
 try:
   pcmax.re_post(name, setting.maiko_pcmax_windowhandle, driver)
 except Exception as e:

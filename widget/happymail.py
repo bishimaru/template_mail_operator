@@ -201,6 +201,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt)
         time.sleep(wait_time)
         # メールアイコンがあるかチェック
         send_status = True
+        time.sleep(1)
         f_user = driver.find_elements(By.CLASS_NAME, value="ds_post_head_main_info")
         name_field = f_user[0].find_element(By.CLASS_NAME, value="ds_like_list_name")
         if len(name_field.find_elements(By.TAG_NAME, value="img")):
