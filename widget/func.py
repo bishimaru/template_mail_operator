@@ -9,7 +9,5 @@ def timer(fnc, seconds):
       start_time = time.time() 
       break
     else:
-      print("待機中")
-      print(is_finished)
       time.sleep(10)
   return True
