@@ -130,8 +130,8 @@ def re_post(name, happy_windowhandle, driver, title, text):
                 # 書き込む
                 writing = driver.find_element(By.ID, value="billboard_submit")
                 writing.click()
-                select.select_by_visible_text("10件")
-                time.sleep(1)
+                wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+                time.sleep(wait_time)
                 # 書き込み成功画面の判定
                 success = driver.find_elements(By.CLASS_NAME, value="ds_keijiban_finish")
                 if len(success):

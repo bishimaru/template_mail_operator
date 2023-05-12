@@ -8,38 +8,30 @@ import time
 from selenium.webdriver.common.by import By
 import os
 import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from widget import pcmax, happymail
+from widget import pcmax, happymail, func
+from rina import all_do_rina, h_foot_rina, p_foot_rina, post_rina
+from meari import all_do_meari
+from yua_sumire import all_do_yua_sumire
+from erika import all_do_erika
+from yuria import all_do_yuria
+from maiko import all_do_maiko
 from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
 
-name = "ゆりあ"
-
-return_foot_message = """足跡からです！ゆりあって言います♪
-都内で不動産関係のOLをしています！
-
-仕事に少し慣れてきたこともあり、仕事終わりにお家に帰ると人肌恋しさを感じるようになってきました(>_<)
-いっぱいいちゃいちゃできるようなせふれさんとここで出会えたらいいなって思ってます( ´ ▽ ` )
-
-同じように人肌恋しいって感じたことありませんか？？
-"""
 
 if len(sys.argv) < 2:
   cnt = 20
 else:
   cnt = int(sys.argv[1])
-options = Options()
-options.add_argument('--headless')
-options.add_argument("--no-sandbox")
-options.add_argument("--remote-debugging-port=9222")
-options.add_experimental_option("detach", True)
-service = Service(executable_path="./chromedriver")
-driver = webdriver.Chrome(service=service, options=options)
-
 try:   
-  pcmax.return_footpoint(name, setting.yuria_happy_windowhandle, driver, return_foot_message, cnt)
-  driver.quit()
+  func.timer(all_do_rina.do_post_foot, 1200)
+  func.timer(all_do_meari.do_post_foot, 1200)
+  func.timer(all_do_yua_sumire.do_post_foot, 1200)
+  func.timer(all_do_erika.do_post_foot, 1200)
+  func.timer(all_do_yuria.do_post_foot, 1200)
+  func.timer(all_do_maiko.do_post_foot, 1200)
+
 except Exception as e:
   print('=== エラー内容 ===')
   print(traceback.format_exc())
@@ -47,4 +39,3 @@ except Exception as e:
   print('args:' + str(e.args))
   print('message:' + e.message)
   print('e自身:' + str(e))
-  driver.quit()

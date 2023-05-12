@@ -185,12 +185,11 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt)
   cnt = 1
   link_list = []
   while cnt <= 30:
-    # link = div[cnt].find_elements(By.TAG_NAME, value="a")[1].get_attribute("href")
     a_tags = div[cnt].find_elements(By.TAG_NAME, value="a")
-    print("aタグの数：" + str(len(a_tags)))
+    # print("aタグの数：" + str(len(a_tags)))
     if len(a_tags) > 1:
       link = a_tags[1].get_attribute("href")
-      print(link)
+      # print(link)
       link_list.append(link)
     cnt += 1
   dev = 1
@@ -224,10 +223,13 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt)
     print("残ポイント")
     print(match[0])
     # メッセージをクリック
-    message = driver.find_element(By.ID, value="message1")
-    message.click()
-    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-    time.sleep(3)
+    message = driver.find_elements(By.ID, value="message1")
+    if len(message):
+      message[0].click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(3)
+    else:
+      continue
     # メッセージを入力
     text_area = driver.find_element(By.ID, value="mdc")
     text_area.send_keys(return_foot_message)
