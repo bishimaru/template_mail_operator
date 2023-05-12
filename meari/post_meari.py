@@ -48,10 +48,10 @@ def repost_happymail_pcmax():
     happymail.re_post(name, setting.meari_happy_windowhandle, driver, title, text)
   except Exception as e:
     print('777')
-  try:
-    pcmax.re_post(name, setting.meari_pcmax_windowhandle, driver)
-  except Exception as e:
-    print('777')
+  # try:
+  #   pcmax.re_post(name, setting.meari_pcmax_windowhandle, driver)
+  # except Exception as e:
+  #   print('777')
   driver.quit()
   return True
 if __name__ == '__main__':
