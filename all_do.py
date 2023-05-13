@@ -31,7 +31,7 @@ else:
 try:   
   # func.timer(all_do_rina.do_post_foot, 1200, h_cnt, p_cnt)
   # func.timer(all_do_meari.do_post_foot, 1200, h_cnt, p_cnt)
-  func.timer(all_do_yua_sumire.do_post_foot, 1200, h_cnt, p_cnt)
+  # func.timer(all_do_yua_sumire.do_post_foot, 1200, h_cnt, p_cnt)
   func.timer(all_do_erika.do_post_foot, 1200, h_cnt, p_cnt)
   func.timer(all_do_yuria.do_post_foot, 1200, h_cnt, p_cnt)
   func.timer(all_do_maiko.do_post_foot, 1200, h_cnt, p_cnt)
