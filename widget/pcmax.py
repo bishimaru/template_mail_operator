@@ -128,6 +128,11 @@ def re_post(name, pcmax_windowhandle, driver):
       write_bulletin_board.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
+      # 利用制限チェック
+      usage_limit = driver.find_elements(By.CLASS_NAME, value="white_box")
+      if len(usage_limit):
+        print("利用制限画面が出ました")
+        return
       # 掲示板投稿履歴をクリック
       bulletin_board_history = driver.find_element(By.XPATH, value="//*[@id='wrap']/div[2]/table/tbody/tr/td[3]/a")
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", bulletin_board_history)
@@ -150,7 +155,7 @@ def re_post(name, pcmax_windowhandle, driver):
 def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt):
   wait = WebDriverWait(driver, 15)
   driver.switch_to.window(pcmax_windowhandle)
-  wait_time = random.uniform(2, 3)
+  wait_time = random.uniform(3, 4)
   time.sleep(1)
   login(driver, wait)
   # 右下のキャラ画像をクリック
@@ -186,7 +191,7 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt)
   link_list = []
   while cnt <= 30:
     a_tags = div[cnt].find_elements(By.TAG_NAME, value="a")
-    # print("aタグの数：" + str(len(a_tags)))
+    print("aタグの数：" + str(len(a_tags)))
     if len(a_tags) > 1:
       link = a_tags[1].get_attribute("href")
       # print(link)
@@ -199,6 +204,7 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt)
     sent = driver.find_elements(By.XPATH, value="//*[@id='profile-box']/div/div[2]/p/a/span")
     if len(sent):
       print('送信履歴があります')
+      time.sleep(wait_time)
       continue  
     # 自己紹介文をチェック
     self_introduction = driver.find_elements(By.XPATH, value="/html/body/main/div[4]/div/p")
@@ -206,6 +212,7 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt)
       self_introduction = self_introduction[0].text.replace(" ", "").replace("\n", "")
       if '通報' in self_introduction or '業者' in self_introduction:
         print('自己紹介文に危険なワードが含まれていました')
+        time.sleep(wait_time)
         continue
     # 残ポイントチェック
     point = driver.find_elements(By.ID, value="point")

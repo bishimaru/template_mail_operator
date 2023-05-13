@@ -53,4 +53,4 @@ if __name__ == '__main__':
     cnt = 20
   else:
     cnt = int(sys.argv[1])
-  p_foot()
+  p_foot(cnt)

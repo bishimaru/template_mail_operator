@@ -62,5 +62,4 @@ def repost_happymail_pcmax():
   return True
 
 if __name__ == '__main__':
-  # print(f'__name__ は{__name__}となっている。')
   repost_happymail_pcmax()
