@@ -2,7 +2,7 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import setting
-sys.path.append(setting.yuria_path)
+sys.path.append(setting.maiko_path)
 import h_foot_maiko
 import p_foot_maiko
 import post_maiko
