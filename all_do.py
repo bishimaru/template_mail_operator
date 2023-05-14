@@ -30,16 +30,25 @@ else:
   p_cnt = int(sys.argv[2])
 try:   
   func.timer(all_do_rina.do_post_foot, 1200, h_cnt, p_cnt)
-  func.timer(all_do_meari.do_post_foot, 1200, h_cnt, p_cnt)
-  func.timer(all_do_yua_sumire.do_post_foot, 1200, h_cnt, p_cnt)
-  func.timer(all_do_erika.do_post_foot, 1200, h_cnt, p_cnt)
-  func.timer(all_do_yuria.do_post_foot, 1200, h_cnt, p_cnt)
-  func.timer(all_do_maiko.do_post_foot, 1200, h_cnt, p_cnt)
-
 except Exception as e:
-  print('=== エラー内容 ===')
-  print(traceback.format_exc())
-  print('type:' + str(type(e)))
-  print('args:' + str(e.args))
-  print('message:' + e.message)
-  print('e自身:' + str(e))
+  print("りなのサイト回しに失敗しました")
+try:
+  func.timer(all_do_meari.do_post_foot, 1200, h_cnt, p_cnt)
+except Exception as e:
+  print("めありのサイト回しに失敗しました")
+try:
+  func.timer(all_do_yua_sumire.do_post_foot, 1200, h_cnt, p_cnt)
+except Exception as e:
+  print("ユア、すみれのサイト回しに失敗しました")
+try:
+  func.timer(all_do_erika.do_post_foot, 1200, h_cnt, p_cnt)
+except Exception as e:
+  print("えりかのサイト回しに失敗しました")
+try:
+  func.timer(all_do_yuria.do_post_foot, 1200, h_cnt, p_cnt)
+except Exception as e:
+  print("ゆりあのサイト回しに失敗しました")
+try:
+  func.timer(all_do_maiko.do_post_foot, 1200, h_cnt, p_cnt)
+except Exception as e:
+  print("麻衣子のサイト回しに失敗しました")
