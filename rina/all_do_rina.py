@@ -6,6 +6,7 @@ sys.path.append(setting.rina_path)
 import post_rina
 import h_foot_rina
 import p_foot_rina
+import time
 
 def do_post_foot(h_cnt, p_cnt):
     start_time = time.time() 
