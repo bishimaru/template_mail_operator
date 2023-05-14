@@ -1,5 +1,7 @@
-import setting
 import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+import setting
 sys.path.append(setting.erika_path)
 import h_foot_erika
 import p_foot_erika

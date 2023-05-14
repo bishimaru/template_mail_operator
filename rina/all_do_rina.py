@@ -1,6 +1,7 @@
-import time
-import setting
 import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+import setting
 sys.path.append(setting.rina_path)
 import post_rina
 import h_foot_rina
