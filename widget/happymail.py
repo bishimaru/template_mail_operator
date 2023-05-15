@@ -253,5 +253,5 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt)
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(wait_time)
     if setting.mac_os:
-       os.system("osascript -e 'beep' -e 'display notification \"ハッピーメール{}件の足跡返しに成功しました...\" with title \"{}\"'".format(i, name))
+       os.system("osascript -e 'beep' -e 'display notification \"ハッピーメール{}件の足跡返しに成功しました...\" with title \"{}\"'".format(i + 1, name))
   

@@ -33,6 +33,7 @@ def h_foot(cnt):
 
   try:   
     happymail.return_footpoint(name, setting.meari_happy_windowhandle, driver, return_foot_message, cnt)
+    print('<<<<<<<<<<<<めあり　ハッピーメール足跡返し　完了>>>>>>>>>>>>>>')
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())

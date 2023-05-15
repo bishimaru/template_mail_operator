@@ -36,7 +36,9 @@ def p_foot(cnt):
   driver = webdriver.Chrome(service=service, options=options)
 
   try:   
-    pcmax.return_footpoint(name, setting.yua_happy_windowhandle, driver, return_foot_message, cnt)
+    pcmax.return_footpoint(name, setting.yua_pcmax_windowhandle, driver, return_foot_message, cnt)
+    print('<<<<<<<<<<<<ゆあ、すみれ　pcmax足跡返し　完了>>>>>>>>>>>>>>')
+
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())

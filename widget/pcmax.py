@@ -144,6 +144,8 @@ def re_post(name, pcmax_windowhandle, driver):
 def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt):
   if cnt == 0:
     return
+  print(456)
+  print(cnt)
   wait = WebDriverWait(driver, 15)
   driver.switch_to.window(pcmax_windowhandle)
   wait_time = random.uniform(3, 4)
@@ -178,16 +180,16 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt)
   div = user_list.find_elements(By.XPATH, value='./div')
   print(len(div))
   # リンクを取得
-  cnt = 1
+  user_cnt = 1
   link_list = []
-  while cnt <= 30:
+  while user_cnt <= 30:
     a_tags = div[cnt].find_elements(By.TAG_NAME, value="a")
     print("aタグの数：" + str(len(a_tags)))
     if len(a_tags) > 1:
       link = a_tags[1].get_attribute("href")
       # print(link)
       link_list.append(link)
-    cnt += 1
+    user_cnt += 1
   dev = 1
   for i in link_list:
     driver.get(i)
@@ -251,6 +253,8 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt)
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
     dev += 1
+    if dev == cnt:
+      break
   driver.get("https://pcmax.jp/pcm/index.php")
   
 
