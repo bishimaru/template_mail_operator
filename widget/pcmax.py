@@ -55,104 +55,95 @@ def re_post(name, pcmax_windowhandle, driver):
   driver.switch_to.window(pcmax_windowhandle)
   wait_time = random.uniform(3, 4)
   login(driver, wait)
-  try:
-    if setting.mac_os:
-      os.system("osascript -e 'display notification \"PCMAX掲示板再投稿中...\" with title \"{}\"'".format(name))
-    # MENUをクリック
-    menu = driver.find_element(By.ID, value='sp_nav')
-    menu.click()
-    time.sleep(wait_time)
-    # 掲示板履歴をクリック　
-    bulletin_board_history = driver.find_element(By.CLASS_NAME, value="nav-content-list")
-    bulletin_board_history = bulletin_board_history.find_elements(By.TAG_NAME, value="dd")
-    for i in bulletin_board_history:
-      if i.text == "投稿履歴・編集":
-        bulletin_board_history = i.find_element(By.TAG_NAME, value="a")
-        driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", bulletin_board_history)
-        bulletin_board_history.click()
-        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-        time.sleep(wait_time)
-        break
-    #掲示板4つ再投稿
-    link_list = []
-    copies = driver.find_elements(By.CLASS_NAME, value="copy_title")
-    for i in range(len(copies)):
-      copy = copies[i].find_elements(By.TAG_NAME, value="a")
-      link = copy[1].get_attribute("href")
-      link_list.append(link)
-    for i in link_list:
-      driver.get(i)
-      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      time.sleep(wait_time)
-      detail_selected = driver.find_element(By.XPATH, value="/html/body/form/div[2]/div[3]/div[2]")
-      detail_selected = detail_selected.text.replace(' ', '')
-      # 前回の都道府県を取得
-      last_area = driver.find_element(By.XPATH, value="/html/body/form/div[2]/div[2]/div[2]")
-      last_area = last_area.text.replace(' ', '').replace('"', '')
-      print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-      print(last_area)
-      print("前回の詳細地域 ~" + str(detail_selected) + "~" )
-      # 編集するをクリック 
-      edit_post = driver.find_element(By.ID, value="alink")
-      driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", edit_post)
-      time.sleep(1)
-      edit_post.click()
-      wait = WebDriverWait(driver, 15)
-      time.sleep(wait_time)
-      # 投稿地域を選択
-      area = driver.find_element(By.ID, "prech")
-      driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", area)
-      time.sleep(1)
-      select = Select(area)
-      select.select_by_visible_text(last_area)
-      time.sleep(1)
-      # 詳細地域を選択
-      detailed_area = driver.find_element(By.NAME, value="city_id")
-      select = Select(detailed_area)
-      try:
-        post_area_dic[last_area].remove(detail_selected)
-      except ValueError:
-        pass
-      detail_area = random.choice(post_area_dic[last_area])
-      print('今回の詳細地域 ~' + str(detail_area) + "~")
-      select.select_by_visible_text(detail_area)
-      time.sleep(1)
-      # メール受付数を変更
-      mail_reception = driver.find_element(By.NAME, "max_reception_count")
-      select = Select(mail_reception)
-      select.select_by_visible_text("5通")
-      time.sleep(1)
-      # 掲示板に書く 
-      write_bulletin_board = driver.find_element(By.ID, value="bbs_write_btn")
-      driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", write_bulletin_board)
-      write_bulletin_board.click()
-      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      time.sleep(wait_time)
-      # 利用制限チェック
-      usage_limit = driver.find_elements(By.CLASS_NAME, value="white_box")
-      if len(usage_limit):
-        print("利用制限画面が出ました")
-        return
-      # 掲示板投稿履歴をクリック
-      bulletin_board_history = driver.find_element(By.XPATH, value="//*[@id='wrap']/div[2]/table/tbody/tr/td[3]/a")
+  if setting.mac_os:
+    os.system("osascript -e 'display notification \"PCMAX掲示板再投稿中...\" with title \"{}\"'".format(name))
+  # MENUをクリック
+  menu = driver.find_element(By.ID, value='sp_nav')
+  menu.click()
+  time.sleep(wait_time)
+  # 掲示板履歴をクリック　
+  bulletin_board_history = driver.find_element(By.CLASS_NAME, value="nav-content-list")
+  bulletin_board_history = bulletin_board_history.find_elements(By.TAG_NAME, value="dd")
+  for i in bulletin_board_history:
+    if i.text == "投稿履歴・編集":
+      bulletin_board_history = i.find_element(By.TAG_NAME, value="a")
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", bulletin_board_history)
       bulletin_board_history.click()
-      time.sleep(1)
-    if setting.mac_os:
-      os.system("osascript -e 'beep' -e 'display notification \"PCMAX掲示板再投稿に成功しました◎\" with title \"{}\"'".format(name))
-      driver.get("https://pcmax.jp/pcm/index.php")
-  except Exception as e:
-      if setting.mac_os:
-        os.system("osascript -e 'display notification \"PCMAX掲示板再投稿中に失敗しました...\" with title \"{}\"'".format(name))
-      print('=== エラー内容 ===')
-      print(traceback.format_exc())
-      print('type:' + str(type(e)))
-      print('args:' + str(e.args))
-      print('message:' + e.message)
-      print('e自身:' + str(e))
-      driver.get("https://pcmax.jp/pcm/index.php")
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(wait_time)
+      break
+  #掲示板4つ再投稿
+  link_list = []
+  copies = driver.find_elements(By.CLASS_NAME, value="copy_title")
+  for i in range(len(copies)):
+    copy = copies[i].find_elements(By.TAG_NAME, value="a")
+    link = copy[1].get_attribute("href")
+    link_list.append(link)
+  for i in link_list:
+    driver.get(i)
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+    detail_selected = driver.find_element(By.XPATH, value="/html/body/form/div[2]/div[3]/div[2]")
+    detail_selected = detail_selected.text.replace(' ', '')
+    # 前回の都道府県を取得
+    last_area = driver.find_element(By.XPATH, value="/html/body/form/div[2]/div[2]/div[2]")
+    last_area = last_area.text.replace(' ', '').replace('"', '')
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print(last_area)
+    print("前回の詳細地域 ~" + str(detail_selected) + "~" )
+    # 編集するをクリック 
+    edit_post = driver.find_element(By.ID, value="alink")
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", edit_post)
+    time.sleep(1)
+    edit_post.click()
+    wait = WebDriverWait(driver, 15)
+    time.sleep(wait_time)
+    # 投稿地域を選択
+    area = driver.find_element(By.ID, "prech")
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", area)
+    time.sleep(1)
+    select = Select(area)
+    select.select_by_visible_text(last_area)
+    time.sleep(1)
+    # 詳細地域を選択
+    detailed_area = driver.find_element(By.NAME, value="city_id")
+    select = Select(detailed_area)
+    try:
+      post_area_dic[last_area].remove(detail_selected)
+    except ValueError:
+      pass
+    detail_area = random.choice(post_area_dic[last_area])
+    print('今回の詳細地域 ~' + str(detail_area) + "~")
+    select.select_by_visible_text(detail_area)
+    time.sleep(1)
+    # メール受付数を変更
+    mail_reception = driver.find_element(By.NAME, "max_reception_count")
+    select = Select(mail_reception)
+    select.select_by_visible_text("5通")
+    time.sleep(1)
+    # 掲示板に書く 
+    write_bulletin_board = driver.find_element(By.ID, value="bbs_write_btn")
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", write_bulletin_board)
+    write_bulletin_board.click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+    # 利用制限チェック
+    usage_limit = driver.find_elements(By.CLASS_NAME, value="white_box")
+    if len(usage_limit):
+      print("利用制限画面が出ました")
+      return
+    # 掲示板投稿履歴をクリック
+    bulletin_board_history = driver.find_element(By.XPATH, value="//*[@id='wrap']/div[2]/table/tbody/tr/td[3]/a")
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", bulletin_board_history)
+    bulletin_board_history.click()
+    time.sleep(1)
+  if setting.mac_os:
+    os.system("osascript -e 'beep' -e 'display notification \"PCMAX掲示板再投稿に成功しました◎\" with title \"{}\"'".format(name))
+    driver.get("https://pcmax.jp/pcm/index.php")
   
 def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt):
+  if cnt == 0:
+    return
   wait = WebDriverWait(driver, 15)
   driver.switch_to.window(pcmax_windowhandle)
   wait_time = random.uniform(3, 4)
@@ -226,9 +217,11 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt)
       else:
         maji_soushin = False
     else:
+      time.sleep(wait_time)
       continue
     print("残ポイント")
     print(match[0])
+    time.sleep(1)
     # メッセージをクリック
     message = driver.find_elements(By.ID, value="message1")
     if len(message):

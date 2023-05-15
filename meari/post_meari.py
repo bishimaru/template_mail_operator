@@ -12,6 +12,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from widget import pcmax, happymail
 from selenium.webdriver.support.ui import WebDriverWait
 import setting
+import traceback
 
 
 def repost_happymail_pcmax():
@@ -47,7 +48,12 @@ def repost_happymail_pcmax():
   try:   
     happymail.re_post(name, setting.meari_happy_windowhandle, driver, title, text)
   except Exception as e:
-    print('777')
+    print('=== エラー内容 ===')
+    print(traceback.format_exc())
+    # print('type:' + str(type(e)))
+    # print('args:' + str(e.args))
+    # print('message:' + e.message)
+    # print('e自身:' + str(e))
   # try:
   #   pcmax.re_post(name, setting.meari_pcmax_windowhandle, driver)
   # except Exception as e:
