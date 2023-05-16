@@ -52,9 +52,11 @@ def re_post(name, happy_windowhandle, driver, title, text):
   time.sleep(1)
 
   # 再掲載をクリック
-  for i in range(4):
+  for repost_cnt in range(3,4):
+    
+    print(repost_cnt)
     blue_round_buttons = driver.find_elements(By.CLASS_NAME, "ds_round_btn_blue2")
-    blue_round_button = blue_round_buttons[i]
+    blue_round_button = blue_round_buttons[repost_cnt]
     driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", blue_round_button)
     time.sleep(wait_time)
     driver.execute_script('arguments[0].click();', blue_round_button)
@@ -71,10 +73,11 @@ def re_post(name, happy_windowhandle, driver, title, text):
     print(len(warning))
     for w in warning:
         print(666)
-        print(i)
+        print(repost_cnt)
         display_property = driver.execute_script("return window.getComputedStyle(arguments[0]).getPropertyValue('display');", w)
         if display_property == 'block':
           # ２時間経ってない場合は終了
+          print(999)
           modal_text = w.find_element(By.CLASS_NAME, value="modal-content")
           if modal_text.text == "掲載から2時間以上経過していない為、再掲載できません":
               cancel = driver.find_element(By.CLASS_NAME, value="modal-cancel")
@@ -90,15 +93,15 @@ def re_post(name, happy_windowhandle, driver, title, text):
           time.sleep(wait_time)
           # 都道府県を取得
           print(555)
-          print(i)
+          print(repost_cnt)
           area_text = driver.find_elements(By.CLASS_NAME, value="ds_write_bbs_status")
-          area_text = area_text[i].text.replace(" ", "").replace("\n", "")
+          area_text = area_text[repost_cnt].text.replace(" ", "").replace("\n", "")
           for area in area_list:
             if area in area_text:
               print('<<<<<<<<<都道府県>>>>>>>>')
               print(area)
               print(444)
-              print(i)
+              print(repost_cnt)
               #  掲示板をクリック
               nav_list = driver.find_element(By.ID, value='ds_nav')
               bulletin_board = nav_list.find_element(By.LINK_TEXT, "掲示板")
@@ -110,17 +113,18 @@ def re_post(name, happy_windowhandle, driver, title, text):
               write.click()
               wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
               time.sleep(wait_time)
+              print(555)
               # 書き込み上限に達したらスキップ
               adult = driver.find_elements(By.CLASS_NAME, value="remodal-wrapper")
-              if not len(adult):
+              print(len(adult))
+              if len(adult):
+                  print(444)
                   cancel = driver.find_element(By.CLASS_NAME, value="modal-cancel")
                   cancel.click()
                   print(modal_text.text)
                   driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
                   return
               # その他掲示板をクリック
-              adult[1].click()
-              time.sleep(1)
               # タイトルを書き込む
               input_title = driver.find_element(By.NAME, value="Subj")
               driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", input_title)
