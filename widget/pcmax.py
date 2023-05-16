@@ -144,8 +144,6 @@ def re_post(name, pcmax_windowhandle, driver):
 def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt):
   if cnt == 0:
     return
-  print(456)
-  print(cnt)
   wait = WebDriverWait(driver, 15)
   driver.switch_to.window(pcmax_windowhandle)
   wait_time = random.uniform(3, 4)
@@ -178,19 +176,18 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt)
   # ユーザーを取得
   user_list = driver.find_element(By.CLASS_NAME, value="list-content")
   div = user_list.find_elements(By.XPATH, value='./div')
-  print(len(div))
   # リンクを取得
   user_cnt = 1
   link_list = []
-  while user_cnt <= 30:
-    a_tags = div[cnt].find_elements(By.TAG_NAME, value="a")
+  while user_cnt <= cnt:
+    a_tags = div[user_cnt].find_elements(By.TAG_NAME, value="a")
     print("aタグの数：" + str(len(a_tags)))
     if len(a_tags) > 1:
       link = a_tags[1].get_attribute("href")
       # print(link)
       link_list.append(link)
     user_cnt += 1
-  dev = 1
+  send_count = 1
   for i in link_list:
     driver.get(i)
     # //*[@id="profile-box"]/div/div[2]/p/a/span
@@ -236,7 +233,7 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt)
     text_area = driver.find_element(By.ID, value="mdc")
     text_area.send_keys(return_foot_message)
     time.sleep(4)
-    print("マジ送信 " + str(maji_soushin) + " ~" + str(dev) + "~")
+    print("マジ送信 " + str(maji_soushin) + " ~" + str(send_count) + "~")
     # メッセージを送信
     if maji_soushin:
       send = driver.find_element(By.CLASS_NAME, value="maji_send")
@@ -252,9 +249,7 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt)
       send.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
-    dev += 1
-    if dev == cnt:
-      break
+    send_count += 1
   driver.get("https://pcmax.jp/pcm/index.php")
   
 

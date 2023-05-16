@@ -53,7 +53,6 @@ def re_post(name, happy_windowhandle, driver, title, text):
 
   # 再掲載をクリック
   for i in range(4):
-    # 都道府県を取得
     blue_round_buttons = driver.find_elements(By.CLASS_NAME, "ds_round_btn_blue2")
     blue_round_button = blue_round_buttons[i]
     driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", blue_round_button)
@@ -68,7 +67,11 @@ def re_post(name, happy_windowhandle, driver, title, text):
     time.sleep(wait_time)
     # id=modalの要素が出たら失敗 class=remodal-wrapperが4つともdiplay:noneなら成功
     warning = driver.find_elements(By.CLASS_NAME, value="remodal-wrapper ")
+    print('<<<<<remodalの数>>>>>>')
+    print(len(warning))
     for w in warning:
+        print(666)
+        print(i)
         display_property = driver.execute_script("return window.getComputedStyle(arguments[0]).getPropertyValue('display');", w)
         if display_property == 'block':
           # ２時間経ってない場合は終了
@@ -82,17 +85,20 @@ def re_post(name, happy_windowhandle, driver, title, text):
           # リモーダルウィンドウを閉じる
           print("再投稿に失敗したので新規書き込みします")
           print("Element is displayed as block")
-          print(title)
           cancel = driver.find_element(By.CLASS_NAME, value="modal-cancel")
           cancel.click()
           time.sleep(wait_time)
           # 都道府県を取得
+          print(555)
+          print(i)
           area_text = driver.find_elements(By.CLASS_NAME, value="ds_write_bbs_status")
           area_text = area_text[i].text.replace(" ", "").replace("\n", "")
           for area in area_list:
             if area in area_text:
               print('<<<<<<<<<都道府県>>>>>>>>')
               print(area)
+              print(444)
+              print(i)
               #  掲示板をクリック
               nav_list = driver.find_element(By.ID, value='ds_nav')
               bulletin_board = nav_list.find_element(By.LINK_TEXT, "掲示板")
@@ -105,8 +111,12 @@ def re_post(name, happy_windowhandle, driver, title, text):
               wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
               time.sleep(wait_time)
               # 書き込み上限に達したらスキップ
-              adult = driver.find_elements(By.CLASS_NAME, value="ds_link_tab_text")
+              adult = driver.find_elements(By.CLASS_NAME, value="remodal-wrapper")
               if not len(adult):
+                  cancel = driver.find_element(By.CLASS_NAME, value="modal-cancel")
+                  cancel.click()
+                  print(modal_text.text)
+                  driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
                   return
               # その他掲示板をクリック
               adult[1].click()
