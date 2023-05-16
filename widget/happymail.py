@@ -52,7 +52,7 @@ def re_post(name, happy_windowhandle, driver, title, text):
   time.sleep(1)
 
   # 再掲載をクリック
-  for repost_cnt in range(3,4):
+  for repost_cnt in range(4):
     
     print(repost_cnt)
     blue_round_buttons = driver.find_elements(By.CLASS_NAME, "ds_round_btn_blue2")
@@ -177,7 +177,7 @@ def re_post(name, happy_windowhandle, driver, title, text):
                 print(str(area) + "の書き込みに失敗しました")
                 driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
                 return
-    print(str(i + 1) + "件の書き込みに成功しました")
+    print(str(repost_cnt + 1) + "件の書き込みに成功しました")
   if setting.mac_os:
       os.system("osascript -e 'display notification \"ハッピーメール掲示板再投稿中に成功しました◎\" with title \"{}\"'".format(name))
 
