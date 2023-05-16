@@ -19,7 +19,7 @@ def do_post_foot(h_cnt, p_cnt):
         break
       else:
         time.sleep(10) 
-    p_foot_rina.p_foot(p_cnt)
+    # p_foot_rina.p_foot(p_cnt)
     return True
 if __name__ == '__main__':
   if len(sys.argv) < 2:
