@@ -18,6 +18,9 @@ def do_post_foot(h_cnt, p_cnt):
         h_foot_erika.h_foot(h_cnt)
         break
       else:
+        print(444)
+        print(elapsed_time)
+        print(is_finished)
         time.sleep(10)
     p_foot_erika.p_foot(p_cnt)
     return True

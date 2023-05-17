@@ -207,7 +207,9 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt)
       send_status = True
       time.sleep(1)
       f_user = driver.find_elements(By.CLASS_NAME, value="ds_post_head_main_info")
-      while len(f_user) > 0:
+      print(777)
+      print(len(f_user))
+      while len(f_user) == 0:
          time.sleep(2)
          f_user = driver.find_elements(By.CLASS_NAME, value="ds_post_head_main_info")
       name_field = f_user[0].find_element(By.CLASS_NAME, value="ds_like_list_name")
