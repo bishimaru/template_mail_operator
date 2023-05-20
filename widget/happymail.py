@@ -53,7 +53,7 @@ def re_post(name, happy_windowhandle, driver, title, text):
 
   # 再掲載をクリック
   for repost_cnt in range(4):
-    
+    print(777)
     print(repost_cnt)
     blue_round_buttons = driver.find_elements(By.CLASS_NAME, "ds_round_btn_blue2")
     blue_round_button = blue_round_buttons[repost_cnt]
@@ -71,7 +71,7 @@ def re_post(name, happy_windowhandle, driver, title, text):
     warning = driver.find_elements(By.CLASS_NAME, value="remodal-wrapper ")
     print('<<<<<remodalの数>>>>>>')
     print(len(warning))
-    for w in warning:
+    if len(warning):
         print(666)
         print(repost_cnt)
         display_property = driver.execute_script("return window.getComputedStyle(arguments[0]).getPropertyValue('display');", w)
@@ -83,8 +83,62 @@ def re_post(name, happy_windowhandle, driver, title, text):
               cancel = driver.find_element(By.CLASS_NAME, value="modal-cancel")
               cancel.click()
               print(modal_text.text)
-              driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
-              return
+              # develop〜〜〜〜
+              time.sleep(wait_time)
+              # 都道府県を取得
+              print(555)
+              print(repost_cnt)
+              area_text = driver.find_elements(By.CLASS_NAME, value="ds_write_bbs_status")
+              area_text = area_text[repost_cnt].text.replace(" ", "").replace("\n", "")
+              for area in area_list:
+                if area in area_text:
+                  print('<<<<<<<<<都道府県>>>>>>>>')
+                  print(area)
+                  print(444)
+                  print(repost_cnt)
+                  #  掲示板をクリック
+                  nav_list = driver.find_element(By.ID, value='ds_nav')
+                  bulletin_board = nav_list.find_element(By.LINK_TEXT, "掲示板")
+                  bulletin_board.click()
+                  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+                  time.sleep(wait_time)
+                  # 書き込みをクリック
+                  write = driver.find_element(By.CLASS_NAME, value="icon-header_kakikomi")
+                  write.click()
+                  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+                  time.sleep(wait_time)
+                  print(444)
+                  # 書き込みエリアを選択
+                  select_area = driver.find_element(By.NAME, value="wrtarea")
+                  select = Select(select_area)
+                  select.select_by_visible_text(area)
+                  time.sleep(1)
+                  driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
+                  time.sleep(3)
+
+                  # マイページをクリック
+                  nav_list = driver.find_element(By.ID, value='ds_nav')
+                  mypage = nav_list.find_element(By.LINK_TEXT, "マイページ")
+                  mypage.click()
+                  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+                  time.sleep(wait_time)
+                  # マイリストをクリック
+                  common_list = driver.find_element(By.CLASS_NAME, "ds_common_table")
+                  common_table = common_list.find_elements(By.CLASS_NAME, "ds_mypage_text")
+                  mylist = common_table[5]
+                  driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", mylist)
+                  time.sleep(wait_time)
+                  mylist.click()
+                  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+                  time.sleep(wait_time)
+                  # 掲示板履歴をクリック
+                  menu_list = driver.find_element(By.CLASS_NAME, "ds_menu_link_list")
+                  menu_link = menu_list.find_elements(By.CLASS_NAME, "ds_next_arrow")
+                  bulletin_board_history = menu_link[5]
+                  bulletin_board_history.click()
+              # develop〜〜〜〜
+              # driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
+              continue
           # リモーダルウィンドウを閉じる
           print("再投稿に失敗したので新規書き込みします")
           print("Element is displayed as block")
@@ -92,16 +146,12 @@ def re_post(name, happy_windowhandle, driver, title, text):
           cancel.click()
           time.sleep(wait_time)
           # 都道府県を取得
-          print(555)
-          print(repost_cnt)
           area_text = driver.find_elements(By.CLASS_NAME, value="ds_write_bbs_status")
           area_text = area_text[repost_cnt].text.replace(" ", "").replace("\n", "")
           for area in area_list:
             if area in area_text:
               print('<<<<<<<<<都道府県>>>>>>>>')
               print(area)
-              print(444)
-              print(repost_cnt)
               #  掲示板をクリック
               nav_list = driver.find_element(By.ID, value='ds_nav')
               bulletin_board = nav_list.find_element(By.LINK_TEXT, "掲示板")
@@ -113,7 +163,6 @@ def re_post(name, happy_windowhandle, driver, title, text):
               write.click()
               wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
               time.sleep(wait_time)
-              print(555)
               # 書き込み上限に達したらスキップ
               adult = driver.find_elements(By.CLASS_NAME, value="remodal-wrapper")
               print(len(adult))

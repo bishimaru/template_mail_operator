@@ -1,27 +1,49 @@
 import openai
 import requests
 import json
-# org-vv0KaJTL3IYxLPNCW6KBNrKh
-# api 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
+from io import BytesIO
+from PIL import Image
+import os
+from pathlib import Path
 
 openai.organization = "org-vv0KaJTL3IYxLPNCW6KBNrKh"
-openai.api_key      = "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"
+openai.api_key      = "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"
 
-# 画像生成
-def create_image_from_text(text):
-    # 応答設定
-    response = openai.Image.create(
-                  prompt = text,             # 画像生成に用いる説明文章
-                  n = 1,                     # 何枚の画像を生成するか
-                  size = '512x512',          # 画像サイズ
-                  response_format = "url"    # API応答のフォーマット
+# ユーザーのホームディレクトリのパスを取得する
+home_dir = str(Path.home())
 
-                )
-    # API応答から画像URLを指定
-    image_url = response['data'][0]['url']
-    # 画像をローカルに保存
-    image_data = requests.get(image_url).content
-    with open("chat-gpt-generated-image.jpg", "wb") as f:
-        f.write(image_data)
-        
-    return image_url
+# 一時ファイルの保存先ディレクトリを作成する
+temp_dir = os.path.join(home_dir, "temp")
+os.makedirs(temp_dir, exist_ok=True)
+
+# 一時ファイルの保存先パスを指定する
+temp_file = os.path.join(temp_dir, "file.png")
+
+# Read the image file from disk and resize it
+image = Image.open("/Users/yamamotokenta/Desktop/myprojects/mail_tool/widget/picture/rina.png")
+width, height = 256, 256
+image = image.resize((width, height))
+
+# Convert the image to a BytesIO object
+byte_stream = BytesIO()
+image.save(byte_stream, format='PNG')
+byte_array = byte_stream.getvalue()
+
+# Save BytesIO to a temporary file
+with open(temp_file, "wb") as f:
+    f.write(byte_stream.getvalue())
+
+# Open the temporary file
+with open(temp_file, "rb") as f:
+    response = openai.Image.create_variation(
+        image=f,
+        n=1,
+        size="1024x1024"
+    )
+# Delete the temporary file
+# os.remove(temp_file)
+image_url = response['data'][0]['url']
+image_data = requests.get(image_url).content
+with open("/Users/yamamotokenta/Desktop/myprojects/mail_tool/widget/picture/chat-gpt-generated-image.jpg", "wb") as f:
+    f.write(image_data)
+# return image_url

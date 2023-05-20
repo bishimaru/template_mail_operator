@@ -34,8 +34,6 @@ for i in range(len(handle_array)):
     elif url.startswith("https://pcmax.jp"):
         widget.pcmax.login(driver, wait)
         name = driver.find_elements(By.CLASS_NAME, "p_img")
-        print(999)
-        print(len(name))
         if len(name):
             # 次の要素を取得
             next_element = name[0].find_element(By.XPATH, value="following-sibling::*[1]")
