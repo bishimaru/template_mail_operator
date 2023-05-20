@@ -74,71 +74,17 @@ def re_post(name, happy_windowhandle, driver, title, text):
     if len(warning):
         print(666)
         print(repost_cnt)
-        display_property = driver.execute_script("return window.getComputedStyle(arguments[0]).getPropertyValue('display');", w)
+        display_property = driver.execute_script("return window.getComputedStyle(arguments[0]).getPropertyValue('display');", warning[0])
         if display_property == 'block':
           # ２時間経ってない場合は終了
           print(999)
-          modal_text = w.find_element(By.CLASS_NAME, value="modal-content")
+          modal_text = warning[0].find_element(By.CLASS_NAME, value="modal-content")
           if modal_text.text == "掲載から2時間以上経過していない為、再掲載できません":
+              print("掲載から2時間以上経過していない為、再掲載できません")
               cancel = driver.find_element(By.CLASS_NAME, value="modal-cancel")
               cancel.click()
-              print(modal_text.text)
-              # develop〜〜〜〜
-              time.sleep(wait_time)
-              # 都道府県を取得
-              print(555)
-              print(repost_cnt)
-              area_text = driver.find_elements(By.CLASS_NAME, value="ds_write_bbs_status")
-              area_text = area_text[repost_cnt].text.replace(" ", "").replace("\n", "")
-              for area in area_list:
-                if area in area_text:
-                  print('<<<<<<<<<都道府県>>>>>>>>')
-                  print(area)
-                  print(444)
-                  print(repost_cnt)
-                  #  掲示板をクリック
-                  nav_list = driver.find_element(By.ID, value='ds_nav')
-                  bulletin_board = nav_list.find_element(By.LINK_TEXT, "掲示板")
-                  bulletin_board.click()
-                  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-                  time.sleep(wait_time)
-                  # 書き込みをクリック
-                  write = driver.find_element(By.CLASS_NAME, value="icon-header_kakikomi")
-                  write.click()
-                  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-                  time.sleep(wait_time)
-                  print(444)
-                  # 書き込みエリアを選択
-                  select_area = driver.find_element(By.NAME, value="wrtarea")
-                  select = Select(select_area)
-                  select.select_by_visible_text(area)
-                  time.sleep(1)
-                  driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
-                  time.sleep(3)
-
-                  # マイページをクリック
-                  nav_list = driver.find_element(By.ID, value='ds_nav')
-                  mypage = nav_list.find_element(By.LINK_TEXT, "マイページ")
-                  mypage.click()
-                  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-                  time.sleep(wait_time)
-                  # マイリストをクリック
-                  common_list = driver.find_element(By.CLASS_NAME, "ds_common_table")
-                  common_table = common_list.find_elements(By.CLASS_NAME, "ds_mypage_text")
-                  mylist = common_table[5]
-                  driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", mylist)
-                  time.sleep(wait_time)
-                  mylist.click()
-                  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-                  time.sleep(wait_time)
-                  # 掲示板履歴をクリック
-                  menu_list = driver.find_element(By.CLASS_NAME, "ds_menu_link_list")
-                  menu_link = menu_list.find_elements(By.CLASS_NAME, "ds_next_arrow")
-                  bulletin_board_history = menu_link[5]
-                  bulletin_board_history.click()
-              # develop〜〜〜〜
-              # driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
-              continue
+              driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
+              break
           # リモーダルウィンドウを閉じる
           print("再投稿に失敗したので新規書き込みします")
           print("Element is displayed as block")
@@ -167,12 +113,11 @@ def re_post(name, happy_windowhandle, driver, title, text):
               adult = driver.find_elements(By.CLASS_NAME, value="remodal-wrapper")
               print(len(adult))
               if len(adult):
-                  print(444)
+                  print("24時間以内の掲示板書き込み回数の上限に達しています(1日5件まで)")
                   cancel = driver.find_element(By.CLASS_NAME, value="modal-cancel")
                   cancel.click()
-                  print(modal_text.text)
                   driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
-                  return
+                  continue
               # その他掲示板をクリック
               # タイトルを書き込む
               input_title = driver.find_element(By.NAME, value="Subj")
@@ -200,6 +145,8 @@ def re_post(name, happy_windowhandle, driver, title, text):
               time.sleep(wait_time)
               # 書き込み成功画面の判定
               success = driver.find_elements(By.CLASS_NAME, value="ds_keijiban_finish")
+              print(555)
+              print(len(success))
               if len(success):
                 print(str(area) + "の書き込みに成功しました")
                 # マイページをクリック
@@ -256,8 +203,6 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt)
       send_status = True
       time.sleep(1)
       f_user = driver.find_elements(By.CLASS_NAME, value="ds_post_head_main_info")
-      print(777)
-      print(len(f_user))
       while len(f_user) == 0:
          time.sleep(2)
          f_user = driver.find_elements(By.CLASS_NAME, value="ds_post_head_main_info")
