@@ -45,13 +45,13 @@ def repost_happymail_pcmax():
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())
-  # try:
-  #   pcmax.re_post(name, setting.maiko_pcmax_windowhandle, driver)
-  # except Exception as e:
-  #   print('777')
+  try:
+    pcmax.re_post(name, setting.maiko_pcmax_windowhandle, driver)
+  except Exception as e:
+    print('=== エラー内容 ===')
+    print(traceback.format_exc())
   driver.quit()
   return True
 
 if __name__ == '__main__':
-  # print(f'__name__ は{__name__}となっている。')
   repost_happymail_pcmax()

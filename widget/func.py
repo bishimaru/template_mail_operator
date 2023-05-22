@@ -11,3 +11,6 @@ def timer(fnc, seconds, h_cnt, p_cnt):
     else:
       time.sleep(10)
   return True
+
+def send_gmail():
+  print(246)
