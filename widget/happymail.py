@@ -52,7 +52,7 @@ def re_post(name, happy_windowhandle, driver, title, text):
   time.sleep(1)
 
   # 再掲載をクリック
-  for repost_cnt in range(2,4):
+  for repost_cnt in range(4):
     print(777)
     print(repost_cnt)
     blue_round_buttons = driver.find_elements(By.CLASS_NAME, "ds_round_btn_blue2")
@@ -127,7 +127,6 @@ def re_post(name, happy_windowhandle, driver, title, text):
               others_bulletin_board = link_tab[1]
               others_bulletin_board.click()
               time.sleep(2)
-              print(777)
               # タイトルを書き込む
               input_title = driver.find_element(By.NAME, value="Subj")
               driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", input_title)
