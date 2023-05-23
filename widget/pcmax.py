@@ -75,6 +75,8 @@ def re_post(name, pcmax_windowhandle, driver):
   #掲示板4つ再投稿
   link_list = []
   copies = driver.find_elements(By.CLASS_NAME, value="copy_title")
+  if not len(copies):
+    return
   for i in range(len(copies)):
     copy = copies[i].find_elements(By.TAG_NAME, value="a")
     link = copy[1].get_attribute("href")
@@ -131,6 +133,8 @@ def re_post(name, pcmax_windowhandle, driver):
     usage_limit = driver.find_elements(By.CLASS_NAME, value="white_box")
     if len(usage_limit):
       print("利用制限画面が出ました")
+      time.sleep(2)
+      driver.get("https://pcmax.jp/pcm/index.php")
       return
     # 掲示板投稿履歴をクリック
     bulletin_board_history = driver.find_element(By.XPATH, value="//*[@id='wrap']/div[2]/table/tbody/tr/td[3]/a")
@@ -181,7 +185,7 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt)
   link_list = []
   while user_cnt <= cnt:
     a_tags = div[user_cnt].find_elements(By.TAG_NAME, value="a")
-    print("aタグの数：" + str(len(a_tags)))
+    # print("aタグの数：" + str(len(a_tags)))
     if len(a_tags) > 1:
       link = a_tags[1].get_attribute("href")
       # print(link)

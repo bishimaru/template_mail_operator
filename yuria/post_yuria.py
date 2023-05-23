@@ -39,16 +39,16 @@ def repost_happymail_pcmax():
   options.add_experimental_option("detach", True)
   service = Service(executable_path="./chromedriver")
   driver = webdriver.Chrome(service=service, options=options)
-  # try:   
-  #   happymail.re_post(name, setting.yuria_happy_windowhandle, driver, title, text)
-  # except Exception as e:
-  #   print('=== エラー内容 ===')
-  #   print(traceback.format_exc())
-  try:
-    pcmax.re_post(name, setting.yuria_pcmax_windowhandle, driver)
+  try:   
+    happymail.re_post(name, setting.yuria_happy_windowhandle, driver, title, text)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())
+  # try:
+  #   pcmax.re_post(name, setting.yuria_pcmax_windowhandle, driver)
+  # except Exception as e:
+  #   print('=== エラー内容 ===')
+  #   print(traceback.format_exc())
   driver.quit()
   return True
 

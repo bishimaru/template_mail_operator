@@ -46,19 +46,12 @@ def repost_happymail_pcmax():
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())
-    print('type:' + str(type(e)))
-    print('args:' + str(e.args))
-    print('message:' + e.message)
-    print('e自身:' + str(e))
+    
   # try:
   #   pcmax.re_post(name, setting.rina_pcmax_windowhandle, driver)
   # except Exception as e:
   #   print('=== エラー内容 ===')
   #   print(traceback.format_exc())
-  #   print('type:' + str(type(e)))
-  #   print('args:' + str(e.args))
-  #   print('message:' + e.message)
-  #   print('e自身:' + str(e))
   driver.quit()
   return True
 

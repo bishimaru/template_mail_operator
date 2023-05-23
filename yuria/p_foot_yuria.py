@@ -38,16 +38,12 @@ def p_foot(cnt):
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())
-    print('type:' + str(type(e)))
-    print('args:' + str(e.args))
-    print('message:' + e.message)
-    print('e自身:' + str(e))
   driver.quit()
   return True
 
 if __name__ == '__main__':
   if len(sys.argv) < 2:
-    cnt = 20
+    cnt = 10
   else:
     cnt = int(sys.argv[1])
   p_foot(cnt)

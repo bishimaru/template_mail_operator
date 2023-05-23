@@ -52,7 +52,7 @@ def re_post(name, happy_windowhandle, driver, title, text):
   time.sleep(1)
 
   # 再掲載をクリック
-  for repost_cnt in range(4):
+  for repost_cnt in range(2,4):
     print(777)
     print(repost_cnt)
     blue_round_buttons = driver.find_elements(By.CLASS_NAME, "ds_round_btn_blue2")
@@ -93,7 +93,11 @@ def re_post(name, happy_windowhandle, driver, title, text):
           time.sleep(wait_time)
           # 都道府県を取得
           area_text = driver.find_elements(By.CLASS_NAME, value="ds_write_bbs_status")
+          print("取得した都道府県の数")
+          print(len(area_text))
           area_text = area_text[repost_cnt].text.replace(" ", "").replace("\n", "")
+          print('<<<<<<<<<<整形する前の都道府県>>>>>>>>>>>>')
+          print(area_text)
           for area in area_list:
             if area in area_text:
               print('<<<<<<<<<都道府県>>>>>>>>')
@@ -119,15 +123,22 @@ def re_post(name, happy_windowhandle, driver, title, text):
                   driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
                   continue
               # その他掲示板をクリック
+              link_tab = driver.find_elements(By.CLASS_NAME, "ds_link_tab_text")
+              others_bulletin_board = link_tab[1]
+              others_bulletin_board.click()
+              time.sleep(2)
+              print(777)
               # タイトルを書き込む
               input_title = driver.find_element(By.NAME, value="Subj")
               driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", input_title)
               input_title.send_keys(title)
+              print(len(title))
               time.sleep(1)
               # 本文を書き込む
               text_field = driver.find_element(By.ID, value="text-message")
               driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", text_field)
               text_field.send_keys(text)
+              print(len(text))
               time.sleep(1)
               # 書き込みエリアを選択
               select_area = driver.find_element(By.NAME, value="wrtarea")

@@ -28,18 +28,28 @@ elif len(sys.argv) == 2:
 else:
   h_cnt = int(sys.argv[1])
   p_cnt = int(sys.argv[2])
-try:   
-  func.timer(all_do_erika.do_post_foot, 1200, h_cnt, p_cnt)
-  func.timer(all_do_maiko.do_post_foot, 1200, h_cnt, p_cnt)
-  func.timer(all_do_meari.do_post_foot, 1200, h_cnt, p_cnt)
-  func.timer(all_do_yua_sumire.do_post_foot, 1200, h_cnt, p_cnt)
-  func.timer(all_do_yuria.do_post_foot, 1200, h_cnt, p_cnt)
-  func.timer(all_do_rina.do_post_foot, 1200, h_cnt, p_cnt)
 
+try:
+  func.timer(all_do_erika.do_post_foot, 1200, h_cnt, p_cnt)
 except Exception as e:
-  print('=== エラー内容 ===')
   print(traceback.format_exc())
-  print('type:' + str(type(e)))
-  print('args:' + str(e.args))
-  print('message:' + e.message)
-  print('e自身:' + str(e))
+try:
+  func.timer(all_do_maiko.do_post_foot, 1200, h_cnt, p_cnt)
+except Exception as e:
+  print(traceback.format_exc())
+try:
+  func.timer(all_do_meari.do_post_foot, 1200, h_cnt, p_cnt)
+except Exception as e:
+  print(traceback.format_exc())
+try:
+  func.timer(all_do_yua_sumire.do_post_foot, 1200, h_cnt, p_cnt)
+except Exception as e:
+  print(traceback.format_exc())
+try:
+  func.timer(all_do_yuria.do_post_foot, 1200, h_cnt, p_cnt)
+except Exception as e:
+  print(traceback.format_exc())
+try:
+  func.timer(all_do_rina.do_post_foot, 1200, h_cnt, p_cnt)
+except Exception as e:
+  print(traceback.format_exc())
