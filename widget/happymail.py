@@ -50,7 +50,35 @@ def re_post(name, happy_windowhandle, driver, title, text):
   others_bulletin_board = link_tab[1]
   others_bulletin_board.click()
   time.sleep(1)
-
+  # 掲示板重複を削除する
+  driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+  time.sleep(2)
+  area_texts = driver.find_elements(By.CLASS_NAME, value="ds_write_bbs_status")
+  print(len(area_texts))
+  area_texts_list = []
+  for area in area_texts:
+     area = area.text.replace(" ", "").replace("\n", "")
+     area_texts_list.append(area)
+  i = 0
+  list = []
+  print(area_texts_list)
+  for text in area_texts_list:
+     print(text)
+     print(i)
+     if text not in list:
+        list.append(text)
+        i += 1
+     else:
+        print("重複があった")
+        duplication_area = driver.find_elements(By.CLASS_NAME, value="ds_round_btn_red")[i]
+        driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", duplication_area)
+        time.sleep(2)
+        duplication_area.click()
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(wait_time)
+        delete = driver.find_element(By.CLASS_NAME, "modal-confirm")
+        delete.click()
+        time.sleep(2)
   # 再掲載をクリック
   for repost_cnt in range(4):
     print(777)
