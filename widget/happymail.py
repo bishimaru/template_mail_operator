@@ -13,7 +13,7 @@ import setting
 from selenium.webdriver.support.select import Select
 
 
-def re_post(name, happy_windowhandle, driver, title, text):
+def re_post(name, happy_windowhandle, driver, title, post_text):
   area_list = ["東京都", "千葉県", "埼玉県", "神奈川県"]
   wait = WebDriverWait(driver, 15)
   handle_array = driver.window_handles
@@ -62,11 +62,11 @@ def re_post(name, happy_windowhandle, driver, title, text):
   i = 0
   list = []
   print(area_texts_list)
-  for text in area_texts_list:
-     print(text)
+  for area_text in area_texts_list:
+     print(area_text)
      print(i)
-     if text not in list:
-        list.append(text)
+     if area_text not in list:
+        list.append(area_text)
         i += 1
      else:
         print("重複があった")
@@ -164,8 +164,8 @@ def re_post(name, happy_windowhandle, driver, title, text):
               # 本文を書き込む
               text_field = driver.find_element(By.ID, value="text-message")
               driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", text_field)
-              text_field.send_keys(text)
-              print(len(text))
+              text_field.send_keys(post_text)
+              print(len(post_text))
               time.sleep(1)
               # 書き込みエリアを選択
               select_area = driver.find_element(By.NAME, value="wrtarea")
@@ -264,8 +264,8 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt)
       if len(driver.find_elements(By.CLASS_NAME, value="translate_body")):
         contains_violations = driver.find_element(By.CLASS_NAME, value="translate_body")
         driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", contains_violations)
-        text = contains_violations.text.replace(" ", "").replace("\n", "")
-        if '通報' in text or '業者' in text:
+        self_introduction_text = contains_violations.text.replace(" ", "").replace("\n", "")
+        if '通報' in self_introduction_text or '業者' in self_introduction_text:
             print('自己紹介文に危険なワードが含まれていました')
             send_status = False
       # メッセージ履歴があるかチェック
