@@ -50,37 +50,38 @@ def re_post(name, happy_windowhandle, driver, title, post_text):
   others_bulletin_board = link_tab[1]
   others_bulletin_board.click()
   time.sleep(1)
-  # 掲示板重複を削除する
-  driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-  time.sleep(2)
-  area_texts = driver.find_elements(By.CLASS_NAME, value="ds_write_bbs_status")
-  print(len(area_texts))
-  area_texts_list = []
-  for area in area_texts:
-     area = area.text.replace(" ", "").replace("\n", "")
-     area_texts_list.append(area)
-  i = 0
-  list = []
-  print(area_texts_list)
-  for area_text in area_texts_list:
-     print(area_text)
-     print(i)
-     if area_text not in list:
-        list.append(area_text)
-        i += 1
-     else:
-        print("重複があった")
-        duplication_area = driver.find_elements(By.CLASS_NAME, value="ds_round_btn_red")[i]
-        driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", duplication_area)
-        time.sleep(2)
-        duplication_area.click()
-        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-        time.sleep(wait_time)
-        delete = driver.find_element(By.CLASS_NAME, "modal-confirm")
-        delete.click()
-        time.sleep(2)
+  
   # 再掲載をクリック
   for repost_cnt in range(4):
+  # 掲示板重複を削除する
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    time.sleep(2)
+    area_texts = driver.find_elements(By.CLASS_NAME, value="ds_write_bbs_status")
+    print(len(area_texts))
+    area_texts_list = []
+    for area in area_texts:
+      area = area.text.replace(" ", "").replace("\n", "")
+      area_texts_list.append(area)
+    area_cnt = 0
+    list = []
+    print(area_texts_list)
+    for area_text in area_texts_list:
+      print(area_text)
+      print(area_cnt)
+      if area_text not in list:
+          list.append(area_text)
+          area_cnt += 1
+      else:
+          print("重複があった")
+          duplication_area = driver.find_elements(By.CLASS_NAME, value="ds_round_btn_red")[area_cnt]
+          driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", duplication_area)
+          time.sleep(2)
+          duplication_area.click()
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(wait_time)
+          delete = driver.find_element(By.CLASS_NAME, "modal-confirm")
+          delete.click()
+          time.sleep(2)
     print(777)
     print(repost_cnt)
     blue_round_buttons = driver.find_elements(By.CLASS_NAME, "ds_round_btn_blue2")
