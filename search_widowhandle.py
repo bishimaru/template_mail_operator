@@ -28,7 +28,8 @@ print(len(handle_array))
 for i in range(len(handle_array)):
     driver.switch_to.window(handle_array[i])
     url = driver.current_url
-    if url =="https://happymail.co.jp/sp/app/html/mbmenu.php":
+    if url.startswith("https://happymail.co.jp"):
+    # if url =="https://happymail.co.jp/sp/app/html/mbmenu.php":
         name = driver.find_element(By.CLASS_NAME, "ds_user_display_name")
         window_handle_list[name.text + "ハッピー"] = handle_array[i]
     elif url.startswith("https://pcmax.jp"):
