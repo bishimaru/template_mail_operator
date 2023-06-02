@@ -15,6 +15,7 @@ from yua_sumire import all_do_yua_sumire
 from erika import all_do_erika
 from yuria import all_do_yuria
 from maiko import all_do_maiko
+from ayaka import all_do_ayaka
 from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
@@ -29,27 +30,33 @@ else:
   h_cnt = int(sys.argv[1])
   p_cnt = int(sys.argv[2])
 
+
 try:
   func.timer(all_do_erika.do_post_foot, 1200, h_cnt, p_cnt)
-except Exception as e:
-  print(traceback.format_exc())
-try:
-  func.timer(all_do_maiko.do_post_foot, 1200, h_cnt, p_cnt)
-except Exception as e:
-  print(traceback.format_exc())
-try:
-  func.timer(all_do_meari.do_post_foot, 1200, h_cnt, p_cnt)
-except Exception as e:
-  print(traceback.format_exc())
-try:
-  func.timer(all_do_yua_sumire.do_post_foot, 1200, h_cnt, p_cnt)
-except Exception as e:
-  print(traceback.format_exc())
-try:
-  func.timer(all_do_yuria.do_post_foot, 1200, h_cnt, p_cnt)
 except Exception as e:
   print(traceback.format_exc())
 try:
   func.timer(all_do_rina.do_post_foot, 1200, h_cnt, p_cnt)
 except Exception as e:
   print(traceback.format_exc())
+# try:
+#   func.timer(all_do_maiko.do_post_foot, 1200, h_cnt, p_cnt)
+# except Exception as e:
+#   print(traceback.format_exc())
+try:
+  func.timer(all_do_meari.do_post_foot, 1200, h_cnt, p_cnt)
+except Exception as e:
+  print(traceback.format_exc())
+# try:
+#   func.timer(all_do_yua_sumire.do_post_foot, 1200, h_cnt, p_cnt)
+# except Exception as e:
+#   print(traceback.format_exc())
+try:
+  func.timer(all_do_yuria.do_post_foot, 1200, h_cnt, p_cnt)
+except Exception as e:
+  print(traceback.format_exc())
+
+# try:
+#   func.timer(all_do_ayaka.do_post_foot, 1200, h_cnt, p_cnt)
+# except Exception as e:
+#   print(traceback.format_exc())
