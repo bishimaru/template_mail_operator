@@ -30,7 +30,6 @@ else:
   h_cnt = int(sys.argv[1])
   p_cnt = int(sys.argv[2])
 
-
 try:
   func.timer(all_do_erika.do_post_foot, 1200, h_cnt, p_cnt)
 except Exception as e:
@@ -56,7 +55,7 @@ try:
 except Exception as e:
   print(traceback.format_exc())
 
-# try:
-#   func.timer(all_do_ayaka.do_post_foot, 1200, h_cnt, p_cnt)
-# except Exception as e:
-#   print(traceback.format_exc())
+try:
+  func.timer(all_do_ayaka.do_post_foot, 1200, h_cnt, p_cnt)
+except Exception as e:
+  print(traceback.format_exc())
