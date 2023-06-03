@@ -153,6 +153,27 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt)
   wait_time = random.uniform(3, 4)
   time.sleep(1)
   login(driver, wait)
+  # 新着メッセージの確認
+  have_new_massage_users = []
+  new_message = driver.find_element(By.CLASS_NAME, value="message")
+  new_message.click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(wait_time)
+  user_info = driver.find_elements(By.CLASS_NAME, value="user_info")
+  print(len(user_info))
+  # 新着ありのユーザーをリストに追加
+  for usr_info in user_info:
+    unread = usr_info.find_elements(By.CLASS_NAME, value="unread1")
+    if len(unread):
+      name = usr_info.find_element(By.CLASS_NAME, value="name").text
+      if len(name) > 7:
+        name = name[:7] + "…"
+      have_new_massage_users.append(name)
+  print("新着メッセージリスト")
+  print(have_new_massage_users)
+  driver.get("https://pcmax.jp/pcm/index.php")
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(2)
   # 右下のキャラ画像をクリック
   chara_img = driver.find_element(By.XPATH, value="//*[@id='sp_footer']/a[5]")
   chara_img.click()
@@ -184,13 +205,18 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt)
   user_cnt = 1
   link_list = []
   while user_cnt <= cnt:
-    a_tags = div[user_cnt].find_elements(By.TAG_NAME, value="a")
-    # print("aタグの数：" + str(len(a_tags)))
-    if len(a_tags) > 1:
-      link = a_tags[1].get_attribute("href")
-      # print(link)
-      link_list.append(link)
-    user_cnt += 1
+    # 新着リストの名前ならスキップ
+    name = div[user_cnt].find_element(By.CLASS_NAME, value="user-name")
+    if name.text in have_new_massage_users:
+      user_cnt += 1
+    else:
+      a_tags = div[user_cnt].find_elements(By.TAG_NAME, value="a")
+      # print("aタグの数：" + str(len(a_tags)))
+      if len(a_tags) > 1:
+        link = a_tags[1].get_attribute("href")
+        # print(link)
+        link_list.append(link)
+      user_cnt += 1
   send_count = 1
   for i in link_list:
     driver.get(i)
