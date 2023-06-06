@@ -2,7 +2,7 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import setting
-sys.path.append(setting.rina_path)
+sys.path.append(setting.misuzu_path)
 import repost_misuzu
 import h_foot_misuzu
 # import p_foot_misuzu
