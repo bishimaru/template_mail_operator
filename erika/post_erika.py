@@ -14,7 +14,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
 
-
+adult_flag = True
 name = "えりか"
 title = "AV女優に偏見ない人。長期せふれさん！経験少ない人も◎"
 text = """〜　Profile　〜
@@ -43,7 +43,7 @@ def repost_happymail_pcmax():
   service = Service(executable_path="./chromedriver")
   driver = webdriver.Chrome(service=service, options=options)
   try:   
-    happymail.re_post(name, setting.erika_happy_windowhandle, driver, title, text)
+    happymail.re_post(name, setting.erika_happy_windowhandle, driver, title, text, adult_flag)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())

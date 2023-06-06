@@ -15,6 +15,7 @@ import setting
 import traceback
 
 def repost_happymail_pcmax():
+  adult_flag = True
   name = "rina"
   title = "ゲームとお酒が好きな看護師です！20代のうちに楽しみたい♪"
   text = """初めまして！看護師のりなです♪
@@ -42,7 +43,7 @@ def repost_happymail_pcmax():
   driver = webdriver.Chrome(service=service, options=options)
 
   try:   
-    happymail.re_post(name, setting.rina_happy_windowhandle, driver, title, text)
+    happymail.re_post(name, setting.rina_happy_windowhandle, driver, title, text, adult_flag)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())
