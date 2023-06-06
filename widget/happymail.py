@@ -252,10 +252,26 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt)
       while len(f_user) == 0:
          time.sleep(2)
          f_user = driver.find_elements(By.CLASS_NAME, value="ds_post_head_main_info")
-      name_field = f_user[0].find_element(By.CLASS_NAME, value="ds_like_list_name")
-      if len(name_field.find_elements(By.TAG_NAME, value="img")):
+      name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
+      mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
+      print(888)
+      print(len(mail_icon))
+      while len(mail_icon):
         print('メールアイコンがあります')
-        send_status = False
+        user_icon += 1
+        name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
+        print(777)
+        print(user_icon)
+        mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
+        # メールアイコンが3つ続いたら終了
+        if user_icon == 3:
+          ds_logo = driver.find_element(By.CLASS_NAME, value="ds_logo")
+          top_link = ds_logo.find_element(By.TAG_NAME, value="a")
+          top_link.click()
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(wait_time)
+          return
+        # send_status = False
       # 足跡ユーザーをクリック
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", f_user[user_icon])
       time.sleep(1)
