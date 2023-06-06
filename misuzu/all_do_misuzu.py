@@ -2,26 +2,25 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import setting
-sys.path.append(setting.yuria_path)
-import h_foot_yuria
-import p_foot_yuria
-import post_yuria
+sys.path.append(setting.rina_path)
+import repost_misuzu
+import h_foot_misuzu
+# import p_foot_misuzu
 import time
 
 def do_post_foot(h_cnt, p_cnt):
     start_time = time.time() 
-    post_yuria.repost_happymail_pcmax()
+    repost_misuzu.repost_happymail_pcmax()
     while True:
       elapsed_time = time.time() - start_time  # 経過時間を計算する
-      if elapsed_time >= 300:
+      if elapsed_time >= 420:
         start_time = time.time() 
-        h_foot_yuria.h_foot(h_cnt)
-        p_foot_yuria.p_foot(p_cnt)
+        h_foot_misuzu.h_foot(h_cnt)
+        # p_foot_misuzu.p_foot(p_cnt)
         break
       else:
-        time.sleep(10)
+        time.sleep(10) 
     return True
-
 if __name__ == '__main__':
   if len(sys.argv) < 2:
     h_cnt = 20

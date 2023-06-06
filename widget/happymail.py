@@ -13,7 +13,7 @@ import setting
 from selenium.webdriver.support.select import Select
 
 
-def re_post(name, happy_windowhandle, driver, title, post_text):
+def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag):
   area_list = ["東京都", "千葉県", "埼玉県", "神奈川県"]
   wait = WebDriverWait(driver, 15)
   handle_array = driver.window_handles
@@ -45,11 +45,18 @@ def re_post(name, happy_windowhandle, driver, title, post_text):
   bulletin_board_history.click()
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
   time.sleep(wait_time)
-  # その他掲示板をクリック
-  link_tab = driver.find_elements(By.CLASS_NAME, "ds_link_tab_text")
-  others_bulletin_board = link_tab[1]
-  others_bulletin_board.click()
-  time.sleep(1)
+  # ピュア掲示板かその他掲示板をクリック
+  if adult_flag:
+    link_tab = driver.find_elements(By.CLASS_NAME, "ds_link_tab_text")
+    others_bulletin_board = link_tab[1]
+    others_bulletin_board.click()
+    time.sleep(1)
+  else:
+    print('ピュア掲示板')
+    link_tab = driver.find_elements(By.CLASS_NAME, "ds_link_tab_text")
+    others_bulletin_board = link_tab[0]
+    others_bulletin_board.click()
+    time.sleep(1)
   
   # 再掲載をクリック
   for repost_cnt in range(4):

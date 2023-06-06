@@ -16,6 +16,7 @@ from erika import all_do_erika
 from yuria import all_do_yuria
 from maiko import all_do_maiko
 from ayaka import all_do_ayaka
+from misuzu import all_do_misuzu
 from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
@@ -57,5 +58,9 @@ except Exception as e:
 
 try:
   func.timer(all_do_ayaka.do_post_foot, 1200, h_cnt, p_cnt)
+except Exception as e:
+  print(traceback.format_exc())
+try:
+  func.timer(all_do_misuzu.do_post_foot, 1200, h_cnt, p_cnt)
 except Exception as e:
   print(traceback.format_exc())
