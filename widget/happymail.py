@@ -12,7 +12,6 @@ import traceback
 import setting
 from selenium.webdriver.support.select import Select
 
-
 def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag):
   area_list = ["東京都", "千葉県", "埼玉県", "神奈川県"]
   wait = WebDriverWait(driver, 15)
@@ -223,7 +222,7 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag):
   if setting.mac_os:
       os.system("osascript -e 'display notification \"ハッピーメール掲示板再投稿中に成功しました◎\" with title \"{}\"'".format(name))
 
-def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt):
+def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt, return_foot_img):
     wait = WebDriverWait(driver, 15)
     driver.switch_to.window(happy_windowhandle)
     wait_time = random.uniform(2, 3)
@@ -309,6 +308,19 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt)
         # 足跡返しを入力
         text_area = driver.find_element(By.ID, value="text-message")
         text_area.send_keys(return_foot_message)
+        # 画像があれば送信
+        # ダイヤログを操作する
+        plus_icon = driver.find_element(By.CLASS_NAME, value="icon-message_plus")
+        plus_icon.click()
+        time.sleep(2)
+        upload_icon = driver.find_element(By.CLASS_NAME, value="upload_picture")
+        driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", upload_icon)
+        upload_icon.click()
+        time.sleep(2)
+        # upload_input = driver.find_element(By.ID, value="upload_file")
+        # upload_input.send_keys(return_foot_img)
+        return
+
         # 送信
         send_mail = driver.find_element(By.ID, value="submitButton")
         send_mail.click()
