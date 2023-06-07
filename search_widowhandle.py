@@ -5,6 +5,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 import widget.pcmax 
+import time
 
 
 options = Options()
@@ -30,15 +31,18 @@ for i in range(len(handle_array)):
     url = driver.current_url
     if url.startswith("https://happymail.co.jp"):
     # if url =="https://happymail.co.jp/sp/app/html/mbmenu.php":
-        name = driver.find_element(By.CLASS_NAME, "ds_user_display_name")
+        driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(2)  
+        name = driver.find_element(By.CLASS_NAME, "ds_user_display_name")      
         window_handle_list[name.text + "ハッピー"] = handle_array[i]
+        
     elif url.startswith("https://pcmax.jp"):
         widget.pcmax.login(driver, wait)
         name = driver.find_elements(By.CLASS_NAME, "p_img")
         if len(name):
             # 次の要素を取得
             next_element = name[0].find_element(By.XPATH, value="following-sibling::*[1]")
-            print(next_element.text)
             window_handle_list[next_element.text + "PCMAX"] = handle_array[i]
     
 for mykey, myvalue in window_handle_list.items():
