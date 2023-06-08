@@ -16,6 +16,7 @@ import traceback
 
 def h_foot(cnt):
   name = "ゆあ&すみれ"
+  return_foot_img = ""
   return_foot_message = """足跡ありがとうございます！
   六本木の高級デリヘルに勤めてます『ゆあ』と『すみれ』です♪( ´θ｀)ノ
   気になってご連絡しちゃいました！
@@ -36,7 +37,7 @@ def h_foot(cnt):
   driver = webdriver.Chrome(service=service, options=options)
 
   try:   
-    happymail.return_footpoint(name, setting.yua_happy_windowhandle, driver, return_foot_message, cnt)
+    happymail.return_footpoint(name, setting.yua_happy_windowhandle, driver, return_foot_message, cnt, return_foot_img)
     print('<<<<<<<<<<<<ゆあ、すみれ　ハッピーメール足跡返し　完了>>>>>>>>>>>>>>')
   except Exception as e:
     print('=== エラー内容 ===')

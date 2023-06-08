@@ -27,8 +27,9 @@ def h_foot(cnt):
 
 もし興味があって、私とメッセージ交換してもいいよと思ってくださったら、お返事をいただけるとうれしいです。写真を添付して送らせていただきます。
 
-それでは、返信を待ってますね。よろしくお願いします♪"""
-  return_foot_img = "/Users/yamamotokenta/Documents/Pictures/キャラ画像/kumi_mizugi.jpeg"
+それでは、返信を待ってますね。よろしくお願いします♪"""  
+  relative_path = os.path.join(setting.BASE_DIR, 'mail_tool/widget/picture/kumi_mizugi.jpeg')
+  return_foot_img = relative_path
   options = Options()
   options.add_argument('--headless')
   options.add_argument("--no-sandbox")

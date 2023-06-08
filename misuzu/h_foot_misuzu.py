@@ -16,6 +16,7 @@ import setting
 
 def h_foot(cnt):
   name = "misuzu"
+  return_foot_img = ""
   return_foot_message = """初めまして。
 足跡からプロフィール拝見させて頂きました、みすずです。
 
@@ -37,7 +38,7 @@ def h_foot(cnt):
   driver = webdriver.Chrome(service=service, options=options)
 
   try:   
-    happymail.return_footpoint(name, setting.misuzu_happy_windowhandle, driver, return_foot_message, cnt)
+    happymail.return_footpoint(name, setting.misuzu_happy_windowhandle, driver, return_foot_message, cnt, return_foot_img)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())

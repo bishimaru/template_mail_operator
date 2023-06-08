@@ -16,6 +16,7 @@ import traceback
 
 def h_foot(cnt):
   name = "きりこ"
+  return_foot_img = ""
   return_foot_message = """はじめまして(*'ω'*)
 カーディーラーの受付嬢として働いている『きりこ』です(*´ω｀)
 　
@@ -39,7 +40,7 @@ def h_foot(cnt):
   driver = webdriver.Chrome(service=service, options=options)
 
   try:   
-    happymail.return_footpoint(name, setting.kiriko_happy_windowhandle, driver, return_foot_message, cnt)
+    happymail.return_footpoint(name, setting.kiriko_happy_windowhandle, driver, return_foot_message, cnt, return_foot_img)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())
