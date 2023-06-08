@@ -328,6 +328,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt)
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(wait_time)
         # TOPに戻る
+        driver.execute_script("window.scrollTo(0, 0);")
         ds_logo = driver.find_element(By.CLASS_NAME, value="ds_logo")
         driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", ds_logo)
         top_link = ds_logo.find_element(By.TAG_NAME, value="a")
