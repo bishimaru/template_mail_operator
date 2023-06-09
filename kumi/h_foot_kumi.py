@@ -25,7 +25,7 @@ def h_foot(cnt):
 
 もし興味があって、私とメッセージ交換してもいいよと思ってくれたら、お返事をいただけるとうれしいです。楽しく会える人がいいです！
 それでは、返信待ってますね。よろしくお願いします♪"""  
-  relative_path = os.path.join(setting.BASE_DIR, 'mail_tool/widget/picture/kumi_mizugi.jpeg')
+  relative_path = os.path.join(setting.BASE_DIR, setting.kumi_picture_path)
   return_foot_img = relative_path
   options = Options()
   options.add_argument('--headless')
