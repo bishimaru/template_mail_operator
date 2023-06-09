@@ -18,6 +18,7 @@ from maiko import all_do_maiko
 from ayaka import all_do_ayaka
 from misuzu import all_do_misuzu
 from kiriko import all_do_kiriko
+from kumi import all_do_kumi
 from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
@@ -33,11 +34,11 @@ else:
   p_cnt = int(sys.argv[2])
 
 try:
-  func.timer(all_do_erika.do_post_foot, 1200, h_cnt, p_cnt)
+  func.timer(all_do_erika.do_post_foot, 900, h_cnt, p_cnt)
 except Exception as e:
   print(traceback.format_exc())
 try:
-  func.timer(all_do_rina.do_post_foot, 1200, h_cnt, p_cnt)
+  func.timer(all_do_rina.do_post_foot, 900, h_cnt, p_cnt)
 except Exception as e:
   print(traceback.format_exc())
 # try:
@@ -67,6 +68,10 @@ except Exception as e:
   print(traceback.format_exc())
 try:
   func.timer(all_do_kiriko.do_post_foot, 900, h_cnt, p_cnt)
+except Exception as e:
+  print(traceback.format_exc())
+try:
+  func.timer(all_do_kumi.do_post_foot, 900, h_cnt, p_cnt)
 except Exception as e:
   print(traceback.format_exc())
 

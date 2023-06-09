@@ -224,10 +224,7 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag):
       os.system("osascript -e 'display notification \"ハッピーメール掲示板再投稿中に成功しました◎\" with title \"{}\"'".format(name))
 
 def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt, return_foot_img):
-# def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt):
     wait = WebDriverWait(driver, 15)
-    print(9999)
-    print(return_foot_img)
     driver.switch_to.window(happy_windowhandle)
     wait_time = random.uniform(2, 3)
     driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
@@ -257,14 +254,10 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
          f_user = driver.find_elements(By.CLASS_NAME, value="ds_post_head_main_info")
       name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
       mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
-      print(888)
-      print(len(mail_icon))
       while len(mail_icon):
         print('メールアイコンがあります')
         user_icon += 1
         name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
-        print(777)
-        print(user_icon)
         mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
         # メールアイコンが3つ続いたら終了
         if user_icon == 3:
