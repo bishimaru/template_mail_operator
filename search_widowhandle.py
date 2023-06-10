@@ -33,7 +33,7 @@ for i in range(len(handle_array)):
     # if url =="https://happymail.co.jp/sp/app/html/mbmenu.php":
         driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-        time.sleep(2)  
+        time.sleep(1)  
         name = driver.find_element(By.CLASS_NAME, "ds_user_display_name")      
         window_handle_list[name.text + "ハッピー"] = handle_array[i]
         
@@ -44,7 +44,30 @@ for i in range(len(handle_array)):
             # 次の要素を取得
             next_element = name[0].find_element(By.XPATH, value="following-sibling::*[1]")
             window_handle_list[next_element.text + "PCMAX"] = handle_array[i]
-    
+    elif url.startswith("https://mail.google.com"):
+        driver.get("https://mail.google.com/mail/mu")
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(1)  
+        # カスタム属性の値を持つ要素をXPathで検索
+        custom_value = "メニュー"
+        xpath = f"//*[@aria-label='{custom_value}']"
+        element = driver.find_elements(By.XPATH, value=xpath)
+        if element is None:
+            print("要素が見つかりません。")
+        element[0].click()
+        time.sleep(1) 
+        # toggleaccountscallout+20 
+        custom_value = "toggleaccountscallout+20"
+        xpath = f"//*[@data-control-type='{custom_value}']"
+        element = driver.find_elements(By.XPATH, value=xpath)
+        if element is None:
+            print("要素が見つかりません")
+        address = element[0].text
+        print(address)
+        window_handle_list[address] = handle_array[i]
+
+
+
 for mykey, myvalue in window_handle_list.items():
     print(mykey + ":" + myvalue)
 driver.quit()
