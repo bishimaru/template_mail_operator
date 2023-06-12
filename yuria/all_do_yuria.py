@@ -13,10 +13,10 @@ def do_post_foot(h_cnt, p_cnt):
     post_yuria.repost_happymail_pcmax()
     while True:
       elapsed_time = time.time() - start_time  # 経過時間を計算する
-      if elapsed_time >= 300:
+      if elapsed_time >= 540:
         start_time = time.time() 
+        # p_foot_yuria.p_foot(p_cnt)
         h_foot_yuria.h_foot(h_cnt)
-        p_foot_yuria.p_foot(p_cnt)
         break
       else:
         time.sleep(10)

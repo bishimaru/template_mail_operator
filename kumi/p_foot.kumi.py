@@ -8,26 +8,24 @@ import time
 from selenium.webdriver.common.by import By
 import os
 import sys
-import traceback
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from widget import pcmax, happymail
 from selenium.webdriver.support.ui import WebDriverWait
 import setting
+import traceback
 
 def h_foot(cnt):
-  name = "misuzu"
+  name = "くみ"
   return_foot_img = ""
-  return_foot_message = """足跡からきました♪
-目に留めていただき、ありがとうございます。
+  return_foot_message = """こんにちは！くみです♪
+このサイトでせふれさん募集してます☆
+先日、とっても可愛い水着を買いました✌︎('ω'✌︎ )その水着を見てもらいたくて、足跡をつけてくれた方に見せちゃいます♪
 
-銀座のホステスをしていましたが、現在は家事手伝いのみすずです。
+思わず「これを着て海やプールに行きたいな」という気分になるような水着で、デザインは大胆で、シンプルな柄がとても鮮やかで気に入っています♪
 
-働いていた時は寧な接客や美しさなど求められるものが多くプレッシャーが凄くって💦今はその反動で普通の生活を楽しんでます♪
 
-ホステスの時に、信頼関係を築いた方と関係を持ったこともあったんですけど、セックスは乱暴で全く相性が合わなくて、思い切って体の関係から始めるのもありかなぁなんて思ってます( ´θ｀)ノ
-
-まずはやり取りしてくれる優しい男性との出会いを探してるのでそんなのでも良いよって思ってくれたらメッセージください！
-"""
+もし興味があって、私とメッセージ交換してもいいよと思ってくれたら、お返事をいただけるとうれしいです。楽しく会える人がいいです！
+それでは、返信待ってますね。よろしくお願いします♪"""
   
   options = Options()
   options.add_argument('--headless')
@@ -38,12 +36,13 @@ def h_foot(cnt):
   driver = webdriver.Chrome(service=service, options=options)
 
   try:   
-    happymail.return_footpoint(name, setting.misuzu_happy_windowhandle, driver, return_foot_message, cnt, return_foot_img)
+    happymail.return_footpoint(name, setting.kumi_happy_windowhandle, driver, return_foot_message, cnt, return_foot_img)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())
   driver.quit()
   return True
+
 if __name__ == '__main__':
   if len(sys.argv) < 2:
     cnt = 20

@@ -13,7 +13,7 @@ def do_post_foot(h_cnt, p_cnt):
     repost_misuzu.repost_happymail_pcmax()
     while True:
       elapsed_time = time.time() - start_time  # 経過時間を計算する
-      if elapsed_time >= 420:
+      if elapsed_time >= 540:
         start_time = time.time() 
         h_foot_misuzu.h_foot(h_cnt)
         # p_foot_misuzu.p_foot(p_cnt)

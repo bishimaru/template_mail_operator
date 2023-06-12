@@ -16,8 +16,8 @@ def do_post_foot(h_cnt, p_cnt):
       elapsed_time = time.time() - start_time  # 経過時間を計算する
       if elapsed_time >= 420:
         start_time = time.time() 
-        h_foot_maiko.h_foot(h_cnt)
         p_foot_maiko.p_foot(p_cnt)
+        h_foot_maiko.h_foot(h_cnt)
         break
       else:
         time.sleep(10)

@@ -15,7 +15,7 @@ import setting
 import traceback
 
 def repost_happymail_pcmax():
-  adult_flag = False
+  adult_flag = True
   name = "misuzu"
   title = "素敵な出会いから始まる、心と体のふれあいを体感したい"
   text = """はじめまして、みすずです。

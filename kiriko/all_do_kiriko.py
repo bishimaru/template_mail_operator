@@ -4,7 +4,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import setting
 sys.path.append(setting.kiriko_path)
 import h_foot_kiriko
-# import p_foot_kiriko
+import p_foot_kiriko
 import repost_kiriko
 import time
 import sys
@@ -14,10 +14,11 @@ def do_post_foot(h_cnt, p_cnt):
     repost_kiriko.repost_happymail_pcmax()
     while True:
       elapsed_time = time.time() - start_time  # 経過時間を計算する
-      if elapsed_time >= 420:
+      if elapsed_time >= 600:
         start_time = time.time() 
+        p_foot_kiriko.p_foot(p_cnt)
         h_foot_kiriko.h_foot(h_cnt)
-        # p_foot_kiriko.p_foot(p_cnt)
+        
         break
       else:
         time.sleep(10)
