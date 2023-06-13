@@ -61,7 +61,7 @@ def mail_reception_check(window_handle, driver, wait):
         element = driver.find_elements(By.XPATH, value=xpath)
         address = element[0].text
         print(address)
-
+        time.sleep(1) 
         # メインボックスのチェック
         main_box = driver.find_elements(By.CLASS_NAME, value="Hd")
         main_box[0].click()
