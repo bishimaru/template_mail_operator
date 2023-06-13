@@ -28,7 +28,6 @@ def mail_reception_check(window_handle, driver, wait):
       name = driver.find_element(By.CLASS_NAME, "ds_user_display_name")      
       new_message = message_icon.find_elements(By.CLASS_NAME, value="ds_red_circle")
       if len(new_message):
-          print(name.text + " :newmessage")
           new_mail = name.text + " : ハッピーメール"
     # pcmax
     elif url.startswith("https://pcmax.jp"):
@@ -38,11 +37,8 @@ def mail_reception_check(window_handle, driver, wait):
           # 次の要素を取得
           next_element = name[0].find_element(By.XPATH, value="following-sibling::*[1]")
           name = next_element.text
-          print(name)
           new_message = driver.find_elements(By.CLASS_NAME, value="message")[0]
-          print(new_message.text)
           if new_message.text[:2] == "新着":
-            print('新着')
             new_mail = name + " : pcmax"
     # gmail
     elif url.startswith("https://mail.google.com"):
@@ -60,7 +56,6 @@ def mail_reception_check(window_handle, driver, wait):
         xpath = f"//*[@data-control-type='{custom_value}']"
         element = driver.find_elements(By.XPATH, value=xpath)
         address = element[0].text
-        print(address)
         time.sleep(1) 
         # メインボックスのチェック
         main_box = driver.find_elements(By.CLASS_NAME, value="Hd")
@@ -68,13 +63,10 @@ def mail_reception_check(window_handle, driver, wait):
         email_list = driver.find_element(By.CLASS_NAME, value="Ik")
         # 最初の子要素を取得
         latest_email = email_list.find_element(By.XPATH, value="./*[1]")
-        print(latest_email)
         latest_new_email_address = latest_email.find_elements(By.TAG_NAME, value="b")
-        print(len(latest_new_email_address))
         time.sleep(1) 
         if len(latest_new_email_address):
-           print('newmessage')
-           new_mail = address + " : メールボックス"
+           new_mail = address
         
         # 迷惑メールフォルダーをチェック
         custom_value = "メニュー"
@@ -83,19 +75,15 @@ def mail_reception_check(window_handle, driver, wait):
         element[0].click()
         time.sleep(1) 
         menu_list = driver.find_elements(By.XPATH, value="//*[@role='menuitem']")
-        print(len(menu_list))
         spam = menu_list[-1]
         spam.click()
         time.sleep(1) 
         email_list = driver.find_element(By.CLASS_NAME, value="Ik")
         latest_email = email_list.find_element(By.XPATH, value="./*[1]")
-        print(latest_email)
         latest_new_spam = latest_email.find_elements(By.TAG_NAME, value="b")
-        print(len(latest_new_spam))
         time.sleep(1) 
         if len(latest_new_spam):
-           print('new spammessage')
-           new_mail = new_mail + ", " + address + " : 迷惑メール"
+           new_mail = new_mail + ", " + address + ":迷惑フォルダ"
         custom_value = "メニュー"
         xpath = f"//*[@aria-label='{custom_value}']"
         element = driver.find_elements(By.XPATH, value=xpath)

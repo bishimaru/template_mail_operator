@@ -278,13 +278,12 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
         mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
         # メールアイコンが3つ続いたら終了
-        if user_icon == 3:
+        if user_icon == 4:
           ds_logo = driver.find_element(By.CLASS_NAME, value="ds_logo")
           top_link = ds_logo.find_element(By.TAG_NAME, value="a")
           top_link.click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(wait_time)
-          os.system("osascript -e 'beep' -e 'display notification \"ハッピーメール{}件の足跡返しに成功しました...\" with title \"{}\"'".format(foot_cnt, name))
           return
         # send_status = False
       # 足跡ユーザーをクリック
