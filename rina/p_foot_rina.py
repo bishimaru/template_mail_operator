@@ -16,6 +16,7 @@ import setting
 
 def p_foot(cnt):
   name = "rina"
+  return_foot_img = ""
   return_foot_message = """はじめまして、りなです。
   私のプロフィールを見てくださって、ありがとうございます！
 
@@ -34,7 +35,7 @@ def p_foot(cnt):
   driver = webdriver.Chrome(service=service, options=options)
 
   try:   
-    pcmax.return_footpoint(name, setting.rina_pcmax_windowhandle, driver, return_foot_message, cnt)
+    pcmax.return_footpoint(name, setting.rina_pcmax_windowhandle, driver, return_foot_message, cnt, return_foot_img)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())

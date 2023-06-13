@@ -16,6 +16,7 @@ import traceback
 
 def p_foot(cnt):
   name = "あやか"
+  return_foot_img = ""
   return_foot_message = """掲示板見てくれてありがとうございます♪
 都内で保育士のお仕事をしています( ´∀｀)
 
@@ -41,7 +42,7 @@ Profile
   driver = webdriver.Chrome(service=service, options=options)
 
   try:   
-    pcmax.return_footpoint(name, setting.ayaka_pcmax_windowhandle, driver, return_foot_message, cnt)
+    pcmax.return_footpoint(name, setting.ayaka_pcmax_windowhandle, driver, return_foot_message, cnt, return_foot_img)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())

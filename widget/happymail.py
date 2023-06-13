@@ -284,6 +284,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
           top_link.click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(wait_time)
+          print("メールアイコンが4つ続きました")
           return
         # send_status = False
       # 足跡ユーザーをクリック

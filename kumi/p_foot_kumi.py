@@ -14,7 +14,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
 
-def h_foot(cnt):
+def p_foot(cnt):
   name = "くみ"
   return_foot_img = ""
   return_foot_message = """こんにちは！くみです♪
@@ -26,7 +26,7 @@ def h_foot(cnt):
 
 もし興味があって、私とメッセージ交換してもいいよと思ってくれたら、お返事をいただけるとうれしいです。楽しく会える人がいいです！
 それでは、返信待ってますね。よろしくお願いします♪"""
-  
+  return_foot_img = "230614"
   options = Options()
   options.add_argument('--headless')
   options.add_argument("--no-sandbox")
@@ -36,7 +36,7 @@ def h_foot(cnt):
   driver = webdriver.Chrome(service=service, options=options)
 
   try:   
-    happymail.return_footpoint(name, setting.kumi_happy_windowhandle, driver, return_foot_message, cnt, return_foot_img)
+    pcmax.return_footpoint(name, setting.kumi_pcmax_windowhandle, driver, return_foot_message, cnt, return_foot_img)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())
@@ -48,4 +48,4 @@ if __name__ == '__main__':
     cnt = 20
   else:
     cnt = int(sys.argv[1])
-  h_foot(cnt)
+  p_foot(cnt)

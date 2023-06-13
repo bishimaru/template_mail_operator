@@ -145,12 +145,12 @@ def re_post(name, pcmax_windowhandle, driver):
     os.system("osascript -e 'beep' -e 'display notification \"PCMAX掲示板再投稿に成功しました◎\" with title \"{}\"'".format(name))
     driver.get("https://pcmax.jp/pcm/index.php")
   
-def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt):
+def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt, return_foot_img):
   if cnt == 0:
     return
   wait = WebDriverWait(driver, 15)
   driver.switch_to.window(pcmax_windowhandle)
-  wait_time = random.uniform(3, 4)
+  wait_time = random.uniform(2, 3)
   time.sleep(1)
   login(driver, wait)
   # 新着メッセージの確認
@@ -242,14 +242,11 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt)
       match = re.findall(pattern, point)
       if int(match[0]) > 1:
         maji_soushin = True
-        print(match[0]) 
       else:
         maji_soushin = False
     else:
       time.sleep(wait_time)
       continue
-    print("残ポイント")
-    print(match[0])
     time.sleep(1)
     # メッセージをクリック
     message = driver.find_elements(By.ID, value="message1")
@@ -259,6 +256,15 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt)
       time.sleep(3)
     else:
       continue
+    # 画像があれば送付
+    if return_foot_img:
+      picture_icon = driver.find_elements(By.CLASS_NAME, value="mail-menu-title")
+      picture_icon[0].click()
+      time.sleep(1)
+      picture_select = driver.find_element(By.ID, "my_photo")
+      select = Select(picture_select)
+      select.select_by_visible_text(return_foot_img)
+      
     # メッセージを入力
     text_area = driver.find_element(By.ID, value="mdc")
     text_area.send_keys(return_foot_message)

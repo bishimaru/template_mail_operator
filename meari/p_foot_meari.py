@@ -16,6 +16,7 @@ import traceback
 
 def p_foot(cnt):
   name = "めあり"
+  return_foot_img = ""
   return_foot_message = """足跡ありがとうございます！
   ホテルで働いている『めあり』って言います◯
 
@@ -32,7 +33,7 @@ def p_foot(cnt):
   driver = webdriver.Chrome(service=service, options=options)
 
   try:   
-    pcmax.return_footpoint(name, setting.meari_pcmax_windowhandle, driver, return_foot_message, cnt)
+    pcmax.return_footpoint(name, setting.meari_pcmax_windowhandle, driver, return_foot_message, cnt, return_foot_img)
     print('<<<<<<<<<<<<めあり　pcmax足跡返し　完了>>>>>>>>>>>>>>')
   except Exception as e:
     print('=== エラー内容 ===')
