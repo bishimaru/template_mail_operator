@@ -13,11 +13,21 @@ from widget import pcmax, happymail, mail_reception_check
 from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
-
+import smtplib
+from email.mime.text import MIMEText
+from email.utils import formatdate
 
 def check_mail():
-    name = "えりか"
-    print(5656)
+    window_handle_list = [
+       setting.erika_gmail_windowhandle, setting.erika_happy_windowhandle, setting.erika_pcmax_windowhandle,
+       setting.rina_gmail_windowhandle, setting.rina_happy_windowhandle, setting.rina_pcmax_windowhandle,
+       setting.meari_gmail_windowhandle, setting.meari_happy_windowhandle, setting.meari_pcmax_windowhandle,
+       setting.yuria_happy_windowhandle,
+       setting.ayaka_gmail_windowhandle, setting.ayaka_happy_windowhandle, setting.ayaka_pcmax_windowhandle,
+       setting.misuzu_happy_windowhandle,
+       setting.kiriko_gmail_windowhandle, setting.kiriko_happy_windowhandle, setting.kiriko_pcmax_windowhandle,
+       setting.kumi_gmail_windowhandle, setting.kumi_happy_windowhandle, setting.kumi_pcmax_windowhandle, 
+    ]
     options = Options()
     options.add_argument('--headless')
     options.add_argument("--no-sandbox")
@@ -25,19 +35,49 @@ def check_mail():
     options.add_experimental_option("detach", True)
     service = Service(executable_path="./chromedriver")
     driver = webdriver.Chrome(service=service, options=options)
+    wait = WebDriverWait(driver, 15)
 
     try:
-      mail_reception_check.mail_reception_check(
-            setting.erika_happy_windowhandle,
-            setting.erika_pcmax_windowhandle,
-            setting.erika_gmail_windowhandle,
-            driver,
-            name
-          )
+      new_message_list = []
+      for w_h in window_handle_list:
+        new_message = mail_reception_check.mail_reception_check(
+              w_h,
+              driver, wait
+            )
+        if new_message:
+          new_message_list.append(new_message)
+      print(12345)
+      print(new_message_list)
+      driver.quit()
     except Exception as e:
       print(traceback.format_exc())
       driver.quit()
-    
+    # メール送信
+    mailaddress = 'kenta.bishi777@gmail.com'
+    password = 'rjdzkswuhgfvslvd'
+    text = ""
+    if len(new_message_list) == 0:
+      subject = "新着はありません"
+      text = ""
+    else:
+      subject = "新着メッセージ"
+      for i in new_message_list:
+        text = text + i + ",\n"
+    address_from = 'kenta.bishi777@gmail.com'
+    address_to = 'kenta.bishi777@gmail.com'
+
+    smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
+    smtpobj.starttls()
+    smtpobj.login(mailaddress, password)
+
+    msg = MIMEText(text)
+    msg['Subject'] = subject
+    msg['From'] = address_from
+    msg['To'] = address_to
+    msg['Date'] = formatdate()
+
+    smtpobj.send_message(msg)
+    smtpobj.close()
 
 
 if __name__ == '__main__':

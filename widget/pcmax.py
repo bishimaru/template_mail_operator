@@ -274,12 +274,13 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt)
       send_link.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
+      send_count += 1
     else:
       send = driver.find_element(By.ID, value="send_n")
       send.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
-    send_count += 1
+      send_count += 1
   driver.get("https://pcmax.jp/pcm/index.php")
   
 

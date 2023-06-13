@@ -226,14 +226,17 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag):
 def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt, return_foot_img):
     wait = WebDriverWait(driver, 15)
     driver.switch_to.window(happy_windowhandle)
-    wait_time = random.uniform(2, 3)
+    # wait_time = random.uniform(2, 3)
+    wait_time = 2
     driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
     time.sleep(wait_time)
     if setting.mac_os:
        os.system("osascript -e 'beep' -e 'display notification \"ハッピーメール足跡返し実行中...\" with title \"{}\"'".format(name))
     user_icon = 0
-    for i in range(cnt):
+    foot_cnt = 1
+    # 上から順番に足跡返し
+    while cnt >= foot_cnt:
       # マイページをクリック
       nav_list = driver.find_element(By.ID, value='ds_nav')
       mypage = nav_list.find_element(By.LINK_TEXT, "マイページ")
@@ -245,7 +248,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
       return_footpoint.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
-      # メールアイコンがあるかチェック
+      
       send_status = True
       time.sleep(1)
       f_user = driver.find_elements(By.CLASS_NAME, value="ds_post_head_main_info")
@@ -254,6 +257,21 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
          f_user = driver.find_elements(By.CLASS_NAME, value="ds_post_head_main_info")
       name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
       mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
+      user_age = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_age")
+      if user_age.text[:2] == "ナイ":
+         print("年齢不詳")
+         user_age = 31
+      else:
+        user_age = int(user_age.text[:2])
+      print(user_age)
+      if user_age >= 30:
+         print('〜〜30代以上〜〜')
+         # 実行確率（75%の場合）
+         execution_probability = 0.25
+         # ランダムな数値を生成し、実行確率と比較
+         if random.random() < execution_probability:
+            send_status = False
+      # メールアイコンがあるかチェック
       while len(mail_icon):
         print('メールアイコンがあります')
         user_icon += 1
@@ -266,6 +284,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
           top_link.click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(wait_time)
+          os.system("osascript -e 'beep' -e 'display notification \"ハッピーメール{}件の足跡返しに成功しました...\" with title \"{}\"'".format(foot_cnt, name))
           return
         # send_status = False
       # 足跡ユーザーをクリック
@@ -297,7 +316,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
           send_status = False
       # メールするをクリック
       if send_status:
-        print('send_status = ' + str(send_status) +  ' ~' + str(i + 1) + "~")
+        print('send_status = ' + str(send_status) +  ' ~' + str(foot_cnt) + "~")
         send_mail = mail_field.find_element(By.CLASS_NAME, value="ds_profile_target_btn")
         send_mail.click()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -323,6 +342,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
           submit.click()
           while img_conform.is_displayed():
              time.sleep(1)
+        foot_cnt += 1
         # TOPに戻る
         driver.execute_script("window.scrollTo(0, 0);")
         ds_logo = driver.find_element(By.CLASS_NAME, value="ds_logo")
@@ -340,5 +360,4 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(wait_time)
     if setting.mac_os:
-       os.system("osascript -e 'beep' -e 'display notification \"ハッピーメール{}件の足跡返しに成功しました...\" with title \"{}\"'".format(i + 1, name))
-  
+       os.system("osascript -e 'beep' -e 'display notification \"ハッピーメール{}件の足跡返しに成功しました...\" with title \"{}\"'".format(foot_cnt, name))

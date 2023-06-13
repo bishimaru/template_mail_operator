@@ -2,6 +2,7 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import setting
+import check_mail
 sys.path.append(setting.misuzu_path)
 import repost_misuzu
 import h_foot_misuzu
@@ -11,6 +12,8 @@ import time
 def do_post_foot(h_cnt, p_cnt):
     start_time = time.time() 
     repost_misuzu.repost_happymail_pcmax()
+    check_mail.check_mail()
+
     while True:
       elapsed_time = time.time() - start_time  # 経過時間を計算する
       if elapsed_time >= 540:

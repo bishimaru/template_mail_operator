@@ -2,6 +2,7 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import setting
+import check_mail
 sys.path.append(setting.meari_path)
 import h_foot_meari
 import p_foot_meari
@@ -11,6 +12,7 @@ import time
 def do_post_foot(h_cnt, p_cnt):
     start_time = time.time() 
     post_meari.repost_happymail_pcmax()
+    check_mail.check_mail()
     while True:
       elapsed_time = time.time() - start_time  # 経過時間を計算する
       if elapsed_time >= 420:
