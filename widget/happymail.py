@@ -235,6 +235,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
        os.system("osascript -e 'beep' -e 'display notification \"ハッピーメール足跡返し実行中...\" with title \"{}\"'".format(name))
     user_icon = 0
     foot_cnt = 1
+    mail_icon_cnt = 0
     # 上から順番に足跡返し
     while cnt >= foot_cnt:
       # マイページをクリック
@@ -263,30 +264,28 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
          user_age = 31
       else:
         user_age = int(user_age.text[:2])
-      print(user_age)
-      if user_age >= 30:
-         print('〜〜30代以上〜〜')
-         # 実行確率（75%の場合）
-         execution_probability = 0.25
+      if user_age >= 40:
+         print(f'〜〜{user_age}代〜〜')
+         # 実行確率（70%の場合）
+         execution_probability = 0.30
          # ランダムな数値を生成し、実行確率と比較
          if random.random() < execution_probability:
             send_status = False
       # メールアイコンがあるかチェック
-      while len(mail_icon):
+      if len(mail_icon):
         print('メールアイコンがあります')
-        user_icon += 1
-        name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
-        mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
-        # メールアイコンが3つ続いたら終了
-        if user_icon == 4:
+        mail_icon_cnt += 1
+        print(f'メールアイコンカウント{mail_icon_cnt}')
+        # # メールアイコンが4つ続いたら終了
+        if mail_icon_cnt == 5:
           ds_logo = driver.find_element(By.CLASS_NAME, value="ds_logo")
           top_link = ds_logo.find_element(By.TAG_NAME, value="a")
           top_link.click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(wait_time)
-          print("メールアイコンが4つ続きました")
+          print("メールアイコンが5つ続きました")
           return
-        # send_status = False
+        send_status = False
       # 足跡ユーザーをクリック
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", f_user[user_icon])
       time.sleep(1)
@@ -343,6 +342,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
           while img_conform.is_displayed():
              time.sleep(1)
         foot_cnt += 1
+        mail_icon_cnt = 0
         # TOPに戻る
         driver.execute_script("window.scrollTo(0, 0);")
         ds_logo = driver.find_element(By.CLASS_NAME, value="ds_logo")

@@ -46,7 +46,6 @@ def check_mail():
             )
         if new_message:
           new_message_list.append(new_message)
-      print(12345)
       print(new_message_list)
       driver.quit()
     except Exception as e:
