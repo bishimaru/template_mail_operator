@@ -277,13 +277,13 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         mail_icon_cnt += 1
         print(f'メールアイコンカウント{mail_icon_cnt}')
         # # メールアイコンが4つ続いたら終了
-        if mail_icon_cnt == 5:
+        if mail_icon_cnt == 6:
           ds_logo = driver.find_element(By.CLASS_NAME, value="ds_logo")
           top_link = ds_logo.find_element(By.TAG_NAME, value="a")
           top_link.click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(wait_time)
-          print("メールアイコンが5つ続きました")
+          print("メールアイコンが6つ続きました")
           return
         send_status = False
       # 足跡ユーザーをクリック
