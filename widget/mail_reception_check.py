@@ -76,6 +76,8 @@ def mail_reception_check(window_handle, driver, wait):
         time.sleep(1) 
         menu_list = driver.find_elements(By.XPATH, value="//*[@role='menuitem']")
         spam = menu_list[-1]
+        driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", spam)
+
         spam.click()
         time.sleep(1) 
         email_list = driver.find_element(By.CLASS_NAME, value="Ik")
