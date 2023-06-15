@@ -8,7 +8,7 @@ password = 'rjdzkswuhgfvslvd'
 subject = 'タイトル'
 text = '本文'
 address_from = 'kenta.bishi777@gmail.com'
-address_to = 'kenta.bishi777@gmail.com'
+address_to = 'bidato@wanko.be'
 
 smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
 smtpobj.starttls()

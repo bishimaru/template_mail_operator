@@ -64,17 +64,13 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag):
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(2)
     area_texts = driver.find_elements(By.CLASS_NAME, value="ds_write_bbs_status")
-    print(len(area_texts))
     area_texts_list = []
     for area in area_texts:
       area = area.text.replace(" ", "").replace("\n", "")
       area_texts_list.append(area)
     area_cnt = 0
     list = []
-    print(area_texts_list)
     for area_text in area_texts_list:
-      print(area_text)
-      print(area_cnt)
       if area_text not in list:
           list.append(area_text)
           area_cnt += 1
@@ -89,8 +85,6 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag):
           delete = driver.find_element(By.CLASS_NAME, "modal-confirm")
           delete.click()
           time.sleep(2)
-    print(777)
-    print(repost_cnt)
     blue_round_buttons = driver.find_elements(By.CLASS_NAME, "ds_round_btn_blue2")
     blue_round_button = blue_round_buttons[repost_cnt]
     driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", blue_round_button)
@@ -105,15 +99,10 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag):
     time.sleep(wait_time)
     # id=modalの要素が出たら失敗 class=remodal-wrapperが4つともdiplay:noneなら成功
     warning = driver.find_elements(By.CLASS_NAME, value="remodal-wrapper ")
-    print('<<<<<remodalの数>>>>>>')
-    print(len(warning))
     if len(warning):
-        print(666)
-        print(repost_cnt)
         display_property = driver.execute_script("return window.getComputedStyle(arguments[0]).getPropertyValue('display');", warning[0])
         if display_property == 'block':
           # ２時間経ってない場合は終了
-          print(999)
           modal_text = warning[0].find_element(By.CLASS_NAME, value="modal-content")
           if modal_text.text == "掲載から2時間以上経過していない為、再掲載できません":
               print("掲載から2時間以上経過していない為、再掲載できません")
@@ -129,15 +118,9 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag):
           time.sleep(wait_time)
           # 都道府県を取得
           area_text = driver.find_elements(By.CLASS_NAME, value="ds_write_bbs_status")
-          print("取得した都道府県の数")
-          print(len(area_text))
           area_text = area_text[repost_cnt].text.replace(" ", "").replace("\n", "")
-          print('<<<<<<<<<<整形する前の都道府県>>>>>>>>>>>>')
-          print(area_text)
           for area in area_list:
             if area in area_text:
-              print('<<<<<<<<<都道府県>>>>>>>>')
-              print(area)
               #  掲示板をクリック
               nav_list = driver.find_element(By.ID, value='ds_nav')
               bulletin_board = nav_list.find_element(By.LINK_TEXT, "掲示板")
@@ -167,13 +150,11 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag):
               input_title = driver.find_element(By.NAME, value="Subj")
               driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", input_title)
               input_title.send_keys(title)
-              print(len(title))
               time.sleep(1)
               # 本文を書き込む
               text_field = driver.find_element(By.ID, value="text-message")
               driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", text_field)
               text_field.send_keys(post_text)
-              print(len(post_text))
               time.sleep(1)
               # 書き込みエリアを選択
               select_area = driver.find_element(By.NAME, value="wrtarea")
@@ -191,8 +172,6 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag):
               time.sleep(wait_time)
               # 書き込み成功画面の判定
               success = driver.find_elements(By.CLASS_NAME, value="ds_keijiban_finish")
-              print(555)
-              print(len(success))
               if len(success):
                 print(str(area) + "の書き込みに成功しました")
                 # マイページをクリック
