@@ -340,7 +340,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
           submit = driver.find_element(By.ID, value="submit_button")
           submit.click()
           while img_conform.is_displayed():
-             time.sleep(1)
+             time.sleep(2)
         foot_cnt += 1
         mail_icon_cnt = 0
         # TOPに戻る
