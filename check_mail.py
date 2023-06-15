@@ -27,6 +27,7 @@ def check_mail():
        setting.misuzu_happy_windowhandle,
        setting.kiriko_gmail_windowhandle, setting.kiriko_happy_windowhandle, setting.kiriko_pcmax_windowhandle,
        setting.kumi_gmail_windowhandle, setting.kumi_happy_windowhandle, setting.kumi_pcmax_windowhandle, 
+       setting.maiko_gmail_windowhandle, setting.maiko_happy_windowhandle, setting.maiko_pcmax_windowhandle,
     ]
     options = Options()
     options.add_argument('--headless')

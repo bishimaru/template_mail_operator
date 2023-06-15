@@ -143,7 +143,7 @@ def re_post(name, pcmax_windowhandle, driver):
     time.sleep(1)
   if setting.mac_os:
     os.system("osascript -e 'beep' -e 'display notification \"PCMAX掲示板再投稿に成功しました◎\" with title \"{}\"'".format(name))
-    driver.get("https://pcmax.jp/pcm/index.php")
+  driver.get("https://pcmax.jp/pcm/index.php")
   
 def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt, return_foot_img):
   if cnt == 0:
@@ -224,7 +224,7 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt,
     sent = driver.find_elements(By.XPATH, value="//*[@id='profile-box']/div/div[2]/p/a/span")
     if len(sent):
       print('送信履歴があります')
-      time.sleep(wait_time)
+      time.sleep(2)
       continue  
     # 自己紹介文をチェック
     self_introduction = driver.find_elements(By.XPATH, value="/html/body/main/div[4]/div/p")
