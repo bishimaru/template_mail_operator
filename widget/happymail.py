@@ -215,6 +215,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
     user_icon = 0
     foot_cnt = 1
     mail_icon_cnt = 0
+    duplication_user = False
     # 上から順番に足跡返し
     while cnt >= foot_cnt:
       # マイページをクリック
@@ -228,7 +229,6 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
       return_footpoint.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
-      
       send_status = True
       time.sleep(1)
       f_user = driver.find_elements(By.CLASS_NAME, value="ds_post_head_main_info")
@@ -236,6 +236,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
          time.sleep(2)
          f_user = driver.find_elements(By.CLASS_NAME, value="ds_post_head_main_info")
       name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
+      user_name = name_field.text
       mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
       user_age = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_age")
       if user_age.text[:2] == "ナイ":
@@ -251,8 +252,12 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
          if random.random() < execution_probability:
             send_status = False
       # メールアイコンがあるかチェック
+      user_name_list = []
       if len(mail_icon):
         print('メールアイコンがあります')
+        if user_name in user_name_list:
+          print('重複ユーザー')
+          duplication_user = True
         mail_icon_cnt += 1
         print(f'メールアイコンカウント{mail_icon_cnt}')
         # # メールアイコンが4つ続いたら終了
@@ -268,7 +273,10 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
       # 足跡ユーザーをクリック
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", f_user[user_icon])
       time.sleep(1)
-      f_user[user_icon].click()
+      if duplication_user:
+        f_user[user_icon+1].click()
+      else:
+        f_user[user_icon].click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
       m = driver.find_elements(By.XPATH, value="//*[@id='ds_main']/div/p")
@@ -290,7 +298,8 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
       mail_history = mail_field.find_element(By.ID, value="mail-history")
       display_value = mail_history.value_of_css_property("display")
       if display_value != "none":
-          print('メール履歴があります')   
+          print('メール履歴があります')
+          user_name_list.append(user_name) 
           send_status = False
       # メールするをクリック
       if send_status:
