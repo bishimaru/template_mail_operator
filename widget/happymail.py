@@ -216,6 +216,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
     foot_cnt = 1
     mail_icon_cnt = 0
     duplication_user = False
+    user_name_list = []
     # 上から順番に足跡返し
     while cnt >= foot_cnt:
       # マイページをクリック
@@ -252,7 +253,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
          if random.random() < execution_probability:
             send_status = False
       # メールアイコンがあるかチェック
-      user_name_list = []
+      print(user_name_list)
       if len(mail_icon):
         print('メールアイコンがあります')
         if user_name in user_name_list:
@@ -299,6 +300,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
       display_value = mail_history.value_of_css_property("display")
       if display_value != "none":
           print('メール履歴があります')
+          print(user_name)
           user_name_list.append(user_name) 
           send_status = False
       # メールするをクリック
