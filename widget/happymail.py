@@ -247,18 +247,16 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         user_age = int(user_age.text[:2])
       if user_age >= 40:
          print(f'〜〜{user_age}代〜〜')
-         # 実行確率（70%の場合）
-         execution_probability = 0.30
+         # 実行確率（80%の場合）
+         execution_probability = 0.20
          # ランダムな数値を生成し、実行確率と比較
          if random.random() < execution_probability:
             send_status = False
       # メールアイコンがあるかチェック
       print(user_name_list)
       if len(mail_icon):
+        send_status = False
         print('メールアイコンがあります')
-        if user_name in user_name_list:
-          print('重複ユーザー')
-          duplication_user = True
         mail_icon_cnt += 1
         print(f'メールアイコンカウント{mail_icon_cnt}')
         # # メールアイコンが7つ続いたら終了
@@ -270,11 +268,20 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
           time.sleep(wait_time)
           print("メールアイコンが10続きました")
           return
-        send_status = False
+      # ユーザー重複チェック
+      while user_name in user_name_list:
+          print('重複ユーザー')
+          user_icon = user_icon + 1
+          name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
+          user_name = name_field.text      
       # 足跡ユーザーをクリック
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", f_user[user_icon])
       time.sleep(1)
       if duplication_user:
+        name_field = f_user[user_icon+1].find_element(By.CLASS_NAME, value="ds_like_list_name")
+        user_name = name_field.text
+        user_name_list.append(user_name) 
+
         f_user[user_icon+1].click()
       else:
         f_user[user_icon].click()
@@ -344,6 +351,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(wait_time)
       else:
+        user_name_list.append(user_name) 
         # TOPに戻る
         ds_logo = driver.find_element(By.CLASS_NAME, value="ds_logo")
         top_link = ds_logo.find_element(By.TAG_NAME, value="a")
