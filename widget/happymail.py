@@ -303,6 +303,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
           print(user_name)
           user_name_list.append(user_name) 
           send_status = False
+          mail_icon_cnt += 1
       # メールするをクリック
       if send_status:
         print('send_status = ' + str(send_status) +  ' ~' + str(foot_cnt) + "~")

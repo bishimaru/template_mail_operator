@@ -203,8 +203,10 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt,
   div = user_list.find_elements(By.XPATH, value='./div')
   # リンクを取得
   user_cnt = 1
+  mail_history = 0
+  send_count = 1
   link_list = []
-  while user_cnt <= cnt:
+  while user_cnt <= 40:
     # 新着リストの名前ならスキップ
     name = div[user_cnt].find_element(By.CLASS_NAME, value="user-name")
     if name.text in have_new_massage_users:
@@ -217,14 +219,16 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt,
         # print(link)
         link_list.append(link)
       user_cnt += 1
-  send_count = 1
   for i in link_list:
+    if mail_history == 5:
+      break
     driver.get(i)
     # //*[@id="profile-box"]/div/div[2]/p/a/span
     sent = driver.find_elements(By.XPATH, value="//*[@id='profile-box']/div/div[2]/p/a/span")
     if len(sent):
       print('送信履歴があります')
       time.sleep(2)
+      mail_history += 1
       continue  
     # 自己紹介文をチェック
     self_introduction = driver.find_elements(By.XPATH, value="/html/body/main/div[4]/div/p")
@@ -281,12 +285,18 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt,
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
       send_count += 1
+      mail_history = 0
+      
     else:
       send = driver.find_element(By.ID, value="send_n")
       send.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
       send_count += 1
+      mail_history = 0
+
+    if send_count == cnt:
+      break
   driver.get("https://pcmax.jp/pcm/index.php")
   
 
