@@ -17,7 +17,7 @@ import traceback
 def repost_happymail_pcmax():
   adult_flag = True
   name = "misuzu"
-  title = "素敵な出会いから始まる、心と体のふれあいを体感したい"
+  title = "体の関係から始めるのってなしですか？"
   text = """はじめまして、みすずです。
 元銀座のホステスをしていた経験がありますが、現在は家事手伝いをしてます！
 今までの経験から、普段の生活のありがたみを知って普通の生活の道を歩みたいと思っています。
