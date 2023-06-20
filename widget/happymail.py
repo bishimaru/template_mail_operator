@@ -219,6 +219,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
     user_name_list = []
     # 上から順番に足跡返し
     while cnt >= foot_cnt:
+      user_icon = 0
       # マイページをクリック
       nav_list = driver.find_element(By.ID, value='ds_nav')
       mypage = nav_list.find_element(By.LINK_TEXT, "マイページ")
@@ -272,6 +273,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
       while user_name in user_name_list:
           print('重複ユーザー')
           user_icon = user_icon + 1
+          
           name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
           user_name = name_field.text      
       # 足跡ユーザーをクリック
@@ -341,6 +343,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
              time.sleep(2)
         foot_cnt += 1
         mail_icon_cnt = 0
+        user_icon = 0
         # TOPに戻る
         driver.execute_script("window.scrollTo(0, 0);")
         ds_logo = driver.find_element(By.CLASS_NAME, value="ds_logo")
