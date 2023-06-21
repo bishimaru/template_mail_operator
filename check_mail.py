@@ -21,7 +21,8 @@ def check_mail():
     window_handle_list = [
        setting.erika_gmail_windowhandle, setting.erika_happy_windowhandle, setting.erika_pcmax_windowhandle,
        setting.rina_gmail_windowhandle, setting.rina_happy_windowhandle, setting.rina_pcmax_windowhandle,
-       setting.meari_gmail_windowhandle, setting.meari_happy_windowhandle, setting.meari_pcmax_windowhandle,
+       setting.meari_gmail_windowhandle, setting.meari_happy_windowhandle, 
+      #  setting.meari_pcmax_windowhandle,
        setting.yuria_happy_windowhandle,
        setting.ayaka_gmail_windowhandle, setting.ayaka_happy_windowhandle, setting.ayaka_pcmax_windowhandle,
        setting.misuzu_happy_windowhandle,

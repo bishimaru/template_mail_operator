@@ -16,6 +16,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '.'))
 import pcmax
 
 def mail_reception_check(window_handle, driver, wait):
+    print(777)
+    print(window_handle)
     new_mail = ""
     driver.switch_to.window(window_handle)
     wait_time = random.uniform(2, 3)
@@ -73,7 +75,7 @@ def mail_reception_check(window_handle, driver, wait):
         xpath = f"//*[@aria-label='{custom_value}']"
         element = driver.find_elements(By.XPATH, value=xpath)
         element[0].click()
-        time.sleep(1) 
+        time.sleep(2) 
         menu_list = driver.find_elements(By.XPATH, value="//*[@role='menuitem']")
         spam = menu_list[-1]
         driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", spam)
