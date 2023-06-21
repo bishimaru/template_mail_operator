@@ -51,11 +51,11 @@ def repost_happymail_pcmax():
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())
-  try:
-    pcmax.re_post(name, setting.meari_pcmax_windowhandle, driver)
-  except Exception as e:
-    print('=== エラー内容 ===')
-    print(traceback.format_exc())
+  # try:
+  #   pcmax.re_post(name, setting.meari_pcmax_windowhandle, driver)
+  # except Exception as e:
+  #   print('=== エラー内容 ===')
+  #   print(traceback.format_exc())
   driver.quit()
   return True
 if __name__ == '__main__':
