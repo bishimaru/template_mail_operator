@@ -298,5 +298,87 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt,
     if send_count == cnt:
       break
   driver.get("https://pcmax.jp/pcm/index.php")
+def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
+  driver.delete_all_cookies()
+  driver.get("https://pcmax.jp/pcm/file.php?f=login_form")
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  wait_time = random.uniform(8, 16)
+  time.sleep(1)
+
+  # 6/21 1
+  # えりか 18819944 1112
+  # りな　19052443　2083
+  # メアリ　19021931　9479　6/21BAN
+  # あやか　18821722　1112
+  # くみ　19137965  6385
+  # 霧子　19137736 7324
+  # 麻衣子　19020699　6842
+  # ID, PASSを入力してログイン
+  id_form = driver.find_element(By.ID, value="login_id")
+  id_form.send_keys(pcmax_id)
+  pass_form = driver.find_element(By.ID, value="login_pw")
+  pass_form.send_keys(pcmax_pass)
+  time.sleep(1)
+  send_form = driver.find_element(By.NAME, value="login")
+  send_form.click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(1)
+  #プロフ検索をクリック
+  footer_icons = driver.find_element(By.ID, value="sp_footer")
+  search_profile = footer_icons.find_element(By.XPATH, value="./*[1]")
+  search_profile.click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(1)
+  # ページの高さを取得
+  last_height = driver.execute_script("return document.body.scrollHeight")
+  while True:
+    # ページの最後までスクロール
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    # ページが完全に読み込まれるまで待機
+    time.sleep(2)
+    user_list = driver.find_element(By.CLASS_NAME, value="content_inner")
+    users = user_list.find_elements(By.XPATH, value='./div')
+    # print(len(users))
+    if len(users) > 200:
+      #  print('ユーザー件数200　OVER')
+       break
+    # 新しい高さを取得
+    new_height = driver.execute_script("return document.body.scrollHeight")
+    # ページの高さが変わらなければ、すべての要素が読み込まれたことを意味する
+    if new_height == last_height:
+        break
+    last_height = new_height
+  # https://pcmax.jp/mobile/profile_detail.php?user_id=" + user_id + "&search=prof&condition=648ac5f23df62&page=1&sort=&stmp_counter=13&js=1
+  # リンクを取得
+  
+  user_cnt = 1
+  link_list = []
+  # for user_cnt in range(len(users)):
+  for user_cnt in range(len(users)):
+    # 実行確率（80%の場合）
+    execution_probability = 0.80
+    # ランダムな数値を生成し、実行確率と比較
+    if random.random() < execution_probability:
+      # print(777)
+      user_id = users[user_cnt].get_attribute("id")
+      if user_id == "loading":
+        print('id=loading')
+        while user_id != "loading":
+          time.sleep(2)
+          user_id = users[user_cnt].get_attribute("id")
+      link = "https://pcmax.jp/mobile/profile_detail.php?user_id=" + user_id + "&search=prof&condition=648ac5f23df62&page=1&sort=&stmp_counter=13&js=1"
+      link_list.append(link)
+    # else:
+      #  print('無双RUSH終了')
+  print(f"ユーザー件数：{len(link_list)}")
+  for i, link_url in enumerate(link_list):
+
+      print(f"{name}: 足ペタ件数: {i}")
+      print(link_url)
+      driver.get(link_url)
+      time.sleep(wait_time)
+      if i == 82:
+         break
+  driver.refresh()
   
 
