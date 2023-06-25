@@ -363,3 +363,36 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         time.sleep(wait_time)
     if setting.mac_os:
        os.system("osascript -e 'beep' -e 'display notification \"ハッピーメール{}件の足跡返しに成功しました...\" with title \"{}\"'".format(foot_cnt, name))
+  
+def make_footprints(name, happymail_id, happymail_pass, driver, wait):
+   driver.delete_all_cookies()
+   driver.get("https://happymail.jp/login/")
+   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+   wait_time = random.uniform(3, 9)
+   time.sleep(wait_time)
+   id_form = driver.find_element(By.ID, value="TelNo")
+   id_form.send_keys(happymail_id)
+   pass_form = driver.find_element(By.ID, value="TelPass")
+   pass_form.send_keys(happymail_pass)
+   time.sleep(wait_time)
+   send_form = driver.find_element(By.ID, value="login_btn")
+   send_form.click()
+   # プロフ検索をクリック
+   nav_list = driver.find_element(By.ID, value='ds_nav')
+   mypage = nav_list.find_element(By.LINK_TEXT, "プロフ検索")
+   mypage.click()
+   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+   time.sleep(wait_time)
+  
+   for i in range(40):
+      user_list = driver.find_elements(By.CLASS_NAME, value="profile_list_big_item")
+      user = user_list[i].find_element(By.TAG_NAME, value="a")
+      driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", user)
+      user.click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      print(f'{name}: ハッピーメール、足跡{i+1}件')
+      time.sleep(wait_time)
+      driver.back()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(wait_time)
+   driver.refresh()
