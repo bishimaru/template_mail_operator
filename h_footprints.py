@@ -33,7 +33,7 @@ wait = WebDriverWait(driver, 15)
   # くみ　19137965  6385
   # 麻衣子　19020699　6842
 user_lists = [
-    # ["えりか", "09040563832", 7896],
+    ["えりか", "09040563832", 7896],
     ["りな", 50023189077, 8198],
     ["めあり","09053232087", 1452],
     ["ゆりあ", 50071405699, 3787],
@@ -43,9 +43,10 @@ user_lists = [
     ["くみ", "09022346299", 4512],
     ["まいこ", 50018666325, 1625],
 ]
-for user_list in user_lists:
-    try:
-       happymail.make_footprints(user_list[0], user_list[1], user_list[2], driver, wait)
-    except Exception as e:
-      print(traceback.format_exc())
-    
+while True:
+  for user_list in user_lists:
+      try:
+        happymail.make_footprints(user_list[0], user_list[1], user_list[2], driver, wait)
+      except Exception as e:
+        print(traceback.format_exc())
+      

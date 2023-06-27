@@ -220,7 +220,7 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt,
         link_list.append(link)
       user_cnt += 1
   for i in link_list:
-    if mail_history == 11:
+    if mail_history == 7:
       break
     driver.get(i)
     # //*[@id="profile-box"]/div/div[2]/p/a/span
