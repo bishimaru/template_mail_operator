@@ -23,7 +23,7 @@ def check_mail():
        setting.rina_gmail_windowhandle, setting.rina_happy_windowhandle, setting.rina_pcmax_windowhandle,
        setting.meari_gmail_windowhandle, 
        setting.meari_pcmax_windowhandle,
-       setting.yuria_happy_windowhandle,
+       setting.yuria_happy_windowhandle, setting.yuria_pcmax_windowhandle, setting.yuria_gmail_windowhandle, 
        setting.ayaka_gmail_windowhandle, setting.ayaka_happy_windowhandle, setting.ayaka_pcmax_windowhandle,
        setting.misuzu_happy_windowhandle,
        setting.kiriko_gmail_windowhandle, setting.kiriko_happy_windowhandle, setting.kiriko_pcmax_windowhandle,
