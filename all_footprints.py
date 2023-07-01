@@ -43,7 +43,7 @@ new_message_list = []
 dev_cnt = 0
 start_time = time.time() 
 
-while True:
+for x in range(9999):
   for window_cnt in range(len(window_handle_list)):
       driver.switch_to.window(window_handle_list[window_cnt])
       url = driver.current_url
