@@ -11,7 +11,6 @@ import sys
 import traceback
 import setting
 from selenium.webdriver.support.select import Select
-from tkinter import filedialog
 sys.path.append(os.path.join(os.path.dirname(__file__), '.'))
 import pcmax
 
