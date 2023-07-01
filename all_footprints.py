@@ -15,15 +15,7 @@ import smtplib
 import setting
 import sys
 
-options = Options()
-options.add_argument('--headless')
-options.add_argument("--no-sandbox")
-options.add_argument("--remote-debugging-port=9222")
-options.add_experimental_option("detach", True)
-# driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
-service = Service(executable_path="./chromedriver")
-driver = webdriver.Chrome(service=service, options=options)
-wait = WebDriverWait(driver, 15)
+
 window_handle_list = [
       #  setting.erika_gmail_windowhandle, setting.erika_happy_windowhandle, setting.erika_pcmax_windowhandle,
        setting.rina_pcmax_windowhandle,
@@ -45,6 +37,15 @@ start_time = time.time()
 
 for x in range(9999):
   for window_cnt in range(len(window_handle_list)):
+      options = Options()
+      options.add_argument('--headless')
+      options.add_argument("--no-sandbox")
+      options.add_argument("--remote-debugging-port=9222")
+      options.add_experimental_option("detach", True)
+      # driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+      service = Service(executable_path="./chromedriver")
+      driver = webdriver.Chrome(service=service, options=options)
+      wait = WebDriverWait(driver, 15)
       driver.switch_to.window(window_handle_list[window_cnt])
       url = driver.current_url
       if url.startswith("https://happymail.co.jp"):
