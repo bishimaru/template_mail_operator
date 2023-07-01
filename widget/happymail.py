@@ -11,7 +11,6 @@ import sys
 import traceback
 import setting
 from selenium.webdriver.support.select import Select
-from tkinter import filedialog
 
 def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag):
   area_list = ["東京都", "千葉県", "埼玉県", "神奈川県"]

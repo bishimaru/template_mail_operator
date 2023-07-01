@@ -60,6 +60,8 @@ for i in range(len(handle_array)):
         custom_value = "toggleaccountscallout+20"
         xpath = f"//*[@data-control-type='{custom_value}']"
         element = driver.find_elements(By.XPATH, value=xpath)
+        print(777)
+        print(len(element))
         if element is None:
             print("要素が見つかりません")
         address = element[0].text

@@ -51,7 +51,7 @@ for x in range(9999):
       if url.startswith("https://happymail.co.jp"):
           try:
             happy_foot_cnt = 3
-            happy_wait_time = random.uniform(2, 5)
+            happy_wait_time = random.uniform(2, 6)
             # TOPに戻る
             if url != "https://happymail.co.jp/sp/app/html/mbmenu.php":
               driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
@@ -85,8 +85,8 @@ for x in range(9999):
             print(traceback.format_exc()) 
       elif url.startswith("https://pcmax.jp"):
           try:
-            pcmax_foot_cnt = 4
-            pcmax_wait_time = random.uniform(2, 5)
+            pcmax_foot_cnt = 3
+            pcmax_wait_time = random.uniform(2, 7)
             widget.pcmax.login(driver, wait)
             print(666)
             #プロフ検索をクリック
@@ -182,7 +182,7 @@ for x in range(9999):
   elapsed_time = time.time() - start_time  # 経過時間を計算する
   print('<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>')
   print(elapsed_time)
-  driver.quit()
+  
   # メール送信
   if send_mail:
     mailaddress = 'kenta.bishi777@gmail.com'
