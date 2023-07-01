@@ -45,13 +45,14 @@ dev_cnt = 0
 start_time = time.time() 
 
 for x in range(9999):
+  new_message_list = []
   for window_cnt in range(len(window_handle_list)):
       driver.switch_to.window(window_handle_list[window_cnt])
       url = driver.current_url
       if url.startswith("https://happymail.co.jp"):
           try:
             happy_foot_cnt = 3
-            happy_wait_time = random.uniform(2, 6)
+            happy_wait_time = random.uniform(2, 5)
             # TOPに戻る
             if url != "https://happymail.co.jp/sp/app/html/mbmenu.php":
               driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
@@ -86,7 +87,7 @@ for x in range(9999):
       elif url.startswith("https://pcmax.jp"):
           try:
             pcmax_foot_cnt = 3
-            pcmax_wait_time = random.uniform(2, 7)
+            pcmax_wait_time = random.uniform(2, 5)
             widget.pcmax.login(driver, wait)
             print(666)
             #プロフ検索をクリック
@@ -207,3 +208,4 @@ for x in range(9999):
     msg['Date'] = formatdate()
     smtpobj.send_message(msg)
     smtpobj.close()
+    
