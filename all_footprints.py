@@ -25,14 +25,14 @@ service = Service(executable_path="./chromedriver")
 driver = webdriver.Chrome(service=service, options=options)
 wait = WebDriverWait(driver, 15)
 window_handle_list = [
-       setting.erika_gmail_windowhandle, setting.erika_happy_windowhandle, setting.erika_pcmax_windowhandle,
-       setting.rina_gmail_windowhandle,  setting.rina_pcmax_windowhandle,
-       setting.kumi_gmail_windowhandle, setting.kumi_happy_windowhandle, setting.kumi_pcmax_windowhandle, 
-       setting.meari_happy_windowhandle, setting.meari_gmail_windowhandle, setting.meari_pcmax_windowhandle,
-       setting.yuria_happy_windowhandle, setting.yuria_pcmax_windowhandle, setting.yuria_gmail_windowhandle, 
-       setting.kiriko_gmail_windowhandle, setting.kiriko_happy_windowhandle, setting.kiriko_pcmax_windowhandle,
-       setting.ayaka_gmail_windowhandle, setting.ayaka_happy_windowhandle, setting.ayaka_pcmax_windowhandle,
-       setting.misuzu_happy_windowhandle,
+      #  setting.erika_gmail_windowhandle, setting.erika_happy_windowhandle, setting.erika_pcmax_windowhandle,
+       setting.rina_pcmax_windowhandle,
+      #  setting.kumi_gmail_windowhandle, setting.kumi_happy_windowhandle, setting.kumi_pcmax_windowhandle, 
+      #  setting.meari_happy_windowhandle, setting.meari_gmail_windowhandle, setting.meari_pcmax_windowhandle,
+      #  setting.yuria_happy_windowhandle, setting.yuria_pcmax_windowhandle, setting.yuria_gmail_windowhandle, 
+      #  setting.kiriko_gmail_windowhandle, setting.kiriko_happy_windowhandle, setting.kiriko_pcmax_windowhandle,
+      #  setting.ayaka_gmail_windowhandle, setting.ayaka_happy_windowhandle, setting.ayaka_pcmax_windowhandle,
+      #  setting.misuzu_happy_windowhandle,
        
       #  setting.maiko_gmail_windowhandle, setting.maiko_happy_windowhandle, setting.maiko_pcmax_windowhandle,
     ]
@@ -108,7 +108,7 @@ while True:
               link = "https://pcmax.jp/mobile/profile_detail.php?user_id=" + user_id + "&search=prof&condition=648ac5f23df62&page=1&sort=&stmp_counter=13&js=1"
               link_list.append(link)
             for i, link_url in enumerate(link_list):
-              print(f"足ペタ件数: {i}")
+              print(f"足ペタ件数: {i + 1}")
               print(link_url)
               driver.get(link_url)
               time.sleep(pcmax_wait_time) 
