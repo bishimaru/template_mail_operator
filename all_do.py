@@ -67,10 +67,10 @@ try:
   func.timer(all_do_kumi.do_post_foot, 799, h_cnt, p_cnt)
 except Exception as e:
   print(traceback.format_exc())
-try:
-  func.timer(all_do_maiko.do_post_foot, 799, h_cnt, p_cnt)
-except Exception as e:
-  print(traceback.format_exc())
+# try:
+#   func.timer(all_do_maiko.do_post_foot, 799, h_cnt, p_cnt)
+# except Exception as e:
+#   print(traceback.format_exc())
 try:
   func.timer(all_do_erika.do_post_foot, 799, h_cnt, p_cnt)
 except Exception as e:

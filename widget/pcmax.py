@@ -13,6 +13,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 import traceback
 import setting
 import re
+from selenium.common.exceptions import TimeoutException
+
 
 
 post_area_tokyo = ["千代田区", "中央区", "港区", "新宿区", "文京区", "台東区",
@@ -35,19 +37,30 @@ post_area_dic = {"東京都":post_area_tokyo, "神奈川県":post_area_kanagawa,
 # detail_post_area_list = [post_area_tokyo, post_area_kanagawa, post_area_saitama, post_area_chiba]
 
 def login(driver, wait):
-  driver.get("https://pcmax.jp/pcm/index.php")
-  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-  time.sleep(2)
-  login = driver.find_elements(By.CLASS_NAME, value="login")
-  if len(login):    
-    login[0].click()
+  try:
+    url = driver.current_url
+    if url != "https://pcmax.jp/pcm/index.php":
+      driver.get("https://pcmax.jp/pcm/index.php")
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(2)
+    login = driver.find_elements(By.CLASS_NAME, value="login")
+    if len(login):    
+      login[0].click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(2)
+      submit = driver.find_element(By.NAME, value="login")
+      driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", submit)
+      submit.click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(2)
+  except TimeoutException as e:
+    print("TimeoutException")
+    driver.refresh()
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
     time.sleep(2)
-    submit = driver.find_element(By.NAME, value="login")
-    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", submit)
-    submit.click()
-    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-    time.sleep(2)
+    login(driver, wait)
+    
+
 
 def re_post(name, pcmax_windowhandle, driver):
   wait = WebDriverWait(driver, 15)
@@ -350,7 +363,6 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
     last_height = new_height
   # https://pcmax.jp/mobile/profile_detail.php?user_id=" + user_id + "&search=prof&condition=648ac5f23df62&page=1&sort=&stmp_counter=13&js=1
   # リンクを取得
-  
   user_cnt = 1
   link_list = []
   # for user_cnt in range(len(users)):

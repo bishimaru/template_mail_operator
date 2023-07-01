@@ -16,11 +16,9 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '.'))
 import pcmax
 
 def mail_reception_check(window_handle, driver, wait):
-    print(777)
     print(window_handle)
     new_mail = ""
     driver.switch_to.window(window_handle)
-    wait_time = random.uniform(2, 3)
     url = driver.current_url
     # happymail
     if url.startswith("https://happymail.co.jp"):
