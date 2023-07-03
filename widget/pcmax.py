@@ -315,18 +315,8 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
   driver.delete_all_cookies()
   driver.get("https://pcmax.jp/pcm/file.php?f=login_form")
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-  wait_time = random.uniform(8, 16)
+  wait_time = random.uniform(3, 15)
   time.sleep(1)
-
-  # 6/21 1
-  # えりか 18819944 1112
-  # りな　19052443　2083
-  # メアリ　19021931　9479　6/21BAN
-  # あやか　18821722　1112
-  # くみ　19137965  6385
-  # 霧子　19137736 7324
-  # 麻衣子　19020699　6842
-  # ID, PASSを入力してログイン
   id_form = driver.find_element(By.ID, value="login_id")
   id_form.send_keys(pcmax_id)
   pass_form = driver.find_element(By.ID, value="login_pw")
@@ -365,13 +355,11 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
   # リンクを取得
   user_cnt = 1
   link_list = []
-  # for user_cnt in range(len(users)):
   for user_cnt in range(len(users)):
     # 実行確率（80%の場合）
     execution_probability = 0.80
     # ランダムな数値を生成し、実行確率と比較
     if random.random() < execution_probability:
-      # print(777)
       user_id = users[user_cnt].get_attribute("id")
       if user_id == "loading":
         print('id=loading')
@@ -385,11 +373,10 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
   print(f"ユーザー件数：{len(link_list)}")
   for i, link_url in enumerate(link_list):
 
-      print(f"{name}: 足ペタ件数: {i}")
-      print(link_url)
+      print(f"{name}: pcmax、足ペタ件数: {i + 1}")
       driver.get(link_url)
       time.sleep(wait_time)
-      if i == 82:
+      if i == 42:
          break
   driver.refresh()
   

@@ -46,143 +46,141 @@ start_time = time.time()
 
 for x in range(9999):
   new_message_list = []
-  for window_cnt in range(len(window_handle_list)):
-      driver.switch_to.window(window_handle_list[window_cnt])
-      url = driver.current_url
-      if url.startswith("https://happymail.co.jp"):
-          try:
-            happy_foot_cnt = 3
-            happy_wait_time = random.uniform(2, 5)
-            # TOPに戻る
-            if url != "https://happymail.co.jp/sp/app/html/mbmenu.php":
-              driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
-              time.sleep(happy_wait_time)  
-            # プロフ検索をクリック
-            nav_list = driver.find_element(By.ID, value='ds_nav')
-            mypage = nav_list.find_element(By.LINK_TEXT, "プロフ検索")
-            mypage.click()
-            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-            time.sleep(2)
-            for h_f_cnt in range(happy_foot_cnt):
-              user_list = driver.find_elements(By.CLASS_NAME, value="profile_list_big_item")
-              user = user_list[h_f_cnt].find_element(By.TAG_NAME, value="a")
-              driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", user)
-              user.click()
-              wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-              print(f'ハッピーメール、足跡{h_f_cnt+1}件')
-              time.sleep(happy_wait_time)
-              driver.back()
+  try:
+    for window_cnt in range(len(window_handle_list)):
+        driver.switch_to.window(window_handle_list[window_cnt])
+        url = driver.current_url
+        if url.startswith("https://happymail.co.jp"):
+            try:
+              happy_foot_cnt = 3
+              happy_wait_time = random.uniform(2, 5)
+              # TOPに戻る
+              if url != "https://happymail.co.jp/sp/app/html/mbmenu.php":
+                driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
+                time.sleep(happy_wait_time)  
+              # プロフ検索をクリック
+              nav_list = driver.find_element(By.ID, value='ds_nav')
+              mypage = nav_list.find_element(By.LINK_TEXT, "プロフ検索")
+              mypage.click()
               wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
               time.sleep(2)
-            
-            new_message = widget.mail_reception_check.mail_reception_check(
-                  window_handle_list[window_cnt],
-                  driver, wait
-                )
-            if new_message:
-              new_message_list.append(new_message)
-            print(new_message_list)
-          except Exception as e:
-            print(traceback.format_exc()) 
-      elif url.startswith("https://pcmax.jp"):
-          try:
-            pcmax_foot_cnt = 3
-            pcmax_wait_time = random.uniform(2, 5)
-            widget.pcmax.login(driver, wait)
-            print(666)
-            #プロフ検索をクリック
-            footer_icons = driver.find_element(By.ID, value="sp_footer")
-            search_profile = footer_icons.find_element(By.XPATH, value="./*[1]")
-            search_profile.click()
-            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-            time.sleep(1)
-            user_list = driver.find_element(By.CLASS_NAME, value="content_inner")
-            users = user_list.find_elements(By.XPATH, value='./div')
-            print(len(users))
-            link_list = []
-            for user_cnt in range(pcmax_foot_cnt):
-              user_id = users[user_cnt].get_attribute("id")
-              if user_id == "loading":
-                print('id=loading')
-                while user_id != "loading":
-                  time.sleep(2)
-                  user_id = users[user_cnt].get_attribute("id")
-              link = "https://pcmax.jp/mobile/profile_detail.php?user_id=" + user_id + "&search=prof&condition=648ac5f23df62&page=1&sort=&stmp_counter=13&js=1"
-              link_list.append(link)
-            for i, link_url in enumerate(link_list):
-              print(f"足ペタ件数: {i + 1}")
-              print(link_url)
-              driver.get(link_url)
-              time.sleep(pcmax_wait_time) 
-            new_message = widget.mail_reception_check.mail_reception_check(
-                  window_handle_list[window_cnt],
-                  driver, wait
-                )
-            if new_message:
-              new_message_list.append(new_message)
-            print(new_message_list)  
-          except Exception as e:
-            print(traceback.format_exc()) 
+              for h_f_cnt in range(happy_foot_cnt):
+                user_list = driver.find_elements(By.CLASS_NAME, value="profile_list_big_item")
+                user = user_list[h_f_cnt].find_element(By.TAG_NAME, value="a")
+                driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", user)
+                user.click()
+                wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+                print(f'ハッピーメール、足跡{h_f_cnt+1}件')
+                time.sleep(happy_wait_time)
+                driver.back()
+                wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+                time.sleep(2)
+              
+              new_message = widget.mail_reception_check.mail_reception_check(
+                    window_handle_list[window_cnt],
+                    driver, wait
+                  )
+              if new_message:
+                new_message_list.append(new_message)
+            except Exception as e:
+              print(traceback.format_exc()) 
+        elif url.startswith("https://pcmax.jp"):
+            try:
+              pcmax_foot_cnt = 3
+              pcmax_wait_time = random.uniform(2, 5)
+              widget.pcmax.login(driver, wait)
+              #プロフ検索をクリック
+              footer_icons = driver.find_element(By.ID, value="sp_footer")
+              search_profile = footer_icons.find_element(By.XPATH, value="./*[1]")
+              search_profile.click()
+              wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+              time.sleep(1)
+              user_list = driver.find_element(By.CLASS_NAME, value="content_inner")
+              users = user_list.find_elements(By.XPATH, value='./div')
+              link_list = []
+              for user_cnt in range(pcmax_foot_cnt):
+                user_id = users[user_cnt].get_attribute("id")
+                if user_id == "loading":
+                  print('id=loading')
+                  while user_id != "loading":
+                    time.sleep(2)
+                    user_id = users[user_cnt].get_attribute("id")
+                link = "https://pcmax.jp/mobile/profile_detail.php?user_id=" + user_id + "&search=prof&condition=648ac5f23df62&page=1&sort=&stmp_counter=13&js=1"
+                link_list.append(link)
+              for i, link_url in enumerate(link_list):
+                print(f"足ペタ件数: {i + 1}")
+                driver.get(link_url)
+                time.sleep(pcmax_wait_time) 
+              new_message = widget.mail_reception_check.mail_reception_check(
+                    window_handle_list[window_cnt],
+                    driver, wait
+                  )
+              if new_message:
+                new_message_list.append(new_message)
+            except Exception as e:
+              print(traceback.format_exc()) 
 
-      elif url.startswith("https://mail.google.com"):
-          try:
-            driver.get("https://mail.google.com/mail/mu")
-            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-            time.sleep(1)  
-            new_mail = ""
-            # メニューをクリック
-            # カスタム属性の値を持つ要素をXPathで検索
-            custom_value = "メニュー"
-            xpath = f"//*[@aria-label='{custom_value}']"
-            element = driver.find_elements(By.XPATH, value=xpath)
-            element[0].click()
-            time.sleep(1) 
-            custom_value = "toggleaccountscallout+20"
-            xpath = f"//*[@data-control-type='{custom_value}']"
-            element = driver.find_elements(By.XPATH, value=xpath)
-            address = element[0].text
-            time.sleep(1) 
-            # メインボックスのチェック
-            main_box = driver.find_elements(By.CLASS_NAME, value="Hd")
-            main_box[0].click()
-            email_list = driver.find_element(By.CLASS_NAME, value="Ik")
-            # 最初の子要素を取得
-            latest_email = email_list.find_element(By.XPATH, value="./*[1]")
-            latest_new_email_address = latest_email.find_elements(By.TAG_NAME, value="b")
-            time.sleep(1) 
-            if len(latest_new_email_address):
-              new_mail = address
-            # 迷惑メールフォルダーをチェック
-            custom_value = "メニュー"
-            xpath = f"//*[@aria-label='{custom_value}']"
-            element = driver.find_elements(By.XPATH, value=xpath)
-            element[0].click()
-            time.sleep(2) 
-            menu_list = driver.find_elements(By.XPATH, value="//*[@role='menuitem']")
-            spam = menu_list[-1]
-            driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", spam)
-            spam.click()
-            time.sleep(1) 
-            email_list = driver.find_element(By.CLASS_NAME, value="Ik")
-            latest_email = email_list.find_element(By.XPATH, value="./*[1]")
-            latest_new_spam = latest_email.find_elements(By.TAG_NAME, value="b")
-            time.sleep(1) 
-            if len(latest_new_spam):
-              new_mail = new_mail + ", " + address + ":迷惑フォルダ"
-            custom_value = "メニュー"
-            xpath = f"//*[@aria-label='{custom_value}']"
-            element = driver.find_elements(By.XPATH, value=xpath)
-            element[0].click()
-            if new_mail:
-              new_message_list.append(new_mail)
-          except Exception as e:
-            print(traceback.format_exc()) 
-      # dev_cnt += 1
-      # if dev_cnt == 4:
-      #     break
-  elapsed_time = time.time() - start_time  # 経過時間を計算する
-  print('<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>')
-  print(elapsed_time)
+        elif url.startswith("https://mail.google.com"):
+            try:
+              driver.get("https://mail.google.com/mail/mu")
+              wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+              time.sleep(1)  
+              new_mail = ""
+              # メニューをクリック
+              # カスタム属性の値を持つ要素をXPathで検索
+              custom_value = "メニュー"
+              xpath = f"//*[@aria-label='{custom_value}']"
+              element = driver.find_elements(By.XPATH, value=xpath)
+              element[0].click()
+              time.sleep(1) 
+              custom_value = "toggleaccountscallout+20"
+              xpath = f"//*[@data-control-type='{custom_value}']"
+              element = driver.find_elements(By.XPATH, value=xpath)
+              address = element[0].text
+              time.sleep(1) 
+              # メインボックスのチェック
+              main_box = driver.find_elements(By.CLASS_NAME, value="Hd")
+              main_box[0].click()
+              email_list = driver.find_element(By.CLASS_NAME, value="Ik")
+              # 最初の子要素を取得
+              latest_email = email_list.find_element(By.XPATH, value="./*[1]")
+              latest_new_email_address = latest_email.find_elements(By.TAG_NAME, value="b")
+              time.sleep(1) 
+              if len(latest_new_email_address):
+                new_mail = address
+              # 迷惑メールフォルダーをチェック
+              custom_value = "メニュー"
+              xpath = f"//*[@aria-label='{custom_value}']"
+              element = driver.find_elements(By.XPATH, value=xpath)
+              element[0].click()
+              time.sleep(2) 
+              menu_list = driver.find_elements(By.XPATH, value="//*[@role='menuitem']")
+              spam = menu_list[-1]
+              driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", spam)
+              spam.click()
+              time.sleep(1) 
+              email_list = driver.find_element(By.CLASS_NAME, value="Ik")
+              latest_email = email_list.find_element(By.XPATH, value="./*[1]")
+              latest_new_spam = latest_email.find_elements(By.TAG_NAME, value="b")
+              time.sleep(1) 
+              if len(latest_new_spam):
+                new_mail = new_mail + ", " + address + ":迷惑フォルダ"
+              custom_value = "メニュー"
+              xpath = f"//*[@aria-label='{custom_value}']"
+              element = driver.find_elements(By.XPATH, value=xpath)
+              element[0].click()
+              if new_mail:
+                new_message_list.append(new_mail)
+            except Exception as e:
+              print(traceback.format_exc()) 
+        # dev_cnt += 1
+        # if dev_cnt == 4:
+        #     break
+    elapsed_time = time.time() - start_time  # 経過時間を計算する
+    print('<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>')
+    print(elapsed_time)
+  except KeyboardInterrupt:
+    driver.quit()
   
   # メール送信
   if send_mail:

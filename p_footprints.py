@@ -14,7 +14,7 @@ import traceback
 from widget import pcmax, happymail, func
 
 options = Options()
-options.add_argument('--headless')
+# options.add_argument('--headless')
 options.add_argument("--incognito")
 options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
 options.add_argument("--no-sandbox")
@@ -24,26 +24,27 @@ options.add_experimental_option("detach", True)
 options.add_argument("--disable-cache")
 driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
 wait = WebDriverWait(driver, 15)
-# えりか 18819944 1112
-  # りな　19052443　2083
-  # メアリ　19208796 9438
-  # "ゆりあ", 19208867, 5742
-  # あやか　18821722　1112
-  # 霧子　19137736 7324
-  # くみ　19137965  6385
-  # 麻衣子　19020699　6842
-user_lists = [
-    ["えりか", 18819944, 1112],
-    ["りな", 19052443, 2083],
-    ["めあり",19208796, 1112],
-    ["ゆりあ", 19208867, 5742],
-    ["あやか", 18821722, 1112],
-    ["きりこ", 19137736, 7324],
-    ["くみ", 19137965, 6385],
-    ["まいこ", 19020699, 6842],
-]
-for user_list in user_lists:
-    try:
-      pcmax.make_footprints(user_list[0], user_list[1], user_list[2], driver, wait)
-    except Exception as e:
-      print(traceback.format_exc())
+
+def pcmax_footprints(driver, wait):
+  user_lists = [
+      ["くみ", 19137965, 6385],
+      ["えりか", 18819944, 1112],
+      ["りな", 19052443, 2083],
+      ["めあり",19208796, 9438],
+      ["きりこ", 19137736, 7324],
+      ["ゆりあ", 18983588, 6667],
+      ["あやか", 18821722, 1112],
+      
+  ]
+  for user_list in user_lists:
+      try:
+        pcmax.make_footprints(user_list[0], user_list[1], user_list[2], driver, wait)
+      except Exception as e:
+        print(traceback.format_exc())
+
+if __name__ == '__main__':
+  # if len(sys.argv) < 2:
+  #   cnt = 20
+  # else:
+  #   cnt = int(sys.argv[1])
+  pcmax_footprints(driver, wait)

@@ -15,6 +15,9 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '.'))
 import pcmax
 
 def mail_reception_check(window_handle, driver, wait):
+    kyara_idpass_list_h = {
+       "えりか":["09040563832", "7896"]
+    }
     print(window_handle)
     new_mail = ""
     driver.switch_to.window(window_handle)

@@ -367,7 +367,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    driver.delete_all_cookies()
    driver.get("https://happymail.jp/login/")
    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-   wait_time = random.uniform(3, 9)
+   wait_time = random.uniform(3, 15)
    time.sleep(wait_time)
    id_form = driver.find_element(By.ID, value="TelNo")
    id_form.send_keys(happymail_id)
@@ -383,7 +383,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
    time.sleep(wait_time)
   
-   for i in range(40):
+   for i in range(42):
       user_list = driver.find_elements(By.CLASS_NAME, value="profile_list_big_item")
       user = user_list[i].find_element(By.TAG_NAME, value="a")
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", user)
