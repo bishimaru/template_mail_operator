@@ -12,10 +12,10 @@ import time
 def do_post_foot(h_cnt, p_cnt):
     start_time = time.time() 
     post_rina.repost_happymail_pcmax()
-    # check_mail.check_mail()
+    check_mail.check_mail()
     while True:
       elapsed_time = time.time() - start_time  # 経過時間を計算する
-      if elapsed_time >= 240:
+      if elapsed_time >= 300:
         start_time = time.time() 
         p_foot_rina.p_foot(p_cnt)
         # h_foot_rina.h_foot(h_cnt)

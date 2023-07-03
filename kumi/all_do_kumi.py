@@ -13,10 +13,10 @@ import sys
 def do_post_foot(h_cnt, p_cnt):
     start_time = time.time() 
     repost_kumi.repost_happymail_pcmax()
-    # check_mail.check_mail()
+    check_mail.check_mail()
     while True:
       elapsed_time = time.time() - start_time  # 経過時間を計算する
-      if elapsed_time >= 240:
+      if elapsed_time >= 300:
         start_time = time.time() 
         p_foot_kumi.p_foot(p_cnt)
         h_foot_kumi.h_foot(h_cnt)
