@@ -30,14 +30,14 @@ def headress_all_footprints(driver, wait):
     print(f"<<<<<<<<<<<<<経過時間 {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
     
   driver.quit()
-  
+
 if __name__ == '__main__':
   # if len(sys.argv) < 2:
   #   cnt = 20
   # else:
   #   cnt = int(sys.argv[1])
   options = Options()
-  options.add_argument('--headless')
+  # options.add_argument('--headless')
   options.add_argument("--incognito")
   options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
   options.add_argument("--no-sandbox")

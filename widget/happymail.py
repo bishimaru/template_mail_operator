@@ -367,7 +367,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    driver.delete_all_cookies()
    driver.get("https://happymail.jp/login/")
    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-   wait_time = random.uniform(3, 15)
+   wait_time = random.uniform(2, 3)
    time.sleep(wait_time)
    id_form = driver.find_element(By.ID, value="TelNo")
    id_form.send_keys(happymail_id)
@@ -394,4 +394,6 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
       driver.back()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
+      if i == 0:
+         break
    driver.refresh()

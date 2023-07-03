@@ -15,21 +15,21 @@ from widget import pcmax, happymail, func
 
 def happymail_footprints(driver, wait):
   user_lists = [
-   ["くみ", "09022346299", 4512],
-    ["えりか", "09040563832", 7896],
-    ["りな", "08082181793", 1020],
-    ["めあり","07026122542", 5461],
-     ["きりこ", 50090427757, 2966],
-    ["ゆりあ", 50071405699, 3787],
+  #  ["くみ", "09022346299", 4512],
+  #   ["えりか", "09040563832", 7896],
+  #   ["りな", "08082181793", 1020],
+  #   ["めあり","07026122542", 5461],
+  #    ["きりこ", 50090427757, 2966],
+  #   ["ゆりあ", 50071405699, 3787],
     ["あやか", 50096816478, 1448],
-    ["みすず", "08095063912", 3576],
+    # ["みすず", "08095063912", 3576],
   ]
-  while True:
-    for user_list in user_lists:
-        try:
-          happymail.make_footprints(user_list[0], user_list[1], user_list[2], driver, wait)
-        except Exception as e:
-          print(traceback.format_exc())
+  
+  for user_list in user_lists:
+      try:
+        happymail.make_footprints(user_list[0], user_list[1], user_list[2], driver, wait)
+      except Exception as e:
+        print(traceback.format_exc())
 
 if __name__ == '__main__':
   # if len(sys.argv) < 2:
@@ -47,6 +47,6 @@ if __name__ == '__main__':
   options.add_argument("--disable-cache")
   driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
   wait = WebDriverWait(driver, 15)
-  
+
   happymail_footprints(driver, wait)
       
