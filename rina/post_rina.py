@@ -9,14 +9,14 @@ from selenium.webdriver.common.by import By
 import os
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from widget import pcmax, happymail
+from widget import pcmax, happymail, func
 from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
 
 def repost_happymail_pcmax():
   adult_flag = True
-  name = "rina"
+  name = "りな"
   title = "ゲームとお酒が好きな看護師です！20代のうちに楽しみたい♪"
   text = """初めまして！看護師のりなです♪
 
@@ -31,9 +31,6 @@ def repost_happymail_pcmax():
   でもいきなりそんな関係になるのは難しいと思うので、ゆっくり信頼関係を深められたらと思います。
 
   まずはメッセージから仲良くなりたいですね♪ よろしくお願いします！"""
-
-
-
   options = Options()
   options.add_argument('--headless')
   options.add_argument("--no-sandbox")
@@ -41,14 +38,15 @@ def repost_happymail_pcmax():
   options.add_experimental_option("detach", True)
   service = Service(executable_path="./chromedriver")
   driver = webdriver.Chrome(service=service, options=options)
-
-  # try:   
-  #   happymail.re_post(name, setting.rina_happy_windowhandle, driver, title, text, adult_flag)
-  # except Exception as e:
-  #   print('=== エラー内容 ===')
-  #   print(traceback.format_exc())
+  h_w = func.get_windowhandle("happymail", name)
+  p_w = func.get_windowhandle("pcmax", name)
+  try:   
+    happymail.re_post(name, h_w, driver, title, text, adult_flag)
+  except Exception as e:
+    print('=== エラー内容 ===')
+    print(traceback.format_exc())
   try:
-    pcmax.re_post(name, setting.rina_pcmax_windowhandle, driver)
+    pcmax.re_post(name, p_w, driver)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())

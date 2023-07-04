@@ -18,7 +18,7 @@ def do_post_foot(h_cnt, p_cnt):
       if elapsed_time >= 300:
         start_time = time.time() 
         p_foot_rina.p_foot(p_cnt)
-        # h_foot_rina.h_foot(h_cnt)
+        h_foot_rina.h_foot(h_cnt)
         break
       else:
         time.sleep(10) 

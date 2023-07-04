@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 import os
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from widget import pcmax, happymail
+from widget import pcmax, happymail, func
 from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
@@ -34,9 +34,10 @@ def h_foot(cnt):
   options.add_experimental_option("detach", True)
   service = Service(executable_path="./chromedriver")
   driver = webdriver.Chrome(service=service, options=options)
+  h_w = func.get_windowhandle("happymail", "クミ")
 
   try:   
-    happymail.return_footpoint(name, setting.kumi_happy_windowhandle, driver, return_foot_message, cnt, return_foot_img)
+    happymail.return_footpoint(name, h_w, driver, return_foot_message, cnt, return_foot_img)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())

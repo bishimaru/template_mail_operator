@@ -10,12 +10,12 @@ import os
 import sys
 import traceback
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from widget import pcmax, happymail
+from widget import pcmax, happymail, func
 from selenium.webdriver.support.ui import WebDriverWait
 import setting
 
 def p_foot(cnt):
-  name = "rina"
+  name = "りな"
   return_foot_img = ""
   return_foot_message = """はじめまして、りなです。
   私のプロフィールを見てくださって、ありがとうございます！
@@ -33,9 +33,9 @@ def p_foot(cnt):
   options.add_experimental_option("detach", True)
   service = Service(executable_path="./chromedriver")
   driver = webdriver.Chrome(service=service, options=options)
-
+  p_w = func.get_windowhandle("pcmax", name)
   try:   
-    pcmax.return_footpoint(name, setting.rina_pcmax_windowhandle, driver, return_foot_message, cnt, return_foot_img)
+    pcmax.return_footpoint(name, p_w, driver, return_foot_message, cnt, return_foot_img)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())

@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 import widget.pcmax 
 import time
+import sqlite3
 
 
 options = Options()
@@ -18,9 +19,10 @@ service = Service(executable_path="./chromedriver")
 driver = webdriver.Chrome(service=service, options=options)
 wait = WebDriverWait(driver, 15)
 
-# 現在開いているウィンドウハンドルを取得
-# current_window_handle = driver.current_window_handle
-# print(current_window_handle)
+dbpath = 'firstdb.db'
+conn = sqlite3.connect(dbpath)
+# SQLiteを操作するためのカーソルを作成
+cur = conn.cursor()
 
 #ウィンドウハンドル一覧
 handle_array = driver.window_handles
@@ -36,7 +38,12 @@ for i in range(len(handle_array)):
         time.sleep(1)  
         name = driver.find_element(By.CLASS_NAME, "ds_user_display_name")      
         window_handle_list[name.text + "ハッピー"] = handle_array[i]
+        # DBに保存
+        mohu1 = handle_array[i]
+        mohu2 = name.text
+        cur.execute('UPDATE happymail SET window_handle = ? WHERE name = ?', (mohu1, mohu2))
         
+
     elif url.startswith("https://pcmax.jp"):
         widget.pcmax.login(driver, wait)
         name = driver.find_elements(By.CLASS_NAME, "p_img")
@@ -44,6 +51,10 @@ for i in range(len(handle_array)):
             # 次の要素を取得
             next_element = name[0].find_element(By.XPATH, value="following-sibling::*[1]")
             window_handle_list[next_element.text + "PCMAX"] = handle_array[i]
+            # DBに保存
+            mohu1 = handle_array[i]
+            mohu2 = next_element.text
+            cur.execute('UPDATE pcmax SET window_handle = ? WHERE name = ?', (mohu1, mohu2))
     elif url.startswith("https://mail.google.com"):
         driver.get("https://mail.google.com/mail/mu")
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -67,9 +78,14 @@ for i in range(len(handle_array)):
         address = element[0].text
         print(address)
         window_handle_list[address] = handle_array[i]
-
-
+        # DBに保存
+        mohu1 = handle_array[i]
+        mohu2 = address
+        cur.execute('UPDATE gmail SET window_handle = ? WHERE mail_address = ?', (mohu1, mohu2))
 
 for mykey, myvalue in window_handle_list.items():
     print(mykey + ":" + myvalue)
+# 変更を保存する
+conn.commit()
+conn.close()
 driver.quit()

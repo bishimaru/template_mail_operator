@@ -1,4 +1,5 @@
 import time
+import sqlite3
 
 def timer(fnc, seconds, h_cnt, p_cnt):  
   start_time = time.time() 
@@ -12,5 +13,21 @@ def timer(fnc, seconds, h_cnt, p_cnt):
       time.sleep(10)
   return True
 
-def send_gmail():
-  print(246)
+def get_windowhandle(site, name):
+  # DB
+  dbpath = 'firstdb.db'
+  conn = sqlite3.connect(dbpath)
+  # SQLiteを操作するためのカーソルを作成
+  cur = conn.cursor()
+  # データ検索
+  # cur.execute('UPDATE happymail SET window_handle = ? WHERE name = ?', (mohu1, mohu2))
+  if site == "happymail":
+    cur.execute('SELECT window_handle FROM happymail WHERE name = ?', (name,))
+  elif site == "pcmax":
+    cur.execute('SELECT window_handle FROM pcmax WHERE name = ?', (name,))
+  w_h = ""
+  for row in cur:
+    w_h = row[0]
+  conn.close()
+
+  return w_h
