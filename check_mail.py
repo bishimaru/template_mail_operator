@@ -16,19 +16,24 @@ import traceback
 import smtplib
 from email.mime.text import MIMEText
 from email.utils import formatdate
+import sqlite3
 
 def check_mail():
-    window_handle_list = [
-       setting.kumi_happy_windowhandle, setting.kumi_pcmax_windowhandle, setting.kumi_gmail_windowhandle,
-       setting.erika_happy_windowhandle, setting.erika_pcmax_windowhandle, setting.erika_gmail_windowhandle, 
-       setting.rina_happy_windowhandle, setting.rina_pcmax_windowhandle, setting.rina_gmail_windowhandle, 
-       setting.meari_pcmax_windowhandle, setting.meari_happy_windowhandle, setting.meari_gmail_windowhandle, 
-       setting.kiriko_happy_windowhandle, setting.kiriko_pcmax_windowhandle, setting.kiriko_gmail_windowhandle,
-       setting.ayaka_happy_windowhandle, setting.ayaka_pcmax_windowhandle, setting.ayaka_gmail_windowhandle,
-       setting.yuria_happy_windowhandle, setting.yuria_pcmax_windowhandle, setting.yuria_gmail_windowhandle, 
-       setting.misuzu_happy_windowhandle,
-      #  setting.maiko_gmail_windowhandle, setting.maiko_happy_windowhandle, setting.maiko_pcmax_windowhandle,
-    ]
+    window_handle_list= []
+    dbpath = 'firstdb.db'
+    conn = sqlite3.connect(dbpath)
+    # SQLiteを操作するためのカーソルを作成
+    cur = conn.cursor()
+    # データ検索
+    cur.execute('SELECT window_handle FROM happymail')
+    for row in cur:
+        window_handle_list.append(row[0])  
+    cur.execute('SELECT window_handle FROM pcmax')
+    for row in cur:
+        window_handle_list.append(row[0])  
+    cur.execute('SELECT window_handle FROM gmail')
+    for row in cur:
+        window_handle_list.append(row[0])  
     options = Options()
     options.add_argument('--headless')
     options.add_argument("--no-sandbox")
@@ -64,23 +69,17 @@ def check_mail():
       for i in new_message_list:
         text = text + i + ",\n"
     address_from = 'kenta.bishi777@gmail.com'
-    # address_to = 'kenta.bishi777@gmail.com'
     address_to = 'bidato@wanko.be'
-
-
     smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
     smtpobj.starttls()
     smtpobj.login(mailaddress, password)
-
     msg = MIMEText(text)
     msg['Subject'] = subject
     msg['From'] = address_from
     msg['To'] = address_to
     msg['Date'] = formatdate()
-
     smtpobj.send_message(msg)
     smtpobj.close()
-
 
 if __name__ == '__main__':
   # print(f'__name__ は{__name__}となっている。')
