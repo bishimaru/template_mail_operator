@@ -22,6 +22,7 @@ from kumi import all_do_kumi
 from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
+from datetime import timedelta
 
 if len(sys.argv) < 2:
   h_cnt = 20
@@ -33,21 +34,17 @@ else:
   h_cnt = int(sys.argv[1])
   p_cnt = int(sys.argv[2])
 
-
-# try:
-#   func.timer(all_do_maiko.do_post_foot, 1200, h_cnt, p_cnt)
-# except Exception as e:
-#   print(traceback.format_exc())
+start_time = time.time() 
+try:
+  func.timer(all_do_kumi.do_post_foot, 799, h_cnt, p_cnt)
+except Exception as e:
+  print(traceback.format_exc())
 try:
   func.timer(all_do_erika.do_post_foot, 799, h_cnt, p_cnt)
 except Exception as e:
   print(traceback.format_exc())
 try:
   func.timer(all_do_rina.do_post_foot, 799, h_cnt, p_cnt)
-except Exception as e:
-  print(traceback.format_exc())
-try:
-  func.timer(all_do_kumi.do_post_foot, 799, h_cnt, p_cnt)
 except Exception as e:
   print(traceback.format_exc())
 try:
@@ -58,27 +55,32 @@ try:
   func.timer(all_do_kiriko.do_post_foot, 799, h_cnt, p_cnt)
 except Exception as e:
   print(traceback.format_exc())
-# try:
-#   func.timer(all_do_yua_sumire.do_post_foot, 1200, h_cnt, p_cnt)
-# except Exception as e:
-#   print(traceback.format_exc())
-try:
-  func.timer(all_do_yuria.do_post_foot, 799, h_cnt, p_cnt)
-except Exception as e:
-  print(traceback.format_exc())
-
 try:
   func.timer(all_do_ayaka.do_post_foot, 799, h_cnt, p_cnt)
 except Exception as e:
   print(traceback.format_exc())
-# try:
-#   func.timer(all_do_misuzu.do_post_foot, 900, h_cnt, p_cnt)
-# except Exception as e:
-#   print(traceback.format_exc())
+try:
+  func.timer(all_do_yuria.do_post_foot, 799, h_cnt, p_cnt)
+except Exception as e:
+  print(traceback.format_exc())
+try:
+  func.timer(all_do_misuzu.do_post_foot, 900, h_cnt, p_cnt)
+except Exception as e:
+  print(traceback.format_exc())
+elapsed_time = time.time() - start_time  # 経過時間を計算する
+# timedeltaオブジェクトを作成してフォーマットする
+elapsed_timedelta = timedelta(seconds=elapsed_time)
+elapsed_time_formatted = str(elapsed_timedelta)
+print(f"<<<<<<<<<<<<<経過時間 {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
 
 
 # try:
 #   func.timer(all_do_maiko.do_post_foot, 799, h_cnt, p_cnt)
+# except Exception as e:
+#   print(traceback.format_exc())
+
+# try:
+#   func.timer(all_do_yua_sumire.do_post_foot, 1200, h_cnt, p_cnt)
 # except Exception as e:
 #   print(traceback.format_exc())
 
