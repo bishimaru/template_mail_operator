@@ -16,7 +16,9 @@ import traceback
 
 def h_foot(cnt):
   name = "めあり"
-  return_foot_img = ""
+  relative_path = os.path.join(setting.BASE_DIR, setting.meari_picture_path)
+  return_foot_img = relative_path
+  
   return_foot_message = """足跡ありがとうございます！
   ホテルで働いている『めあり』って言います◯
 

@@ -38,21 +38,23 @@ post_area_dic = {"東京都":post_area_tokyo, "神奈川県":post_area_kanagawa,
 
 def login(driver, wait):
   try:
+    driver.refresh()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(1)
     url = driver.current_url
     if url != "https://pcmax.jp/pcm/index.php":
       driver.get("https://pcmax.jp/pcm/index.php")
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      time.sleep(2)
     login = driver.find_elements(By.CLASS_NAME, value="login")
     if len(login):    
       login[0].click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      time.sleep(2)
+      time.sleep(1)
       submit = driver.find_element(By.NAME, value="login")
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", submit)
       submit.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      time.sleep(2)
+      time.sleep(1)
   except TimeoutException as e:
     print("TimeoutException")
     driver.refresh()
