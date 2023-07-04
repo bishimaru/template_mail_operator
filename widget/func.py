@@ -1,5 +1,14 @@
 import time
 import sqlite3
+import random
+import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+import setting
+import traceback
+import smtplib
+from email.mime.text import MIMEText
+from email.utils import formatdate
 
 def timer(fnc, seconds, h_cnt, p_cnt):  
   start_time = time.time() 
@@ -29,5 +38,20 @@ def get_windowhandle(site, name):
   for row in cur:
     w_h = row[0]
   conn.close()
-
   return w_h
+
+def send_conditional(user_name, user_address, mailaddress, password, text):
+  subject = f'{user_name}さんですか？'
+  text = text
+  address_from = mailaddress
+  address_to = user_address
+  smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
+  smtpobj.starttls()
+  smtpobj.login(mailaddress, password)
+  msg = MIMEText(text)
+  msg['Subject'] = subject
+  msg['From'] = address_from
+  msg['To'] = address_to
+  msg['Date'] = formatdate()
+  smtpobj.send_message(msg)
+  smtpobj.close()  

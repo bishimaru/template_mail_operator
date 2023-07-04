@@ -16,7 +16,7 @@ from widget import pcmax, happymail, func
 def pcmax_footprints(driver, wait):
   user_lists = [
       ["くみ", 19137965, 6385],
-      ["えりか", 18819944, 1112],
+      # ["えりか", 18819944, 1112],
       ["りな", 19052443, 2083],
       ["めあり",19208796, 9438],
       ["きりこ", 19137736, 7324],
