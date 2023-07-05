@@ -15,7 +15,9 @@ else:
   user_address = str(sys.argv[1])
 
 mailaddress = 'k.erika414510@gmail.com'
-password = 'afhbvdtdsvkvkvle'
+# password = 'afhbvdtdsvkvkvle'
+password = 'mqaopcxgtkkhjafw'
+
 text = """えりかです！！
 メアド交換ありがとうございます♪
 これから関係が長く続けれるのが理想です♪( ´θ｀)ノ

@@ -17,6 +17,7 @@ import traceback
 
 def repost_happymail_pcmax():
   adult_flag = True
+  genre_flag = setting.genre_flag
   name = "めあり"
   title = "せふれ募集◎性欲強めでもいいですか？？"
   text = """掲示板見てくれて嬉しいです( ´∀｀)
@@ -49,7 +50,7 @@ def repost_happymail_pcmax():
   p_w = func.get_windowhandle("pcmax", name)
 
   try:   
-    happymail.re_post(name, h_w, driver, title, text, adult_flag)
+    happymail.re_post(name, h_w, driver, title, text, adult_flag, genre_flag)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())

@@ -15,6 +15,7 @@ import setting
 import traceback
 
 adult_flag = True
+genre_flag = setting.genre_flag
 name = "あやか"
 title = "子供のお世話も大人のお世話も得意です♡"
 text = """掲示板見てくれてありがとうございます♪
@@ -44,7 +45,7 @@ def repost_happymail_pcmax():
   h_w = func.get_windowhandle("happymail", "彩香")
   p_w = func.get_windowhandle("pcmax", "彩香")
   try:   
-    happymail.re_post(name, h_w, driver, title, text, adult_flag)
+    happymail.re_post(name, h_w, driver, title, text, adult_flag, genre_flag)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())

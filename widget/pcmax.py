@@ -16,7 +16,7 @@ import re
 from selenium.common.exceptions import TimeoutException
 
 
-
+genre_dic = {0:"スグ会いたい", 1:"スグじゃないけど"}
 post_area_tokyo = ["千代田区", "中央区", "港区", "新宿区", "文京区", "台東区",
                    "品川区", "目黒区", "大田区", "世田谷区", "渋谷区", "中野区",
                    "杉並区", "豊島区", "北区", "荒川区", "板橋区", "練馬区",
@@ -64,7 +64,7 @@ def login(driver, wait):
     
 
 
-def re_post(name, pcmax_windowhandle, driver):
+def re_post(name, pcmax_windowhandle, driver, genre_flag):
   wait = WebDriverWait(driver, 15)
   handle_array = driver.window_handles
   driver.switch_to.window(pcmax_windowhandle)
@@ -94,8 +94,11 @@ def re_post(name, pcmax_windowhandle, driver):
     return
   for i in range(len(copies)):
     copy = copies[i].find_elements(By.TAG_NAME, value="a")
-    link = copy[1].get_attribute("href")
-    link_list.append(link)
+    for a_element in copy:
+      link_text = a_element.text
+      if link_text == "コピーする":
+        link = a_element.get_attribute("href")
+        link_list.append(link)
   for i in link_list:
     driver.get(i)
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -115,6 +118,12 @@ def re_post(name, pcmax_windowhandle, driver):
     edit_post.click()
     wait = WebDriverWait(driver, 15)
     time.sleep(wait_time)
+    # ジャンルを選択
+    select_genre = driver.find_element(By.ID, value="selectb")
+    select = Select(select_genre)
+    select.select_by_visible_text(genre_dic[genre_flag])
+    time.sleep(1)
+
     # 投稿地域を選択
     area = driver.find_element(By.ID, "prech")
     driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", area)

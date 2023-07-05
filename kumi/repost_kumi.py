@@ -17,6 +17,7 @@ import sqlite3
 
 def repost_happymail_pcmax():
   adult_flag = True
+  genre_flag = setting.genre_flag
   name = "クミ"
   title = "リードします！楽しく会える人♪一般事務OLです。"
   text = """はじめまして！社会人二年目のくみです♪
@@ -38,7 +39,7 @@ def repost_happymail_pcmax():
   driver = webdriver.Chrome(service=service, options=options)
   
   try:   
-    happymail.re_post(name, h_w, driver, title, text, adult_flag)
+    happymail.re_post(name, h_w, driver, title, text, adult_flag, genre_flag)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())
