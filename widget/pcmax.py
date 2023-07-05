@@ -228,7 +228,7 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt,
   # リンクを取得
   user_cnt = 1
   mail_history = 0
-  send_count = 1
+  send_count = 0
   link_list = []
   while user_cnt <= 40:
     # 新着リストの名前ならスキップ
@@ -297,7 +297,7 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt,
     text_area = driver.find_element(By.ID, value="mdc")
     text_area.send_keys(return_foot_message)
     time.sleep(4)
-    print("マジ送信 " + str(maji_soushin) + " ~" + str(send_count) + "~")
+    print("マジ送信 " + str(maji_soushin) + " ~" + str(send_count + 1) + "~")
     # メッセージを送信
     if maji_soushin:
       send = driver.find_element(By.CLASS_NAME, value="maji_send")

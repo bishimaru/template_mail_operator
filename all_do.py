@@ -59,10 +59,10 @@ try:
   func.timer(all_do_ayaka.do_post_foot, 799, h_cnt, p_cnt)
 except Exception as e:
   print(traceback.format_exc())
-# try:
-#   func.timer(all_do_yuria.do_post_foot, 799, h_cnt, p_cnt)
-# except Exception as e:
-#   print(traceback.format_exc())
+try:
+  func.timer(all_do_yuria.do_post_foot, 799, h_cnt, p_cnt)
+except Exception as e:
+  print(traceback.format_exc())
 try:
   func.timer(all_do_misuzu.do_post_foot, 900, h_cnt, p_cnt)
 except Exception as e:
