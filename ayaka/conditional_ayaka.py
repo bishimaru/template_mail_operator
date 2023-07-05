@@ -5,14 +5,14 @@ from widget import func
 import traceback
 from email.mime.text import MIMEText
 from email.utils import formatdate
-
+# wdlnivdlmvsfzpjp
 if len(sys.argv) < 3:
     print("引数を正しく入力してください")
     user_name = ""
     user_address = ""
 else:
-  user_name = str(sys.argv[1])
-  user_address = str(sys.argv[2])
+  user_name = str(sys.argv[2])
+  user_address = str(sys.argv[1])
 
 mailaddress = 'ayaka414510@gmail.com'
 password = 'ksjdpppibyvhfcts'

@@ -10,8 +10,8 @@ if len(sys.argv) < 3:
     user_name = ""
     user_address = ""
 else:
-  user_name = str(sys.argv[1])
-  user_address = str(sys.argv[2])
+  user_name = str(sys.argv[2])
+  user_address = str(sys.argv[1])
 
 mailaddress = 'k.rina414510@gmail.com'
 password = 'afbqhyngnoxigont'

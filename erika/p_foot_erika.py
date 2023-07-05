@@ -38,6 +38,8 @@ def p_foot(cnt):
 
   try:   
     pcmax.return_footpoint(name, p_w, driver, return_foot_message, cnt, return_foot_img)
+    print(f'<<<<<<<<<<<<{name}　pcmax足跡返し　完了>>>>>>>>>>>>>>')
+
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())

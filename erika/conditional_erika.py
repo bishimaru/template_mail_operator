@@ -11,11 +11,11 @@ if len(sys.argv) < 3:
     user_name = ""
     user_address = ""
 else:
-  user_name = str(sys.argv[1])
-  user_address = str(sys.argv[2])
+  user_name = str(sys.argv[2])
+  user_address = str(sys.argv[1])
 
 mailaddress = 'k.erika414510@gmail.com'
-password = 'wdlnivdlmvsfzpjp'
+password = 'afhbvdtdsvkvkvle'
 text = """えりかです！！
 メアド交換ありがとうございます♪
 これから関係が長く続けれるのが理想です♪( ´θ｀)ノ
