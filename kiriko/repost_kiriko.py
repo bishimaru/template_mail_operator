@@ -17,6 +17,7 @@ import traceback
 def repost_happymail_pcmax():
   adult_flag = True
   genre_flag = setting.genre_flag
+  genre_flag_pcmax = setting.genre_flag_pcmax
   name = "きりこ"
   title = "Mっけある男性募集/カーディーラーの受付嬢してます〇"
   text = """はじめまして(*'ω'*)
@@ -48,7 +49,7 @@ def repost_happymail_pcmax():
     print('=== エラー内容 ===')
     print(traceback.format_exc())
   try:
-    pcmax.re_post(name, p_w, driver)
+    pcmax.re_post(name, p_w, driver, genre_flag_pcmax)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())
