@@ -58,11 +58,7 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
     time.sleep(1)
   # ジャンル選択
   genre_dict = {0:"今すぐ空いたい", 1:"大人の出会い"}
-  genre_flag = 1
-  genre = driver.find_elements(By.CLASS_NAME, value="billboard-genre-badge-203")[0].text
-  print(777)
-  print(genre)
-  print(genre_dict[genre_flag])
+  genre = driver.find_elements(By.CLASS_NAME, value="ds_bd_none")[1].text
   if genre != genre_dict[genre_flag]:
     for i, kanto in enumerate(area_list):
       # 掲示板重複を削除する
