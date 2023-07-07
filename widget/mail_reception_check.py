@@ -17,6 +17,8 @@ import pcmax
 def mail_reception_check(window_handle, driver, wait):
    try:
       new_mail = ""
+      print(777)
+      print(window_handle)
       driver.switch_to.window(window_handle)
       url = driver.current_url
       # happymail

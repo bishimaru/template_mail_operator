@@ -17,23 +17,36 @@ import smtplib
 from email.mime.text import MIMEText
 from email.utils import formatdate
 import sqlite3
+order_list = ["くみ","クミ", "えりか", "りな", "めあり", "きりこ", "絢香", "ゆりあ", "みすず"]
 
 def check_mail():
     window_handle_list= []
+    window_handle_order_list= []
     dbpath = 'firstdb.db'
     conn = sqlite3.connect(dbpath)
     # SQLiteを操作するためのカーソルを作成
     cur = conn.cursor()
+    # 順番
     # データ検索
-    cur.execute('SELECT window_handle FROM happymail')
+    cur.execute('SELECT window_handle,name FROM happymail')
     for row in cur:
-        window_handle_list.append(row[0])  
-    cur.execute('SELECT window_handle FROM pcmax')
+        window_handle_list.append(row)  
+    cur.execute('SELECT window_handle,name FROM pcmax')
     for row in cur:
-        window_handle_list.append(row[0])  
-    cur.execute('SELECT window_handle FROM gmail')
+        window_handle_list.append(row)  
+    cur.execute('SELECT window_handle,name FROM gmail')
     for row in cur:
-        window_handle_list.append(row[0])  
+        window_handle_list.append(row)  
+    # 順番入れ替え
+    for order_name in order_list:
+       for window_handle in window_handle_list:
+          chara_name = window_handle[1]
+          if chara_name in order_name:
+             if window_handle != None:
+              window_handle_order_list.append(window_handle)
+    print(666)
+    print(window_handle_order_list)    
+
     options = Options()
     options.add_argument('--headless')
     options.add_argument("--no-sandbox")
@@ -45,9 +58,9 @@ def check_mail():
 
     try:
       new_message_list = []
-      for w_h in window_handle_list:
+      for w_h in window_handle_order_list:
         new_message = mail_reception_check.mail_reception_check(
-              w_h,
+              w_h[0],
               driver, wait
             )
         if new_message:
