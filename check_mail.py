@@ -44,8 +44,6 @@ def check_mail():
           if chara_name in order_name:
              if window_handle != None:
               window_handle_order_list.append(window_handle)
-    print(666)
-    print(window_handle_order_list)    
 
     options = Options()
     options.add_argument('--headless')
