@@ -17,7 +17,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.utils import formatdate
 import sqlite3
-order_list = ["くみ","クミ", "えりか", "りな", "めあり", "きりこ", "彩香", "ゆりあ", "みすず"]
+order_list = ["くみ", "えりか", "りな", "めあり", "きりこ", "彩香", "ゆりあ", "みづき"]
 
 def check_mail():
     window_handle_list= []
@@ -44,7 +44,6 @@ def check_mail():
           if chara_name in order_name:
              if window_handle != None:
               window_handle_order_list.append(window_handle)
-
     options = Options()
     options.add_argument('--headless')
     options.add_argument("--no-sandbox")
