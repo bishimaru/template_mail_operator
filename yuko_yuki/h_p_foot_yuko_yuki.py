@@ -25,7 +25,8 @@ def h_p_foot(cnt):
 でも転勤でその人とは会えなくなってしまって。。。
 
 そういう関係に興味あったらメッセージいただきたいです！"""
-  h_return_foot_img = ""
+  relative_path = os.path.join(setting.BASE_DIR, setting.yuko_yuki_picture_path)
+  h_return_foot_img = relative_path
   p_return_foot_img = ""
   options = Options()
   options.add_argument('--headless')
