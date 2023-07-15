@@ -55,8 +55,7 @@ def check_mail():
     driver = webdriver.Chrome(service=service, options=options)
     wait = WebDriverWait(driver, 15)
     for i in range(1):
-      start_time = time.time() 
-      
+      # start_time = time.time() 
       try:
         new_message_list = []
         for w_h in window_handle_order_list:
@@ -95,10 +94,10 @@ def check_mail():
       smtpobj.send_message(msg)
       smtpobj.close()
 
-      elapsed_time = time.time() - start_time  # 経過時間を計算する
-      elapsed_timedelta = timedelta(seconds=elapsed_time)
-      elapsed_time_formatted = str(elapsed_timedelta)
-      print(f"<<<<<<<<<<<<<経過時間 {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
+      # elapsed_time = time.time() - start_time  # 経過時間を計算する
+      # elapsed_timedelta = timedelta(seconds=elapsed_time)
+      # elapsed_time_formatted = str(elapsed_timedelta)
+      # print(f"<<<<<<<<<<<<<経過時間 {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
 
 if __name__ == '__main__':
   # print(f'__name__ は{__name__}となっている。')

@@ -157,8 +157,8 @@ def re_post(name, pcmax_windowhandle, driver, genre_flag):
     usage_limit = driver.find_elements(By.CLASS_NAME, value="white_box")
     if len(usage_limit):
       print("利用制限画面が出ました")
-      time.sleep(2)
-      driver.get("https://pcmax.jp/pcm/index.php")
+      # time.sleep(2)
+      # driver.get("https://pcmax.jp/pcm/index.php")
       return
     # 掲示板投稿履歴をクリック
     bulletin_board_history = driver.find_element(By.XPATH, value="//*[@id='wrap']/div[2]/table/tbody/tr/td[3]/a")

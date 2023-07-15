@@ -30,7 +30,7 @@ from datetime import timedelta
 from check_mail import check_mail
 
 if len(sys.argv) < 2:
-  cnt = 20
+  cnt = 22
 elif len(sys.argv) == 2:
   cnt = int(sys.argv[1])
 

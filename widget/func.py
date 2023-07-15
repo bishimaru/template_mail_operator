@@ -130,10 +130,10 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
     for usr_info in user_info:
       unread = usr_info.find_elements(By.CLASS_NAME, value="unread1")
       if len(unread):
-        name = usr_info.find_element(By.CLASS_NAME, value="name").text
-        if len(name) > 7:
-          name = name[:7] + "…"
-        have_new_massage_users.append(name)
+        new_mail_pcmax_name = usr_info.find_element(By.CLASS_NAME, value="name").text
+        if len(new_mail_pcmax_name) > 7:
+          new_mail_pcmax_name = new_mail_pcmax_name[:7] + "…"
+        have_new_massage_users.append(new_mail_pcmax_name)
     print("新着メッセージリスト")
     print(have_new_massage_users)
     driver.get("https://pcmax.jp/pcm/index.php")
@@ -163,8 +163,8 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
     user_cnt = 0
     while user_cnt + 1 < len(div):
       # 新着リストの名前ならスキップ
-      name = div[user_cnt].find_element(By.CLASS_NAME, value="user-name")
-      if name.text in have_new_massage_users:
+      new_mail_name = div[user_cnt].find_element(By.CLASS_NAME, value="user-name")
+      if new_mail_name.text in have_new_massage_users:
         user_cnt += 1
       else:
         a_tags = div[user_cnt].find_elements(By.TAG_NAME, value="a")
@@ -176,6 +176,7 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
         user_cnt += 1
 
   # メッセージを送信
+  pcmax_return_message_cnt = 1
   for return_message_cnt in range(cnt):
   # for return_message_cnt in range(4):
     # happymail
@@ -233,7 +234,7 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
         submit.click()
         while img_conform.is_displayed():
             time.sleep(1)
-      print('ハッピーメール：'  + str(return_message_cnt + 1) + "件送信")
+      print(name + ':ハッピーメール：'  + str(return_message_cnt + 1) + "件送信")
       mail_icon_cnt = 0
       # user_icon = 0
       # ブラウザバックして次のユーザーをクリック
@@ -262,9 +263,9 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
     user_name = name_field.text
     mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
     while len(mail_icon):
-      print('ハッピーメール：メールアイコンがあります')
+      # print('ハッピーメール：メールアイコンがあります')
       mail_icon_cnt += 1
-      print(f'メールアイコンカウント{mail_icon_cnt}')
+      # print(f'メールアイコンカウント{mail_icon_cnt}')
       name_field = happy_foot_user[mail_icon_cnt].find_element(By.CLASS_NAME, value="ds_like_list_name")
       user_name = name_field.text
       mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
@@ -276,7 +277,6 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
 
     # pcmax
     if p_w:
-      pcmax_send_cnt = 1
       driver.switch_to.window(p_w)
       driver.get(link_list[return_message_cnt])
       time.sleep(1)
@@ -324,8 +324,8 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
       text_area = driver.find_element(By.ID, value="mdc")
       text_area.send_keys(return_foot_message)
       time.sleep(1)
-      print("pcmax:マジ送信 " + str(maji_soushin) + " ~" + str(pcmax_send_cnt) + "~")
-      pcmax_send_cnt += 1
+      print("pcmax:マジ送信 " + str(maji_soushin) + " ~" + str(pcmax_return_message_cnt) + "~")
+      pcmax_return_message_cnt += 1
       # メッセージを送信
       if maji_soushin:
         send = driver.find_element(By.CLASS_NAME, value="maji_send")
@@ -348,4 +348,4 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
   elapsed_time = time.time() - start_time  # 経過時間を計算する
   elapsed_timedelta = timedelta(seconds=elapsed_time)
   elapsed_time_formatted = str(elapsed_timedelta)
-  print(f"<<<<<<<<<<<<<経過時間 {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
+  print(f"<<<<<<<<<<<<<h_p_foot 経過時間 {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")

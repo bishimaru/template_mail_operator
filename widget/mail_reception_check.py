@@ -13,6 +13,8 @@ import setting
 from selenium.webdriver.support.select import Select
 sys.path.append(os.path.join(os.path.dirname(__file__), '.'))
 import pcmax
+from selenium.common.exceptions import TimeoutException
+
 
 def mail_reception_check(window_handle, driver, wait):
    try:
@@ -20,7 +22,12 @@ def mail_reception_check(window_handle, driver, wait):
       # print(777)
       # print(window_handle)
       driver.switch_to.window(window_handle)
-      url = driver.current_url
+      try:
+         url = WebDriverWait(driver, 10).until(lambda driver: driver.current_url)
+         # url = driver.current_url
+      except TimeoutException as e:
+         print("TimeoutException")
+         driver.refresh()
       # happymail
       if url.startswith("https://happymail.co.jp"):
          # TOPに戻る
