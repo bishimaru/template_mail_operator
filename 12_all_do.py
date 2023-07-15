@@ -47,7 +47,7 @@ def timer(sec, functions, cnt):
 sitemawashi_starttime = time.time() 
 
 try:
-  timer(600, [post_erika.repost_happymail_pcmax, check_mail])
+  timer(600, [post_erika.repost_happymail_pcmax, check_mail], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
