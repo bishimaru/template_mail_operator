@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 import widget.pcmax 
 import time
 import sqlite3
+from selenium.common.exceptions import TimeoutException
 
 
 options = Options()
@@ -45,16 +46,21 @@ for i in range(len(handle_array)):
         
 
     elif url.startswith("https://pcmax.jp"):
-        widget.pcmax.login(driver, wait)
-        name = driver.find_elements(By.CLASS_NAME, "p_img")
-        if len(name):
-            # 次の要素を取得
-            next_element = name[0].find_element(By.XPATH, value="following-sibling::*[1]")
-            window_handle_list[next_element.text + "PCMAX"] = handle_array[i]
-            # DBに保存
-            mohu1 = handle_array[i]
-            mohu2 = next_element.text
-            cur.execute('UPDATE pcmax SET window_handle = ? WHERE name = ?', (mohu1, mohu2))
+        try:
+            widget.pcmax.login(driver, wait)
+            name = driver.find_elements(By.CLASS_NAME, "p_img")
+            if len(name):
+                # 次の要素を取得
+                next_element = name[0].find_element(By.XPATH, value="following-sibling::*[1]")
+                window_handle_list[next_element.text + "PCMAX"] = handle_array[i]
+                # DBに保存
+                mohu1 = handle_array[i]
+                mohu2 = next_element.text
+                cur.execute('UPDATE pcmax SET window_handle = ? WHERE name = ?', (mohu1, mohu2))
+        except TimeoutException as e:
+            print("TimeoutException")
+            driver.refresh()
+
     elif url.startswith("https://mail.google.com"):
         driver.get("https://mail.google.com/mail/mu")
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -71,12 +77,10 @@ for i in range(len(handle_array)):
         custom_value = "toggleaccountscallout+20"
         xpath = f"//*[@data-control-type='{custom_value}']"
         element = driver.find_elements(By.XPATH, value=xpath)
-        print(777)
-        print(len(element))
         if element is None:
             print("要素が見つかりません")
         address = element[0].text
-        print(address)
+        # print(address)
         window_handle_list[address] = handle_array[i]
         # DBに保存
         mohu1 = handle_array[i]
