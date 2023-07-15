@@ -33,6 +33,7 @@ def mail_reception_check(window_handle, driver, wait):
          # TOPに戻る
          driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+         time.sleep(1)
          message_icon = driver.find_elements(By.CLASS_NAME, value="ds_nav_no_pickup")[2]
          name = driver.find_element(By.CLASS_NAME, "ds_user_display_name")
          name = name.text  
