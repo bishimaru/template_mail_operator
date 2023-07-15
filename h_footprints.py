@@ -12,20 +12,27 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from selenium.webdriver.support.ui import WebDriverWait
 import traceback
 from widget import pcmax, happymail, func
+import sqlite3
 
 def happymail_footprints(driver, wait):
-  user_lists = [
-   ["くみ", "07042169317", 9868],
-    ["えりか", "08082171187", 1230],
-    ["りな", "08082181793", 1020],
-    ["めあり","08011159496", 5074],
-     ["きりこ", "07010680821", 2589],
-    ["ゆりあ", "08021421430", 2015],
-    ["あやか", 50096816478, 1448],
-    ["みづき", "08082180352", 5672],
-  ]
+  dbpath = 'firstdb.db'
+  conn = sqlite3.connect(dbpath)
+  # # SQLiteを操作するためのカーソルを作成
+  cur = conn.cursor()
+  # # 順番
+  # # データ検索
+  cur.execute('SELECT name, login_id, passward FROM happymail')
+  happy_user_list = []
+  foot_order_list = ["えりか","くみ","りな", "めあり","きりこ","彩香","ゆりあ","みづき","ハル", "ももか", "りこ","ゆうこ",]
+  for row in cur:
+      print(row[0])
+      if row[0] in foot_order_list:
+        happy_user_list.append(row)
+  print(happy_user_list)
+
   
-  for user_list in user_lists:
+  
+  for user_list in happy_user_list:
       try:
         happymail.make_footprints(user_list[0], user_list[1], user_list[2], driver, wait)
       except Exception as e:
@@ -37,7 +44,7 @@ if __name__ == '__main__':
   # else:
   #   cnt = int(sys.argv[1])
   options = Options()
-  options.add_argument('--headless')
+  # options.add_argument('--headless')
   options.add_argument("--incognito")
   options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
   options.add_argument("--no-sandbox")

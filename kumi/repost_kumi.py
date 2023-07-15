@@ -29,7 +29,7 @@ def repost_happymail_pcmax():
 せふれと聞くと都合の良い関係をイメージされるかもしれませんが、私はお互いに気を許し合えるパートナーとしての関係を築きたいと思っています。会っている時間は恋人同士のように甘え合える、心を通わせられる関係が理想です。
 同じような気持ちを持っている方がいらっしゃいましたら、ぜひメッセージをいただけると嬉しいです！
 よろしくお願いします♪"""
-  h_w = func.get_windowhandle("happymail", "クミ")
+  h_w = func.get_windowhandle("happymail", "くみ")
   p_w = func.get_windowhandle("pcmax", "くみ")
   options = Options()
   options.add_argument('--headless')

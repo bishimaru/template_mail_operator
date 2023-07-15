@@ -57,7 +57,7 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
     others_bulletin_board.click()
     time.sleep(1)
   # ジャンル選択
-  genre_dict = {0:"今すぐ空いたい", 1:"大人の出会い"}
+  genre_dict = {0:"今すぐ会いたい", 1:"大人の出会い"}
   genre = driver.find_elements(By.CLASS_NAME, value="ds_bd_none")[1].text
   if genre != genre_dict[genre_flag]:
     for i, kanto in enumerate(area_list):
@@ -480,7 +480,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    driver.delete_all_cookies()
    driver.get("https://happymail.jp/login/")
    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-   wait_time = random.uniform(3, 14)
+   wait_time = random.uniform(2, 9)
    time.sleep(wait_time)
    id_form = driver.find_element(By.ID, value="TelNo")
    id_form.send_keys(happymail_id)

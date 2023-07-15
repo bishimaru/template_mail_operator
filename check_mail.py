@@ -17,7 +17,9 @@ import smtplib
 from email.mime.text import MIMEText
 from email.utils import formatdate
 import sqlite3
-order_list = ["くみ", "えりか", "りな", "めあり", "きりこ", "彩香", "ゆりあ", "みづき"]
+from datetime import timedelta
+
+order_list = ["えりか", "くみ", "りな", "めあり", "きりこ", "彩香", "ゆりあ", "みづき", "ももか", "ハル", "りこ", "ゆうこ"]
 
 def check_mail():
     window_handle_list= []
@@ -41,7 +43,7 @@ def check_mail():
     for order_name in order_list:
        for window_handle in window_handle_list:
           chara_name = window_handle[1]
-          if chara_name in order_name:
+          if chara_name == order_name:
              if window_handle != None:
               window_handle_order_list.append(window_handle)
     options = Options()
@@ -52,43 +54,51 @@ def check_mail():
     service = Service(executable_path="./chromedriver")
     driver = webdriver.Chrome(service=service, options=options)
     wait = WebDriverWait(driver, 15)
-
-    try:
-      new_message_list = []
-      for w_h in window_handle_order_list:
-        new_message = mail_reception_check.mail_reception_check(
-              w_h[0],
-              driver, wait
-            )
-        if new_message:
-          new_message_list.append(new_message)
-      driver.quit()
-    except Exception as e:
-      print(traceback.format_exc())
-      driver.quit()
-    # メール送信
-    mailaddress = 'kenta.bishi777@gmail.com'
-    password = 'rjdzkswuhgfvslvd'
-    text = ""
-    if len(new_message_list) == 0:
-      subject = "新着はありません"
+    for i in range(1):
+      start_time = time.time() 
+      
+      try:
+        new_message_list = []
+        for w_h in window_handle_order_list:
+         
+          new_message = mail_reception_check.mail_reception_check(
+                w_h[0],
+                driver, wait
+              )
+          if new_message:
+            new_message_list.append(new_message)
+        driver.quit()
+      except Exception as e:
+        print(traceback.format_exc())
+        driver.quit()
+      # メール送信
+      mailaddress = 'kenta.bishi777@gmail.com'
+      password = 'rjdzkswuhgfvslvd'
       text = ""
-    else:
-      subject = "新着メッセージ"
-      for i in new_message_list:
-        text = text + i + ",\n"
-    address_from = 'kenta.bishi777@gmail.com'
-    address_to = 'bidato@wanko.be'
-    smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
-    smtpobj.starttls()
-    smtpobj.login(mailaddress, password)
-    msg = MIMEText(text)
-    msg['Subject'] = subject
-    msg['From'] = address_from
-    msg['To'] = address_to
-    msg['Date'] = formatdate()
-    smtpobj.send_message(msg)
-    smtpobj.close()
+      if len(new_message_list) == 0:
+        subject = "新着はありません"
+        text = ""
+      else:
+        subject = "新着メッセージ"
+        for i in new_message_list:
+          text = text + i + ",\n"
+      address_from = 'kenta.bishi777@gmail.com'
+      address_to = 'bidato@wanko.be'
+      smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
+      smtpobj.starttls()
+      smtpobj.login(mailaddress, password)
+      msg = MIMEText(text)
+      msg['Subject'] = subject
+      msg['From'] = address_from
+      msg['To'] = address_to
+      msg['Date'] = formatdate()
+      smtpobj.send_message(msg)
+      smtpobj.close()
+
+      elapsed_time = time.time() - start_time  # 経過時間を計算する
+      elapsed_timedelta = timedelta(seconds=elapsed_time)
+      elapsed_time_formatted = str(elapsed_timedelta)
+      print(f"<<<<<<<<<<<<<経過時間 {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
 
 if __name__ == '__main__':
   # print(f'__name__ は{__name__}となっている。')

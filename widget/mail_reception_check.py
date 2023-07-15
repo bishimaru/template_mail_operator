@@ -17,8 +17,8 @@ import pcmax
 def mail_reception_check(window_handle, driver, wait):
    try:
       new_mail = ""
-      print(777)
-      print(window_handle)
+      # print(777)
+      # print(window_handle)
       driver.switch_to.window(window_handle)
       url = driver.current_url
       # happymail
@@ -27,10 +27,30 @@ def mail_reception_check(window_handle, driver, wait):
          driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
          message_icon = driver.find_elements(By.CLASS_NAME, value="ds_nav_no_pickup")[2]
-         name = driver.find_element(By.CLASS_NAME, "ds_user_display_name")      
+         name = driver.find_element(By.CLASS_NAME, "ds_user_display_name")
+         name = name.text  
          new_message = message_icon.find_elements(By.CLASS_NAME, value="ds_red_circle")
          if len(new_message):
-            new_mail = name.text + " : ハッピーメール"
+            new_mail = name+ " : ハッピーメール"
+         # 足跡つける
+         # wait_time = random.uniform(1, 4)
+         # # プロフ検索をクリック
+         # nav_list = driver.find_element(By.ID, value='ds_nav')
+         # mypage = nav_list.find_element(By.LINK_TEXT, "プロフ検索")
+         # mypage.click()
+         # wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+         # time.sleep(wait_time)
+         # for i in range(4):
+         #    user_list = driver.find_elements(By.CLASS_NAME, value="profile_list_big_item")
+         #    user = user_list[i].find_element(By.TAG_NAME, value="a")
+         #    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", user)
+         #    user.click()
+         #    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+         #    print(f'{name}: ハッピーメール、足跡{i+1}件')
+         #    time.sleep(wait_time)
+         #    driver.back()
+         #    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+         #    time.sleep(1)
       # pcmax
       elif url.startswith("https://pcmax.jp"):
          pcmax.login(driver, wait)
@@ -57,8 +77,10 @@ def mail_reception_check(window_handle, driver, wait):
          custom_value = "toggleaccountscallout+20"
          xpath = f"//*[@data-control-type='{custom_value}']"
          element = driver.find_elements(By.XPATH, value=xpath)
+         if len(element):
+            time.sleep(2)
+            element = driver.find_elements(By.XPATH, value=xpath)
          address = element[0].text
-         time.sleep(1) 
          # メインボックスのチェック
          main_box = driver.find_elements(By.CLASS_NAME, value="Hd")
          main_box[0].click()
