@@ -177,6 +177,8 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
 
   # メッセージを送信
   pcmax_return_message_cnt = 1
+  pcmax_transmission_history = 0
+  pcmax_send_flag = True
   for return_message_cnt in range(cnt):
   # for return_message_cnt in range(4):
     # happymail
@@ -243,6 +245,10 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(1)
       p = driver.find_elements(By.CLASS_NAME, value="ds_prev_arrow")
+      while len(p) == 0:
+        time.sleep(1)
+        p = driver.find_elements(By.CLASS_NAME, value="ds_prev_arrow")
+        print(len(p))
       back = p[0].find_element(By.TAG_NAME, value="a")
       back.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -276,13 +282,18 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
     happy_foot_user[mail_icon_cnt].click()
 
     # pcmax
-    if p_w:
+    if p_w and pcmax_send_flag:
+      transmission_history = 0
       driver.switch_to.window(p_w)
       driver.get(link_list[return_message_cnt])
       time.sleep(1)
+      # 送信履歴が連続で続くと終了
       sent = driver.find_elements(By.XPATH, value="//*[@id='profile-box']/div/div[2]/p/a/span")
       if len(sent):
         print('pcmax:送信履歴があります')
+        pcmax_transmission_history += 1
+        if pcmax_transmission_history == 5:
+          pcmax_send_flag = False
         continue
       # 自己紹介文をチェック
       self_introduction = driver.find_elements(By.XPATH, value="/html/body/main/div[4]/div/p")
@@ -337,7 +348,7 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
         send_link.click()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         # time.sleep(wait_time)
-        # mail_history = 0
+        pcmax_transmission_history = 0
       else:
         send = driver.find_element(By.ID, value="send_n")
         send.click()
