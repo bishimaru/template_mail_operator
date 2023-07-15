@@ -25,13 +25,10 @@ def happymail_footprints(driver, wait):
   happy_user_list = []
   foot_order_list = ["えりか","くみ","りな", "めあり","きりこ","彩香","ゆりあ","みづき","ハル", "ももか", "りこ","ゆうこ",]
   for row in cur:
-      print(row[0])
+      # print(row[0])
       if row[0] in foot_order_list:
         happy_user_list.append(row)
-  print(happy_user_list)
-
-  
-  
+  # print(happy_user_list)
   for user_list in happy_user_list:
       try:
         happymail.make_footprints(user_list[0], user_list[1], user_list[2], driver, wait)

@@ -25,7 +25,7 @@ def pcmax_footprints(driver, wait):
   pcmax_user_list = []
   foot_order_list = ["めあり","きりこ","彩香","ゆりあ",]
   for row in cur:
-      print(row[0])
+      # print(row[0])
       if row[0] in foot_order_list:
         pcmax_user_list.append(row)
 
