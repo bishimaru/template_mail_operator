@@ -41,7 +41,7 @@ def timer(sec, functions, cnt):
     func()
   elapsed_time = time.time() - start_time  # 経過時間を計算する
   while elapsed_time < sec:
-    time.sleep(10)
+    time.sleep(5)
     elapsed_time = time.time() - start_time  # 経過時間を計算する
     print(elapsed_time)
 

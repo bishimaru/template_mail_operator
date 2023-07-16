@@ -179,8 +179,9 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
   pcmax_return_message_cnt = 1
   pcmax_transmission_history = 0
   pcmax_send_flag = True
-  for return_message_cnt in range(cnt):
-  # for return_message_cnt in range(4):
+  foot_cnt = 0
+  p_foot_cnt = 0
+  while cnt > foot_cnt:
     # happymail
     driver.switch_to.window(h_w)
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -236,14 +237,16 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
         submit.click()
         while img_conform.is_displayed():
             time.sleep(1)
-      print(name + ':ハッピーメール：'  + str(return_message_cnt + 1) + "件送信")
+      foot_cnt += 1
+      print(name + ':ハッピーメール：'  + str(foot_cnt) + "件送信")
       mail_icon_cnt = 0
+      
       # user_icon = 0
       # ブラウザバックして次のユーザーをクリック
       back = driver.find_element(By.CLASS_NAME, value="app__navbar__item--left")
       back.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      time.sleep()
+      time.sleep(wait_time)
       p = driver.find_elements(By.CLASS_NAME, value="ds_prev_arrow")
       p_cnt = 0
       while len(p) == 0:
@@ -290,7 +293,7 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
     if p_w and pcmax_send_flag:
       transmission_history = 0
       driver.switch_to.window(p_w)
-      driver.get(link_list[return_message_cnt])
+      driver.get(link_list[p_foot_cnt])
       time.sleep(wait_time)
       # 送信履歴が連続で続くと終了
       sent = driver.find_elements(By.XPATH, value="//*[@id='profile-box']/div/div[2]/p/a/span")
@@ -341,8 +344,8 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
       text_area = driver.find_element(By.ID, value="mdc")
       text_area.send_keys(return_foot_message)
       time.sleep(1)
-      print("pcmax:マジ送信 " + str(maji_soushin) + " ~" + str(pcmax_return_message_cnt) + "~")
-      pcmax_return_message_cnt += 1
+      p_foot_cnt += 1
+      print("pcmax:マジ送信 " + str(maji_soushin) + " ~" + str(p_foot_cnt) + "~")
       # メッセージを送信
       if maji_soushin:
         send = driver.find_element(By.CLASS_NAME, value="maji_send")
