@@ -60,10 +60,8 @@ def login(driver, wait):
     driver.refresh()
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
     time.sleep(2)
-    login(driver, wait)
+    return login(driver, wait)
     
-
-
 def re_post(name, pcmax_windowhandle, driver, genre_flag):
   wait = WebDriverWait(driver, 15)
   handle_array = driver.window_handles
