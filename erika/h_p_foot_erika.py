@@ -41,7 +41,7 @@ def h_p_foot(cnt):
   h_w = func.get_windowhandle("happymail", name)
   p_w = func.get_windowhandle("pcmax", name)
 
-  # start_time = time.time() 
+  start_time = time.time() 
   try:   
     func.h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_return_foot_img, p_return_foot_img)
   except Exception as e:
@@ -49,10 +49,10 @@ def h_p_foot(cnt):
     print(traceback.format_exc())
 
   # timedeltaオブジェクトを作成してフォーマットする
-  # elapsed_time = time.time() - start_time  # 経過時間を計算する
-  # elapsed_timedelta = timedelta(seconds=elapsed_time)
-  # elapsed_time_formatted = str(elapsed_timedelta)
-  # print(f"<<<<<<<<<<<<<経過時間 {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
+  elapsed_time = time.time() - start_time  # 経過時間を計算する
+  elapsed_timedelta = timedelta(seconds=elapsed_time)
+  elapsed_time_formatted = str(elapsed_timedelta)
+  print(f"<<<<<<<<<<<<<ハッピー、pcmax足跡返し{cnt}件： {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
   driver.quit()
   return True
 
