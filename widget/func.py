@@ -241,13 +241,35 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
       print(name + ':ハッピーメール：'  + str(foot_cnt) + "件送信")
       mail_icon_cnt = 0
 
-      driver.back()
+      # TOPに戻る
+      driver.execute_script("window.scrollTo(0, 0);")
+      ds_logo = driver.find_element(By.CLASS_NAME, value="ds_logo")
+      driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", ds_logo)
+      top_link = ds_logo.find_element(By.TAG_NAME, value="a")
+      # time.sleep(1)
+      top_link.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
-      driver.back()
+      # マイページをクリック
+      nav_list = driver.find_element(By.ID, value='ds_nav')
+      mypage = nav_list.find_element(By.LINK_TEXT, "マイページ")
+      mypage.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
+      # 足あとをクリック
+      return_footpoint = driver.find_element(By.CLASS_NAME, value="icon-ico_footprint")
+      return_footpoint.click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+
+      # driver.back()
+      # wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      # time.sleep(wait_time)
+      # driver.back()
+      # wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      # time.sleep(wait_time)
       # user_icon = 0
+
+
       # ブラウザバックして次のユーザーをクリック
       # back = driver.find_element(By.CLASS_NAME, value="app__navbar__item--left")
       # back.click()
@@ -309,6 +331,7 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
           pcmax_send_flag = False
         print('pcmax:送信履歴があります')
         print(f"送信履歴カウント：{pcmax_transmission_history}" )
+        p_foot_cnt += 1
         continue
       # 自己紹介文をチェック
       self_introduction = driver.find_elements(By.XPATH, value="/html/body/main/div[4]/div/p")
@@ -316,6 +339,7 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
         self_introduction = self_introduction[0].text.replace(" ", "").replace("\n", "")
         if '通報' in self_introduction or '業者' in self_introduction:
           print('pcmax:自己紹介文に危険なワードが含まれていました')
+          p_foot_cnt += 1
           continue
       # 残ポイントチェック
       point = driver.find_elements(By.ID, value="point")
@@ -329,6 +353,8 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
           maji_soushin = False
       else:
         time.sleep(wait_time)
+        print(' 相手の都合により表示できません')
+        p_foot_cnt += 1
         continue
       # メッセージをクリック
       message = driver.find_elements(By.ID, value="message1")
