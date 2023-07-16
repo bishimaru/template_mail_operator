@@ -9,8 +9,10 @@ from selenium.webdriver.common.by import By
 import os
 import sys
 import traceback
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import setting
 from selenium.webdriver.support.select import Select
+import sqlite3
 
 def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genre_flag):
   area_list = ["東京都", "千葉県", "埼玉県", "神奈川県"]
@@ -144,7 +146,7 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
       # 書き込み成功画面の判定
       success = driver.find_elements(By.CLASS_NAME, value="ds_keijiban_finish")
       if len(success):
-        print(str(i + 1) + "の書き込みに成功しました")
+        print(f"{name}: {i + 1} の書き込みに成功しました")
         # マイページをクリック
         nav_list = driver.find_element(By.ID, value='ds_nav')
         mypage = nav_list.find_element(By.LINK_TEXT, "マイページ")
@@ -508,3 +510,15 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
    driver.refresh()
+
+def send_fst_message():
+  print(777)
+  dbpath = 'firstdb.db'
+  conn = sqlite3.connect(dbpath)
+  # SQLiteを操作するためのカーソルを作成
+  cur = conn.cursor()
+  # 順番
+  # データ検索
+  cur.execute('SELECT fst_message FROM happymail')
+  for row in cur:
+      print(row)
