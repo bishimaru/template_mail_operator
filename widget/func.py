@@ -240,25 +240,31 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
       foot_cnt += 1
       print(name + ':ハッピーメール：'  + str(foot_cnt) + "件送信")
       mail_icon_cnt = 0
-      
-      # user_icon = 0
-      # ブラウザバックして次のユーザーをクリック
-      back = driver.find_element(By.CLASS_NAME, value="app__navbar__item--left")
-      back.click()
+
+      driver.back()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
-      p = driver.find_elements(By.CLASS_NAME, value="ds_prev_arrow")
-      p_cnt = 0
-      while len(p) == 0:
-        time.sleep(1)
-        p = driver.find_elements(By.CLASS_NAME, value="ds_prev_arrow")
-        p_cnt += 1
-        print(len(p))
-        if p_cnt == 10:
-          break
-      back = p[0].find_element(By.TAG_NAME, value="a")
-      back.click()
+      driver.back()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(wait_time)
+      # user_icon = 0
+      # ブラウザバックして次のユーザーをクリック
+      # back = driver.find_element(By.CLASS_NAME, value="app__navbar__item--left")
+      # back.click()
+      # wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      # time.sleep(wait_time)
+      # p = driver.find_elements(By.CLASS_NAME, value="ds_prev_arrow")
+      # p_cnt = 0
+      # while len(p) == 0:
+      #   time.sleep(1)
+      #   p = driver.find_elements(By.CLASS_NAME, value="ds_prev_arrow")
+      #   p_cnt += 1
+      #   print(len(p))
+      #   if p_cnt == 10:
+      #     break
+      # back = p[0].find_element(By.TAG_NAME, value="a")
+      # back.click()
+      # wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
     else:
       time.sleep(1)
       p = driver.find_elements(By.CLASS_NAME, value="ds_prev_arrow")

@@ -37,6 +37,7 @@ post_area_dic = {"東京都":post_area_tokyo, "神奈川県":post_area_kanagawa,
 # detail_post_area_list = [post_area_tokyo, post_area_kanagawa, post_area_saitama, post_area_chiba]
 
 def login(driver, wait):
+  login = None  # login変数の初期化
   try:
     driver.refresh()
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -388,5 +389,8 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
       if i == 42:
          break
   driver.refresh()
+
+def send_fst_mail():
+  print(767676)
   
 
