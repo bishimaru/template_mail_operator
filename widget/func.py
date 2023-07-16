@@ -243,12 +243,16 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
       back = driver.find_element(By.CLASS_NAME, value="app__navbar__item--left")
       back.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      time.sleep(1)
+      time.sleep()
       p = driver.find_elements(By.CLASS_NAME, value="ds_prev_arrow")
+      p_cnt = 0
       while len(p) == 0:
         time.sleep(1)
         p = driver.find_elements(By.CLASS_NAME, value="ds_prev_arrow")
+        p_cnt += 1
         print(len(p))
+        if p_cnt == 10:
+          break
       back = p[0].find_element(By.TAG_NAME, value="a")
       back.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -279,6 +283,7 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
       if mail_icon_cnt == 5:
         print("ハッピーメール：メールアイコンが5続きました")
     # ユーザークリック
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", happy_foot_user[mail_icon_cnt])
     happy_foot_user[mail_icon_cnt].click()
 
     # pcmax
@@ -286,14 +291,15 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
       transmission_history = 0
       driver.switch_to.window(p_w)
       driver.get(link_list[return_message_cnt])
-      time.sleep(1)
+      time.sleep(wait_time)
       # 送信履歴が連続で続くと終了
       sent = driver.find_elements(By.XPATH, value="//*[@id='profile-box']/div/div[2]/p/a/span")
       if len(sent):
-        print('pcmax:送信履歴があります')
         pcmax_transmission_history += 1
         if pcmax_transmission_history == 5:
           pcmax_send_flag = False
+        print('pcmax:送信履歴があります')
+        print(f"送信履歴カウント：{pcmax_transmission_history}" )
         continue
       # 自己紹介文をチェック
       self_introduction = driver.find_elements(By.XPATH, value="/html/body/main/div[4]/div/p")
