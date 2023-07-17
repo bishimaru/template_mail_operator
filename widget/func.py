@@ -275,6 +275,12 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
       time.sleep(1)
       driver.get(link_list[p_foot_cnt])
       time.sleep(wait_time)
+      # お相手のご都合により表示できませんはスキップ
+      main = driver.find_elements(By.TAG_NAME, value="main")
+      if not len(main):
+        p_foot_cnt += 1
+        continue
+
       # 送信履歴が連続で続くと終了
       sent = driver.find_elements(By.XPATH, value="//*[@id='profile-box']/div/div[2]/p/a/span")
       print(777)

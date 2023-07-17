@@ -4,6 +4,6 @@ from email.utils import formatdate
 import happymail, pcmax
 
 
-happymail.send_fst_message()
+# happymail.send_fst_message()
 
-# pcmax
+pcmax.send_fst_mail()
