@@ -59,13 +59,13 @@ def check_mail():
       try:
         new_message_list = []
         for w_h in window_handle_order_list:
-         
-          new_message = mail_reception_check.mail_reception_check(
-                w_h[0],
-                driver, wait
-              )
-          if new_message:
-            new_message_list.append(new_message)
+          if w_h[0]:
+            new_message = mail_reception_check.mail_reception_check(
+                  w_h[0],
+                  driver, wait
+                )
+            if new_message:
+              new_message_list.append(new_message)
         driver.quit()
       except Exception as e:
         print(traceback.format_exc())

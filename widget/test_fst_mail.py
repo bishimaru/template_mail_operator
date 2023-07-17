@@ -4,6 +4,5 @@ from email.utils import formatdate
 import happymail, pcmax
 
 
-# happymail.send_fst_message()
-
-pcmax.send_fst_mail()
+name = "えりか"
+pcmax.send_fst_mail(name)

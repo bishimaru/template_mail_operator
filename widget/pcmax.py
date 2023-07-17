@@ -14,6 +14,9 @@ import traceback
 import setting
 import re
 from selenium.common.exceptions import TimeoutException
+import sqlite3
+from selenium.webdriver.chrome.service import Service as ChromeService
+
 
 
 genre_dic = {0:"スグ会いたい", 1:"スグじゃないけど"}
@@ -390,7 +393,207 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
          break
   driver.refresh()
 
-def send_fst_mail():
-  print(767676)
+def send_fst_mail(name):
+  options = Options()
+  # options.add_argument('--headless')
+  options.add_argument("--incognito")
+  options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
+  options.add_argument("--no-sandbox")
+  options.add_argument("--window-size=456,912")
+  options.add_experimental_option("detach", True)
+  options.add_argument("--disable-cache")
+  driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+  wait = WebDriverWait(driver, 15)
+
+  dbpath = 'firstdb.db'
+  conn = sqlite3.connect(dbpath)
+  # SQLiteを操作するためのカーソルを作成
+  cur = conn.cursor()
+  # 順番
+  # データ検索
+  cur.execute('SELECT * FROM pcmax WHERE name = ?', (name,))
+  for row in cur:
+      pcmax_id = row[2]
+      pcmax_pass = row[3]
+      fst_message = row[5]
+      fst_message_img = row[6]
+  try:
+    driver.delete_all_cookies()
+    driver.get("https://pcmax.jp/pcm/file.php?f=login_form")
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  except TimeoutException as e:
+    print("TimeoutException")
+    driver.refresh()
+  wait_time = random.uniform(2, 5)
+  time.sleep(wait_time)
+  id_form = driver.find_element(By.ID, value="login_id")
+  id_form.send_keys(pcmax_id)
+  pass_form = driver.find_element(By.ID, value="login_pw")
+  pass_form.send_keys(pcmax_pass)
+  time.sleep(1)
+  send_form = driver.find_element(By.NAME, value="login")
+  send_form.click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(wait_time)
+
+  try:
+    send_cnt = 1
+    while True:
+      #プロフ検索をクリック
+      footer_icons = driver.find_element(By.ID, value="sp_footer")
+      search_profile = footer_icons.find_element(By.XPATH, value="./*[1]")
+      search_profile.click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(wait_time)
+      # 検索条件を設定
+      search_elem = driver.find_element(By.ID, value="search1")
+      search_elem.click()
+      young_age = driver.find_element(By.ID, "to_age")
+      select = Select(young_age)
+      select.select_by_visible_text("30歳")
+      time.sleep(1)
+      # ページの高さを取得
+      last_height = driver.execute_script("return document.body.scrollHeight")
+      while True:
+        # ページの最後までスクロール
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        # ページが完全に読み込まれるまで待機
+        time.sleep(2)
+        # 新しい高さを取得
+        new_height = driver.execute_script("return document.body.scrollHeight")
+        # ページの高さが変わらなければ、すべての要素が読み込まれたことを意味する
+        if new_height == last_height:
+            break
+        last_height = new_height
+      # mail_history = driver.find_elements(By.ID, value="opt4")
+      mail_history = driver.find_elements(By.CLASS_NAME, value="thumbnail-c")
+      # driver.execute_script("arguments[0].scrollIntoView();", mail_history[0])
+      mail_history[2].click()
+      time.sleep(1)
+      enter_button = driver.find_elements(By.ID, value="search1")
+      enter_button[0].click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      # ユーザーを取得
+      user_list = driver.find_element(By.CLASS_NAME, value="content_inner")
+      users = user_list.find_elements(By.XPATH, value='./div')
+      print(f"ユーザー数{len(users)}")
+      # ページの高さを取得
+      last_height = driver.execute_script("return document.body.scrollHeight")
+      while True:
+        # ページの最後までスクロール
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        # ページが完全に読み込まれるまで待機
+        time.sleep(2)
+        user_list = driver.find_element(By.CLASS_NAME, value="content_inner")
+        users = user_list.find_elements(By.XPATH, value='./div')
+        # print(len(users))
+        if len(users) > 100:
+          #  print('ユーザー件数200　OVER')
+          break
+        # 新しい高さを取得
+        new_height = driver.execute_script("return document.body.scrollHeight")
+        # ページの高さが変わらなければ、すべての要素が読み込まれたことを意味する
+        if new_height == last_height:
+            break
+        last_height = new_height
+      print(f"ユーザー数{len(users)}")
+      # ユーザーのhrefを取得
+      user_cnt = 1
+      link_list = []
+      for user_cnt in range(len(users)):
+        # 実行確率（80%の場合）
+        execution_probability = 0.80
+        # ランダムな数値を生成し、実行確率と比較
+        if random.random() < execution_probability:
+          user_id = users[user_cnt].get_attribute("id")
+          if user_id == "loading":
+            print('id=loading')
+            while user_id != "loading":
+              time.sleep(2)
+              user_id = users[user_cnt].get_attribute("id")
+          link = "https://pcmax.jp/mobile/profile_detail.php?user_id=" + user_id + "&search=prof&condition=648ac5f23df62&page=1&sort=&stmp_counter=13&js=1"
+          link_list.append(link)
+      # メール送信
+      for i, link_url in enumerate(link_list):
+        send_status = True
+        driver.get(link_url)
+        # 自己紹介文をチェック
+        self_introduction = driver.find_elements(By.XPATH, value="/html/body/main/div[4]/div/p")
+        if len(self_introduction):
+          self_introduction = self_introduction[0].text.replace(" ", "").replace("\n", "")
+          if '通報' in self_introduction or '業者' in self_introduction:
+            print('自己紹介文に危険なワードが含まれていました')
+            time.sleep(wait_time)
+            send_status = False
+            continue
+        # 残ポイントチェック
+        point = driver.find_elements(By.ID, value="point")
+        if len(point):
+          point = point[0].find_element(By.TAG_NAME, value="span").text
+          pattern = r'\d+'
+          match = re.findall(pattern, point)
+          if int(match[0]) > 1:
+            maji_soushin = True
+          else:
+            maji_soushin = False
+        else:
+          time.sleep(wait_time)
+          continue
+        time.sleep(1)
+        # メッセージをクリック
+        message = driver.find_elements(By.ID, value="message1")
+        if len(message):
+          message[0].click()
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(3)
+        else:
+          continue
+        # 画像があれば送付
+        if fst_message_img:
+          picture_icon = driver.find_elements(By.CLASS_NAME, value="mail-menu-title")
+          picture_icon[0].click()
+          time.sleep(1)
+          picture_select = driver.find_element(By.ID, "my_photo")
+          select = Select(picture_select)
+          select.select_by_visible_text(fst_message_img)
+          
+        # メッセージを入力
+        text_area = driver.find_element(By.ID, value="mdc")
+        text_area.send_keys(fst_message)
+        time.sleep(4)
+        print(str(name) + ": pcmax、マジ送信 " + str(maji_soushin) + " ~" + str(send_cnt) + "~")
+        print(i)
+        # メッセージを送信
+        if send_status:
+          send_cnt += 1
+          if maji_soushin:
+            send = driver.find_elements(By.CLASS_NAME, value="maji_send")
+            print(777)
+            print(len(send))
+            driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", send[0])
+
+            send[0].click()
+            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+            time.sleep(1)
+            send_link = driver.find_element(By.ID, value="link_OK")
+            send_link.click()
+            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+            time.sleep(wait_time)
+          else:
+            send = driver.find_element(By.ID, value="send_n")
+            send.click()
+            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+            time.sleep(wait_time)
+          time.sleep(wait_time)
+        if i == 10:
+            break
+      driver.get("https://pcmax.jp/pcm/index.php")
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(wait_time)
+  # 何らかの処理
+  except KeyboardInterrupt:
+    print("Ctl + c")
+    driver.quit()  
+
   
 
