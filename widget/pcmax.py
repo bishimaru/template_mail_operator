@@ -395,7 +395,7 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
 
 def send_fst_mail(name):
   options = Options()
-  # options.add_argument('--headless')
+  options.add_argument('--headless')
   options.add_argument("--incognito")
   options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
   options.add_argument("--no-sandbox")
@@ -415,7 +415,9 @@ def send_fst_mail(name):
   for row in cur:
       pcmax_id = row[2]
       pcmax_pass = row[3]
+
       fst_message = row[5]
+      print(fst_message)
       fst_message_img = row[6]
   try:
     driver.delete_all_cookies()
@@ -583,7 +585,7 @@ def send_fst_mail(name):
             wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
             time.sleep(wait_time)
           time.sleep(wait_time)
-        if i == 5:
+        if i == 10:
             break
       driver.get("https://pcmax.jp/pcm/index.php")
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
