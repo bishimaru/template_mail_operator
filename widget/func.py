@@ -277,7 +277,10 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
       time.sleep(wait_time)
       # 送信履歴が連続で続くと終了
       sent = driver.find_elements(By.XPATH, value="//*[@id='profile-box']/div/div[2]/p/a/span")
+      print(777)
+      print(len(sent))
       if len(sent):
+        print(666)
         pcmax_transmission_history += 1
         if pcmax_transmission_history == 5:
           pcmax_send_flag = False
@@ -289,6 +292,7 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
       # 自己紹介文をチェック
       self_introduction = driver.find_elements(By.XPATH, value="/html/body/main/div[4]/div/p")
       if len(self_introduction):
+        print(555)
         self_introduction = self_introduction[0].text.replace(" ", "").replace("\n", "")
         if '通報' in self_introduction or '業者' in self_introduction:
           print('pcmax:自己紹介文に危険なワードが含まれていました')
@@ -297,6 +301,7 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
       # 残ポイントチェック
       point = driver.find_elements(By.ID, value="point")
       if len(point):
+        print(444)
         point = point[0].find_element(By.TAG_NAME, value="span").text
         pattern = r'\d+'
         match = re.findall(pattern, point)
@@ -312,6 +317,7 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
       # メッセージをクリック
       message = driver.find_elements(By.ID, value="message1")
       if len(message):
+        print(333)
         message[0].click()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(3)
@@ -333,6 +339,7 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
       print("pcmax:マジ送信 " + str(maji_soushin) + " ~" + str(p_foot_cnt) + "~")
       # メッセージを送信
       if maji_soushin:
+        print(222)
         send = driver.find_element(By.CLASS_NAME, value="maji_send")
         driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", send)
         send.click()
