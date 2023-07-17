@@ -465,18 +465,21 @@ def send_fst_mail(name):
         if new_height == last_height:
             break
         last_height = new_height
-      # mail_history = driver.find_elements(By.ID, value="opt4")
+      # 履歴あり、なしの設定
       mail_history = driver.find_elements(By.CLASS_NAME, value="thumbnail-c")
-      # driver.execute_script("arguments[0].scrollIntoView();", mail_history[0])
-      mail_history[2].click()
-      time.sleep(1)
+      check_flag = driver.find_element(By.ID, value="opt3") 
+      is_checked = check_flag.is_selected()
+      if is_checked:
+          print("送信履歴にチェックあり")
+      else:
+          mail_history[2].click()
+          time.sleep(1)
       enter_button = driver.find_elements(By.ID, value="search1")
       enter_button[0].click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       # ユーザーを取得
       user_list = driver.find_element(By.CLASS_NAME, value="content_inner")
       users = user_list.find_elements(By.XPATH, value='./div')
-      print(f"ユーザー数{len(users)}")
       # ページの高さを取得
       last_height = driver.execute_script("return document.body.scrollHeight")
       while True:
@@ -496,7 +499,6 @@ def send_fst_mail(name):
         if new_height == last_height:
             break
         last_height = new_height
-      print(f"ユーザー数{len(users)}")
       # ユーザーのhrefを取得
       user_cnt = 1
       link_list = []
@@ -562,16 +564,12 @@ def send_fst_mail(name):
         text_area.send_keys(fst_message)
         time.sleep(4)
         print(str(name) + ": pcmax、マジ送信 " + str(maji_soushin) + " ~" + str(send_cnt) + "~")
-        print(i)
         # メッセージを送信
         if send_status:
           send_cnt += 1
           if maji_soushin:
             send = driver.find_elements(By.CLASS_NAME, value="maji_send")
-            print(777)
-            print(len(send))
             driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", send[0])
-
             send[0].click()
             wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
             time.sleep(1)
@@ -585,7 +583,7 @@ def send_fst_mail(name):
             wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
             time.sleep(wait_time)
           time.sleep(wait_time)
-        if i == 10:
+        if i == 5:
             break
       driver.get("https://pcmax.jp/pcm/index.php")
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
