@@ -571,7 +571,7 @@ def send_fst_mail(name):
         text_area = driver.find_element(By.ID, value="mdc")
         text_area.send_keys(fst_message)
         time.sleep(4)
-        print(str(name) + ": pcmax、マジ送信 " + str(maji_soushin) + " ~" + str(send_cnt) + "~" + str(user_name))
+        print(str(name) + ": pcmax、マジ送信 " + str(maji_soushin) + " ~" + str(send_cnt) + "~ " + str(user_name))
         # メッセージを送信
         if send_status:
           send_cnt += 1
