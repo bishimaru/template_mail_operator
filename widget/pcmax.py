@@ -521,9 +521,12 @@ def send_fst_mail(name):
       for i, link_url in enumerate(link_list):
         send_status = True
         driver.get(link_url)
-
+        # 名前を取得
         user_name = driver.find_elements(By.CLASS_NAME, value="page_title")
-        user_name = user_name[0].text
+        if len(user_name):
+          user_name = user_name[0].text
+        else:
+          user_name = ""
         # 自己紹介文をチェック
         self_introduction = driver.find_elements(By.XPATH, value="/html/body/main/div[4]/div/p")
         if len(self_introduction):
