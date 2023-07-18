@@ -593,9 +593,16 @@ def send_fst_mail(name):
           time.sleep(wait_time)
         if i == 10:
             break
-      driver.get("https://pcmax.jp/pcm/index.php")
-      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      time.sleep(wait_time)
+      try:
+        driver.get("https://pcmax.jp/pcm/index.php")
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(wait_time)
+      except TimeoutException as e:
+        print("TimeoutException")
+        driver.refresh()
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(2)
+      
   # 何らかの処理
   except KeyboardInterrupt:
     print("Ctl + c")
