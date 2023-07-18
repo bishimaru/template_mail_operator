@@ -9,8 +9,8 @@ from selenium.webdriver.common.by import By
 import os
 import sys
 import traceback
+from widget import func
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-import func
 import setting
 from selenium.webdriver.support.select import Select
 import sqlite3

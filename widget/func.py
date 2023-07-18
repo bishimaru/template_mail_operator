@@ -16,10 +16,6 @@ from widget import pcmax
 from selenium.webdriver.support.select import Select
 from datetime import timedelta
 
-
-
-
-
 def timer(fnc, seconds, h_cnt, p_cnt):  
   start_time = time.time() 
   fnc(h_cnt, p_cnt)
