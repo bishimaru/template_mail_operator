@@ -9,7 +9,10 @@ def fst_mail_hm():
     "みづき", "ももか",
     "りこ", "ゆうこ"
   ]
-  happymail.send_fst_message(name_list)
+  try:
+    happymail.send_fst_message(name_list)
+  except Exception as e:
+    print(e)
 
 
 if __name__ == '__main__':

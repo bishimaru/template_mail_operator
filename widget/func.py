@@ -176,6 +176,7 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
   pcmax_send_flag = True
   foot_cnt = 0
   p_foot_cnt = 0
+  p_send_cnt = 0
   while cnt > foot_cnt:
     # happymail
     driver.switch_to.window(h_w)
@@ -332,7 +333,8 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
       text_area.send_keys(return_foot_message)
       time.sleep(1)
       p_foot_cnt += 1
-      print("pcmax:マジ送信 " + str(maji_soushin) + " ~" + str(p_foot_cnt) + "~")
+      p_send_cnt += 1
+      print("pcmax:マジ送信 " + str(maji_soushin) + " ~" + str(p_send_cnt) + "~")
       # メッセージを送信
       if maji_soushin:
         send = driver.find_element(By.CLASS_NAME, value="maji_send")

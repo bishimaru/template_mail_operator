@@ -45,17 +45,17 @@ AV女優をしているハルです♪( ´▽｀)
   service = Service(executable_path="./chromedriver")
   driver = webdriver.Chrome(service=service, options=options)
   h_w = func.get_windowhandle("happymail", name)
-  # p_w = func.get_windowhandle("pcmax", name)
+  p_w = func.get_windowhandle("pcmax", name)
   try:   
     happymail.re_post(name, h_w, driver, title, text, adult_flag, genre_flag)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())
-  # try:
-  #   pcmax.re_post(name, p_w, driver, genre_flag_pcmax)
-  # except Exception as e:
-  #   print('=== エラー内容 ===')
-  #   print(traceback.format_exc())
+  try:
+    pcmax.re_post(name, p_w, driver, genre_flag_pcmax)
+  except Exception as e:
+    print('=== エラー内容 ===')
+    print(traceback.format_exc())
   driver.quit()
   return True
 

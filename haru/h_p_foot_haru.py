@@ -35,7 +35,7 @@ AV女優をしているハルです♪( ´▽｀)
   service = Service(executable_path="./chromedriver")
   driver = webdriver.Chrome(service=service, options=options)
   h_w = func.get_windowhandle("happymail", name)
-  p_w = ""
+  p_w = func.get_windowhandle("pcmax", name)
 
   # start_time = time.time() 
   try:   
