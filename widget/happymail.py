@@ -524,9 +524,12 @@ def send_fst_message(name_list):
   wait_time = random.uniform(2, 3)
 
   for name in name_list:
+    limit_cnt = 2
+    if name == "えりか":
+       limit_cnt = 3
     h_w = func.get_windowhandle("happymail", name)
-    print(777)
-    print(name)
+    # print(777)
+    # print(name)
     dbpath = 'firstdb.db'
     conn = sqlite3.connect(dbpath)
     # SQLiteを操作するためのカーソルを作成
@@ -534,7 +537,6 @@ def send_fst_message(name_list):
     # データ検索
     cur.execute('SELECT * FROM happymail WHERE name = ?', (name,))
     for row in cur:
-        print(row)
         fst_message = row[6]
         fst_message_img = row[7]
     driver.switch_to.window(h_w)
@@ -563,12 +565,10 @@ def send_fst_message(name_list):
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
     time.sleep(wait_time)
     
-    while send_cnt < 1:
+    while send_cnt < limit_cnt:
       # ユーザーをクリック
       users = driver.find_elements(By.CLASS_NAME, value="ds_thum_contain")
-      print(len(users))
       styles = users[user_colum].get_attribute('style')
-      print(styles)
       # 画像なしのユーザーを探す
       while "noimage" not in styles:
         user_colum += 1
@@ -610,7 +610,7 @@ def send_fst_message(name_list):
         text_area.send_keys(fst_message)
         # 送信
         send_mail = driver.find_element(By.ID, value="submitButton")
-        # send_mail.click()
+        send_mail.click()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(wait_time)
         # 画像があれば送信

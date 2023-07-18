@@ -29,6 +29,7 @@ import setting
 import traceback
 from datetime import timedelta
 from check_mail import check_mail
+import fst_mail_hm
 
 if len(sys.argv) < 2:
   cnt = 22
@@ -47,8 +48,9 @@ def timer(sec, functions, cnt):
 
 sitemawashi_starttime = time.time() 
 
+
 try:
-  timer(550, [post_erika.repost_happymail_pcmax, check_mail], cnt)
+  timer(550, [post_erika.repost_happymail_pcmax, check_mail, fst_mail_hm.fst_mail_hm], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
