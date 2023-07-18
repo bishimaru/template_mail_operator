@@ -17,6 +17,7 @@ import traceback
 def repost_happymail_pcmax():
   adult_flag = True
   genre_flag = setting.genre_flag
+  genre_flag_pcmax = setting.genre_flag_pcmax
   name = "ももか"
   title = "25歳年上の夫と2年営みがありません.."
   text = """初めまして( ^ω^ )
@@ -45,7 +46,7 @@ def repost_happymail_pcmax():
   service = Service(executable_path="./chromedriver")
   driver = webdriver.Chrome(service=service, options=options)
   h_w = func.get_windowhandle("happymail", name)
-  p_w = ""
+  p_w = func.get_windowhandle("pcmax", name)
 
   try:   
     happymail.re_post(name, h_w, driver, title, text, adult_flag, genre_flag)
@@ -53,7 +54,7 @@ def repost_happymail_pcmax():
     print('=== エラー内容 ===')
     print(traceback.format_exc())
   try:
-    pcmax.re_post(name, p_w, driver)
+    pcmax.re_post(name, p_w, driver, genre_flag_pcmax)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())

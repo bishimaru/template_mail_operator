@@ -521,6 +521,9 @@ def send_fst_mail(name):
       for i, link_url in enumerate(link_list):
         send_status = True
         driver.get(link_url)
+
+        name = driver.find_elements(By.CLASS_NAME, value="page_title")
+        name = name.text
         # 自己紹介文をチェック
         self_introduction = driver.find_elements(By.XPATH, value="/html/body/main/div[4]/div/p")
         if len(self_introduction):
@@ -565,7 +568,7 @@ def send_fst_mail(name):
         text_area = driver.find_element(By.ID, value="mdc")
         text_area.send_keys(fst_message)
         time.sleep(4)
-        print(str(name) + ": pcmax、マジ送信 " + str(maji_soushin) + " ~" + str(send_cnt) + "~")
+        print(str(name) + ": pcmax、マジ送信 " + str(maji_soushin) + " ~" + str(send_cnt) + "~" + str(name))
         # メッセージを送信
         if send_status:
           send_cnt += 1
