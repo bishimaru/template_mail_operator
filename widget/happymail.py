@@ -523,119 +523,126 @@ def send_fst_message(name_list):
   wait = WebDriverWait(driver, 15)
   wait_time = random.uniform(2, 3)
 
-  for name in name_list:
-    limit_cnt = 2
-    if name == "えりか":
-       limit_cnt = 3
-    h_w = func.get_windowhandle("happymail", name)
-    # print(777)
-    # print(name)
-    dbpath = 'firstdb.db'
-    conn = sqlite3.connect(dbpath)
-    # SQLiteを操作するためのカーソルを作成
-    cur = conn.cursor()
-    # データ検索
-    cur.execute('SELECT * FROM happymail WHERE name = ?', (name,))
-    for row in cur:
-        fst_message = row[6]
-        fst_message_img = row[7]
-    driver.switch_to.window(h_w)
-    # TOPに戻る
-    driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
-    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-    time.sleep(wait_time)
-    # # プロフ検索をクリック
-    nav_list = driver.find_element(By.ID, value='ds_nav')
-    seach_profile = nav_list.find_element(By.LINK_TEXT, "プロフ検索")
-    seach_profile.click()
-    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-    time.sleep(wait_time)
-    send_cnt = 0
-    user_colum = 0
-    # リモーダル画面が出たら閉じる
-    remodal = driver.find_elements(By.CLASS_NAME, value="remodal-close")
-    if len(remodal):
-      print('リモーダル画面')
-      remodal[0].click()
-      time.sleep(wait_time)
-    # 並びの表示を設定
-    sort_order = driver.find_elements(By.ID, value="kind_select")
-    select = Select(sort_order[0])
-    select.select_by_visible_text("プロフ一覧")
-    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-    time.sleep(wait_time)
-    
-    while send_cnt < limit_cnt:
-      # ユーザーをクリック
-      users = driver.find_elements(By.CLASS_NAME, value="ds_thum_contain")
-      styles = users[user_colum].get_attribute('style')
-      # 画像なしのユーザーを探す
-      while "noimage" not in styles:
-        user_colum += 1
-        styles = users[user_colum].get_attribute('style')
-      driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", users[user_colum])
-      users[user_colum].click()
+  try:
+     
+    for name in name_list:
+      limit_cnt = 2
+      if name == "えりか":
+        limit_cnt = 3
+      h_w = func.get_windowhandle("happymail", name)
+      # print(777)
+      # print(name)
+      dbpath = 'firstdb.db'
+      conn = sqlite3.connect(dbpath)
+      # SQLiteを操作するためのカーソルを作成
+      cur = conn.cursor()
+      # データ検索
+      cur.execute('SELECT * FROM happymail WHERE name = ?', (name,))
+      for row in cur:
+          fst_message = row[6]
+          fst_message_img = row[7]
+      driver.switch_to.window(h_w)
+      # TOPに戻る
+      driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
-      send_status = True
-      m = driver.find_elements(By.XPATH, value="//*[@id='ds_main']/div/p")
-      if len(m):
-        print(m[0].text)
-        if m[0].text == "プロフィール情報の取得に失敗しました":
-            send_status = False
-            user_colum += 1
-      # 自己紹介文に業者、通報が含まれているかチェック
-      if len(driver.find_elements(By.CLASS_NAME, value="translate_body")):
-        contains_violations = driver.find_element(By.CLASS_NAME, value="translate_body")
-        driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", contains_violations)
-        self_introduction_text = contains_violations.text.replace(" ", "").replace("\n", "")
-        if '通報' in self_introduction_text or '業者' in self_introduction_text:
-            print('自己紹介文に危険なワードが含まれていました')
-            send_status = False
-            user_colum += 1
-      # メッセージ履歴があるかチェック
-      mail_field = driver.find_element(By.ID, value="ds_nav")
-      mail_history = mail_field.find_element(By.ID, value="mail-history")
-      display_value = mail_history.value_of_css_property("display")
-      if display_value != "none":
-          print('メール履歴があります')
-          send_status = False
-          user_colum += 1
-      # メール送信
-      if send_status:
-        do_mail_icon = driver.find_elements(By.CLASS_NAME, value="ds_profile_target_btn")
-        do_mail_icon[0].click()
-        # 初めましてメッセージを入力
-        text_area = driver.find_element(By.ID, value="text-message")
-        text_area.send_keys(fst_message)
-        # 送信
-        send_mail = driver.find_element(By.ID, value="submitButton")
-        send_mail.click()
-        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-        time.sleep(wait_time)
-        # 画像があれば送信
-        if fst_message_img:
-          img_conform = driver.find_element(By.ID, value="media-confirm")
-          plus_icon = driver.find_element(By.CLASS_NAME, value="icon-message_plus")
-          plus_icon.click()
-          time.sleep(1)
-          upload_file = driver.find_element(By.ID, "upload_file")
-          upload_file.send_keys(fst_message_img)
-          time.sleep(2)
-          submit = driver.find_element(By.ID, value="submit_button")
-          submit.click()
-          while img_conform.is_displayed():
-              time.sleep(2)
-        send_cnt += 1
-        user_colum += 1
-        print(f"fst_message ~{send_cnt}~")
-      driver.get("https://happymail.co.jp/sp/app/html/profile_list.php")
+      # # プロフ検索をクリック
+      nav_list = driver.find_element(By.ID, value='ds_nav')
+      seach_profile = nav_list.find_element(By.LINK_TEXT, "プロフ検索")
+      seach_profile.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
+      send_cnt = 0
+      user_colum = 0
       # リモーダル画面が出たら閉じる
       remodal = driver.find_elements(By.CLASS_NAME, value="remodal-close")
       if len(remodal):
         print('リモーダル画面')
         remodal[0].click()
         time.sleep(wait_time)
-  driver.quit()
+      # 並びの表示を設定
+      sort_order = driver.find_elements(By.ID, value="kind_select")
+      select = Select(sort_order[0])
+      select.select_by_visible_text("プロフ一覧")
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(wait_time)
+      
+      while send_cnt < limit_cnt:
+        # ユーザーをクリック
+        users = driver.find_elements(By.CLASS_NAME, value="ds_thum_contain")
+        styles = users[user_colum].get_attribute('style')
+        # 画像なしのユーザーを探す
+        while "noimage" not in styles:
+          user_colum += 1
+          styles = users[user_colum].get_attribute('style')
+        driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", users[user_colum])
+        users[user_colum].click()
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(wait_time)
+        send_status = True
+        m = driver.find_elements(By.XPATH, value="//*[@id='ds_main']/div/p")
+        if len(m):
+          print(m[0].text)
+          if m[0].text == "プロフィール情報の取得に失敗しました":
+              send_status = False
+              user_colum += 1
+        # 自己紹介文に業者、通報が含まれているかチェック
+        if len(driver.find_elements(By.CLASS_NAME, value="translate_body")):
+          contains_violations = driver.find_element(By.CLASS_NAME, value="translate_body")
+          driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", contains_violations)
+          self_introduction_text = contains_violations.text.replace(" ", "").replace("\n", "")
+          if '通報' in self_introduction_text or '業者' in self_introduction_text:
+              print('自己紹介文に危険なワードが含まれていました')
+              send_status = False
+              user_colum += 1
+        # メッセージ履歴があるかチェック
+        mail_field = driver.find_element(By.ID, value="ds_nav")
+        mail_history = mail_field.find_element(By.ID, value="mail-history")
+        display_value = mail_history.value_of_css_property("display")
+        if display_value != "none":
+            print('メール履歴があります')
+            send_status = False
+            user_colum += 1
+        # メール送信
+        if send_status:
+          do_mail_icon = driver.find_elements(By.CLASS_NAME, value="ds_profile_target_btn")
+          do_mail_icon[0].click()
+          # 初めましてメッセージを入力
+          text_area = driver.find_element(By.ID, value="text-message")
+          text_area.send_keys(fst_message)
+          # 送信
+          send_mail = driver.find_element(By.ID, value="submitButton")
+          send_mail.click()
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(wait_time)
+          # 画像があれば送信
+          if fst_message_img:
+            img_conform = driver.find_element(By.ID, value="media-confirm")
+            plus_icon = driver.find_element(By.CLASS_NAME, value="icon-message_plus")
+            plus_icon.click()
+            time.sleep(1)
+            upload_file = driver.find_element(By.ID, "upload_file")
+            upload_file.send_keys(fst_message_img)
+            time.sleep(2)
+            submit = driver.find_element(By.ID, value="submit_button")
+            submit.click()
+            while img_conform.is_displayed():
+                time.sleep(2)
+          send_cnt += 1
+          user_colum += 1
+          print(f"fst_message ~{send_cnt}~")
+        driver.get("https://happymail.co.jp/sp/app/html/profile_list.php")
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(wait_time)
+        # リモーダル画面が出たら閉じる
+        remodal = driver.find_elements(By.CLASS_NAME, value="remodal-close")
+        if len(remodal):
+          print('リモーダル画面')
+          remodal[0].click()
+          time.sleep(wait_time)
+    print("fstmail end")
+    driver.quit()  
+  except Exception as e:  
+    print(e)
+    driver.quit()  
+  

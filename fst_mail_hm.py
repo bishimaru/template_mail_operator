@@ -2,12 +2,13 @@ from widget import happymail
 
 def fst_mail_hm():
   name_list = [
-    "えりか", "くみ",
-    "りな", "めあり",
-    "きりこ", "彩香",
-    "ハル", "ゆりあ",
-    "みづき", "ももか",
-    "りこ", "ゆうこ"
+    "えりか", 
+    # "くみ",
+    # "りな", "めあり",
+    # "きりこ", "彩香",
+    # "ハル", "ゆりあ",
+    # "みづき", "ももか",
+    # "りこ", "ゆうこ"
   ]
   try:
     happymail.send_fst_message(name_list)
