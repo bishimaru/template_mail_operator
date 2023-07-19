@@ -62,6 +62,8 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
   # ジャンル選択
   genre_dict = {0:"今すぐ会いたい", 1:"大人の出会い"}
   genre = driver.find_elements(By.CLASS_NAME, value="ds_bd_none")[1].text
+  print("<<<再投稿する掲示板のジャンル取得>>>")
+  print(genre)
   if genre != genre_dict[genre_flag]:
     for i, kanto in enumerate(area_list):
       # 掲示板重複を削除する
@@ -524,7 +526,6 @@ def send_fst_message(name_list):
   wait_time = random.uniform(2, 3)
 
   try:
-     
     for name in name_list:
       limit_cnt = 2
       if name == "えりか":
