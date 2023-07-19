@@ -49,15 +49,15 @@ def timer(sec, functions, cnt):
 sitemawashi_starttime = time.time() 
 
 
-# try:
-#   timer(550, [post_erika.repost_happymail_pcmax, check_mail, fst_mail_hm.fst_mail_hm], cnt)
-# except Exception as e:
-#   print(traceback.format_exc())
+try:
+  timer(550, [post_erika.repost_happymail_pcmax, check_mail, fst_mail_hm.fst_mail_hm], cnt)
+except Exception as e:
+  print(traceback.format_exc())
 
-# try:
-#   timer(550, [repost_kumi.repost_happymail_pcmax, check_mail, lambda: h_p_foot_erika.h_p_foot(cnt)], cnt)
-# except Exception as e:
-#   print(traceback.format_exc())
+try:
+  timer(550, [repost_kumi.repost_happymail_pcmax, check_mail, lambda: h_p_foot_erika.h_p_foot(cnt)], cnt)
+except Exception as e:
+  print(traceback.format_exc())
 
 try:
   timer(550, [post_rina.repost_happymail_pcmax, check_mail, lambda: h_p_foot_kumi.h_p_foot(cnt)], cnt)
