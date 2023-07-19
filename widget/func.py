@@ -157,6 +157,8 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
     # ユーザーのlinkをリストに保存
     link_list = []
     user_cnt = 0
+    print(777)
+    print(len(div))
     while user_cnt + 1 < len(div):
       # 新着リストの名前ならスキップ
       new_mail_name = div[user_cnt].find_element(By.CLASS_NAME, value="user-name")
