@@ -592,7 +592,7 @@ def send_fst_mail(name):
             wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
             time.sleep(wait_time)
           time.sleep(wait_time)
-        if i == 10:
+        if i == 15:
             break
       try:
         driver.get("https://pcmax.jp/pcm/index.php")
