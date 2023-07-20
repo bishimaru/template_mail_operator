@@ -402,7 +402,8 @@ def send_fst_mail(name):
   options.add_argument("--window-size=456,912")
   options.add_experimental_option("detach", True)
   options.add_argument("--disable-cache")
-  driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+  service = Service(executable_path="./chromedriver")
+  driver = webdriver.Chrome(service=service, options=options)
   wait = WebDriverWait(driver, 15)
 
   dbpath = 'firstdb.db'
