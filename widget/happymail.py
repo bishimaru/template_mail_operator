@@ -579,6 +579,8 @@ def send_fst_message(name_list):
           user_colum += 1
           print(user_colum)
           styles = users[user_colum].get_attribute('style')
+          if user_colum == len(users):
+             break
         driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", users[user_colum])
         users[user_colum].click()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
