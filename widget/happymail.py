@@ -644,6 +644,6 @@ def send_fst_message(name_list):
     print("fstmail end")
     driver.quit()  
   except Exception as e:  
-    print(e)
+    print(traceback.format_exc())
     driver.quit()  
   
