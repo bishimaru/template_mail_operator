@@ -571,10 +571,13 @@ def send_fst_message(name_list):
       while send_cnt < limit_cnt:
         # ユーザーをクリック
         users = driver.find_elements(By.CLASS_NAME, value="ds_thum_contain")
+        print('取得したユーザー数')
+        print(len(users))
         styles = users[user_colum].get_attribute('style')
         # 画像なしのユーザーを探す
         while "noimage" not in styles:
           user_colum += 1
+          print(user_colum)
           styles = users[user_colum].get_attribute('style')
         driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", users[user_colum])
         users[user_colum].click()

@@ -42,9 +42,15 @@ post_area_dic = {"東京都":post_area_tokyo, "神奈川県":post_area_kanagawa,
 def login(driver, wait):
   login = None  # login変数の初期化
   try:
-    driver.refresh()
-    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-    time.sleep(1)
+    try:
+      driver.refresh()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(1)
+    except TimeoutException as e:
+      print("<<<<<<<リロード>>>>>>>>>>")
+      driver.refresh()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(1)
     url = driver.current_url
     if url != "https://pcmax.jp/pcm/index.php":
       driver.get("https://pcmax.jp/pcm/index.php")
@@ -328,7 +334,7 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
   driver.delete_all_cookies()
   driver.get("https://pcmax.jp/pcm/file.php?f=login_form")
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-  wait_time = random.uniform(3, 7)
+  wait_time = random.uniform(2, 7)
   time.sleep(wait_time)
   id_form = driver.find_element(By.ID, value="login_id")
   id_form.send_keys(pcmax_id)

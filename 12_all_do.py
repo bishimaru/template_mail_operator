@@ -14,7 +14,7 @@ from meari import all_do_meari, post_meari, h_p_foot_meari
 from yua_sumire import all_do_yua_sumire
 from erika import all_do_erika, post_erika, h_p_foot_erika
 from yuria import all_do_yuria, post_yuria, h_p_foot_yuria
-from maiko import all_do_maiko
+from maiko import all_do_maiko, post_maiko, h_p_foot_maiko
 from ayaka import all_do_ayaka, repost_ayaka, h_p_foot_ayaka
 from misuzu import all_do_misuzu
 from kiriko import all_do_kiriko, repost_kiriko, h_p_foot_kiriko
@@ -50,67 +50,73 @@ sitemawashi_starttime = time.time()
 
 
 try:
-  timer(550, [post_erika.repost_happymail_pcmax, check_mail, fst_mail_hm.fst_mail_hm], cnt)
+  timer(540, [post_erika.repost_happymail_pcmax, check_mail, fst_mail_hm.fst_mail_hm], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(550, [repost_kumi.repost_happymail_pcmax, check_mail, lambda: h_p_foot_erika.h_p_foot(cnt)], cnt)
+  timer(540, [repost_kumi.repost_happymail_pcmax, check_mail, lambda: h_p_foot_erika.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(550, [post_rina.repost_happymail_pcmax, check_mail, lambda: h_p_foot_kumi.h_p_foot(cnt)], cnt)
+  timer(540, [post_rina.repost_happymail_pcmax, check_mail, lambda: h_p_foot_kumi.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(550, [post_meari.repost_happymail_pcmax, check_mail, lambda: h_p_foot_rina.h_p_foot(cnt)], cnt)
+  timer(540, [post_meari.repost_happymail_pcmax, check_mail, lambda: h_p_foot_rina.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(550, [repost_kiriko.repost_happymail_pcmax, check_mail, lambda: h_p_foot_meari.h_p_foot(cnt)], cnt)
+  timer(540, [repost_kiriko.repost_happymail_pcmax, check_mail, lambda: h_p_foot_meari.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(550, [repost_ayaka.repost_happymail_pcmax, check_mail, lambda: h_p_foot_kiriko.h_p_foot(cnt)], cnt)
+  timer(540, [repost_ayaka.repost_happymail_pcmax, check_mail, lambda: h_p_foot_kiriko.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(550, [repost_haru.repost_happymail_pcmax, check_mail, lambda: h_p_foot_ayaka.h_p_foot(cnt)], cnt)
+  timer(540, [repost_haru.repost_happymail_pcmax, check_mail, lambda: h_p_foot_ayaka.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(550, [post_yuria.repost_happymail_pcmax, check_mail, lambda: h_p_foot_haru.h_p_foot(cnt)], cnt)
+  timer(540, [post_yuria.repost_happymail_pcmax, check_mail, lambda: h_p_foot_haru.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(550, [repost_mizuki.repost_happymail_pcmax, check_mail, lambda: h_p_foot_yuria.h_p_foot(cnt)], cnt)
+  timer(540, [repost_mizuki.repost_happymail_pcmax, check_mail, lambda: h_p_foot_yuria.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(550, [repost_momoka.repost_happymail_pcmax, check_mail, lambda: h_p_foot_mizuki.h_p_foot(cnt)], cnt)
+  timer(540, [repost_momoka.repost_happymail_pcmax, check_mail, lambda: h_p_foot_mizuki.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(550, [repost_riko.repost_happymail_pcmax, check_mail, lambda: h_p_foot_momoka.h_p_foot(cnt)], cnt)
+  timer(540, [repost_riko.repost_happymail_pcmax, check_mail, lambda: h_p_foot_momoka.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  repost_yuko_yuki.repost_happymail_pcmax()
+  timer(540, [repost_yuko_yuki.repost_happymail_pcmax(), check_mail, lambda: h_p_foot_riko.h_p_foot(cnt)], cnt)
+except Exception as e:
+  print(traceback.format_exc())
+
+try:
+  post_maiko.repost_happymail_pcmax()
   check_mail()
-  h_p_foot_riko.h_p_foot(cnt)
   h_p_foot_yuko_yuki.h_p_foot(cnt)
+  h_p_foot_maiko.h_p_foot(cnt)
 except Exception as e:
   print(traceback.format_exc())
+
 
 elapsed_sitemawashi_time = time.time() - sitemawashi_starttime  # 経過時間を計算する
 elapsed_sitemawashi_timedelta = timedelta(seconds=elapsed_sitemawashi_time)
