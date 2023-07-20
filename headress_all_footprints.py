@@ -15,6 +15,8 @@ from widget import pcmax, happymail, func
 import h_footprints
 import p_footprints
 from datetime import timedelta
+from selenium.webdriver.chrome.service import Service
+
 
 
 
@@ -45,7 +47,8 @@ if __name__ == '__main__':
   # options.add_argument("--remote-debugging-port=9222")
   options.add_experimental_option("detach", True)
   options.add_argument("--disable-cache")
-  driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+  service = Service(executable_path="./chromedriver")
+  driver = webdriver.Chrome(service=service, options=options)
   wait = WebDriverWait(driver, 15)
 
   headress_all_footprints(driver, wait)

@@ -7,7 +7,8 @@ def fst_mail_hm():
     "きりこ", "彩香",
     "ハル", "ゆりあ",
     "みづき", "ももか",
-    "りこ", "ゆうこ"
+    "りこ", "ゆうこ",
+    "まいこ"
   ]
   try:
     happymail.send_fst_message(name_list)

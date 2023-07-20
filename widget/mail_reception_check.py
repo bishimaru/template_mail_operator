@@ -19,7 +19,7 @@ from selenium.common.exceptions import TimeoutException
 def mail_reception_check(window_handle, driver, wait):
    try:
       new_mail = ""
-      print(777)
+      print("window_handle")
       print(window_handle)
       driver.switch_to.window(window_handle)
       try:
