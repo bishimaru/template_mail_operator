@@ -165,8 +165,46 @@ def re_post(name, pcmax_windowhandle, driver, genre_flag):
     usage_limit = driver.find_elements(By.CLASS_NAME, value="white_box")
     if len(usage_limit):
       print("利用制限画面が出ました")
-      # time.sleep(2)
-      # driver.get("https://pcmax.jp/pcm/index.php")
+      top_logo = driver.find_elements(By.ID, value="top")
+      a = top_logo[0].find_element(By.TAG_NAME, value="a")
+      a.click()
+      time.sleep(wait_time)
+      # MENUをクリック
+      menu = driver.find_element(By.ID, value='sp_nav')
+      menu.click()
+      time.sleep(wait_time)
+      # 掲示板履歴をクリック　
+      bulletin_board_history = driver.find_element(By.CLASS_NAME, value="nav-content-list")
+      bulletin_board_history = bulletin_board_history.find_elements(By.TAG_NAME, value="dd")
+      for i in bulletin_board_history:
+        if i.text == "投稿履歴・編集":
+          bulletin_board_history = i.find_element(By.TAG_NAME, value="a")
+          driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", bulletin_board_history)
+          bulletin_board_history.click()
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(wait_time)
+          break
+      #掲示板4つ再投稿
+      link_list = []
+      copies = driver.find_elements(By.CLASS_NAME, value="copy_title")
+      if not len(copies):
+        return
+      for i in range(len(copies)):
+        copy = copies[i].find_elements(By.TAG_NAME, value="a")
+        for a_element in copy:
+          link_text = a_element.text
+          if link_text == "コピーする":
+            link = a_element.get_attribute("href")
+            link_list.append(link)
+      print(link_list)
+      for i in link_list:
+        driver.get(i)
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(wait_time)
+        submit = driver.find_element(By.CLASS_NAME, value="write_btn")
+        submit.click()
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(wait_time)
       return
     # 掲示板投稿履歴をクリック
     bulletin_board_history = driver.find_element(By.XPATH, value="//*[@id='wrap']/div[2]/table/tbody/tr/td[3]/a")

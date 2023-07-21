@@ -44,11 +44,11 @@ def repost_happymail_pcmax():
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())
-  # try:
-  #   pcmax.re_post(name, p_w, driver, genre_flag_pcmax)
-  # except Exception as e:
-  #   print('=== エラー内容 ===')
-  #   print(traceback.format_exc())
+  try:
+    pcmax.re_post(name, p_w, driver, genre_flag_pcmax)
+  except Exception as e:
+    print('=== エラー内容 ===')
+    print(traceback.format_exc())
   driver.quit()
   
   return True

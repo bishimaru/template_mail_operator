@@ -8,15 +8,16 @@ import time
 from selenium.webdriver.common.by import By
 import os
 import sys
-import traceback
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from widget import pcmax, happymail, func
 from selenium.webdriver.support.ui import WebDriverWait
 import setting
+import traceback
+from datetime import timedelta
 
-def h_foot(cnt):
+
+def h_p_foot(cnt):
   name = "みすず"
-  return_foot_img = ""
   return_foot_message = """足跡からきました♪
 都内でリモートワークをしているみすずです！
 
@@ -25,7 +26,8 @@ def h_foot(cnt):
 こんな生活なので欲求不満で、家で一人でするのも飽きたので、生身の男性と触れ合いたいです笑
 
 良かったら私とやり取りしてみませんか♪"""
-  
+  h_return_foot_img = ""
+  p_return_foot_img = ""
   options = Options()
   options.add_argument('--headless')
   options.add_argument("--no-sandbox")
@@ -34,8 +36,11 @@ def h_foot(cnt):
   service = Service(executable_path="./chromedriver")
   driver = webdriver.Chrome(service=service, options=options)
   h_w = func.get_windowhandle("happymail", name)
+  # p_w = func.get_windowhandle("pcmax", name)
+  p_w = ""
+
   try:   
-    happymail.return_footpoint(name, h_w, driver, return_foot_message, cnt, return_foot_img)
+    func.h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_return_foot_img, p_return_foot_img)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())
@@ -46,4 +51,4 @@ if __name__ == '__main__':
     cnt = 20
   else:
     cnt = int(sys.argv[1])
-  h_foot(cnt)
+  h_p_foot(cnt)
