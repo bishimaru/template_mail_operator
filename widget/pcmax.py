@@ -399,9 +399,9 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
          break
   driver.refresh()
 
-def send_fst_mail(name):
+def send_fst_mail(name, user_age):
   options = Options()
-  options.add_argument('--headless')
+  # options.add_argument('--headless')
   options.add_argument("--incognito")
   options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
   options.add_argument("--no-sandbox")
@@ -424,7 +424,7 @@ def send_fst_mail(name):
       pcmax_pass = row[3]
 
       fst_message = row[5]
-      print(fst_message)
+      print(row)
       fst_message_img = row[6]
   try:
     driver.delete_all_cookies()
@@ -457,9 +457,12 @@ def send_fst_mail(name):
       # 検索条件を設定
       search_elem = driver.find_element(By.ID, value="search1")
       search_elem.click()
+      user_age = f"{user_age}歳"
+      print(777)
+      print(user_age)
       young_age = driver.find_element(By.ID, "to_age")
       select = Select(young_age)
-      select.select_by_visible_text("30歳")
+      select.select_by_visible_text(user_age)
       time.sleep(1)
       # ページの高さを取得
       last_height = driver.execute_script("return document.body.scrollHeight")
