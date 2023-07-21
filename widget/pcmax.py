@@ -457,9 +457,6 @@ def send_fst_mail(name, user_age):
       # 検索条件を設定
       search_elem = driver.find_element(By.ID, value="search1")
       search_elem.click()
-      user_age = f"{user_age}歳"
-      print(777)
-      print(user_age)
       young_age = driver.find_element(By.ID, "to_age")
       select = Select(young_age)
       select.select_by_visible_text(user_age)
