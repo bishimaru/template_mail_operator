@@ -72,9 +72,13 @@ def mail_reception_check(window_handle, driver, wait):
                new_mail = name + " : pcmax"
       # gmail
       elif url.startswith("https://mail.google.com"):
-         driver.get("https://mail.google.com/mail/mu")
-         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-         time.sleep(1)  
+         try:
+            driver.get("https://mail.google.com/mail/mu")
+            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+            time.sleep(1)  
+         except TimeoutException as e:
+            print("TimeoutException")
+            driver.refresh()
          # メニューをクリック
          # カスタム属性の値を持つ要素をXPathで検索
          custom_value = "メニュー"
