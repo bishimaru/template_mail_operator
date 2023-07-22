@@ -485,7 +485,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    driver.delete_all_cookies()
    driver.get("https://happymail.jp/login/")
    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-   wait_time = random.uniform(2, 7)
+   wait_time = random.uniform(2, 5)
    time.sleep(wait_time)
    id_form = driver.find_element(By.ID, value="TelNo")
    id_form.send_keys(happymail_id)
@@ -494,6 +494,8 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    time.sleep(wait_time)
    send_form = driver.find_element(By.ID, value="login_btn")
    send_form.click()
+   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+   time.sleep(2)
    # プロフ検索をクリック
    nav_list = driver.find_element(By.ID, value='ds_nav')
    mypage = nav_list.find_element(By.LINK_TEXT, "プロフ検索")
