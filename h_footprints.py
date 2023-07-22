@@ -19,7 +19,7 @@ from datetime import timedelta
 
 
 def happymail_footprints(driver, wait):
-  start_time = time.time() 
+  
   dbpath = 'firstdb.db'
   conn = sqlite3.connect(dbpath)
   # # SQLiteを操作するためのカーソルを作成
@@ -34,16 +34,17 @@ def happymail_footprints(driver, wait):
       if row[0] in foot_order_list:
         happy_user_list.append(row)
   # print(happy_user_list)
-  for user_list in happy_user_list:
-      try:
-        happymail.make_footprints(user_list[0], user_list[1], user_list[2], driver, wait)
-      except Exception as e:
-        print(traceback.format_exc())
-  elapsed_time = time.time() - start_time  # 経過時間を計算する
-  elapsed_timedelta = timedelta(seconds=elapsed_time)
-  elapsed_time_formatted = str(elapsed_timedelta)
-  print(f"<<<<<<<<<<<<<経過時間 {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
-  
+  for i in range(9999):
+    start_time = time.time() 
+    for user_list in happy_user_list:
+        try:
+          happymail.make_footprints(user_list[0], user_list[1], user_list[2], driver, wait)
+        except Exception as e:
+          print(traceback.format_exc())
+    elapsed_time = time.time() - start_time  # 経過時間を計算する
+    elapsed_timedelta = timedelta(seconds=elapsed_time)
+    elapsed_time_formatted = str(elapsed_timedelta)
+    print(f"<<<<<<<<<<<<<経過時間 {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
 
 if __name__ == '__main__':
   # if len(sys.argv) < 2:
