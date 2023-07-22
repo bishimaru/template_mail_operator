@@ -509,11 +509,29 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", user)
       user.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      print(f'{name}: ハッピーメール、足跡{i+1}件')
       time.sleep(wait_time)
+      # いいね
+      # 実行確率（80%の場合）
+      execution_probability = 0.20
+      # ランダムな数値を生成し、実行確率と比較
+      like_flag = False
+      if random.random() < execution_probability:
+        like_flag = True
+        like = driver.find_elements(By.CLASS_NAME, value="icon-profile_like")
+        like[0].click()
+        time.sleep(2)
+        like_send = driver.find_elements(By.CLASS_NAME, value="modal-confirm")
+        like_send[0].click()
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(1)
+        like_cansel = driver.find_elements(By.CLASS_NAME, value="modal-cancel")
+        like_cansel[0].click()
+        time.sleep(1)
       driver.back()
+      print(f'{name}: ハッピーメール、足跡{i+1}件, いいね:{like_flag}')
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
+      
    driver.refresh()
 
 def send_fst_message(name_list):
