@@ -14,7 +14,7 @@ else:
   user_address = str(sys.argv[1])
 
 mailaddress = 'maiko414510@gmail.com'
-password = ''
+password = 'mpagtnwxdjmnbqxs'
 text = """メアド交換ありがとうございます♪
 
 お互いに出会えて良かったと感じる関係になることが理想です♪ただ、私はセフレの相性は1回では分からないと思いますので、最初に会う際にはホテル代とは別に2万円を預けてもらいたいです！

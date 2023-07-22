@@ -198,9 +198,15 @@ def re_post(name, pcmax_windowhandle, driver, genre_flag):
             link_list.append(link)
       print(link_list)
       for i in link_list:
-        driver.get(i)
-        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-        time.sleep(wait_time)
+        try:
+          driver.get(i)
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(wait_time)
+        except TimeoutException as e:
+          print("TimeoutException")
+          driver.refresh()
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(wait_time)
         submit = driver.find_element(By.CLASS_NAME, value="write_btn")
         submit.click()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')

@@ -39,6 +39,7 @@ def happymail_footprints(driver, wait):
         happymail.make_footprints(user_list[0], user_list[1], user_list[2], driver, wait)
       except Exception as e:
         print(traceback.format_exc())
+  elapsed_time = time.time() - start_time  # 経過時間を計算する
   elapsed_timedelta = timedelta(seconds=elapsed_time)
   elapsed_time_formatted = str(elapsed_timedelta)
   print(f"<<<<<<<<<<<<<経過時間 {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
