@@ -38,8 +38,8 @@ def h_p_foot(cnt):
   service = Service(executable_path="./chromedriver")
   driver = webdriver.Chrome(service=service, options=options)
   h_w = func.get_windowhandle("happymail", "くみ")
-  p_w = func.get_windowhandle("pcmax", "くみ")
-  # p_w = ""
+  # p_w = func.get_windowhandle("pcmax", "くみ")
+  p_w = ""
 
   try:   
     func.h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_return_foot_img, p_return_foot_img)

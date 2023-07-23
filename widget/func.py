@@ -136,10 +136,13 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
     time.sleep(1)
     # 右下のキャラ画像をクリック
-    chara_img = driver.find_element(By.XPATH, value="//*[@id='sp_footer']/a[5]")
-    chara_img.click()
-    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-    time.sleep(wait_time)
+    chara_img = driver.find_elements(By.XPATH, value="//*[@id='sp_footer']/a[5]")
+    if len(chara_img):
+      chara_img[0].click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(wait_time)
+    else: #番号確認画面
+      return
     # //*[@id="contents"]/div[2]/div[2]/ul/li[5]/a
     # 足あとをクリック
     footpoint = driver.find_element(By.XPATH, value="//*[@id='contents']/div[2]/div[2]/ul/li[5]/a")
@@ -265,6 +268,7 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
         print("ハッピーメール：メールアイコンが5続きました")
     # ユーザークリック
     driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", happy_foot_user[mail_icon_cnt])
+    time.sleep(1)
     happy_foot_user[mail_icon_cnt].click()
 
     # pcmax
