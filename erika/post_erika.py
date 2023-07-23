@@ -16,6 +16,7 @@ import traceback
 
 
 def repost_happymail_pcmax():
+  print(777)
   adult_flag = True
   genre_flag = setting.genre_flag
   genre_flag_pcmax = setting.genre_flag_pcmax
@@ -44,7 +45,9 @@ def repost_happymail_pcmax():
   options.add_argument("--remote-debugging-port=9222")
   options.add_experimental_option("detach", True)
   service = Service(executable_path="./chromedriver")
+  print(666)
   driver = webdriver.Chrome(service=service, options=options)
+  print(555)
   h_w = func.get_windowhandle("happymail", name)
   p_w = func.get_windowhandle("pcmax", name)
   try:   
