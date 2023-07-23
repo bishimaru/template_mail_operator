@@ -519,6 +519,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
         like_flag = True
         like = driver.find_elements(By.CLASS_NAME, value="icon-profile_like")
         like[0].click()
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(2)
         like_send = driver.find_elements(By.CLASS_NAME, value="modal-confirm")
         like_send[0].click()
