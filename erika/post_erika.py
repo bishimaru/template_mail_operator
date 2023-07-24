@@ -61,7 +61,6 @@ def repost_happymail_pcmax():
     print('=== エラー内容 ===')
     print(traceback.format_exc())
   driver.quit()
-  return True
 
 if __name__ == '__main__':
   # print(f'__name__ は{__name__}となっている。')

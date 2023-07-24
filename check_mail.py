@@ -22,6 +22,8 @@ from datetime import timedelta
 order_list = ["えりか", "くみ", "りな", "めあり", "きりこ", "彩香", "ハル", "ゆりあ", "みづき", "ももか",  "りこ", "ゆうこ", "まいこ", "みすず"]
 
 def check_mail():
+    print('checkkumaiiiil')
+    return
     window_handle_list= []
     window_handle_order_list= []
     dbpath = 'firstdb.db'

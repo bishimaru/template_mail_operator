@@ -39,6 +39,8 @@ elif len(sys.argv) == 2:
 def timer(sec, functions, cnt):
   start_time = time.time() 
   for func in functions:
+    print(456)
+    # print(func())
     func()
   elapsed_time = time.time() - start_time  # 経過時間を計算する
   while elapsed_time < sec:
@@ -105,12 +107,12 @@ except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(525, [repost_yuko_yuki.repost_happymail_pcmax(), check_mail, lambda: h_p_foot_riko.h_p_foot(cnt)], cnt)
+  timer(525, [repost_yuko_yuki.repost_happymail_pcmax, check_mail, lambda: h_p_foot_riko.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(525, [post_maiko.repost_happymail_pcmax(), check_mail, lambda: h_p_foot_yuko_yuki.h_p_foot(cnt)], cnt)
+  timer(525, [post_maiko.repost_happymail_pcmax, check_mail, lambda: h_p_foot_yuko_yuki.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
