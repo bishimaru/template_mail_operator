@@ -50,9 +50,10 @@ def timer(sec, functions, cnt):
 
 sitemawashi_starttime = time.time() 
 
+# fst_mail_hm.fst_mail_hm
 
 try:
-  timer(525, [post_erika.repost_happymail_pcmax, check_mail, fst_mail_hm.fst_mail_hm], cnt)
+  timer(525, [post_erika.repost_happymail_pcmax, check_mail], cnt)
 except Exception as e:
   print(traceback.format_exc())
 

@@ -519,28 +519,30 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
       time.sleep(wait_time)
       print(666)
       # いいね
-      # 実行確率
-      execution_probability = 0.30
-      # ランダムな数値を生成し、実行確率と比較
       like_flag = False
-      if random.random() < execution_probability:
-        print(555)
-        like_flag = True
-        like = driver.find_elements(By.CLASS_NAME, value="icon-profile_like")
-        like[0].click()
-        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-        time.sleep(2)
-        like_send = driver.find_elements(By.CLASS_NAME, value="modal-confirm")
-        while not len(like_send):
-           time.sleep(1)
-           like_send = driver.find_elements(By.CLASS_NAME, value="modal-confirm")
-        like_send[0].click()
-        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-        time.sleep(2)
-        like_cansel = driver.find_elements(By.CLASS_NAME, value="modal-cancel")
-        like_cansel[0].click()
-        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-        time.sleep(2)
+      like = driver.find_elements(By.CLASS_NAME, value="icon-profile_like")
+      like_icon = like[0].find_elements(By.CLASS_NAME, value="icon-on")
+      if like_icon[0].is_displayed():
+        # ランダムな数値を生成し、実行確率と比較
+         # 実行確率
+        execution_probability = 0.30
+        if random.random() < execution_probability:
+          print(555)
+          like_flag = True
+          like[0].click()
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(2)
+          like_send = driver.find_elements(By.CLASS_NAME, value="modal-confirm")
+          while not len(like_send):
+            time.sleep(1)
+            like_send = driver.find_elements(By.CLASS_NAME, value="modal-confirm")
+          like_send[0].click()
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(2)
+          like_cansel = driver.find_elements(By.CLASS_NAME, value="modal-cancel")
+          like_cansel[0].click()
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(2)
       print(444)
       driver.get("https://happymail.co.jp/sp/app/html/profile_list.php")
       # driver.back()
