@@ -510,14 +510,12 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    time.sleep(wait_time)
   
    for i in range(21):
-      print(777)
       user_list = driver.find_elements(By.CLASS_NAME, value="profile_list_big_item")
       user = user_list[i].find_element(By.TAG_NAME, value="a")
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", user)
       user.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
-      print(666)
       # いいね
       like_flag = False
       like = driver.find_elements(By.CLASS_NAME, value="icon-profile_like")
@@ -527,7 +525,6 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
          # 実行確率
         execution_probability = 0.30
         if random.random() < execution_probability:
-          print(555)
           like_flag = True
           like[0].click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -543,13 +540,11 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
           like_cansel[0].click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(2)
-      print(444)
       driver.get("https://happymail.co.jp/sp/app/html/profile_list.php")
       # driver.back()
       print(f'{name}: ハッピーメール、足跡{i+1}件, いいね:{like_flag}')
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
-      
    driver.refresh()
 
 def send_fst_message(name_list):
