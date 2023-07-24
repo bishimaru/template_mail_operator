@@ -588,7 +588,12 @@ def send_fst_mail(name, user_age):
         self_introduction = driver.find_elements(By.XPATH, value="/html/body/main/div[4]/div/p")
         if len(self_introduction):
           self_introduction = self_introduction[0].text.replace(" ", "").replace("\n", "")
-          if '通報' in self_introduction or '業者' in self_introduction:
+          # if '通報' in self_introduction or '業者' in self_introduction:
+          #   print('自己紹介文に危険なワードが含まれていました')
+          #   time.sleep(wait_time)
+          #   send_status = False
+          #   continue
+          if '通報' in self_introduction:
             print('自己紹介文に危険なワードが含まれていました')
             time.sleep(wait_time)
             send_status = False
