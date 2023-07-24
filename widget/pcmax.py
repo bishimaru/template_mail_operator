@@ -196,7 +196,7 @@ def re_post(name, pcmax_windowhandle, driver, genre_flag):
           if link_text == "コピーする":
             link = a_element.get_attribute("href")
             link_list.append(link)
-      print(link_list)
+      repost_cnt = 1
       for i in link_list:
         try:
           driver.get(i)
@@ -211,6 +211,8 @@ def re_post(name, pcmax_windowhandle, driver, genre_flag):
         submit.click()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(wait_time)
+        print(f"再投稿 {repost_cnt}件")
+        repost_cnt += 1
       return
     # 掲示板投稿履歴をクリック
     bulletin_board_history = driver.find_element(By.XPATH, value="//*[@id='wrap']/div[2]/table/tbody/tr/td[3]/a")
@@ -299,7 +301,11 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt,
     if mail_history == 7:
       break
     driver.get(i)
-    # //*[@id="profile-box"]/div/div[2]/p/a/span
+    # タイプありがとう
+    like_return = driver.find_elements(By.CLASS_NAME, value="tbtn2")
+    if len(like_return):
+      like_return[0].click()
+      time.sleep(2)
     sent = driver.find_elements(By.XPATH, value="//*[@id='profile-box']/div/div[2]/p/a/span")
     if len(sent):
       print('送信履歴があります')

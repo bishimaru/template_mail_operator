@@ -42,8 +42,6 @@ def h_p_foot(cnt):
 
   # start_time = time.time() 
   try:   
-    print("riko-return-message")
-    return
     func.h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_return_foot_img, p_return_foot_img)
   except Exception as e:
     print('=== エラー内容 ===')

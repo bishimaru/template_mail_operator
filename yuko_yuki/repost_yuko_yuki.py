@@ -50,8 +50,7 @@ def repost_happymail_pcmax():
   p_w = ""
 
   try:   
-    print("yukoyuki-repost")
-    # happymail.re_post(name, h_w, driver, title, text, adult_flag, genre_flag)
+    happymail.re_post(name, h_w, driver, title, text, adult_flag, genre_flag)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())
