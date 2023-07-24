@@ -25,6 +25,12 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
   driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
   if setting.mac_os:
     os.system("osascript -e 'display notification \"ハッピーメール掲示板再投稿中...\" with title \"{}\"'".format(name))
+  # 警告画面が出たらスキップ
+  # ds_main_header_text
+  warning = driver.find_elements(By.CLASS_NAME, value="ds_main_header_text")
+  if warning:
+     print("警告画面が出ました")
+     return
   # マイページをクリック
   nav_list = driver.find_element(By.ID, value='ds_nav')
   mypage = nav_list.find_element(By.LINK_TEXT, "マイページ")
@@ -485,7 +491,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    driver.delete_all_cookies()
    driver.get("https://happymail.jp/login/")
    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-   wait_time = random.uniform(2, 5)
+   wait_time = random.uniform(2, 4)
    time.sleep(wait_time)
    id_form = driver.find_element(By.ID, value="TelNo")
    id_form.send_keys(happymail_id)
@@ -511,8 +517,8 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
       # いいね
-      # 実行確率（80%の場合）
-      execution_probability = 0.20
+      # 実行確率
+      execution_probability = 0.30
       # ランダムな数値を生成し、実行確率と比較
       like_flag = False
       if random.random() < execution_probability:
@@ -522,6 +528,9 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(2)
         like_send = driver.find_elements(By.CLASS_NAME, value="modal-confirm")
+        while not len(like_send):
+           time.sleep(1)
+           like_send = driver.find_elements(By.CLASS_NAME, value="modal-confirm")
         like_send[0].click()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(2)
