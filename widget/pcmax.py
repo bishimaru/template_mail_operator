@@ -384,7 +384,7 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
   driver.delete_all_cookies()
   driver.get("https://pcmax.jp/pcm/file.php?f=login_form")
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-  wait_time = random.uniform(6, 16)
+  wait_time = random.uniform(5, 15)
   time.sleep(wait_time)
   id_form = driver.find_element(By.ID, value="login_id")
   id_form.send_keys(pcmax_id)
@@ -401,6 +401,39 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
   search_profile.click()
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
   time.sleep(1)
+  # 検索条件を設定
+  search_elem = driver.find_element(By.ID, value="search1")
+  search_elem.click()
+  young_age = driver.find_element(By.ID, "to_age")
+  select = Select(young_age)
+  select.select_by_visible_text("33歳")
+  # ページの高さを取得
+  last_height = driver.execute_script("return document.body.scrollHeight")
+  while True:
+    # ページの最後までスクロール
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    # ページが完全に読み込まれるまで待機
+    time.sleep(2)
+    # 新しい高さを取得
+    new_height = driver.execute_script("return document.body.scrollHeight")
+    # ページの高さが変わらなければ、すべての要素が読み込まれたことを意味する
+    if new_height == last_height:
+        break
+    last_height = new_height
+  # 履歴あり、なしの設定
+  mail_history = driver.find_elements(By.CLASS_NAME, value="thumbnail-c")
+  check_flag = driver.find_element(By.ID, value="opt3") 
+  is_checked = check_flag.is_selected()
+  if is_checked:
+      print("送信履歴にチェックあり")
+  else:
+      mail_history[2].click()
+      time.sleep(1)
+  enter_button = driver.find_elements(By.ID, value="search1")
+  enter_button[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+
+
   # ページの高さを取得
   last_height = driver.execute_script("return document.body.scrollHeight")
   while True:
@@ -441,15 +474,26 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
       #  print('無双RUSH終了')
   print(f"ユーザー件数：{len(link_list)}")
   for i, link_url in enumerate(link_list):
-
-      print(f"{name}: pcmax、足ペタ件数: {i + 1}")
+      like_flag = False
       driver.get(link_url)
+      # いいね
+      # ランダムな数値を生成し、実行確率と比較
+      # 実行確率
+      execution_probability = 0.30
+      if random.random() < execution_probability:
+        like_flag = True
+        like = driver.find_elements(By.ID, value="type_maru")
+        like[0].click()
       time.sleep(wait_time)
+      if like_flag:
+        print(f"{name}: pcmax、足ペタ件数: {i + 1} いいね")
+      else:
+        print(f"{name}: pcmax、足ペタ件数: {i + 1}")
       if i == 21:
          break
   driver.refresh()
 
-def send_fst_mail(name, user_age):
+def send_fst_mail(name, user_age, maji_soushin):
   options = Options()
   options.add_argument('--headless')
   options.add_argument("--incognito")
@@ -599,19 +643,20 @@ def send_fst_mail(name, user_age):
             send_status = False
             continue
         # 残ポイントチェック
-        point = driver.find_elements(By.ID, value="point")
-        if len(point):
-          point = point[0].find_element(By.TAG_NAME, value="span").text
-          pattern = r'\d+'
-          match = re.findall(pattern, point)
-          if int(match[0]) > 1:
-            maji_soushin = True
+        if maji_soushin:
+          point = driver.find_elements(By.ID, value="point")
+          if len(point):
+            point = point[0].find_element(By.TAG_NAME, value="span").text
+            pattern = r'\d+'
+            match = re.findall(pattern, point)
+            if int(match[0]) > 1:
+              maji_soushin = True
+            else:
+              maji_soushin = False
           else:
-            maji_soushin = False
-        else:
-          time.sleep(wait_time)
-          continue
-        time.sleep(1)
+            time.sleep(wait_time)
+            continue
+          time.sleep(1)
         # メッセージをクリック
         message = driver.find_elements(By.ID, value="message1")
         if len(message):
@@ -665,7 +710,6 @@ def send_fst_mail(name, user_age):
         driver.refresh()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(2)
-      
   # 何らかの処理
   except KeyboardInterrupt:
     print("Ctl + c")
