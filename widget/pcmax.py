@@ -627,8 +627,10 @@ def send_fst_mail(name, user_age):
           time.sleep(1)
           picture_select = driver.find_element(By.ID, "my_photo")
           select = Select(picture_select)
+          if not len(select):
+            time.sleep(1)
+            select = Select(picture_select)
           select.select_by_visible_text(fst_message_img)
-          
         # メッセージを入力
         text_area = driver.find_element(By.ID, value="mdc")
         text_area.send_keys(fst_message)
