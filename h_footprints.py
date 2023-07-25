@@ -19,7 +19,6 @@ from datetime import timedelta
 
 
 def happymail_footprints(driver, wait):
-  
   dbpath = 'firstdb.db'
   conn = sqlite3.connect(dbpath)
   # # SQLiteを操作するためのカーソルを作成
