@@ -494,7 +494,7 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
 
 def send_fst_mail(name, user_age, maji_soushin):
   options = Options()
-  options.add_argument('--headless')
+  # options.add_argument('--headless')
   options.add_argument("--incognito")
   options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
   options.add_argument("--no-sandbox")
@@ -504,41 +504,45 @@ def send_fst_mail(name, user_age, maji_soushin):
   service = Service(executable_path="./chromedriver")
   driver = webdriver.Chrome(service=service, options=options)
   wait = WebDriverWait(driver, 15)
-
-  dbpath = 'firstdb.db'
-  conn = sqlite3.connect(dbpath)
-  # SQLiteを操作するためのカーソルを作成
-  cur = conn.cursor()
-  # 順番
-  # データ検索
-  cur.execute('SELECT * FROM pcmax WHERE name = ?', (name,))
-  for row in cur:
-      pcmax_id = row[2]
-      pcmax_pass = row[3]
-
-      fst_message = row[5]
-      print(row)
-      fst_message_img = row[6]
+  
   try:
-    driver.delete_all_cookies()
-    driver.get("https://pcmax.jp/pcm/file.php?f=login_form")
+    dbpath = 'firstdb.db'
+    conn = sqlite3.connect(dbpath)
+    # SQLiteを操作するためのカーソルを作成
+    cur = conn.cursor()
+    # 順番
+    # データ検索
+    cur.execute('SELECT * FROM pcmax WHERE name = ?', (name,))
+    print(777)
+    print(name)
+    for row in cur:
+        pcmax_id = row[2]
+        pcmax_pass = row[3]
+
+        fst_message = row[5]
+        
+        print(row)
+        fst_message_img = row[6]
+    try:
+      driver.delete_all_cookies()
+      driver.get("https://pcmax.jp/pcm/file.php?f=login_form")
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    except TimeoutException as e:
+      print("TimeoutException")
+      driver.refresh()
+    wait_time = random.uniform(2, 5)
+    time.sleep(wait_time)
+    id_form = driver.find_element(By.ID, value="login_id")
+    id_form.send_keys(pcmax_id)
+    pass_form = driver.find_element(By.ID, value="login_pw")
+    pass_form.send_keys(pcmax_pass)
+    time.sleep(1)
+    send_form = driver.find_element(By.NAME, value="login")
+    send_form.click()
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-  except TimeoutException as e:
-    print("TimeoutException")
-    driver.refresh()
-  wait_time = random.uniform(2, 5)
-  time.sleep(wait_time)
-  id_form = driver.find_element(By.ID, value="login_id")
-  id_form.send_keys(pcmax_id)
-  pass_form = driver.find_element(By.ID, value="login_pw")
-  pass_form.send_keys(pcmax_pass)
-  time.sleep(1)
-  send_form = driver.find_element(By.NAME, value="login")
-  send_form.click()
-  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-  time.sleep(wait_time)
+    time.sleep(wait_time)
 
-  try:
+    
     send_cnt = 1
     while True:
       #プロフ検索をクリック
@@ -631,16 +635,16 @@ def send_fst_mail(name, user_age, maji_soushin):
         self_introduction = driver.find_elements(By.XPATH, value="/html/body/main/div[4]/div/p")
         if len(self_introduction):
           self_introduction = self_introduction[0].text.replace(" ", "").replace("\n", "")
-          # if '通報' in self_introduction or '業者' in self_introduction:
-          #   print('自己紹介文に危険なワードが含まれていました')
-          #   time.sleep(wait_time)
-          #   send_status = False
-          #   continue
-          if '通報' in self_introduction:
+          if '通報' in self_introduction or '業者' in self_introduction:
             print('自己紹介文に危険なワードが含まれていました')
             time.sleep(wait_time)
             send_status = False
             continue
+          # if '通報' in self_introduction:
+          #   print('自己紹介文に危険なワードが含まれていました')
+          #   time.sleep(wait_time)
+          #   send_status = False
+          #   continue
         # 残ポイントチェック
         if maji_soushin:
           point = driver.find_elements(By.ID, value="point")
@@ -711,7 +715,7 @@ def send_fst_mail(name, user_age, maji_soushin):
         time.sleep(2)
   # 何らかの処理
   except KeyboardInterrupt:
-    print("Ctl + c")
+    print("終了しました")
     driver.quit()  
 
   

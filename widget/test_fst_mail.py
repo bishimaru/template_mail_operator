@@ -14,6 +14,8 @@ elif len(sys.argv) == 3:
   name = str(sys.argv[1])
   user_age = str(sys.argv[2]) + "歳"
 elif len(sys.argv) == 4:
+  name = str(sys.argv[1])
+  user_age = str(sys.argv[2]) + "歳"
   if sys.argv[3] == str(1):
     maji_soushin = True
   elif sys.argv[3] == str(0):
