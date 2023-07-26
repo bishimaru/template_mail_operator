@@ -491,7 +491,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    driver.delete_all_cookies()
    driver.get("https://happymail.jp/login/")
    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-   wait_time = random.uniform(2, 4)
+   wait_time = random.uniform(1, 3)
    time.sleep(wait_time)
    id_form = driver.find_element(By.ID, value="TelNo")
    id_form.send_keys(happymail_id)
@@ -526,7 +526,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
         break
     last_height = new_height
   
-   for i in range(21):
+   for i in range(30):
       user_list = driver.find_elements(By.CLASS_NAME, value="profile_list_big_item")
       user = user_list[i].find_element(By.TAG_NAME, value="a")
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", user)
@@ -536,15 +536,15 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
       # タイプ
       type_flag = False
       if i < 8:
-        # ランダムな数値を生成し、実行確率と比較
-        # 実行確率
-        execution_probability = 0.50
-        if random.random() < execution_probability:
-          type_flag = True
-          love_type = driver.find_elements(By.CLASS_NAME, value="icon-type_off")
-          # driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", love_type[0])
-          love_type[i].click()
-          time.sleep(2)
+        # # ランダムな数値を生成し、実行確率と比較
+        # # 実行確率
+        # execution_probability = 0.50
+        # if random.random() < execution_probability:
+        type_flag = True
+        love_type = driver.find_elements(By.CLASS_NAME, value="icon-type_off")
+        # driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", love_type[0])
+        love_type[i].click()
+        time.sleep(2)
       # いいね
       like_flag = False
       like = driver.find_elements(By.CLASS_NAME, value="icon-profile_like")
@@ -552,7 +552,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
       if like_icon[0].is_displayed():
         # ランダムな数値を生成し、実行確率と比較
          # 実行確率
-        execution_probability = 0.30
+        execution_probability = 0.80
         if random.random() < execution_probability:
           like_flag = True
           like[0].click()

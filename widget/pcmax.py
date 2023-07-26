@@ -380,6 +380,7 @@ def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt,
     if send_count == cnt:
       break
   driver.get("https://pcmax.jp/pcm/index.php")
+
 def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
   driver.delete_all_cookies()
   driver.get("https://pcmax.jp/pcm/file.php?f=login_form")
@@ -432,8 +433,6 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
   enter_button = driver.find_elements(By.ID, value="search1")
   enter_button[0].click()
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-
-
   # ページの高さを取得
   last_height = driver.execute_script("return document.body.scrollHeight")
   while True:
@@ -479,7 +478,7 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
       # いいね
       # ランダムな数値を生成し、実行確率と比較
       # 実行確率
-      execution_probability = 0.30
+      execution_probability = 0.40
       if random.random() < execution_probability:
         like_flag = True
         like = driver.find_elements(By.ID, value="type_maru")
