@@ -494,7 +494,7 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
 
 def send_fst_mail(name, user_age, maji_soushin):
   options = Options()
-  # options.add_argument('--headless')
+  options.add_argument('--headless')
   options.add_argument("--incognito")
   options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
   options.add_argument("--no-sandbox")
@@ -504,7 +504,6 @@ def send_fst_mail(name, user_age, maji_soushin):
   service = Service(executable_path="./chromedriver")
   driver = webdriver.Chrome(service=service, options=options)
   wait = WebDriverWait(driver, 15)
-  
   try:
     dbpath = 'firstdb.db'
     conn = sqlite3.connect(dbpath)
@@ -513,15 +512,11 @@ def send_fst_mail(name, user_age, maji_soushin):
     # 順番
     # データ検索
     cur.execute('SELECT * FROM pcmax WHERE name = ?', (name,))
-    print(777)
-    print(name)
     for row in cur:
         pcmax_id = row[2]
         pcmax_pass = row[3]
-
         fst_message = row[5]
-        
-        print(row)
+        # print(row)
         fst_message_img = row[6]
     try:
       driver.delete_all_cookies()
@@ -542,7 +537,6 @@ def send_fst_mail(name, user_age, maji_soushin):
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
     time.sleep(wait_time)
 
-    
     send_cnt = 1
     while True:
       #プロフ検索をクリック
