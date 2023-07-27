@@ -11,6 +11,8 @@ from selenium.webdriver.support.select import Select
 import random
 from selenium.webdriver.support.ui import WebDriverWait
 import traceback
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import setting
 import re
 from selenium.common.exceptions import TimeoutException
@@ -59,7 +61,7 @@ def login(driver, wait):
     suspend = driver.find_elements(By.CLASS_NAME, value="suspend-title")
     if len(suspend):
       print('利用制限中です')
-      return
+      return 
     login = driver.find_elements(By.CLASS_NAME, value="login")
     if len(login):    
       login[0].click()
@@ -76,6 +78,7 @@ def login(driver, wait):
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
     time.sleep(2)
     return login(driver, wait)
+  
     
 def re_post(name, pcmax_windowhandle, driver, genre_flag):
   wait = WebDriverWait(driver, 15)
@@ -497,7 +500,7 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
          break
   driver.refresh()
 
-def send_fst_mail(name, user_age, maji_soushin):
+def send_fst_mail(name, maji_soushin, select_areas, youngest_age, oldest_age, ng_words,):
   options = Options()
   options.add_argument('--headless')
   options.add_argument("--incognito")
@@ -509,41 +512,45 @@ def send_fst_mail(name, user_age, maji_soushin):
   service = Service(executable_path="./chromedriver")
   driver = webdriver.Chrome(service=service, options=options)
   wait = WebDriverWait(driver, 15)
+  dbpath = 'firstdb.db'
+  conn = sqlite3.connect(dbpath)
+  # SQLiteを操作するためのカーソルを作成
+  cur = conn.cursor()
+  # 順番
+  # データ検索
+  cur.execute('SELECT * FROM pcmax WHERE name = ?', (name,))
+  for row in cur:
+      login_id = row[2]
+      login_pass = row[3]
+      fst_message = row[5]
+      # print(row)
+      fst_message_img = row[6]
   try:
-    dbpath = 'firstdb.db'
-    conn = sqlite3.connect(dbpath)
-    # SQLiteを操作するためのカーソルを作成
-    cur = conn.cursor()
-    # 順番
-    # データ検索
-    cur.execute('SELECT * FROM pcmax WHERE name = ?', (name,))
-    for row in cur:
-        pcmax_id = row[2]
-        pcmax_pass = row[3]
-        fst_message = row[5]
-        # print(row)
-        fst_message_img = row[6]
-    try:
-      driver.delete_all_cookies()
-      driver.get("https://pcmax.jp/pcm/file.php?f=login_form")
-      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-    except TimeoutException as e:
-      print("TimeoutException")
-      driver.refresh()
-    wait_time = random.uniform(2, 5)
-    time.sleep(wait_time)
-    id_form = driver.find_element(By.ID, value="login_id")
-    id_form.send_keys(pcmax_id)
-    pass_form = driver.find_element(By.ID, value="login_pw")
-    pass_form.send_keys(pcmax_pass)
-    time.sleep(1)
-    send_form = driver.find_element(By.NAME, value="login")
-    send_form.click()
+    driver.delete_all_cookies()
+    driver.get("https://pcmax.jp/pcm/file.php?f=login_form")
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-    time.sleep(wait_time)
-
+  except TimeoutException as e:
+    print("TimeoutException")
+    driver.refresh()
+  wait_time = random.uniform(2, 5)
+  time.sleep(wait_time)
+  id_form = driver.find_element(By.ID, value="login_id")
+  id_form.send_keys(login_id)
+  pass_form = driver.find_element(By.ID, value="login_pw")
+  pass_form.send_keys(login_pass)
+  time.sleep(1)
+  send_form = driver.find_element(By.NAME, value="login")
+  send_form.click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(wait_time)
+  try:
     send_cnt = 1
     while True:
+      # 利用制限中
+      suspend = driver.find_elements(By.CLASS_NAME, value="suspend-title")
+      if len(suspend):
+        print('利用制限中です')
+        break
       #プロフ検索をクリック
       footer_icons = driver.find_element(By.ID, value="sp_footer")
       search_profile = footer_icons.find_element(By.XPATH, value="./*[1]")
@@ -553,10 +560,70 @@ def send_fst_mail(name, user_age, maji_soushin):
       # 検索条件を設定
       search_elem = driver.find_element(By.ID, value="search1")
       search_elem.click()
-      young_age = driver.find_element(By.ID, "to_age")
-      select = Select(young_age)
-      select.select_by_visible_text(user_age)
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(1)
+      # 地域選択
+      select_area = driver.find_elements(By.CLASS_NAME, value="pref-select-link")
+      if len(select_area):
+        select_link = select_area[0].find_elements(By.TAG_NAME, value="a")
+        select_link[0].click()
+      else:
+        # 都道府県の変更、リセット
+        reset_area = driver.find_elements(By.CLASS_NAME, value="reference_btn")
+        reset_area[0].click()
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(1)
+        reset_area_orange = driver.find_elements(By.CLASS_NAME, value="btn-orange")
+        reset_area_orange[0].click()
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(1)
+        ok_button = driver.find_element(By.ID, value="link_OK")
+        ok_button.click()
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(1)
+        select_area = driver.find_elements(By.CLASS_NAME, value="pref-select-link")
+        select_link = select_area[0].find_elements(By.TAG_NAME, value="a")
+        select_link[0].click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(1)
+      area_id_dict = {"東京都":22, "神奈川県":23, "埼玉県":24, "千葉県":25}
+      area_ids = []
+      for select_area in select_areas:
+        if area_id_dict.get(select_area):
+          area_ids.append(area_id_dict.get(select_area))
+      for area_id in area_ids:
+        kanto_selects = driver.find_elements(By.CLASS_NAME, value="select-details-area")[1]
+        check = kanto_selects.find_elements(By.ID, value=int(area_id))
+        time.sleep(1)
+        driver.execute_script("arguments[0].click();", check[0])
+      save_area = driver.find_elements(By.NAME, value="change")
+      time.sleep(1)
+      save_area[0].click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(1)
+      # 年齢
+      if youngest_age:
+        if 17 < int(youngest_age) < 59:
+          str_youngest_age = youngest_age + "歳"
+        elif 60 <= int(youngest_age):
+          str_youngest_age = "60歳以上"
+        from_age = driver.find_element(By.NAME, value="from_age")
+        select_from_age = Select(from_age)
+        select_from_age.select_by_visible_text(str_youngest_age)
+        time.sleep(1)
+      else:
+        youngest_age = ""
+      if oldest_age:
+        if 17 < int(oldest_age) < 59:
+          str_oldest_age = oldest_age + "歳"
+        elif 60 <= int(oldest_age):
+          str_oldest_age = "60歳以上" 
+        to_age = driver.find_element(By.ID, "to_age")
+        select = Select(to_age)
+        select.select_by_visible_text(str_oldest_age)
+        time.sleep(1)
+      else:
+        youngest_age = ""
       # ページの高さを取得
       last_height = driver.execute_script("return document.body.scrollHeight")
       while True:
@@ -574,9 +641,7 @@ def send_fst_mail(name, user_age, maji_soushin):
       mail_history = driver.find_elements(By.CLASS_NAME, value="thumbnail-c")
       check_flag = driver.find_element(By.ID, value="opt3") 
       is_checked = check_flag.is_selected()
-      if is_checked:
-          print("送信履歴にチェックあり")
-      else:
+      if not is_checked:
           mail_history[2].click()
           time.sleep(1)
       enter_button = driver.find_elements(By.ID, value="search1")
@@ -614,7 +679,7 @@ def send_fst_mail(name, user_age, maji_soushin):
         if random.random() < execution_probability:
           user_id = users[user_cnt].get_attribute("id")
           if user_id == "loading":
-            print('id=loading')
+            # print('id=loading')
             while user_id != "loading":
               time.sleep(2)
               user_id = users[user_cnt].get_attribute("id")
@@ -624,26 +689,39 @@ def send_fst_mail(name, user_age, maji_soushin):
       for i, link_url in enumerate(link_list):
         send_status = True
         driver.get(link_url)
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(1)
         # 名前を取得
         user_name = driver.find_elements(By.CLASS_NAME, value="page_title")
         if len(user_name):
           user_name = user_name[0].text
         else:
           user_name = ""
+        # 年齢,活動地域を取得
+        profile_data = driver.find_elements(By.CLASS_NAME, value="data")
+        span_cnt = 0
+        while not len(profile_data):
+          time.sleep(1)
+          profile_data = driver.find_elements(By.CLASS_NAME, value="data")
+          span_cnt += 1
+          if span_cnt == 10:
+            break
+        span_elem = profile_data[0].find_elements(By.TAG_NAME, value="span")
+        user_age = span_elem[0].text
+        area_of_activity = span_elem[1].text
+        
         # 自己紹介文をチェック
         self_introduction = driver.find_elements(By.XPATH, value="/html/body/main/div[4]/div/p")
         if len(self_introduction):
           self_introduction = self_introduction[0].text.replace(" ", "").replace("\n", "")
-          if '通報' in self_introduction or '業者' in self_introduction:
-            print('自己紹介文に危険なワードが含まれていました')
-            time.sleep(wait_time)
-            send_status = False
-            continue
-          # if '通報' in self_introduction:
-          #   print('自己紹介文に危険なワードが含まれていました')
-          #   time.sleep(wait_time)
-          #   send_status = False
-          #   continue
+          for ng_word in ng_words:
+            if ng_word in self_introduction:
+              print('自己紹介文に危険なワードが含まれていました')
+              time.sleep(wait_time)
+              send_status = False
+              continue
+            if send_status == False:
+              break
         # 残ポイントチェック
         if maji_soushin:
           point = driver.find_elements(By.ID, value="point")
@@ -672,16 +750,15 @@ def send_fst_mail(name, user_age, maji_soushin):
           picture_icon = driver.find_elements(By.CLASS_NAME, value="mail-menu-title")
           picture_icon[0].click()
           time.sleep(1)
-          picture_select = driver.find_elements(By.ID, "my_photo")
-          if not len(picture_select):
-            picture_select = driver.find_elements(By.ID, "my_photo")
-          select = Select(picture_select[0])
+          picture_select = driver.find_element(By.ID, "my_photo")
+          select = Select(picture_select)
           select.select_by_visible_text(fst_message_img)
+          
         # メッセージを入力
         text_area = driver.find_element(By.ID, value="mdc")
         text_area.send_keys(fst_message)
         time.sleep(4)
-        print(str(name) + ": pcmax、マジ送信 " + str(maji_soushin) + " ~" + str(send_cnt) + "~ " + str(user_name))
+        print(str(name) + ": pcmax、マジ送信 " + str(maji_soushin) + " ~" + str(send_cnt) + "~ " + str(user_age) + " " + str(area_of_activity) + " " + str(user_name))
         # メッセージを送信
         if send_status:
           send_cnt += 1
@@ -701,7 +778,7 @@ def send_fst_mail(name, user_age, maji_soushin):
             wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
             time.sleep(wait_time)
           time.sleep(wait_time)
-        if i == 15:
+        if i == 20:
             break
       try:
         driver.get("https://pcmax.jp/pcm/index.php")
@@ -712,10 +789,8 @@ def send_fst_mail(name, user_age, maji_soushin):
         driver.refresh()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(2)
+
   # 何らかの処理
   except KeyboardInterrupt:
-    print("終了しました")
+    print("Ctl + c")
     driver.quit()  
-
-  
-

@@ -49,7 +49,8 @@ def repost_happymail_pcmax():
   service = Service(executable_path="./chromedriver")
   driver = webdriver.Chrome(service=service, options=options)
   h_w = func.get_windowhandle("happymail", name)
-  p_w = ""
+  p_w = func.get_windowhandle("pcmax", name)
+  # p_w = ""
 
   try:   
     happymail.re_post(name, h_w, driver, title, text, adult_flag, genre_flag)
