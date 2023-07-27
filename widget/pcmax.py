@@ -55,6 +55,11 @@ def login(driver, wait):
     if url != "https://pcmax.jp/pcm/index.php":
       driver.get("https://pcmax.jp/pcm/index.php")
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    # 利用制限中
+    suspend = driver.find_elements(By.CLASS_NAME, value="suspend-title")
+    if len(suspend):
+      print('利用制限中です')
+      return
     login = driver.find_elements(By.CLASS_NAME, value="login")
     if len(login):    
       login[0].click()
