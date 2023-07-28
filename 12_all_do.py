@@ -39,8 +39,6 @@ elif len(sys.argv) == 2:
 def timer(sec, functions, cnt):
   start_time = time.time() 
   for func in functions:
-    print(456)
-    # print(func())
     func()
   elapsed_time = time.time() - start_time  # 経過時間を計算する
   while elapsed_time < sec:

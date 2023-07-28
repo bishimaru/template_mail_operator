@@ -594,7 +594,6 @@ def send_fst_message(name_list):
       if name == "えりか":
         limit_cnt = 3
       h_w = func.get_windowhandle("happymail", name)
-      # print(777)
       # print(name)
       dbpath = 'firstdb.db'
       conn = sqlite3.connect(dbpath)
