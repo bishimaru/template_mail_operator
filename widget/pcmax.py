@@ -154,14 +154,14 @@ def re_post(name, pcmax_windowhandle, driver, genre_flag):
     # 詳細地域を選択
     detailed_area = driver.find_element(By.NAME, value="city_id")
     select = Select(detailed_area)
-    try:
-      post_area_dic[last_area].remove(detail_selected)
-    except ValueError:
-      pass
-    detail_area = random.choice(post_area_dic[last_area])
-    print('今回の詳細地域 ~' + str(detail_area) + "~")
-    select.select_by_visible_text(detail_area)
-    time.sleep(1)
+    # try:
+    #   post_area_dic[last_area].remove(detail_selected)
+    # except ValueError:
+    #   pass
+    # detail_area = random.choice(post_area_dic[last_area])
+    # print('今回の詳細地域 ~' + str(detail_area) + "~")
+    # select.select_by_visible_text(detail_area)
+    # time.sleep(1)
     
   #掲示板4つ再投稿
   link_list = []
@@ -765,11 +765,15 @@ def send_fst_mail(name, maji_soushin, select_areas, youngest_age, oldest_age, ng
           profile_data = driver.find_elements(By.CLASS_NAME, value="data")
           span_cnt += 1
           if span_cnt == 10:
+            print("年齢と活動地域の取得に失敗しました")
             break
-        span_elem = profile_data[0].find_elements(By.TAG_NAME, value="span")
-        user_age = span_elem[0].text
-        area_of_activity = span_elem[1].text
-        
+        if not len(profile_data):
+          user_age = ""
+          area_of_activity = ""
+        else:
+          span_elem = profile_data[0].find_elements(By.TAG_NAME, value="span")
+          user_age = span_elem[0].text
+          area_of_activity = span_elem[1].text 
         # 自己紹介文をチェック
         self_introduction = driver.find_elements(By.XPATH, value="/html/body/main/div[4]/div/p")
         if len(self_introduction):

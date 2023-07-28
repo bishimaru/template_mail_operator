@@ -39,11 +39,11 @@ def repost_happymail_pcmax():
   service = Service(executable_path="./chromedriver")
   driver = webdriver.Chrome(service=service, options=options)
   
-  # try:   
-  #   happymail.re_post(name, h_w, driver, title, text, adult_flag, genre_flag)
-  # except Exception as e:
-  #   print('=== エラー内容 ===')
-  #   print(traceback.format_exc())
+  try:   
+    happymail.re_post(name, h_w, driver, title, text, adult_flag, genre_flag)
+  except Exception as e:
+    print('=== エラー内容 ===')
+    print(traceback.format_exc())
   try:
     pcmax.re_post(name, p_w, driver, genre_flag_pcmax)
   except Exception as e:
