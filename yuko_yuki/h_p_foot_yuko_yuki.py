@@ -27,7 +27,7 @@ def h_p_foot(cnt):
 そういう関係に興味あったらメッセージいただきたいです！"""
   relative_path = os.path.join(setting.BASE_DIR, setting.yuko_yuki_picture_path)
   h_return_foot_img = relative_path
-  p_return_foot_img = "230720"
+  p_return_foot_img = "230722"
   options = Options()
   options.add_argument('--headless')
   options.add_argument("--no-sandbox")

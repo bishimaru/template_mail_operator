@@ -804,6 +804,7 @@ def send_fst_mail(name, maji_soushin, select_areas, youngest_age, oldest_age, ng
         # メッセージをクリック
         message = driver.find_elements(By.ID, value="message1")
         if len(message):
+          # タイムアウト発生
           message[0].click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(3)

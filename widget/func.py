@@ -225,6 +225,8 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
       time.sleep(wait_time)
       # 画像があれば送信
       if h_return_foot_img:
+        print('画像img')
+        print(h_return_foot_img)
         img_conform = driver.find_element(By.ID, value="media-confirm")
         plus_icon = driver.find_element(By.CLASS_NAME, value="icon-message_plus")
         plus_icon.click()

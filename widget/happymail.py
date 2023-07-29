@@ -70,7 +70,9 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
   genre = driver.find_elements(By.CLASS_NAME, value="ds_bd_none")[1].text
   print("<<<再投稿する掲示板のジャンル取得>>>")
   print(genre)
+  # 1日に書き込めるのは五回まで
   if genre != genre_dict[genre_flag]:
+    print(f"{genre_dict[genre_flag]}にジャンル変更します")
     for i, kanto in enumerate(area_list):
       # 掲示板重複を削除する
       driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")

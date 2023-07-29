@@ -51,67 +51,67 @@ sitemawashi_starttime = time.time()
 # fst_mail_hm.fst_mail_hm
 
 try:
-  timer(525, [post_erika.repost_happymail_pcmax, check_mail], cnt)
+  timer(510, [post_erika.repost_happymail_pcmax, check_mail], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(525, [repost_kumi.repost_happymail_pcmax, check_mail, lambda: h_p_foot_erika.h_p_foot(cnt)], cnt)
+  timer(510, [repost_kumi.repost_happymail_pcmax, check_mail, lambda: h_p_foot_erika.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(525, [post_rina.repost_happymail_pcmax, check_mail, lambda: h_p_foot_kumi.h_p_foot(cnt)], cnt)
+  timer(510, [post_rina.repost_happymail_pcmax, check_mail, lambda: h_p_foot_kumi.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(525, [post_meari.repost_happymail_pcmax, check_mail, lambda: h_p_foot_rina.h_p_foot(cnt)], cnt)
+  timer(510, [post_meari.repost_happymail_pcmax, check_mail, lambda: h_p_foot_rina.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(525, [repost_kiriko.repost_happymail_pcmax, check_mail, lambda: h_p_foot_meari.h_p_foot(cnt)], cnt)
+  timer(510, [repost_kiriko.repost_happymail_pcmax, check_mail, lambda: h_p_foot_meari.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(525, [repost_ayaka.repost_happymail_pcmax, check_mail, lambda: h_p_foot_kiriko.h_p_foot(cnt)], cnt)
+  timer(510, [repost_ayaka.repost_happymail_pcmax, check_mail, lambda: h_p_foot_kiriko.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(525, [repost_haru.repost_happymail_pcmax, check_mail, lambda: h_p_foot_ayaka.h_p_foot(cnt)], cnt)
+  timer(510, [repost_haru.repost_happymail_pcmax, check_mail, lambda: h_p_foot_ayaka.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(525, [post_yuria.repost_happymail_pcmax, check_mail, lambda: h_p_foot_haru.h_p_foot(cnt)], cnt)
+  timer(510, [post_yuria.repost_happymail_pcmax, check_mail, lambda: h_p_foot_haru.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(525, [repost_mizuki.repost_happymail_pcmax, check_mail, lambda: h_p_foot_yuria.h_p_foot(cnt)], cnt)
+  timer(510, [repost_mizuki.repost_happymail_pcmax, check_mail, lambda: h_p_foot_yuria.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(525, [repost_momoka.repost_happymail_pcmax, check_mail, lambda: h_p_foot_mizuki.h_p_foot(cnt)], cnt)
+  timer(510, [repost_momoka.repost_happymail_pcmax, check_mail, lambda: h_p_foot_mizuki.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(525, [repost_riko.repost_happymail_pcmax, check_mail, lambda: h_p_foot_momoka.h_p_foot(cnt)], cnt)
+  timer(510, [repost_riko.repost_happymail_pcmax, check_mail, lambda: h_p_foot_momoka.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(525, [repost_yuko_yuki.repost_happymail_pcmax, check_mail, lambda: h_p_foot_riko.h_p_foot(cnt)], cnt)
+  timer(510, [repost_yuko_yuki.repost_happymail_pcmax, check_mail, lambda: h_p_foot_riko.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(525, [post_maiko.repost_happymail_pcmax, check_mail, lambda: h_p_foot_yuko_yuki.h_p_foot(cnt)], cnt)
+  timer(510, [post_maiko.repost_happymail_pcmax, check_mail, lambda: h_p_foot_yuko_yuki.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
