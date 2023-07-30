@@ -572,19 +572,7 @@ def send_fst_mail(name, maji_soushin, select_areas, youngest_age, oldest_age, ng
   service = Service(executable_path="./chromedriver")
   driver = webdriver.Chrome(service=service, options=options)
   wait = WebDriverWait(driver, 15)
-  dbpath = 'firstdb.db'
-  conn = sqlite3.connect(dbpath)
-  # SQLiteを操作するためのカーソルを作成
-  cur = conn.cursor()
-  # 順番
-  # データ検索
-  cur.execute('SELECT * FROM pcmax WHERE name = ?', (name,))
-  for row in cur:
-      login_id = row[2]
-      login_pass = row[3]
-      fst_message = row[5]
-      # print(row)
-      fst_message_img = row[6]
+  
   try:
     driver.delete_all_cookies()
     driver.get("https://pcmax.jp/pcm/file.php?f=login_form")
@@ -853,7 +841,7 @@ def send_fst_mail(name, maji_soushin, select_areas, youngest_age, oldest_age, ng
         print("TimeoutException")
         driver.refresh()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-        time.sleep(2)
+        time.sleep(wait_time)
 
   # 何らかの処理
   except KeyboardInterrupt:

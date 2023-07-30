@@ -15,6 +15,16 @@ import setting
 from selenium.webdriver.support.select import Select
 import sqlite3
 
+# 警告画面
+# b2_dialog_title
+def catch_warning_screen(driver):
+   warning = driver.find_elements(By.CLASS_NAME, value="warning screen")
+   if len(warning):
+      print(warning.text)
+      return False
+   else:
+      return True
+
 def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genre_flag):
   area_list = ["東京都", "千葉県", "埼玉県", "神奈川県"]
   wait = WebDriverWait(driver, 15)
@@ -344,6 +354,9 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
     user_name_list = []
     # 上から順番に足跡返し
     while cnt >= foot_cnt:
+      warning = catch_warning_screen(driver) 
+      if warning:
+         break
       user_icon = 0
       # マイページをクリック
       nav_list = driver.find_element(By.ID, value='ds_nav')
