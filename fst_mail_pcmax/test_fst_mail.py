@@ -1,6 +1,6 @@
 import pcmax
 import sys
-
+import sqlite3
 # 〜〜〜〜〜〜キャラ情報〜〜〜〜〜〜
 # name = "ゆりあ"
 # login_id = "18983588"
@@ -42,6 +42,7 @@ maji_soushin = False
 # elif len(sys.argv) >= 3:
 #   print("引数を正しく入力してください")
 
+# sqlite用コード〜〜〜〜〜〜〜〜〜〜〜〜〜〜
 if len(sys.argv) == 3:
   name = sys.argv[2]
   if sys.argv[1] == str(1):
@@ -51,9 +52,30 @@ if len(sys.argv) == 3:
 elif len(sys.argv) > 3:
   print("引数を正しく入力してください")
 
+dbpath = 'firstdb.db'
+conn = sqlite3.connect(dbpath)
+# SQLiteを操作するためのカーソルを作成
+cur = conn.cursor()
+# 順番
+# データ検索
+cur.execute('SELECT * FROM pcmax WHERE name = ?', (name,))
+for row in cur:
+    print("キャラ情報")
+    print(row)
+    login_id = row[2]
+    login_pass = row[3]
+    fst_message = row[5]
+    # print(row)
+    fst_message_img = row[6]
+# 〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜sqlite用コード「
 
 
 
+
+# if 3 < len(select_areas):
+#   print("選択地域は3つまでです。")
+# else:
+#   pcmax.send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, maji_soushin, select_areas, youngest_age, oldest_age, ng_words, )
 if 3 < len(select_areas):
   print("選択地域は3つまでです。")
 else:
