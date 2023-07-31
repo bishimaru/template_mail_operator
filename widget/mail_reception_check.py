@@ -39,7 +39,7 @@ def mail_reception_check(window_handle, driver, wait):
             new_message = message_icon.find_elements(By.CLASS_NAME, value="ds_red_circle")
             if len(new_message):
                new_mail = name+ " : ハッピーメール"
-            print(f"{name}:hapymail, OK")
+            # print(f"{name}:hapymail, OK")
          except Exception as e:
             print(print(f"エラー ,{name}:hapymail, "))
             print(e)
@@ -56,7 +56,7 @@ def mail_reception_check(window_handle, driver, wait):
                new_message = driver.find_elements(By.CLASS_NAME, value="message")[0]
                if new_message.text[:2] == "新着":
                   new_mail = name + " : pcmax"
-               print(f"{name}:pcmax OK")
+               # print(f"{name}:pcmax OK")
          except Exception as e:
             print(print(f"エラー ,{name}:pcmax, "))
             print(e)
@@ -115,7 +115,7 @@ def mail_reception_check(window_handle, driver, wait):
             xpath = f"//*[@aria-label='{custom_value}']"
             element = driver.find_elements(By.XPATH, value=xpath)
             element[0].click()
-            print(f"{address}: OK")
+            # print(f"{address}: OK")
          except Exception as e:
             print(print(f"エラー ,{address} "))
             print(e)

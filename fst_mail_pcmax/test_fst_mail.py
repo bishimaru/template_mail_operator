@@ -25,7 +25,7 @@ select_areas = [
 ]
 # 年齢選択（最小18歳、最高60以上）
 youngest_age = ""
-oldest_age = ""
+oldest_age = "31"
 # NGワード（複数、追加可能）
 ng_words = [
   "通報",
