@@ -567,7 +567,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
       if like_icon[0].is_displayed():
         # ランダムな数値を生成し、実行確率と比較
          # 実行確率
-        execution_probability = 0.80
+        execution_probability = 0.82
         if random.random() < execution_probability:
           like_flag = True
           like[0].click()
