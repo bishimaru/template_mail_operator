@@ -115,11 +115,10 @@ def re_post(name, pcmax_windowhandle, driver, genre_flag):
     # データ検索
     cur.execute('SELECT * FROM pcmax WHERE name = ?', (name,))
     for row in cur:
-        login_id = row[2]
-        login_pass = row[3]
-        fst_message = row[5]
-        # print(row)
-        fst_message_img = row[6]
+        print(row)
+        post_title = row[8]
+        post_article = row[9]
+    return
     # MENUをクリック
     menu = driver.find_element(By.ID, value='sp_nav')
     menu.click()
