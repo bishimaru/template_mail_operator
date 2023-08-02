@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 import os
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from widget import pcmax, happymail
+from widget import pcmax, happymail, func
 from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
@@ -17,8 +17,10 @@ import traceback
 def repost_happymail_pcmax():
   adult_flag = True
   genre_flag_pcmax = setting.genre_flag_pcmax
+  genre_flag = setting.genre_flag
 
-  name = "ゆあ&すみれ"
+
+  name = "ゆあ"
   title = "六本木の高級デリ嬢2人組の専属セフレ募集"
   text = """掲示板見てくれてありがとうございます♫、
   六本木の高級デリヘルで現役キャストしてます『ゆあ』と『すみれ』です！
@@ -36,23 +38,17 @@ def repost_happymail_pcmax():
   こんな私たちの専属のセフレになってくれる方で純粋にエッチを楽しみたい方ならどんな人でも大歓迎です！
 
   ご連絡お待ちしてます♡"""
-
-
-  options = Options()
-  options.add_argument('--headless')
-  options.add_argument("--no-sandbox")
-  options.add_argument("--remote-debugging-port=9222")
-  options.add_experimental_option("detach", True)
-  service = Service(executable_path="./chromedriver")
-  driver = webdriver.Chrome(service=service, options=options)
+  driver = func.get_debug_chromedriver()
+  h_w = func.get_windowhandle("happymail", name)
+  p_w = func.get_windowhandle("pcmax", name)
 
   try:   
-    happymail.re_post(name, setting.yua_happy_windowhandle, driver, title, text, adult_flag)
+    happymail.re_post(name, h_w, driver, title, text, adult_flag, genre_flag)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())
   try:
-    pcmax.re_post(name, setting.yua_pcmax_windowhandle, driver)
+    pcmax.re_post(name, p_w, driver, genre_flag_pcmax)
   except Exception as e:
     print('=== エラー内容 ===')
     print(traceback.format_exc())
