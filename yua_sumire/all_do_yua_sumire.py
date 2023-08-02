@@ -5,13 +5,13 @@ import setting
 sys.path.append(setting.yua_sumire_path)
 import h_foot
 import p_foot
-import post
+import repost_yua
 import time
 
 
 def do_post_foot(h_cnt, p_cnt):
     start_time = time.time() 
-    post.repost_happymail_pcmax()
+    repost_yua.repost_happymail_pcmax()
     while True:
       elapsed_time = time.time() - start_time  # 経過時間を計算する
       if elapsed_time >= 420:

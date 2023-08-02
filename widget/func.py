@@ -10,11 +10,15 @@ import traceback
 import smtplib
 from email.mime.text import MIMEText
 from email.utils import formatdate
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from widget import pcmax
 from selenium.webdriver.support.select import Select
 from datetime import timedelta
+from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
 
 def timer(fnc, seconds, h_cnt, p_cnt):  
   start_time = time.time() 
@@ -161,7 +165,7 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
     link_list = []
     user_cnt = 0
     # print(len(div))
-    while user_cnt + 1 < len(div):
+    while user_cnt + 1 < len(div) - 1:
       # 新着リストの名前ならスキップ
       new_mail_name = div[user_cnt].find_element(By.CLASS_NAME, value="user-name")
       if new_mail_name.text in have_new_massage_users:
@@ -364,3 +368,26 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
   elapsed_time_formatted = str(elapsed_timedelta)
   print(f"<<<<<<<<<<<<<h_p_foot 経過時間 {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
   print(f"pcmax足跡返し　{name}、{p_send_cnt}件")
+
+def get_debug_chromedriver():
+  options = Options()
+  options.add_argument("start-maximized")
+  options.add_argument("enable-automation")
+  options.add_argument("--disable-infobars")
+  options.add_argument('--disable-extensions')
+  options.add_argument("--disable-dev-shm-usage")
+  options.add_argument("--disable-browser-side-navigation")
+  options.add_argument("--disable-gpu")
+  options.add_argument('--ignore-certificate-errors')
+  options.add_argument('--ignore-ssl-errors')
+  prefs = {"profile.default_content_setting_values.notifications" : 2}
+  options.add_experimental_option("prefs",prefs)
+  options.add_argument('--headless')
+  options.add_argument("--no-sandbox")
+  options.add_argument("--remote-debugging-port=9222")
+  options.add_experimental_option("detach", True)
+  service = Service(executable_path="./chromedriver")
+  driver = webdriver.Chrome(service=service, options=options)
+
+  return driver
+    

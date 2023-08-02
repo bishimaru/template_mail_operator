@@ -16,6 +16,8 @@ import traceback
 
 def repost_happymail_pcmax():
   adult_flag = True
+  genre_flag_pcmax = setting.genre_flag_pcmax
+
   name = "ゆあ&すみれ"
   title = "六本木の高級デリ嬢2人組の専属セフレ募集"
   text = """掲示板見てくれてありがとうございます♫、

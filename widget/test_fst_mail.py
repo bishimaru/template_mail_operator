@@ -27,6 +27,7 @@ ng_words = [
 ]
 
 
+
 maji_soushin = False
 if len(sys.argv) == 3:
   name = sys.argv[1]

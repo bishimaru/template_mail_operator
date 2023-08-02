@@ -105,54 +105,55 @@ def re_post(name, pcmax_windowhandle, driver, genre_flag):
       break
   # 掲示板履歴なし
   no_post = driver.find_elements(By.CLASS_NAME, value="write_text")
-  print(no_post[0].text)
+  
   if no_post[0].text == "まだ掲示板への投稿はありません。":
-    dbpath = 'firstdb.db'
-    conn = sqlite3.connect(dbpath)
-    # SQLiteを操作するためのカーソルを作成
-    cur = conn.cursor()
-    # 順番
-    # データ検索
-    cur.execute('SELECT * FROM pcmax WHERE name = ?', (name,))
-    for row in cur:
-        print(row)
-        post_title = row[8]
-        post_article = row[9]
-    return
+    print(no_post[0].text)
+    # dbpath = 'firstdb.db'
+    # conn = sqlite3.connect(dbpath)
+    # # SQLiteを操作するためのカーソルを作成
+    # cur = conn.cursor()
+    # # 順番
+    # # データ検索
+    # cur.execute('SELECT * FROM pcmax WHERE name = ?', (name,))
+    # for row in cur:
+    #     print(row)
+    #     post_title = row[8]
+    #     post_article = row[9]
+    
     # MENUをクリック
-    menu = driver.find_element(By.ID, value='sp_nav')
-    menu.click()
-    time.sleep(wait_time)
-    # 掲示板書き込みをクリック　
-    bulletin_board_history = driver.find_element(By.CLASS_NAME, value="nav-content-list")
-    bulletin_board_history = bulletin_board_history.find_elements(By.TAG_NAME, value="dd")
-    for i in bulletin_board_history:
-      if i.text == "掲示板書込み":
-        bulletin_board_history = i.find_element(By.TAG_NAME, value="a")
-        driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", bulletin_board_history)
-        bulletin_board_history.click()
-        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-        time.sleep(wait_time)
-        break
-    # アダルトを選択
-    adult = driver.find_element(By.ID, value="genre2")
-    adult.click()
-    time.sleep(1)
-    # ジャンルを選択
-    select_genre = driver.find_element(By.ID, value="selectb")
-    select = Select(select_genre)
-    select.select_by_visible_text(genre_dic[genre_flag])
-    time.sleep(1)
-    # 投稿地域を選択(新規一個目は東京)
-    area = driver.find_element(By.ID, "prech")
-    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", area)
-    time.sleep(1)
-    select = Select(area)
-    select.select_by_visible_text("東京都")
-    time.sleep(1)
-    # 詳細地域を選択
-    detailed_area = driver.find_element(By.NAME, value="city_id")
-    select = Select(detailed_area)
+    # menu = driver.find_element(By.ID, value='sp_nav')
+    # menu.click()
+    # time.sleep(wait_time)
+    # # 掲示板書き込みをクリック　
+    # bulletin_board_history = driver.find_element(By.CLASS_NAME, value="nav-content-list")
+    # bulletin_board_history = bulletin_board_history.find_elements(By.TAG_NAME, value="dd")
+    # for i in bulletin_board_history:
+    #   if i.text == "掲示板書込み":
+    #     bulletin_board_history = i.find_element(By.TAG_NAME, value="a")
+    #     driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", bulletin_board_history)
+    #     bulletin_board_history.click()
+    #     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    #     time.sleep(wait_time)
+    #     break
+    # # アダルトを選択
+    # adult = driver.find_element(By.ID, value="genre2")
+    # adult.click()
+    # time.sleep(1)
+    # # ジャンルを選択
+    # select_genre = driver.find_element(By.ID, value="selectb")
+    # select = Select(select_genre)
+    # select.select_by_visible_text(genre_dic[genre_flag])
+    # time.sleep(1)
+    # # 投稿地域を選択(新規一個目は東京)
+    # area = driver.find_element(By.ID, "prech")
+    # driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", area)
+    # time.sleep(1)
+    # select = Select(area)
+    # select.select_by_visible_text("東京都")
+    # time.sleep(1)
+    # # 詳細地域を選択
+    # detailed_area = driver.find_element(By.NAME, value="city_id")
+    # select = Select(detailed_area)
     # try:
     #   post_area_dic[last_area].remove(detail_selected)
     # except ValueError:
