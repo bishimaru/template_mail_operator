@@ -24,6 +24,7 @@ from momoka import repost_momoka, h_p_foot_momoka
 from riko import repost_riko, h_p_foot_riko
 from yuko_yuki import repost_yuko_yuki, h_p_foot_yuko_yuki
 from haru import repost_haru, h_p_foot_haru
+from yua_sumire import repost_yua, h_p_foot_yua_sumire
 from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
@@ -81,7 +82,12 @@ except Exception as e:
   print(traceback.format_exc())
 
 try:
-  timer(480, [repost_haru.repost_happymail_pcmax, check_mail, lambda: h_p_foot_ayaka.h_p_foot(cnt)], cnt)
+  timer(480, [repost_yua.repost_happymail_pcmax, check_mail, lambda: h_p_foot_ayaka.h_p_foot(cnt)], cnt)
+except Exception as e:
+  print(traceback.format_exc()) 
+
+try:
+  timer(480, [repost_haru.repost_happymail_pcmax, check_mail, lambda: h_p_foot_yua_sumire.h_p_foot(cnt)], cnt)
 except Exception as e:
   print(traceback.format_exc())
 
