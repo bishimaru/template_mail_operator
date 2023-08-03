@@ -465,7 +465,7 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, maji
   except TimeoutException as e:
     print("TimeoutException")
     driver.refresh()
-  wait_time = random.uniform(8, 12)
+  wait_time = random.uniform(2, 7)
   time.sleep(wait_time)
   id_form = driver.find_element(By.ID, value="login_id")
   id_form.send_keys(login_id)
