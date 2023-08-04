@@ -52,7 +52,7 @@ def check_mail():
     options.add_argument("--no-sandbox")
     options.add_argument("--remote-debugging-port=9222")
     options.add_experimental_option("detach", True)
-    service = Service(executable_path="./chromedrivers/chromedriver01")
+    service = Service(executable_path="./chromedriver")
     driver = webdriver.Chrome(service=service, options=options)
     wait = WebDriverWait(driver, 7)
     for i in range(1):
