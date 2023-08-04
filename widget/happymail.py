@@ -14,6 +14,8 @@ from widget import func
 import setting
 from selenium.webdriver.support.select import Select
 import sqlite3
+import re
+
 
 # 警告画面
 # b2_dialog_title
@@ -398,6 +400,9 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         print('メールアイコンがあります')
         mail_icon_cnt += 1
         print(f'メールアイコンカウント{mail_icon_cnt}')
+        # ユーザー名を取得
+
+
         # # メールアイコンが7つ続いたら終了
         if mail_icon_cnt == 7:
           ds_logo = driver.find_element(By.CLASS_NAME, value="ds_logo")
@@ -506,7 +511,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    driver.delete_all_cookies()
    driver.get("https://happymail.jp/login/")
    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-   wait_time = random.uniform(1, 3)
+   wait_time = random.uniform(2, 5)
    time.sleep(wait_time)
    id_form = driver.find_element(By.ID, value="TelNo")
    id_form.send_keys(happymail_id)
@@ -523,6 +528,13 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    mypage.click()
    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
    time.sleep(wait_time)
+   # 並びの表示を設定
+   sort_order = driver.find_elements(By.ID, value="kind_select")
+   select = Select(sort_order[0])
+   select.select_by_visible_text("プロフ一覧")
+   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+   time.sleep(wait_time)
+   no_history_user_list = []
    # ページの高さを取得
    last_height = driver.execute_script("return document.body.scrollHeight")
    while True:
@@ -530,9 +542,23 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     # ページが完全に読み込まれるまで待機
     time.sleep(2)
-    user_list = driver.find_elements(By.CLASS_NAME, value="profile_list_big_item")
-    if len(user_list) > 40:
-      #  print('ユーザー件数200　OVER')
+    user_list = driver.find_elements(By.CLASS_NAME, value="ds_user_post_link_item_r")
+    for user in user_list:
+       user_class = user.get_attribute('class')
+       if not "ds_ribbon" in user_class:
+          name = user.find_elements(By.CLASS_NAME, value="ds_post_body_name_small")
+          user_link = user.find_elements(By.TAG_NAME, value="a")
+          onclick_value = user_link[0].get_attribute('onclick')
+          # 正規表現パターンを定義
+          pattern = r'happymail\.co\.jp.*?idx=(\d+)'
+          match = re.search(pattern, onclick_value)
+          if match:
+            result = match.group(0)
+          no_history_user_list.append(result)
+# https://happymail.jp/login/
+    if len(no_history_user_list) > 33:
+      print('ユーザー件数33　OVER')
+      print(len(no_history_user_list))
       break
     # 新しい高さを取得
     new_height = driver.execute_script("return document.body.scrollHeight")
@@ -540,26 +566,30 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
     if new_height == last_height:
         break
     last_height = new_height
-  
-   for i in range(30):
-      user_list = driver.find_elements(By.CLASS_NAME, value="profile_list_big_item")
-      user = user_list[i].find_element(By.TAG_NAME, value="a")
-      driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", user)
-      user.click()
+   for i, no_history_user in enumerate(no_history_user_list):
+      driver.get(f"https://{no_history_user}")
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
-      # タイプ
+      # userのidxを取得（タイプボタン取得のため）
+      #  正規表現パターンを定義
+      pattern = r'idx=(\d+)'
+      # 正規表現でマッチングを行う
+      matches = re.findall(pattern, no_history_user)
+      # idxを目印にユーザーのディスプレイを取得
+      inputs = driver.find_elements(By.NAME, value="idx")
       type_flag = False
-      if i < 8:
-        # # ランダムな数値を生成し、実行確率と比較
-        # # 実行確率
-        # execution_probability = 0.50
-        # if random.random() < execution_probability:
-        type_flag = True
-        love_type = driver.find_elements(By.CLASS_NAME, value="icon-type_off")
-        # driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", love_type[0])
-        love_type[i].click()
-        time.sleep(2)
+      # タイプ
+      # ランダムな数値を生成し、実行確率と比較
+      # 実行確率
+      execution_probability = 0.77
+      if random.random() < execution_probability:
+        for input in inputs:
+          if input.get_attribute('value') == matches[0]:
+            user_profile = input.find_element(By.XPATH, 'following-sibling::div[contains(@class, "ds_profile_picture")]')
+            type_btn = user_profile.find_elements(By.CLASS_NAME, value="icon-type_off")
+            type_btn[0].click()
+            type_flag = True
+            time.sleep(2)
       # いいね
       like_flag = False
       like = driver.find_elements(By.CLASS_NAME, value="icon-profile_like")
@@ -567,7 +597,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
       if like_icon[0].is_displayed():
         # ランダムな数値を生成し、実行確率と比較
          # 実行確率
-        execution_probability = 0.80
+        execution_probability = 0.77
         if random.random() < execution_probability:
           like_flag = True
           like[0].click()
@@ -584,10 +614,10 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
           like_cansel[0].click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(2)
-      
-      driver.get("https://happymail.co.jp/sp/app/html/profile_list.php")
+      # driver.get("https://happymail.co.jp/sp/app/html/profile_list.php")
       # driver.back()
-      print(f'{name}: ハッピーメール、足跡{i+1}件, いいね:{like_flag}、タイプ{type_flag}')
+      name = driver.find_element(By.CLASS_NAME, value="header-name")
+      print(f'ハッピーメール：{name.text}、足跡{i+1}件, いいね:{like_flag}、タイプ{type_flag}')
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
    driver.refresh()

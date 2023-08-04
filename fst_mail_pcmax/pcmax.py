@@ -516,6 +516,15 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, maji
         time.sleep(1)
         select_area = driver.find_elements(By.CLASS_NAME, value="pref-select-link")
         # たまにエラー
+        select_area_cnt = 0
+        while not len(select_area):
+          time.sleep(1)
+          print("select_areaが取得できません")
+          select_area = driver.find_elements(By.CLASS_NAME, value="pref-select-link")
+          select_area_cnt += 1
+          if select_area_cnt == 10:
+            break
+
         select_link = select_area[0].find_elements(By.TAG_NAME, value="a")
         select_link[0].click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')

@@ -44,7 +44,6 @@ def happymail_footprints(driver, wait):
     elapsed_timedelta = timedelta(seconds=elapsed_time)
     elapsed_time_formatted = str(elapsed_timedelta)
     print(f"<<<<<<<<<<<<<経過時間 {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
-
 if __name__ == '__main__':
   # if len(sys.argv) < 2:
   #   cnt = 20
@@ -62,6 +61,7 @@ if __name__ == '__main__':
   service = Service(executable_path="./chromedriver")
 
   driver = webdriver.Chrome(service=service, options=options)
+  # driver = func.get_debug_chromedriver()
   wait = WebDriverWait(driver, 15)
 
   happymail_footprints(driver, wait)
