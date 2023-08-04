@@ -19,7 +19,8 @@ from email.utils import formatdate
 import sqlite3
 from datetime import timedelta
 
-order_list = ["えりか", "くみ", "りな", "めあり", "きりこ", "彩香", "ゆあ", "ハル", "ゆりあ", "みづき", "ももか",  "りこ", "ゆうこ", "まいこ", "みすず"]
+# order_list = ["えりか", "くみ", "りな", "めあり", "きりこ", "彩香", "ゆあ", "ハル", "ゆりあ", "みづき", "ももか",  "りこ", "ゆうこ", "まいこ", "みすず"]
+order_list = ["まいこ", ]
 
 def check_mail():
     window_handle_list= []
@@ -51,7 +52,7 @@ def check_mail():
     options.add_argument("--no-sandbox")
     options.add_argument("--remote-debugging-port=9222")
     options.add_experimental_option("detach", True)
-    service = Service(executable_path="./chromedriver")
+    service = Service(executable_path="./chromedrivers/chromedriver01")
     driver = webdriver.Chrome(service=service, options=options)
     wait = WebDriverWait(driver, 7)
     for i in range(1):
@@ -101,4 +102,5 @@ def check_mail():
 
 if __name__ == '__main__':
   # print(f'__name__ は{__name__}となっている。')
+  
   check_mail()

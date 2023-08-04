@@ -546,7 +546,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
     for user in user_list:
        user_class = user.get_attribute('class')
        if not "ds_ribbon" in user_class:
-          name = user.find_elements(By.CLASS_NAME, value="ds_post_body_name_small")
+          # user_name = user.find_elements(By.CLASS_NAME, value="ds_post_body_name_small")
           user_link = user.find_elements(By.TAG_NAME, value="a")
           onclick_value = user_link[0].get_attribute('onclick')
           # 正規表現パターンを定義
@@ -616,8 +616,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
           time.sleep(2)
       # driver.get("https://happymail.co.jp/sp/app/html/profile_list.php")
       # driver.back()
-      name = driver.find_element(By.CLASS_NAME, value="header-name")
-      print(f'ハッピーメール：{name.text}、足跡{i+1}件, いいね:{like_flag}、タイプ{type_flag}')
+      print(f'{name}:ハッピーメール、足跡{i+1}件, いいね:{like_flag}、タイプ{type_flag}')
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
    driver.refresh()
