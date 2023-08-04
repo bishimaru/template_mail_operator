@@ -38,7 +38,14 @@ def repost_happymail_pcmax():
   こんな私たちの専属のセフレになってくれる方で純粋にエッチを楽しみたい方ならどんな人でも大歓迎です！
 
   ご連絡お待ちしてます♡"""
-  driver = func.get_debug_chromedriver()
+  options = Options()
+  options.add_argument('--headless')
+  options.add_argument("--no-sandbox")
+  options.add_argument("--remote-debugging-port=9222")
+  options.add_experimental_option("detach", True)
+  service = Service(executable_path="./chromedriver")
+  driver = webdriver.Chrome(service=service, options=options)
+  # driver = func.get_debug_chromedriver()
   h_w = func.get_windowhandle("happymail", name)
   p_w = func.get_windowhandle("pcmax", name)
 

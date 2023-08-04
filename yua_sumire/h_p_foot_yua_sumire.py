@@ -31,7 +31,14 @@ def h_p_foot(cnt):
   relative_path = os.path.join(setting.BASE_DIR, setting.yua_sumire_picture_path)
   h_return_foot_img = relative_path
   p_return_foot_img = "230409"
-  driver = func.get_debug_chromedriver()
+  options = Options()
+  options.add_argument('--headless')
+  options.add_argument("--no-sandbox")
+  options.add_argument("--remote-debugging-port=9222")
+  options.add_experimental_option("detach", True)
+  service = Service(executable_path="./chromedriver")
+  driver = webdriver.Chrome(service=service, options=options)
+  # driver = func.get_debug_chromedriver()
   h_w = func.get_windowhandle("happymail", name)
   p_w = func.get_windowhandle("pcmax", name)
 
