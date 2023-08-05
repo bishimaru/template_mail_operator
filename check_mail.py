@@ -19,8 +19,8 @@ from email.utils import formatdate
 import sqlite3
 from datetime import timedelta
 
-# order_list = ["えりか", "くみ", "りな", "めあり", "きりこ", "彩香", "ゆあ", "ハル", "ゆりあ", "みづき", "ももか",  "りこ", "ゆうこ", "まいこ", "みすず"]
-order_list = ["まいこ", ]
+order_list = ["えりか", "くみ", "りな", "めあり", "きりこ", "彩香", "ゆあ", "ハル", "ゆりあ", "みづき", "ももか",  "りこ", "ゆうこ", "まいこ", "みすず"]
+# order_list = ["まいこ", ]
 
 def check_mail():
     window_handle_list= []
@@ -54,6 +54,8 @@ def check_mail():
     options.add_experimental_option("detach", True)
     service = Service(executable_path="./chromedriver")
     driver = webdriver.Chrome(service=service, options=options)
+    print(888)
+    return
     wait = WebDriverWait(driver, 7)
     for i in range(1):
       # start_time = time.time() 
