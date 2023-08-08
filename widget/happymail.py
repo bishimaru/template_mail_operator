@@ -44,9 +44,9 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
   if warning:
      print("警告画面が出ました")
      return
-  print(777)
-  print(driver.get_cookies())
-  return
+  # print(777)
+  # print(driver.get_cookies())
+  # return
 
   # マイページをクリック
   nav_list = driver.find_element(By.ID, value='ds_nav')

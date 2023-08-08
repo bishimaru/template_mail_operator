@@ -92,8 +92,8 @@ def mail_reception_check(window_handle, driver, wait):
             latest_email = email_list.find_element(By.XPATH, value="./*[1]")
             latest_new_email_address = latest_email.find_elements(By.TAG_NAME, value="b")
             time.sleep(1) 
-            print(777)
-            print(len(latest_new_email_address))
+            # print(777)
+            # print(len(latest_new_email_address))
             if len(latest_new_email_address):
                new_mail = address
             # 迷惑メールフォルダーをチェック
