@@ -35,6 +35,7 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
   wait_time = random.uniform(2, 3)
   # TOPに戻る
   driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
+  driver.delete_cookie("outbrain_cid_fetch")
   if setting.mac_os:
     os.system("osascript -e 'display notification \"ハッピーメール掲示板再投稿中...\" with title \"{}\"'".format(name))
   # 警告画面が出たらスキップ
@@ -43,6 +44,10 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
   if warning:
      print("警告画面が出ました")
      return
+  print(777)
+  print(driver.get_cookies())
+  return
+
   # マイページをクリック
   nav_list = driver.find_element(By.ID, value='ds_nav')
   mypage = nav_list.find_element(By.LINK_TEXT, "マイページ")

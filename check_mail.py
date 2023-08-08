@@ -54,8 +54,6 @@ def check_mail():
     options.add_experimental_option("detach", True)
     service = Service(executable_path="./chromedriver")
     driver = webdriver.Chrome(service=service, options=options)
-    print(888)
-    return
     wait = WebDriverWait(driver, 7)
     for i in range(1):
       # start_time = time.time() 
