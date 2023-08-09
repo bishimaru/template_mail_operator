@@ -45,7 +45,7 @@ def timer(sec, functions, cnt):
   while elapsed_time < sec:
     time.sleep(5)
     elapsed_time = time.time() - start_time  # 経過時間を計算する
-    print(elapsed_time)
+    # print(elapsed_time)
 
 sitemawashi_starttime = time.time() 
 
