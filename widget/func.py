@@ -70,6 +70,8 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
   start_time = time.time() 
   wait = WebDriverWait(driver, 10)
   wait_time = random.uniform(1, 3)
+  history_user_list = []
+  p_w = ""
   # wait_time = 2
   # ハッピーメールの足跡リストまで
   driver.switch_to.window(h_w)
@@ -97,23 +99,30 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
   user_name = name_field.text
   mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
   mail_icon_cnt = 0
-  while len(mail_icon):
-    print('メールアイコンがあります')
-    mail_icon_cnt += 1
-    print(f'メールアイコンカウント{mail_icon_cnt}')
-    name_field = happy_foot_user[mail_icon_cnt].find_element(By.CLASS_NAME, value="ds_like_list_name")
-    user_name = name_field.text
-    mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
-    # # メールアイコンが7つ続いたら終了
-    if mail_icon_cnt == 5:
-      # ds_logo = driver.find_element(By.CLASS_NAME, value="ds_logo")
-      # top_link = ds_logo.find_element(By.TAG_NAME, value="a")
-      # top_link.click()
-      # wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      # time.sleep(wait_time)
-      print("メールアイコンが5続きました")
-  # ユーザークリック
-  happy_foot_user[mail_icon_cnt].click()
+  if len(mail_icon):
+    if not user_name in history_user_list:
+        print(777)
+        print(history_user_list)
+        mail_icon_cnt = 0
+        history_user_list.append(user_name)
+        happy_foot_user[0].click()
+    else:
+      print(666)
+      # print('ハッピーメール：メールアイコンがあります')
+      mail_icon_cnt += 1
+      # print(f'メールアイコンカウント{mail_icon_cnt}')
+      name_field = happy_foot_user[mail_icon_cnt].find_element(By.CLASS_NAME, value="ds_like_list_name")
+      user_name = name_field.text
+      mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
+      # # メールアイコンが7つ続いたら終了
+      if mail_icon_cnt == 5:
+        print("ハッピーメール：メールアイコンが5続きました")
+      # ユーザークリック
+      driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", happy_foot_user[mail_icon_cnt])
+      time.sleep(1)
+      happy_foot_user[mail_icon_cnt].click()
+  else:
+    happy_foot_user[0].click()
 
   # PCMAXの足跡リストまで
   if p_w:
@@ -258,21 +267,44 @@ def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_ret
         happy_foot_user = driver.find_elements(By.CLASS_NAME, value="ds_post_head_main_info")    
     name_field = happy_foot_user[0].find_element(By.CLASS_NAME, value="ds_like_list_name")
     user_name = name_field.text
+    print(888)
+    print(user_name)
+    print(history_user_list)
     mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
-    while len(mail_icon):
-      # print('ハッピーメール：メールアイコンがあります')
-      mail_icon_cnt += 1
-      # print(f'メールアイコンカウント{mail_icon_cnt}')
-      name_field = happy_foot_user[mail_icon_cnt].find_element(By.CLASS_NAME, value="ds_like_list_name")
-      user_name = name_field.text
-      mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
-      # # メールアイコンが7つ続いたら終了
-      if mail_icon_cnt == 5:
-        print("ハッピーメール：メールアイコンが5続きました")
-    # ユーザークリック
-    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", happy_foot_user[mail_icon_cnt])
-    time.sleep(1)
-    happy_foot_user[mail_icon_cnt].click()
+    if len(mail_icon):
+      while len(mail_icon):
+        if not user_name in history_user_list:
+          print(777)
+          mail_icon_cnt = 0
+          history_user_list.append(user_name)
+          happy_foot_user[0].click()
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(2)
+          driver.get("https://happymail.co.jp/sp/app/html/ashiato.php")
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(wait_time)
+          happy_foot_user = driver.find_elements(By.CLASS_NAME, value="ds_post_head_main_info")
+          name_field = happy_foot_user[0].find_element(By.CLASS_NAME, value="ds_like_list_name")
+          mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
+        else:
+          # print('ハッピーメール：メールアイコンがあります')
+          mail_icon_cnt += 1
+          # print(f'メールアイコンカウント{mail_icon_cnt}')
+          name_field = happy_foot_user[mail_icon_cnt].find_element(By.CLASS_NAME, value="ds_like_list_name")
+          user_name = name_field.text
+          mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
+          # # メールアイコンが7つ続いたら終了
+          if mail_icon_cnt == 5:
+            print("ハッピーメール：メールアイコンが5続きました")
+      # ユーザークリック
+      driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", happy_foot_user[mail_icon_cnt])
+      time.sleep(1)
+      happy_foot_user[mail_icon_cnt].click()
+    else:
+      happy_foot_user[0].click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(2)
+
 
     # pcmax
     if p_w and pcmax_send_flag:
