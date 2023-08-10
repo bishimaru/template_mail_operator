@@ -19,7 +19,7 @@ from email.utils import formatdate
 import sqlite3
 from datetime import timedelta
 
-order_list = ["えりか", "くみ", "りな", "めあり", "きりこ", "彩香", "ゆあ", "ハル", "ゆりあ",  "ももか", "りこ", "ゆうこ", "まいこ", "みすず", "みづき"]
+order_list = ["えりか", "くみ", "りな", "めあり", "きりこ", "彩香", "ゆあ", "ハル", "ゆりあ",  "ももか", "りこ", "ゆうこ", "まいこ"]
 # order_list = ["まいこ", ]
 
 def check_mail():

@@ -17,16 +17,7 @@ import traceback
 def h_foot(cnt):
   name = "麻衣子"
   return_foot_img = ""
-  return_foot_message = """足跡ありがとうございます！！
-  声優志望の女子大生『麻衣子』です♪
-
-  ここではセックスパートナーを探してます！
-  エロいのキャラの声もやりたい♪
-
-  セフレというとサバサバしててやり捨てされるのが嫌なので、たくさんいちゃいちゃできて何回も会える人がいいです。
-  なのでセックスパートナーさん募集♪
-
-  もし同じ気持ちだったらメッセージもらいたいです！"""
+  return_foot_message = """"""
   
   options = Options()
   options.add_argument('--headless')

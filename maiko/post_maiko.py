@@ -20,14 +20,12 @@ def repost_happymail_pcmax():
   genre_flag = setting.genre_flag
   genre_flag_pcmax = setting.genre_flag_pcmax
   name = "まいこ"
-  title = "声優志望女子大生◎Hなキャラを演じたい！"
-  text = """『声優志望の女子大生です！』
+  title = "声優志望◎Hなキャラを演じたい！"
+  text = """初めまして！22才で、声優目指して上京してきた麻衣子です。
 
-初めまして！大学4年生で、本当は就活しなきゃいけないんですが、、、
+声優としてはまだ駆け出しですが、夢を追いかけることができて楽しいです♪
 
-声優になる夢が捨てきれず、夢を追いかけることにした「麻衣子」と言います。
-
-親には反対されちゃって、彼氏も就職するので、理解してもらえなくて別れちゃいました(;o;)
+でも親には反対されちゃって、理解してもらえなくて(;o;)
 不安なのですが、自分で決めたことだしやるしかないと思って頑張ります！
 
 どんな役でも頑張りたいので、ここではもっとHな経験をして上手な演技をしたいので、セックスパートナーを募集します....( *｀ω´)
@@ -45,11 +43,11 @@ def repost_happymail_pcmax():
   service = Service(executable_path="./chromedriver")
   driver = webdriver.Chrome(service=service, options=options)
   
-  # try:   
-  #   happymail.re_post(name, h_w, driver, title, text, adult_flag, genre_flag)
-  # except Exception as e:
-  #   print('=== エラー内容 ===')
-  #   print(traceback.format_exc())
+  try:   
+    happymail.re_post(name, h_w, driver, title, text, adult_flag, genre_flag)
+  except Exception as e:
+    print('=== エラー内容 ===')
+    print(traceback.format_exc())
   try:
     pcmax.re_post(name, p_w, driver, genre_flag_pcmax)
   except Exception as e:

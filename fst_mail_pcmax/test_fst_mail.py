@@ -19,13 +19,13 @@ import sqlite3
 # 地域選択（3つまで選択可能）
 select_areas = [
   "東京都",
-  "千葉県",
-  # "埼玉県",
+  # "千葉県",
+  "埼玉県",
   "神奈川県",
 ]
 # 年齢選択（最小18歳、最高60以上）
 youngest_age = ""
-oldest_age = "31"
+oldest_age = "33"
 # NGワード（複数、追加可能）
 ng_words = [
   "通報",
