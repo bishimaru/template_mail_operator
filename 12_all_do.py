@@ -25,6 +25,8 @@ from riko import repost_riko, h_p_foot_riko
 from yuko_yuki import repost_yuko_yuki, h_p_foot_yuko_yuki
 from haru import repost_haru, h_p_foot_haru
 from yua_sumire import repost_yua, h_p_foot_yua_sumire
+from asuka import repost_asuka, h_p_foot_asuka
+from haru02 import repost_haru02, h_p_foot_haru02
 from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
@@ -47,78 +49,35 @@ def timer(sec, functions, cnt):
     elapsed_time = time.time() - start_time  # 経過時間を計算する
     # print(elapsed_time)
 
-sitemawashi_starttime = time.time() 
+order_of_execution_list = [
+  [post_erika.repost_happymail_pcmax, check_mail],
+  [repost_kumi.repost_happymail_pcmax, check_mail, lambda: h_p_foot_erika.h_p_foot(cnt)],
+  [repost_asuka.repost_happymail_pcmax, check_mail,lambda: h_p_foot_kumi.h_p_foot(cnt)],
+  [post_rina.repost_happymail_pcmax, check_mail, lambda: h_p_foot_asuka.h_p_foot(cnt)],
+  [post_meari.repost_happymail_pcmax, check_mail, lambda: h_p_foot_rina.h_p_foot(cnt)],
+  [repost_riko.repost_happymail_pcmax, check_mail, lambda: h_p_foot_meari.h_p_foot(cnt)],
+  [repost_haru.repost_happymail_pcmax, check_mail, lambda: h_p_foot_riko.h_p_foot(cnt)],
+  [repost_ayaka.repost_happymail_pcmax, check_mail, lambda: h_p_foot_haru.h_p_foot(cnt)],
+  [repost_kiriko.repost_happymail_pcmax, check_mail, lambda: h_p_foot_ayaka.h_p_foot(cnt)],
+  [repost_yuko_yuki.repost_happymail_pcmax, check_mail, lambda: h_p_foot_kiriko.h_p_foot(cnt)],
+  [repost_momoka.repost_happymail_pcmax, check_mail, lambda: h_p_foot_yuko_yuki.h_p_foot(cnt)],
+  [post_yuria.repost_happymail_pcmax, check_mail, lambda: h_p_foot_momoka.h_p_foot(cnt)],
+  [post_maiko.repost_happymail_pcmax, check_mail, lambda: h_p_foot_yuria.h_p_foot(cnt)],
+  [repost_haru02.repost_happymail_pcmax, check_mail, lambda: h_p_foot_maiko.h_p_foot(cnt), lambda: h_p_foot_haru02.h_p_foot(cnt),],
+]
+wait_cnt = 7200 / len(order_of_execution_list)
+start_time = time.time() 
 
-# fst_mail_hm.fst_mail_hm
+for order_of_execution in order_of_execution_list:
+  try:
+    timer(wait_cnt, order_of_execution, cnt)
+  except Exception as e:
+    print(traceback.format_exc())
 
-try:
-  timer(600, [post_erika.repost_happymail_pcmax, check_mail], cnt)
-except Exception as e:
-  print(traceback.format_exc())
-
-try:
-  timer(600, [repost_kumi.repost_happymail_pcmax, check_mail, lambda: h_p_foot_erika.h_p_foot(cnt)], cnt)
-except Exception as e:
-  print(traceback.format_exc())
-
-try:
-  timer(600, [post_rina.repost_happymail_pcmax, check_mail, lambda: h_p_foot_kumi.h_p_foot(cnt)], cnt)
-except Exception as e:
-  print(traceback.format_exc())
-
-try:
-  timer(600, [post_meari.repost_happymail_pcmax, check_mail, lambda: h_p_foot_rina.h_p_foot(cnt)], cnt)
-except Exception as e:
-  print(traceback.format_exc())
-
-try:
-  timer(600, [repost_kiriko.repost_happymail_pcmax, check_mail, lambda: h_p_foot_meari.h_p_foot(cnt)], cnt)
-except Exception as e:
-  print(traceback.format_exc())
-
-try:
-  timer(600, [repost_ayaka.repost_happymail_pcmax, check_mail, lambda: h_p_foot_kiriko.h_p_foot(cnt)], cnt)
-except Exception as e:
-  print(traceback.format_exc())
-
-try:
-  timer(600, [repost_yua.repost_happymail_pcmax, check_mail, lambda: h_p_foot_ayaka.h_p_foot(cnt)], cnt)
-except Exception as e:
-  print(traceback.format_exc()) 
-
-try:
-  timer(600, [repost_haru.repost_happymail_pcmax, check_mail, lambda: h_p_foot_yua_sumire.h_p_foot(cnt)], cnt)
-except Exception as e:
-  print(traceback.format_exc())
-
-try:
-  timer(600, [post_yuria.repost_happymail_pcmax, check_mail, lambda: h_p_foot_haru.h_p_foot(cnt)], cnt)
-except Exception as e:
-  print(traceback.format_exc())
-
-try:
-  timer(600, [repost_momoka.repost_happymail_pcmax, check_mail, lambda: h_p_foot_yuria.h_p_foot(cnt)], cnt)
-except Exception as e:
-  print(traceback.format_exc())
-
-try:
-  timer(600, [repost_riko.repost_happymail_pcmax, check_mail, lambda: h_p_foot_momoka.h_p_foot(cnt)], cnt)
-except Exception as e:
-  print(traceback.format_exc())
-
-try:
-  repost_yuko_yuki.repost_happymail_pcmax
-  check_mail()
-  h_p_foot_riko.h_p_foot(cnt)
-  h_p_foot_yuko_yuki.h_p_foot(cnt)
-except Exception as e:
-  print(traceback.format_exc())
-
-
-elapsed_sitemawashi_time = time.time() - sitemawashi_starttime  # 経過時間を計算する
-elapsed_sitemawashi_timedelta = timedelta(seconds=elapsed_sitemawashi_time)
-elapsed_sitemawashi_time_formatted = str(elapsed_sitemawashi_timedelta)
-print(f"<<<<<<<<<<<<<サイト回し一周タイム： {elapsed_sitemawashi_time_formatted}>>>>>>>>>>>>>>>>>>")
+elapsed_time = time.time() - start_time  
+elapsed_timedelta = timedelta(seconds=elapsed_time)
+elapsed_time_formatted = str(elapsed_timedelta)
+print(f"<<<<<<<<<<<<<サイト回し一周タイム： {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
 
 
 

@@ -19,7 +19,7 @@ from email.utils import formatdate
 import sqlite3
 from datetime import timedelta
 
-order_list = ["えりか", "くみ", "りな", "めあり", "きりこ", "彩香", "ゆあ", "ハル", "ゆりあ",  "ももか", "りこ", "ゆうこ", "まいこ"]
+order_list = ["えりか", "くみ", "あすか", "りな", "めあり",  "りこ","ハル","彩香",  "きりこ","ゆうこ",  "ももか", "ゆりあ", "まいこ", "haru"]
 # order_list = ["まいこ", ]
 
 def check_mail():
@@ -66,7 +66,25 @@ def check_mail():
                   driver, wait
                 )
             if new_message:
-              new_message_list.append(new_message)
+              if new_message[:3] == "エラー":
+                error_w_h = new_message[3:]
+                cur.execute('SELECT name FROM pcmax WHERE window_Handle = ?', (error_w_h,))
+                for row in cur:
+                    if row:
+                      error_message = f"{row[0]} pcmax 取得失敗"
+                      new_message_list.append(error_message)
+                cur.execute('SELECT name FROM gmail WHERE window_Handle = ?', (error_w_h,))
+                for row in cur:
+                    if row:
+                      error_message = f"{row[0]} gmail 取得失敗"
+                      new_message_list.append(error_message)
+                cur.execute('SELECT name FROM happymail WHERE window_Handle = ?', (error_w_h,))
+                for row in cur:
+                    if row:
+                      error_message = f"{row[0]} happymail 取得失敗"
+                      new_message_list.append(error_message)
+              else:  
+                new_message_list.append(new_message)             
         driver.quit()
       except Exception as e:
         print(traceback.format_exc())

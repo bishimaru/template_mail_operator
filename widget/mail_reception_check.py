@@ -120,11 +120,13 @@ def mail_reception_check(window_handle, driver, wait):
             # print(f"{address}: OK")
          except Exception as e:
             print(print(f"エラー ,{address} "))
+            print("")
             print(e)
    except Exception as e:
       # print(traceback.format_exc())
       print("window_handleエラー")
       print(window_handle)
+      new_mail = f"エラー{window_handle}"
       # selenium.common.exceptions.NoSuchWindowException: Message: no such window
 
    return new_mail
