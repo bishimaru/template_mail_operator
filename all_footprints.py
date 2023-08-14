@@ -180,6 +180,7 @@ for x in range(9999):
     print('<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>')
     print(elapsed_time)
   except KeyboardInterrupt:
+    print("中断しました")
     driver.quit()
   
   # メール送信
