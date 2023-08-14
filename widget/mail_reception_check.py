@@ -120,7 +120,7 @@ def mail_reception_check(window_handle, driver, wait):
             # print(f"{address}: OK")
          except Exception as e:
             print(print(f"エラー ,{address} "))
-            print("")
+            print("7777")
             print(e)
    except Exception as e:
       # print(traceback.format_exc())
