@@ -25,8 +25,8 @@ def h_p_foot(cnt):
 
 性欲強めな私とのせふれ関係に興味ありませんか？？"""  
   relative_path = os.path.join(setting.BASE_DIR, setting.meari_picture_path)
-  h_return_foot_img = relative_path
-  p_return_foot_img = "230704"
+  h_return_foot_img = ""
+  p_return_foot_img = "" #230704
   options = Options()
   options.add_argument('--headless')
   options.add_argument("--no-sandbox")
