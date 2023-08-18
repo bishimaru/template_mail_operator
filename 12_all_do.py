@@ -62,8 +62,7 @@ order_of_execution_list = [
   [repost_yuko_yuki.repost_happymail_pcmax, check_mail, lambda: h_p_foot_kiriko.h_p_foot(cnt)],
   [repost_momoka.repost_happymail_pcmax, check_mail, lambda: h_p_foot_yuko_yuki.h_p_foot(cnt)],
   [post_yuria.repost_happymail_pcmax, check_mail, lambda: h_p_foot_momoka.h_p_foot(cnt)],
-  [post_maiko.repost_happymail_pcmax, check_mail, lambda: h_p_foot_yuria.h_p_foot(cnt)],
-  [repost_haru02.repost_happymail_pcmax, check_mail, lambda: h_p_foot_maiko.h_p_foot(cnt), lambda: h_p_foot_haru02.h_p_foot(cnt),],
+  [repost_haru02.repost_happymail_pcmax, check_mail, lambda: h_p_foot_yuria.h_p_foot(cnt), lambda: h_p_foot_haru02.h_p_foot(cnt),],
 ]
 wait_cnt = 7200 / len(order_of_execution_list)
 start_time = time.time() 
