@@ -58,6 +58,7 @@ for i in range(len(handle_array)):
                 mohu1 = handle_array[i]
                 mohu2 = next_element.text
                 print(f"名前：{mohu2}")
+                print(mohu1)
                 cur.execute('UPDATE pcmax SET window_handle = ? WHERE name = ?', (mohu1, mohu2))
         except TimeoutException as e:
             print("TimeoutException")
