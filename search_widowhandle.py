@@ -54,8 +54,10 @@ for i in range(len(handle_array)):
                 next_element = name[0].find_element(By.XPATH, value="following-sibling::*[1]")
                 window_handle_list[next_element.text + "PCMAX"] = handle_array[i]
                 # DBに保存
+                
                 mohu1 = handle_array[i]
                 mohu2 = next_element.text
+                print(f"名前：{mohu2}")
                 cur.execute('UPDATE pcmax SET window_handle = ? WHERE name = ?', (mohu1, mohu2))
         except TimeoutException as e:
             print("TimeoutException")
