@@ -58,7 +58,7 @@ def mail_reception_check(window_handle, driver, wait):
             if len(name):
                # 次の要素を取得
                next_element = name[0].find_element(By.XPATH, value="following-sibling::*[1]")
-               name = next_element.text
+               names = next_element.text
                print(222)
                print(name)
                new_message = driver.find_elements(By.CLASS_NAME, value="message")[0]
@@ -100,8 +100,9 @@ def mail_reception_check(window_handle, driver, wait):
             latest_email = email_list.find_element(By.XPATH, value="./*[1]")
             latest_new_email_address = latest_email.find_elements(By.TAG_NAME, value="b")
             time.sleep(1) 
-            # print(777)
-            # print(len(latest_new_email_address))
+            print(777)
+            print(address)
+            print(len(latest_new_email_address))
             if len(latest_new_email_address):
                new_mail = address
             # 迷惑メールフォルダーをチェック
@@ -128,7 +129,6 @@ def mail_reception_check(window_handle, driver, wait):
             # print(f"{address}: OK")
          except Exception as e:
             print(print(f"エラー ,{address} "))
-            print("7777")
             print(e)
    except Exception as e:
       # print(traceback.format_exc())
