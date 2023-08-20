@@ -98,8 +98,9 @@ def mail_reception_check(window_handle, driver, wait):
             email_list = driver.find_element(By.CLASS_NAME, value="Ik")
             # 最初の子要素を取得
             latest_email = email_list.find_element(By.XPATH, value="./*[1]")
+            time.sleep(1)
             latest_new_email_address = latest_email.find_elements(By.TAG_NAME, value="b")
-            time.sleep(1) 
+            
             print(777)
             print(address)
             print(len(latest_new_email_address))
