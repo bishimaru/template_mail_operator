@@ -39,6 +39,10 @@ for i in range(len(handle_array)):
         time.sleep(1)  
         name = driver.find_element(By.CLASS_NAME, "ds_user_display_name")      
         window_handle_list[name.text + "ハッピー"] = handle_array[i]
+        print(555)
+        print(name.text)
+        print(444)
+        print(handle_array[i])
         # DBに保存
         mohu1 = handle_array[i]
         mohu2 = name.text
