@@ -36,7 +36,11 @@ def mail_reception_check(window_handle, driver, wait):
             message_icon = driver.find_elements(By.CLASS_NAME, value="ds_nav_no_pickup")[2]
             name = driver.find_element(By.CLASS_NAME, "ds_user_display_name")
             name = name.text  
+            print(777)
+            print(name)
             new_message = message_icon.find_elements(By.CLASS_NAME, value="ds_red_circle")
+            print(666)
+            print(len(new_message))
             if len(new_message):
                new_mail = name+ " : ハッピーメール"
             # print(f"{name}:hapymail, OK")
