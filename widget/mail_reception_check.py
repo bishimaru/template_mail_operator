@@ -36,11 +36,11 @@ def mail_reception_check(window_handle, driver, wait):
             message_icon = driver.find_elements(By.CLASS_NAME, value="ds_nav_no_pickup")[2]
             name = driver.find_element(By.CLASS_NAME, "ds_user_display_name")
             name = name.text  
-            print(777)
-            print(name)
+            # print(777)
+            # print(name)
             new_message = message_icon.find_elements(By.CLASS_NAME, value="ds_red_circle")
-            print(666)
-            print(len(new_message))
+            # print(666)
+            # print(len(new_message))
             if len(new_message):
                new_mail = name+ " : ハッピーメール"
             # print(f"{name}:hapymail, OK")
@@ -53,14 +53,14 @@ def mail_reception_check(window_handle, driver, wait):
          try:
             pcmax.login(driver, wait)
             name = driver.find_elements(By.CLASS_NAME, "p_img")
-            print(333)
-            print(name)
+            # print(333)
+            # print(name)
             if len(name):
                # 次の要素を取得
                next_element = name[0].find_element(By.XPATH, value="following-sibling::*[1]")
                names = next_element.text
-               print(222)
-               print(name)
+               # print(222)
+               # print(name)
                new_message = driver.find_elements(By.CLASS_NAME, value="message")[0]
                if new_message.text[:2] == "新着":
                   new_mail = name + " : pcmax"
@@ -95,6 +95,7 @@ def mail_reception_check(window_handle, driver, wait):
             # メインボックスのチェック
             main_box = driver.find_elements(By.CLASS_NAME, value="Hd")
             main_box[0].click()
+            time.sleep(1)
             email_list = driver.find_element(By.CLASS_NAME, value="Ik")
             # 最初の子要素を取得
             latest_email = email_list.find_element(By.XPATH, value="./*[1]")
