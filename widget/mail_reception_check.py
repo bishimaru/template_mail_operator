@@ -63,11 +63,11 @@ def mail_reception_check(window_handle, driver, wait):
                # print(name)
                new_message = driver.find_elements(By.CLASS_NAME, value="message")[0]
                if new_message.text[:2] == "新着":
-                  new_mail = name + " : pcmax"
+                  new_mail = names + " : pcmax"
                # print(f"{name}:pcmax OK")
          except Exception as e:
             print(print(f"エラー ,{name}:pcmax, "))
-            print(e)
+            traceback.print_exc()
       # gmail
       elif url.startswith("https://mail.google.com"):
          try:
