@@ -22,7 +22,7 @@ def h_p_foot(cnt):
   h_return_foot_img = ""
   p_return_foot_img = ""
 
-  return_foot_message = """いきなりのメッセージ失礼します！
+  return_foot_message = """足跡から気になって来ちゃいました！
 
 都内の会社でおもちゃの商品企画をしているはるです〜！
 

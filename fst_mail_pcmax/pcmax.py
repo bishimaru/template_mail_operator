@@ -584,9 +584,11 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, maji
       mail_history = driver.find_elements(By.CLASS_NAME, value="thumbnail-c")
       check_flag = driver.find_element(By.ID, value="opt3") 
       is_checked = check_flag.is_selected()
-      if not is_checked:
+      while not is_checked:
           mail_history[2].click()
           time.sleep(1)
+          is_checked = check_flag.is_selected()
+
       enter_button = driver.find_elements(By.ID, value="search1")
       enter_button[0].click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
