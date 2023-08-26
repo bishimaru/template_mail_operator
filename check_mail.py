@@ -20,7 +20,7 @@ import sqlite3
 from datetime import timedelta
 
 order_list = ["りな","haru...", "haru", "ゆうこ", "めあり","彩香","あすか", 
-              "えりか", "くみ", "りこ","ハル", "ももか","きりこ", "ゆりあ", "まいこ", ]
+              "えりか", "りこ","ハル", "ももか","きりこ", "ゆりあ", ]
 # order_list = ["まいこ", ]
 
 def check_mail():
