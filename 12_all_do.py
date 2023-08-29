@@ -51,8 +51,7 @@ def timer(sec, functions, cnt):
 
 order_of_execution_list = [
   [post_erika.repost_happymail_pcmax, check_mail],
-  [repost_kumi.repost_happymail_pcmax, check_mail, lambda: h_p_foot_erika.h_p_foot(cnt)],
-  [repost_asuka.repost_happymail_pcmax, check_mail,lambda: h_p_foot_kumi.h_p_foot(cnt)],
+  [repost_asuka.repost_happymail_pcmax, check_mail,lambda: h_p_foot_erika.h_p_foot(cnt)],
   [post_rina.repost_happymail_pcmax, check_mail, lambda: h_p_foot_asuka.h_p_foot(cnt)],
   [post_meari.repost_happymail_pcmax, check_mail, lambda: h_p_foot_rina.h_p_foot(cnt)],
   [repost_riko.repost_happymail_pcmax, check_mail, lambda: h_p_foot_meari.h_p_foot(cnt)],
@@ -61,8 +60,7 @@ order_of_execution_list = [
   [repost_kiriko.repost_happymail_pcmax, check_mail, lambda: h_p_foot_ayaka.h_p_foot(cnt)],
   [repost_yuko_yuki.repost_happymail_pcmax, check_mail, lambda: h_p_foot_kiriko.h_p_foot(cnt)],
   [repost_momoka.repost_happymail_pcmax, check_mail, lambda: h_p_foot_yuko_yuki.h_p_foot(cnt)],
-  [post_yuria.repost_happymail_pcmax, check_mail, lambda: h_p_foot_momoka.h_p_foot(cnt)],
-  [repost_haru02.repost_happymail_pcmax, check_mail, lambda: h_p_foot_yuria.h_p_foot(cnt), lambda: h_p_foot_haru02.h_p_foot(cnt),],
+  [repost_haru02.repost_happymail_pcmax, check_mail, lambda: h_p_foot_momoka.h_p_foot(cnt),lambda: h_p_foot_haru02.h_p_foot(cnt),],
 ]
 wait_cnt = 7200 / len(order_of_execution_list)
 start_time = time.time() 
