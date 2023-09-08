@@ -789,6 +789,7 @@ def send_fst_mail(name, maji_soushin, select_areas, youngest_age, oldest_age, ng
             time.sleep(wait_time)
             continue
           time.sleep(1)
+        print(444)
         # メッセージをクリック
         message = driver.find_elements(By.ID, value="message1")
         if len(message):

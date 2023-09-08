@@ -2,6 +2,7 @@ import pcmax
 import sys
 import sqlite3
 from concurrent.futures import ThreadPoolExecutor
+import traceback
 # 〜〜〜〜〜〜キャラ情報〜〜〜〜〜〜
 # name = "ゆりあ"
 # login_id = "18983588"
@@ -18,7 +19,7 @@ from concurrent.futures import ThreadPoolExecutor
 # 〜〜〜〜〜〜検索設定〜〜〜〜〜〜
 
 # メール送信数（上限なしは0）
-limit_send_cnt = 0
+limit_send_cnt = 11
 # 地域選択（3つまで選択可能）
 select_areas = [
   "東京都",
@@ -58,30 +59,30 @@ if len(sys.argv) > 1:
     maji_soushin = False
 if len(sys.argv) == 3:
   name1 = sys.argv[2]
-  name2 = ""
-  name3 = ""
-  name4 = ""
+  chara_name_list = {
+    name1:{},
+  }
 elif len(sys.argv) == 4:
   name1 = sys.argv[2]
   name2 = sys.argv[3]
-  name3 = ""
-  name4 = ""
+  chara_name_list = {
+    name1:{}, name2:{},  
+  }
 elif len(sys.argv) == 5:
   name1 = sys.argv[2]
   name2 = sys.argv[3]
   name3 = sys.argv[4]
-  name4 = ""
+  chara_name_list = {
+    name1:{}, name2:{}, name3:{},
+  }
 elif len(sys.argv) == 6:
   name1 = sys.argv[2]
   name2 = sys.argv[3]
   name3 = sys.argv[4]
   name4 = sys.argv[5]
-
-
-chara_name_list = {
-  name1:{}, name2:{}, name3:{}, name4:{}, 
-}
-
+  chara_name_list = {
+    name1:{}, name2:{}, name3:{}, name4:{}, 
+  }
 dbpath = 'firstdb.db'
 conn = sqlite3.connect(dbpath)
 # SQLiteを操作するためのカーソルを作成
@@ -106,8 +107,8 @@ def main():
     return
   
   names = list(chara_name_list.keys())
-  print(7777)
-  print(len(names))
+
+  print(f"キャラ数　{len(names)}")
   if len(names) == 4:
     with ThreadPoolExecutor(max_workers=4) as executor:
       executor.submit(pcmax.send_fst_mail, names[0], chara_name_list[names[0]]["login_id"], chara_name_list[names[0]]["login_pass"], chara_name_list[names[0]]["fst_message"], chara_name_list[names[0]]["fst_message_img"], chara_name_list[names[0]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
@@ -130,4 +131,6 @@ def main():
     print("キャラ数を正しく取得できませんでした")
 
 if __name__ == '__main__':
+  
   main()
+  
