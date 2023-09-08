@@ -830,14 +830,12 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
             time.sleep(wait_time)
           time.sleep(wait_time)
         if i == 15:
-          print(f"{name}１５カウントした")
           break
           # print(f'送信数{send_cnt} 上限{limit_send_cnt}')
         if send_cnt == limit_send_cnt:
           driver.quit()
-          print(f"<<<<<<<<<<<{name}、送信数{send_cnt}件:送信の上限数に達しました>>>>>>>>>>>>>>")
+          print(f"<<<<<<<<<<<{name}、送信数{send_cnt}件:上限に達しました>>>>>>>>>>>>>>")
           return
-        
       try:
         driver.get("https://pcmax.jp/pcm/index.php")
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
