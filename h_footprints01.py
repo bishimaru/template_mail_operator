@@ -16,8 +16,6 @@ import sqlite3
 from selenium.webdriver.chrome.service import Service
 from datetime import timedelta
 
-
-
 def happymail_footprints(driver, wait):
   dbpath = 'firstdb.db'
   conn = sqlite3.connect(dbpath)
@@ -45,10 +43,6 @@ def happymail_footprints(driver, wait):
     elapsed_time_formatted = str(elapsed_timedelta)
     print(f"<<<<<<<<<<<<<経過時間 {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
 if __name__ == '__main__':
-  # if len(sys.argv) < 2:
-  #   cnt = 20
-  # else:
-  #   cnt = int(sys.argv[1])
   options = Options()
   options.add_argument('--headless')
   options.add_argument("--incognito")

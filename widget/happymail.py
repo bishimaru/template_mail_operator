@@ -624,6 +624,8 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
       print(f'{name}:ハッピーメール、足跡{i+1}件, いいね:{like_flag}、タイプ{type_flag}')
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
+      if i == 5:
+         break
    driver.refresh()
 
 def send_fst_message(name_list):

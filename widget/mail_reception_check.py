@@ -53,14 +53,10 @@ def mail_reception_check(window_handle, driver, wait):
          try:
             pcmax.login(driver, wait)
             name = driver.find_elements(By.CLASS_NAME, "p_img")
-            # print(333)
-            # print(name)
             if len(name):
                # 次の要素を取得
                next_element = name[0].find_element(By.XPATH, value="following-sibling::*[1]")
                names = next_element.text
-               # print(222)
-               # print(name)
                new_message = driver.find_elements(By.CLASS_NAME, value="message")[0]
                if new_message.text[:2] == "新着":
                   new_mail = names + " : pcmax"
