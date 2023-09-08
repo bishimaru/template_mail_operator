@@ -14,7 +14,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 # 同じように人肌恋しいって感じたことありませんか？？"""
 # fst_message_img = ""
-
+# second_message = ""
 # 〜〜〜〜〜〜検索設定〜〜〜〜〜〜
 
 # メール送信数（上限なしは0）
@@ -50,26 +50,36 @@ ng_words = [
 ]
 
 maji_soushin = False
-if len(sys.argv) == 2:
-  if sys.argv[1] == str(1):
-    maji_soushin = True
-  elif sys.argv[1] == str(0):
-    maji_soushin = False
-elif len(sys.argv) >= 3:
-  print("引数を正しく入力してください")
-
 # sqlite用コード〜〜〜〜〜〜〜〜〜〜〜〜〜〜
-if len(sys.argv) == 3:
-  name = sys.argv[2]
+if len(sys.argv) > 1:
   if sys.argv[1] == str(1):
     maji_soushin = True
   elif sys.argv[1] == str(0):
     maji_soushin = False
-elif len(sys.argv) > 3:
-  print("引数を正しく入力してください")
+if len(sys.argv) == 3:
+  name1 = sys.argv[2]
+  name2 = ""
+  name3 = ""
+  name4 = ""
+elif len(sys.argv) == 4:
+  name1 = sys.argv[2]
+  name2 = sys.argv[3]
+  name3 = ""
+  name4 = ""
+elif len(sys.argv) == 5:
+  name1 = sys.argv[2]
+  name2 = sys.argv[3]
+  name3 = sys.argv[4]
+  name4 = ""
+elif len(sys.argv) == 6:
+  name1 = sys.argv[2]
+  name2 = sys.argv[3]
+  name3 = sys.argv[4]
+  name4 = sys.argv[5]
+
 
 chara_name_list = {
-  "ももか":{}, "きりこ":{}, "りこ":{},
+  name1:{}, name2:{}, name3:{}, name4:{}, 
 }
 
 dbpath = 'firstdb.db'
@@ -89,32 +99,35 @@ for chara_name in chara_name_list:
       chara_name_list[chara_name]["fst_message_img"] = row[6]
       chara_name_list[chara_name]["second_message"] = row[9]
 # 〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜sqlite用コード「
-# print(chara_name_list)
 
 def main():
-  with ThreadPoolExecutor(max_workers=3) as executor:
-
-    if 3 < len(select_areas):
-      print("選択地域は3つまでです。")
-      return
-    
-    names = list(chara_name_list.keys())
-    if len(names) == 4:
+  if 3 < len(select_areas):
+    print("選択地域は3つまでです。")
+    return
+  
+  names = list(chara_name_list.keys())
+  print(7777)
+  print(len(names))
+  if len(names) == 4:
+    with ThreadPoolExecutor(max_workers=4) as executor:
       executor.submit(pcmax.send_fst_mail, names[0], chara_name_list[names[0]]["login_id"], chara_name_list[names[0]]["login_pass"], chara_name_list[names[0]]["fst_message"], chara_name_list[names[0]]["fst_message_img"], chara_name_list[names[0]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
       executor.submit(pcmax.send_fst_mail, names[1], chara_name_list[names[1]]["login_id"], chara_name_list[names[1]]["login_pass"], chara_name_list[names[1]]["fst_message"], chara_name_list[names[1]]["fst_message_img"], chara_name_list[names[1]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
       executor.submit(pcmax.send_fst_mail, names[2], chara_name_list[names[2]]["login_id"], chara_name_list[names[2]]["login_pass"], chara_name_list[names[2]]["fst_message"], chara_name_list[names[2]]["fst_message_img"], chara_name_list[names[2]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
       executor.submit(pcmax.send_fst_mail, names[3], chara_name_list[names[3]]["login_id"], chara_name_list[names[3]]["login_pass"], chara_name_list[names[3]]["fst_message"], chara_name_list[names[3]]["fst_message_img"], chara_name_list[names[3]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
-    elif len(names) == 3:
+  elif len(names) == 3:
+    with ThreadPoolExecutor(max_workers=3) as executor:
       executor.submit(pcmax.send_fst_mail, names[0], chara_name_list[names[0]]["login_id"], chara_name_list[names[0]]["login_pass"], chara_name_list[names[0]]["fst_message"], chara_name_list[names[0]]["fst_message_img"], chara_name_list[names[0]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
       executor.submit(pcmax.send_fst_mail, names[1], chara_name_list[names[1]]["login_id"], chara_name_list[names[1]]["login_pass"], chara_name_list[names[1]]["fst_message"], chara_name_list[names[1]]["fst_message_img"], chara_name_list[names[1]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
       executor.submit(pcmax.send_fst_mail, names[2], chara_name_list[names[2]]["login_id"], chara_name_list[names[2]]["login_pass"], chara_name_list[names[2]]["fst_message"], chara_name_list[names[2]]["fst_message_img"], chara_name_list[names[2]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
-    elif len(names) == 2:
+  elif len(names) == 2:
+    with ThreadPoolExecutor(max_workers=2) as executor:
       executor.submit(pcmax.send_fst_mail, names[0], chara_name_list[names[0]]["login_id"], chara_name_list[names[0]]["login_pass"], chara_name_list[names[0]]["fst_message"], chara_name_list[names[0]]["fst_message_img"], chara_name_list[names[0]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
       executor.submit(pcmax.send_fst_mail, names[1], chara_name_list[names[1]]["login_id"], chara_name_list[names[1]]["login_pass"], chara_name_list[names[1]]["fst_message"], chara_name_list[names[1]]["fst_message_img"], chara_name_list[names[1]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
-    elif len(names) == 1:
+  elif len(names) == 1:
+    with ThreadPoolExecutor(max_workers=1) as executor:
       executor.submit(pcmax.send_fst_mail, names[0], chara_name_list[names[0]]["login_id"], chara_name_list[names[0]]["login_pass"], chara_name_list[names[0]]["fst_message"], chara_name_list[names[0]]["fst_message_img"], chara_name_list[names[0]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
-    else:
-      print("キャラ数を正しく取得できませんでした")
-      
+  else:
+    print("キャラ数を正しく取得できませんでした")
+
 if __name__ == '__main__':
   main()
