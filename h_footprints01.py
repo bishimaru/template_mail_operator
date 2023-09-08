@@ -25,8 +25,7 @@ def happymail_footprints(driver, wait):
   # # データ検索
   cur.execute('SELECT name, login_id, passward FROM happymail')
   happy_user_list = []
-  # foot_order_list = ["えりか","あすか","りな", "めあり","りこ", "ハル","きりこ",  "ももか", "ゆうこ", "彩香", "haru"]
-  foot_order_list = [ "ゆうこ", ]
+  foot_order_list = ["えりか","あすか","りな", "めあり","りこ", "ハル","きりこ",  "ももか", "ゆうこ", "彩香", "haru"]
 
   for row in cur:
       # print(row[0])
@@ -47,7 +46,7 @@ def happymail_footprints(driver, wait):
     print(f"<<<<<<<<<<<<<経過時間 {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
 if __name__ == '__main__':
   options = Options()
-  # options.add_argument('--headless')
+  options.add_argument('--headless')
   options.add_argument("--incognito")
   options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
   options.add_argument("--no-sandbox")
