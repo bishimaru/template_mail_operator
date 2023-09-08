@@ -49,7 +49,9 @@ profile
   driver = webdriver.Chrome(service=service, options=options)
   h_w = func.get_windowhandle("happymail", name)
   p_w = func.get_windowhandle("pcmax", name)
-
+  print(777)
+  print(text)
+  return
   try:   
     happymail.re_post(name, h_w, driver, title, text, adult_flag, genre_flag)
   except Exception as e:

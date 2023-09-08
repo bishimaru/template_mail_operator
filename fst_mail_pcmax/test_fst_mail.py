@@ -13,15 +13,26 @@ import sqlite3
 
 # 同じように人肌恋しいって感じたことありませんか？？"""
 # fst_message_img = ""
+second_message = "3456"
+
 
 # 〜〜〜〜〜〜検索設定〜〜〜〜〜〜
 
+# メール送信数（上限なしは0）
+limit_send_cnt = 5
 # 地域選択（3つまで選択可能）
 select_areas = [
-  "東京都",
+  # "東京都",
   # "千葉県",
-  "埼玉県",
-  "神奈川県",
+  # "埼玉県",
+  # "神奈川県",
+  # "静岡県",
+  # "新潟県",
+  # "山梨県",
+  "長野県",
+  "茨城県",
+  "栃木県",
+  # "群馬県",
 ]
 # 年齢選択（最小18歳、最高60以上）
 youngest_age = "19"
@@ -86,4 +97,4 @@ for row in cur:
 if 3 < len(select_areas):
   print("選択地域は3つまでです。")
 else:
-  pcmax.send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, maji_soushin, select_areas, youngest_age, oldest_age, ng_words, )
+  pcmax.send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, second_message, maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
