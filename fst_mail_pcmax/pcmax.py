@@ -450,7 +450,7 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
 
 def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, second_message, maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt):
   options = Options()
-  options.add_argument('--headless')
+  # options.add_argument('--headless')
   options.add_argument("--incognito")
   options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
   options.add_argument("--no-sandbox")
@@ -528,8 +528,8 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
                       # mail_id取得
                       mail_id = msg_elem.find_element(By.TAG_NAME, value="input").get_attribute("value")
                       new_mail_link = "https://pcmax.jp/mobile/mail_recive_detail.php?mail_id=" + str(mail_id) + "&user_id=" + str(user_id)
-                      print(777)
-                      print(new_mail_link)
+                      
+                      # print(new_mail_link)
                       new_mail_link_list.append(new_mail_link)
 
                 for new_mail_user in new_mail_link_list:
@@ -755,9 +755,9 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
             span_elem_list.append(span)
           for i in span_elem_list:
             if i.text == "送信歴あり":
-              print("送信歴あり")
+              print("送信歴ありのためスキップ")
               send_status = False
-              continue
+              break
           user_age = span_elem[0].text
           area_of_activity = span_elem[1].text
         # 自己紹介文をチェック

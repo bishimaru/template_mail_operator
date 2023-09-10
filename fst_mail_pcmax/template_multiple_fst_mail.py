@@ -3,35 +3,23 @@ import sys
 import sqlite3
 from concurrent.futures import ThreadPoolExecutor
 import traceback
-# 〜〜〜〜〜〜キャラ情報〜〜〜〜〜〜
-# name = "ゆりあ"
-# login_id = "18983588"
-# login_pass = "6667"
-# fst_message = """初めまして！ゆりあって言います♪
-# 都内で不動産関係のOLをしています！
 
-# 仕事に少し慣れてきたこともあり、仕事終わりにお家に帰ると人肌恋しさを感じるようになってきました(>_<)
-# いっぱいいちゃいちゃできるようなせふれさんとここで出会えたらいいなって思ってます( ´ ▽ ` )
-
-# 同じように人肌恋しいって感じたことありませんか？？"""
-# fst_message_img = ""
-# second_message = ""
 # 〜〜〜〜〜〜検索設定〜〜〜〜〜〜
 
 # メール送信数（上限なしは0）
-limit_send_cnt = 11
+limit_send_cnt = 0
 # 地域選択（3つまで選択可能）
 select_areas = [
-  "東京都",
+  # "東京都",
   # "千葉県",
-  "埼玉県",
-  "神奈川県",
+  # "埼玉県",
+  # "神奈川県",
   # "静岡県",
   # "新潟県",
   # "山梨県",
   # "長野県",
   # "茨城県",
-  # "栃木県",
+  "栃木県",
   # "群馬県",
 ]
 # 年齢選択（最小18歳、最高60以上）
@@ -49,8 +37,8 @@ ng_words = [
   "援交",
   "お金のやり取り",
 ]
-
 maji_soushin = False
+
 # sqlite用コード〜〜〜〜〜〜〜〜〜〜〜〜〜〜
 if len(sys.argv) > 1:
   if sys.argv[1] == str(1):
@@ -102,31 +90,40 @@ for chara_name in chara_name_list:
 # 〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜sqlite用コード「
 
 def main():
+
   if 3 < len(select_areas):
     print("選択地域は3つまでです。")
     return
-  
   names = list(chara_name_list.keys())
-
   print(f"キャラ数　{len(names)}")
   if len(names) == 4:
     with ThreadPoolExecutor(max_workers=4) as executor:
-      executor.submit(pcmax.send_fst_mail, names[0], chara_name_list[names[0]]["login_id"], chara_name_list[names[0]]["login_pass"], chara_name_list[names[0]]["fst_message"], chara_name_list[names[0]]["fst_message_img"], chara_name_list[names[0]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
-      executor.submit(pcmax.send_fst_mail, names[1], chara_name_list[names[1]]["login_id"], chara_name_list[names[1]]["login_pass"], chara_name_list[names[1]]["fst_message"], chara_name_list[names[1]]["fst_message_img"], chara_name_list[names[1]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
-      executor.submit(pcmax.send_fst_mail, names[2], chara_name_list[names[2]]["login_id"], chara_name_list[names[2]]["login_pass"], chara_name_list[names[2]]["fst_message"], chara_name_list[names[2]]["fst_message_img"], chara_name_list[names[2]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
-      executor.submit(pcmax.send_fst_mail, names[3], chara_name_list[names[3]]["login_id"], chara_name_list[names[3]]["login_pass"], chara_name_list[names[3]]["fst_message"], chara_name_list[names[3]]["fst_message_img"], chara_name_list[names[3]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
+      func1_future = executor.submit(pcmax.send_fst_mail, names[0], chara_name_list[names[0]]["login_id"], chara_name_list[names[0]]["login_pass"], chara_name_list[names[0]]["fst_message"], chara_name_list[names[0]]["fst_message_img"], chara_name_list[names[0]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
+      func2_future = executor.submit(pcmax.send_fst_mail, names[1], chara_name_list[names[1]]["login_id"], chara_name_list[names[1]]["login_pass"], chara_name_list[names[1]]["fst_message"], chara_name_list[names[1]]["fst_message_img"], chara_name_list[names[1]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt) 
+      func3_future = executor.submit(pcmax.send_fst_mail, names[2], chara_name_list[names[2]]["login_id"], chara_name_list[names[2]]["login_pass"], chara_name_list[names[2]]["fst_message"], chara_name_list[names[2]]["fst_message_img"], chara_name_list[names[2]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt) 
+      func4_future = executor.submit(pcmax.send_fst_mail, names[3], chara_name_list[names[3]]["login_id"], chara_name_list[names[3]]["login_pass"], chara_name_list[names[3]]["fst_message"], chara_name_list[names[3]]["fst_message_img"], chara_name_list[names[3]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
+    func1_future.result()
+    func2_future.result()
+    func3_future.result()
+    func4_future.result()
   elif len(names) == 3:
     with ThreadPoolExecutor(max_workers=3) as executor:
-      executor.submit(pcmax.send_fst_mail, names[0], chara_name_list[names[0]]["login_id"], chara_name_list[names[0]]["login_pass"], chara_name_list[names[0]]["fst_message"], chara_name_list[names[0]]["fst_message_img"], chara_name_list[names[0]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
-      executor.submit(pcmax.send_fst_mail, names[1], chara_name_list[names[1]]["login_id"], chara_name_list[names[1]]["login_pass"], chara_name_list[names[1]]["fst_message"], chara_name_list[names[1]]["fst_message_img"], chara_name_list[names[1]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
-      executor.submit(pcmax.send_fst_mail, names[2], chara_name_list[names[2]]["login_id"], chara_name_list[names[2]]["login_pass"], chara_name_list[names[2]]["fst_message"], chara_name_list[names[2]]["fst_message_img"], chara_name_list[names[2]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
+      func1_future = executor.submit(pcmax.send_fst_mail, names[0], chara_name_list[names[0]]["login_id"], chara_name_list[names[0]]["login_pass"], chara_name_list[names[0]]["fst_message"], chara_name_list[names[0]]["fst_message_img"], chara_name_list[names[0]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
+      func2_future = executor.submit(pcmax.send_fst_mail, names[1], chara_name_list[names[1]]["login_id"], chara_name_list[names[1]]["login_pass"], chara_name_list[names[1]]["fst_message"], chara_name_list[names[1]]["fst_message_img"], chara_name_list[names[1]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
+      func3_future = executor.submit(pcmax.send_fst_mail, names[2], chara_name_list[names[2]]["login_id"], chara_name_list[names[2]]["login_pass"], chara_name_list[names[2]]["fst_message"], chara_name_list[names[2]]["fst_message_img"], chara_name_list[names[2]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
+    func1_future.result()
+    func2_future.result()
+    func3_future.result()
   elif len(names) == 2:
     with ThreadPoolExecutor(max_workers=2) as executor:
-      executor.submit(pcmax.send_fst_mail, names[0], chara_name_list[names[0]]["login_id"], chara_name_list[names[0]]["login_pass"], chara_name_list[names[0]]["fst_message"], chara_name_list[names[0]]["fst_message_img"], chara_name_list[names[0]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
-      executor.submit(pcmax.send_fst_mail, names[1], chara_name_list[names[1]]["login_id"], chara_name_list[names[1]]["login_pass"], chara_name_list[names[1]]["fst_message"], chara_name_list[names[1]]["fst_message_img"], chara_name_list[names[1]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
+      func1_future = executor.submit(pcmax.send_fst_mail, names[0], chara_name_list[names[0]]["login_id"], chara_name_list[names[0]]["login_pass"], chara_name_list[names[0]]["fst_message"], chara_name_list[names[0]]["fst_message_img"], chara_name_list[names[0]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
+      func2_future = executor.submit(pcmax.send_fst_mail, names[1], chara_name_list[names[1]]["login_id"], chara_name_list[names[1]]["login_pass"], chara_name_list[names[1]]["fst_message"], chara_name_list[names[1]]["fst_message_img"], chara_name_list[names[1]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
+    func1_future.result()
+    func2_future.result()
   elif len(names) == 1:
     with ThreadPoolExecutor(max_workers=1) as executor:
-      executor.submit(pcmax.send_fst_mail, names[0], chara_name_list[names[0]]["login_id"], chara_name_list[names[0]]["login_pass"], chara_name_list[names[0]]["fst_message"], chara_name_list[names[0]]["fst_message_img"], chara_name_list[names[0]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
+      func1_future = executor.submit(pcmax.send_fst_mail, names[0], chara_name_list[names[0]]["login_id"], chara_name_list[names[0]]["login_pass"], chara_name_list[names[0]]["fst_message"], chara_name_list[names[0]]["fst_message_img"], chara_name_list[names[0]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt)
+    func1_future.result()
   else:
     print("キャラ数を正しく取得できませんでした")
 

@@ -5,7 +5,6 @@ from widget import func
 import traceback
 from email.mime.text import MIMEText
 from email.utils import formatdate
-# wdlnivdlmvsfzpjp
 if len(sys.argv) < 3:
     print("引数を正しく入力してください")
     user_name = ""
@@ -16,14 +15,15 @@ else:
 
 mailaddress = 'ayaka414510@gmail.com'
 password = 'ksjdpppibyvhfcts'
-text = """あやかです(o^^o)
-メアド交換ありがとうございます！
+text = """メアド交換ありがとうございます〜！
 
-まず会う時のお話をさせてもらいたいんですが、ホテル代と別に2〜3万円を今後のホテル代として預けてもらいたいですm(__)m
-1度きりの出会いになってしまうことがあると聞いて不安なので(>_<)
+サイトでやり取りしたあやかですっ
 
-ホテル代使い切った時にはそんな心配もないし、仕事終わりにお家でゆっくり会ったりもいいかなって思ってます( ´ ▽ ` )
+いきなり驚かせてしまったらすみませんなんですが、やっぱり友達以上の恋人未満って事で相性とかもやっぱり大事なのでまずはホテルデートから始めたいなって考えています ( ˶'ᵕ'˶)
 
-それでも良ければお返事もらえませんか？？
-  """
+その時にゴムありのえっちでホテル別の2万円をお願いしたいなって思っています！
+
+2回目以降にお会いする時は特にお金とか頂いたりするつもりは無いのでおうちデートとかLIVEとかも一緒に行けたら嬉しいです(⸝⸝ ´艸`⸝⸝)
+
+その内容で良ければお返事貰えたら予定とか決めたいなって思っているのでお返事欲しいです！"""
 func.send_conditional(user_name, user_address, mailaddress, password, text)
