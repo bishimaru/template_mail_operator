@@ -18,7 +18,7 @@ adult_flag = True
 genre_flag = setting.genre_flag
 genre_flag_pcmax = setting.genre_flag_pcmax
 
-name = "あやか"
+name = "彩香"
 title = "乃木坂オタな保育士と友達以上の関係"
 text = """初めまして、あやかです。
 アプリ入れるのやめたつもりが、なぜか入っていたので、この際やってしまおうと始めました...笑

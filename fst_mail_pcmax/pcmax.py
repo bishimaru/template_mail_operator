@@ -384,7 +384,7 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
   driver.delete_all_cookies()
   driver.get("https://pcmax.jp/pcm/file.php?f=login_form")
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-  wait_time = random.uniform(8, 16)
+  wait_time = random.uniform(12, 20)
   time.sleep(wait_time)
   id_form = driver.find_element(By.ID, value="login_id")
   id_form.send_keys(pcmax_id)
@@ -482,81 +482,88 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
     send_cnt = 1
     while True:
       if second_message:
+        print("新着チェック")
         # 新着があるかチェック
-        name = driver.find_elements(By.CLASS_NAME, "p_img")
-        if len(name):
-            # 次の要素を取得
-            next_element = name[0].find_element(By.XPATH, value="following-sibling::*[1]")
-            names = next_element.text
-            new_message = driver.find_elements(By.CLASS_NAME, value="message")[0]
-            if new_message.text[:2] == "新着":
-              print('新着があります')
-              message = driver.find_elements(By.CLASS_NAME, value="message")[0]
-              message.click()
-              wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-              time.sleep(2)
-              while True:
-                # メッセージ一覧を取得
-                message_list = driver.find_elements(By.CLASS_NAME, value="receive_user")
-                print(len(message_list))
-                new_mail_link_list = []
-                for msg_elem in message_list:
-                  new = msg_elem.find_elements(By.CLASS_NAME, value="unread1")
-                  if new:
-                    print("新着")
-                    arrival_date = msg_elem.find_elements(By.CLASS_NAME, value="date")
-                    date_numbers = re.findall(r'\d+', arrival_date[0].text)
-                    # datetime型を作成
-                    arrival_datetime = datetime(int(date_numbers[0]), int(date_numbers[1]), int(date_numbers[2]), int(date_numbers[3]), int(date_numbers[4])) 
-                    now = datetime.today()
-                    elapsed_time = now - arrival_datetime
-                    print(elapsed_time)
-                    if elapsed_time >= timedelta(minutes=4):
-                      print("4分以上経過しています。")
-                      # リンクリストを作る
-                      # https://pcmax.jp/mobile/mail_recive_detail.php?mail_id=1141727044&user_id=19560947
-                      # user_id取得
-                      user_photo = msg_elem.find_element(By.CLASS_NAME, value="user_photo")
-                      user_link = user_photo.find_element(By.TAG_NAME, value="a").get_attribute("href")
-                      # user_id=以降の文字列を取得
-                      start_index = user_link.find("user_id=")
-                      if start_index != -1:
-                          user_id = user_link[start_index + len("user_id="):]
-                          print("取得した文字列:", user_id)
-                      else:
-                          print("user_idが見つかりませんでした。")
-                      # mail_id取得
-                      mail_id = msg_elem.find_element(By.TAG_NAME, value="input").get_attribute("value")
-                      new_mail_link = "https://pcmax.jp/mobile/mail_recive_detail.php?mail_id=" + str(mail_id) + "&user_id=" + str(user_id)
-                      
-                      # print(new_mail_link)
-                      new_mail_link_list.append(new_mail_link)
+        new_message_elem = driver.find_elements(By.CLASS_NAME, value="message")
+        if len(new_message_elem):
+          new_message = new_message_elem[0]
+        else:
+          new_message = ""
+          print('新着メール取得に失敗しました')
+        if new_message:
+          if new_message.text[:2] == "新着":
+            print('新着があります')
+            message = driver.find_elements(By.CLASS_NAME, value="message")[0]
+            message.click()
+            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+            time.sleep(2)
+            while True:
+              # メッセージ一覧を取得
+              message_list = driver.find_elements(By.CLASS_NAME, value="receive_user")
+              new_mail_link_list = []
+              for msg_elem in message_list:
+                new = msg_elem.find_elements(By.CLASS_NAME, value="unread1")
+                if new:
+                  arrival_date = msg_elem.find_elements(By.CLASS_NAME, value="date")
+                  date_numbers = re.findall(r'\d+', arrival_date[0].text)
+                  # datetime型を作成
+                  arrival_datetime = datetime(int(date_numbers[0]), int(date_numbers[1]), int(date_numbers[2]), int(date_numbers[3]), int(date_numbers[4])) 
+                  now = datetime.today()
+                  elapsed_time = now - arrival_datetime
+                  print(f"メール到着からの経過時間{elapsed_time}")
+                  if elapsed_time >= timedelta(minutes=4):
+                    print("4分以上経過しています。")
+                    # リンクリストを作る
+                    # https://pcmax.jp/mobile/mail_recive_detail.php?mail_id=1141727044&user_id=19560947
+                    # user_id取得
+                    user_photo = msg_elem.find_element(By.CLASS_NAME, value="user_photo")
+                    user_link = user_photo.find_element(By.TAG_NAME, value="a").get_attribute("href")
+                    # user_id=以降の文字列を取得
+                    start_index = user_link.find("user_id=")
+                    if start_index != -1:
+                        user_id = user_link[start_index + len("user_id="):]
+                        # print("取得した文字列:", user_id)
+                    else:
+                        print("user_idが見つかりませんでした。")
+                    # mail_id取得
+                    mail_id = msg_elem.find_element(By.TAG_NAME, value="input").get_attribute("value")
+                    new_mail_link = "https://pcmax.jp/mobile/mail_recive_detail.php?mail_id=" + str(mail_id) + "&user_id=" + str(user_id)
+                    
+                    # print(new_mail_link)
+                    new_mail_link_list.append(new_mail_link)
 
-                for new_mail_user in new_mail_link_list:
-                  driver.get(new_mail_user)
-                  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-                  time.sleep(2)
-                  # やり取りがないか
-                  all_mail = driver.find_elements(By.ID, value="all_mail")
-                  if len(all_mail):
-                    all_mail[0].click()
-                    time.sleep(1)
-                    sent_by_me = driver.find_elements(By.CLASS_NAME, value="right_balloon_w")
-                  else:
-                    sent_by_me = driver.find_elements(By.CLASS_NAME, value="right_balloon_w")
-                  print(777)
-                  print(len(sent_by_me))
-                  if len(sent_by_me) == 0:
-                    # fstメッセージを入力
-                    text_area = driver.find_element(By.ID, value="mdc")
-                    text_area.send_keys(fst_message)
-                    time.sleep(4)
-                    send = driver.find_element(By.ID, value="send_n")
-                    send.click()
-                    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-                    time.sleep(wait_time)
-                  elif len(sent_by_me) == 1:
-                    # secondメッセージを入力
+              for new_mail_user in new_mail_link_list:
+                driver.get(new_mail_user)
+                wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+                time.sleep(2)
+                # やり取りがないか
+                all_mail = driver.find_elements(By.ID, value="all_mail")
+                if len(all_mail):
+                  all_mail[0].click()
+                  time.sleep(1)
+                  sent_by_me = driver.find_elements(By.CLASS_NAME, value="right_balloon_w")
+                  sent_by_me_maji = driver.find_elements(By.CLASS_NAME, value="right_balloon-maji")
+                else:
+                  sent_by_me = driver.find_elements(By.CLASS_NAME, value="right_balloon_w")
+                  sent_by_me_maji = driver.find_elements(By.CLASS_NAME, value="right_balloon-maji")
+                no_history_second_mail = True
+                # メッセージ送信一件だけ
+                if len(sent_by_me) == 1 and len(sent_by_me_maji) == 0:
+                  sent_by_me_list = []
+                  for sent_list in sent_by_me:
+                    sent_by_me_list.append(sent_list)
+                  for send_my_text in sent_by_me_list:
+                    # print("<<<<<<<<<<<<<<履歴>>>>>>>>>>>>>>>>>>")
+                    # print(send_my_text.text)
+                    # print("<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>")
+                    # print("<<<<<<<<<<<<<<second_mail>>>>>>>>>>>>>>>>>>")
+                    # print(second_message)
+                    # print("<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>")
+                    if send_my_text.text == second_message:
+                      print("second_mail履歴あり")
+                      no_history_second_mail = False
+                  # secondメッセージを入力
+                  if no_history_second_mail:
                     text_area = driver.find_element(By.ID, value="mdc")
                     text_area.send_keys(second_message)
                     time.sleep(4)
@@ -564,9 +571,11 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
                     send.click()
                     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
                     time.sleep(wait_time)
-                driver.get("https://pcmax.jp/pcm/index.php")
-                wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-                time.sleep(2)
+              driver.get("https://pcmax.jp/pcm/index.php")
+              wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+              time.sleep(2)
+              print("新着チェック終了")
+              break
       # 利用制限中
       suspend = driver.find_elements(By.CLASS_NAME, value="suspend-title")
       if len(suspend):
@@ -722,9 +731,14 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
               time.sleep(2)
               user_id = users[user_cnt].get_attribute("id")
           link = "https://pcmax.jp/mobile/profile_detail.php?user_id=" + user_id + "&search=prof&condition=648ac5f23df62&page=1&sort=&stmp_counter=13&js=1"
-          link_list.append(link)
+          random_index = random.randint(0, len(link_list))
+          link_list.insert(random_index, link)
+
+      print(f'リンクリストの数{len(link_list)}')
       # メール送信
-      for i, link_url in enumerate(link_list):
+      for idx, link_url in enumerate(link_list, 1):
+        print(666)
+        print(idx)
         send_status = True
         driver.get(link_url)
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -829,7 +843,8 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
             wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
             time.sleep(wait_time)
           time.sleep(wait_time)
-        if i == 15:
+        print(f"idxの数{idx}")
+        if idx == 15:
           break
           # print(f'送信数{send_cnt} 上限{limit_send_cnt}')
         if send_cnt == limit_send_cnt:

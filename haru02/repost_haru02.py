@@ -19,7 +19,7 @@ def repost_happymail_pcmax():
   adult_flag = True
   genre_flag = setting.genre_flag
   genre_flag_pcmax = setting.genre_flag_pcmax
-  name = "haru"
+  name = "波留（はる）"
   title = "都内OLはる/恋人みたいなセフさん"
   text = """はじめまして。
 都内の会社でおもちゃの商品企画をしているはるです！
@@ -45,9 +45,6 @@ def repost_happymail_pcmax():
   driver = webdriver.Chrome(service=service, options=options)
   h_w = func.get_windowhandle("happymail", name)
   p_w = func.get_windowhandle("pcmax", name)
-  print(555)
-  print(h_w)
-  print(p_w)
   try:   
     happymail.re_post(name, h_w, driver, title, text, adult_flag, genre_flag)
   except Exception as e:
