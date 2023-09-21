@@ -63,7 +63,7 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
   for common_table_elem in common_table:
      print(777)
      print(common_table_elem.text)
-     if "マイページ" in common_table_elem.text:
+     if "マイリスト" in common_table_elem.text:
         mylist = common_table_elem
   driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", mylist)
   time.sleep(wait_time)
