@@ -20,9 +20,9 @@ def repost_happymail_pcmax():
   genre_flag = setting.genre_flag
   genre_flag_pcmax = setting.genre_flag_pcmax
   name = "ハル"
-  title = "現役AV女優◎MM号に出演したのが自慢♪"
+  title = "現役セクシー女優◎MM号に出演したのが自慢♪"
   text = """掲示板見てくれてありがとうございます♪
-AV女優をしているハルです♪( ´▽｀)
+セクシー女優をしているハルです♪( ´▽｀)
 一応MM号にも出たことあるのが自慢です！！笑
 
 プライベートでの出会いが無いし寂しがりやなので

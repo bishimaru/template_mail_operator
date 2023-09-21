@@ -15,6 +15,9 @@ import setting
 from selenium.webdriver.support.select import Select
 import sqlite3
 import re
+from datetime import datetime, timedelta
+import difflib
+
 
 
 # 警告画面
@@ -57,7 +60,9 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
   # マイリストをクリック
   common_list = driver.find_element(By.CLASS_NAME, "ds_common_table")
   common_table = common_list.find_elements(By.CLASS_NAME, "ds_mypage_text")
-  mylist = common_table[5]
+  for common_table_elem in common_table_elem:
+     if common_table_elem.text == "マイページ":
+        mylist = common_table_elem
   driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", mylist)
   time.sleep(wait_time)
   mylist.click()
@@ -764,4 +769,118 @@ def send_fst_message(name_list):
   except Exception as e:  
     print(traceback.format_exc())
     driver.quit()  
-  
+
+def check_new_mail(driver, wait, name):
+  dbpath = 'firstdb.db'
+  conn = sqlite3.connect(dbpath)
+  cur = conn.cursor()
+  cur.execute('SELECT login_id, passward, fst_message, return_foot_message, conditions_message FROM happymail WHERE name = ?', (name,))
+  for row in cur:
+      login_id = row[0]
+      login_pass = row[1]
+      fst_message = row[2]
+      return_foot_message = row[3]
+      conditions_message = row[4]
+      
+  driver.delete_all_cookies()
+  driver.get("https://happymail.jp/login/")
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  wait_time = random.uniform(2, 5)
+  time.sleep(wait_time)
+  id_form = driver.find_element(By.ID, value="TelNo")
+  id_form.send_keys(login_id)
+  pass_form = driver.find_element(By.ID, value="TelPass")
+  pass_form.send_keys(login_pass)
+  time.sleep(wait_time)
+  send_form = driver.find_element(By.ID, value="login_btn")
+  send_form.click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(2)
+  name = driver.find_element(By.CLASS_NAME, "ds_user_display_name")
+  name = name.text  
+  message_icon_candidates = driver.find_elements(By.CLASS_NAME, value="ds_nav_item")
+  message_icon = ""
+  for message_icon_candidate in message_icon_candidates:
+     if "メッセージ" in message_icon_candidate.text:
+        message_icon = message_icon_candidate
+  if message_icon:
+    new_message = message_icon.find_elements(By.CLASS_NAME, value="ds_red_circle")
+    print(666)
+    print(len(new_message))
+  else:
+     print("message_iconが見つかりません")
+     return
+  # 新着があった
+  if len(new_message):
+     link = message_icon.find_elements(By.TAG_NAME, value="a")
+     link[0].click()
+     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+     time.sleep(2)
+     #  未読のみ表示
+     only_new_message = driver.find_elements(By.CLASS_NAME, value="ds_message_tab_item")[1]
+     only_new_message.click()
+     time.sleep(1)
+    
+     new_mail = driver.find_elements(By.CLASS_NAME, value="ds_list_r_kidoku")  
+     if not len(new_mail):
+         list_load = driver.find_element(By.ID, value="load_bL")
+         list_load.click()
+         time.sleep(2)
+     #新着がある間はループ  
+     while len(new_mail):
+        # 4分経過しているか
+        parent_element = new_mail[0].find_element(By.XPATH, value="..")
+        next_element = parent_element.find_element(By.XPATH, value="following-sibling::*")
+        date = next_element.find_elements(By.CLASS_NAME, value="ds_message_date")
+        date_numbers = re.findall(r'\d+', date[0].text)
+        arrival_datetime = datetime(int(datetime.now().year), int(date_numbers[0]), int(date_numbers[1]), int(date_numbers[2]), int(date_numbers[3])) 
+        now = datetime.today()
+        elapsed_time = now - arrival_datetime
+        print(f"メール到着からの経過時間{elapsed_time}")
+        if elapsed_time >= timedelta(minutes=4):
+          print("4分以上経過しています。")
+          new_mail[0].click()
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(2)
+          send_message = driver.find_elements(By.CLASS_NAME, value="message__block--send")          
+          if len(send_message):
+            send_text = send_message[-1].find_elements(By.CLASS_NAME, value="message__block__body__text")[0].text
+            if not send_text:
+                send_text = send_message[-2].find_elements(By.CLASS_NAME, value="message__block__body__text")[0].text
+            print(888888888888)
+            print(send_text)
+            if fst_message == send_text:
+                print("やった")
+                text_area = driver.find_element(By.ID, value="text-message")
+                driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", text_area)
+                text_area.send_keys(conditions_message)
+                # 送信
+                send_mail = driver.find_element(By.ID, value="submitButton")
+                send_mail.click()
+                wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+                time.sleep(wait_time)
+            elif return_foot_message == send_text:
+                print("naisudesu")
+            elif "掲示板メッセージ" in send_text:
+                print("keijiban")
+            elif conditions_message == send_text:
+               print(777777777777777777777)
+            else:
+               print('やり取りしてますん')
+          else:
+            text_area = driver.find_element(By.ID, value="text-message")
+            driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", text_area)
+            text_area.send_keys(fst_message)
+            # 送信
+            send_mail = driver.find_element(By.ID, value="submitButton")
+            send_mail.click()
+            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+            time.sleep(wait_time)
+        driver.get("https://happymail.co.jp/sp/app/html/message_list.php")
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(2)
+        new_mail = driver.find_elements(By.CLASS_NAME, value="ds_list_r_kidoku")
+        return
+        # https://happymail.co.jp/sp/app/html/message_list.php
+           
+     
