@@ -61,7 +61,7 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
   common_list = driver.find_element(By.CLASS_NAME, "ds_common_table")
   common_table = common_list.find_elements(By.CLASS_NAME, "ds_mypage_text")
   for common_table_elem in common_table:
-     if common_table_elem.text == "マイページ":
+     if "マイページ" in common_table_elem.text:
         mylist = common_table_elem
   driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", mylist)
   time.sleep(wait_time)
