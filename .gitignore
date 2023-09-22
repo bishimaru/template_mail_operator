@@ -8,6 +8,4 @@ setting.py
 .DS_Store
 /.DS_Store
 __pycache__
-firstdb.db
-firstdb.sqbpro
 myenv
