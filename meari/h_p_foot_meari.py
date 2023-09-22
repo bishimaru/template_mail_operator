@@ -14,23 +14,17 @@ from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
 from datetime import timedelta
-
+import sqlite3
 
 def h_p_foot(cnt):
   name = "めあり"
-  return_foot_message = """足跡ぺたぺたありがとうございますー！
-
-旅館で働いているめありって言います( ´｡•ω•)ﾉ
-
-前の彼とは遠距離になってしまって別れてしまってからあっちの方はしばらくご無沙汰していてます( ; ; )
-
-それが原因か最近はカップルのお客さんとかの対応をすると色んな妄想とかをしてしまって、お家で1人でする頻度とかが増えてきて寂しいなって思っています。。。
-
-男性は前の彼氏しか知らないけど、人生で1度くらいはセフさんとかも作ってみたいなって思ってサイトを始めてみました！！
-
-私と長期的な関係を考えてみようかなって思ったらお返事貰えたら嬉しいです(*ˊᵕˋ*)"""  
-  relative_path = os.path.join(setting.BASE_DIR, setting.meari_picture_path)
-  h_return_foot_img = ""
+  dbpath = 'firstdb.db'
+  conn = sqlite3.connect(dbpath)
+  cur = conn.cursor()
+  cur.execute('SELECT return_foot_message FROM happymail WHERE name = ?', (name,))
+  for row in cur:
+      return_foot_message = row[0]
+      h_return_foot_img = ""
   p_return_foot_img = "" #230704
   options = Options()
   options.add_argument('--headless')

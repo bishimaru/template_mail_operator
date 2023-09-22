@@ -15,22 +15,19 @@ import setting
 import traceback
 from selenium.webdriver.common.by import By
 from datetime import timedelta
+import sqlite3
 
 
 def h_p_foot(cnt):
   name = "えりか"
-  h_return_foot_img = ""
+  dbpath = 'firstdb.db'
+  conn = sqlite3.connect(dbpath)
+  cur = conn.cursor()
+  cur.execute('SELECT return_foot_message, mail_img FROM happymail WHERE name = ?', (name,))
+  for row in cur:
+      return_foot_message = row[0]
+      h_return_foot_img = row[1]  
   p_return_foot_img = ""
-
-  return_foot_message = """足跡からです！m(__)m
-  セクシー女優と会員制のデリヘルでお仕事しています◎
-
-  プライベートでえっちなことができるせふれさんを探しています！
-  仕事ではプロの男優さんとかとかと会うので上手さとかは逆に気にしないですm(__)m
-  その代わりに長期的な関係ってのがあまりないので、経験少ない人とどんどん相性良くなっていける関係が理想かなって思ってます♪( ´▽｀)
-
-  もし仕事に偏見なく会ってくれる人いたら連絡もらいたいです！"""
-
   options = Options()
   options.add_argument('--headless')
   options.add_argument("--no-sandbox")

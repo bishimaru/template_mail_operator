@@ -21,7 +21,7 @@ from datetime import timedelta
 
 # order_list = ["あすか", "彩香","えりか", "haru...", "haru","きりこ","めあり","ももか","ゆうこ", 
 #                "りこ","りな","ハル", "波留（はる）" ]
-order_list = ["えりか", ]
+order_list = ["めあり", ]
 
 def get_driver():
     options = Options()
@@ -42,7 +42,9 @@ def check_mail():
   for order_name in order_list:
      # ハッピーメール
     driver, wait = get_driver()
-    happymail.check_new_mail(driver, wait, order_name)
+    x = happymail.check_new_mail(driver, wait, order_name)
+    print(1234)
+    print(x)
 
 
 if __name__ == '__main__':

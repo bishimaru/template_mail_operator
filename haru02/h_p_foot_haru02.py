@@ -15,30 +15,18 @@ import setting
 import traceback
 from selenium.webdriver.common.by import By
 from datetime import timedelta
-
+import sqlite3
 
 def h_p_foot(cnt):
-  name = "haru"
-  h_return_foot_img = ""
+  name = "波留（はる）"
+  dbpath = 'firstdb.db'
+  conn = sqlite3.connect(dbpath)
+  cur = conn.cursor()
+  cur.execute('SELECT return_foot_message, mail_img FROM happymail WHERE name = ?', (name,))
+  for row in cur:
+      return_foot_message = row[0]
+      h_return_foot_img = row[1]  
   p_return_foot_img = ""
-
-  return_foot_message = """足跡から気になって来ちゃいました！
-
-都内の会社でおもちゃの商品企画をしているはるです〜！
-
-女子校出身で大学も美大で、職場も女性ばかりで出会いがなく、始めました...
-
-好きなことは映画を見ること、ゲームをすること、本を読むことです。めちゃくちゃインドア派です。
-
-ゲームは仕事でも関わりがあるのでよくやります！
-今はポケモン、スプラトゥーンをしています。
-
-ゲームとかばかりしていてしばらくは彼氏とかも居ないのであっちの方はソロプレイばかりです(´；ω；｀)
-
-なのでゲームとかも一緒に出来て一緒にいて気負わない恋人みたいなセフさんが作れたらいいなと思っています(๑>◡<๑)
-
-私との関係を前向きに考えて貰えるならお返事貰えたら嬉しいです♪"""
-
   options = Options()
   options.add_argument('--headless')
   options.add_argument("--no-sandbox")

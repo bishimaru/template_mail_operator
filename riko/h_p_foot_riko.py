@@ -15,21 +15,18 @@ import setting
 import traceback
 from selenium.webdriver.common.by import By
 from datetime import timedelta
-
+import sqlite3
 
 def h_p_foot(cnt):
   name = "りこ"
-  h_return_foot_img = ""
+  dbpath = 'firstdb.db'
+  conn = sqlite3.connect(dbpath)
+  cur = conn.cursor()
+  cur.execute('SELECT return_foot_message FROM happymail WHERE name = ?', (name,))
+  for row in cur:
+      return_foot_message = row[0]
+      h_return_foot_img = ""
   p_return_foot_img = ""
-
-  return_foot_message = """足跡見つけて連絡しました！
-駆け出しのOLの『りこ』って言います♪
-
-彼氏と就職を機に自然消滅してしまい、職場以外でいい人見つけたいです！
-今はまだ仕事にも力を入れたい時期ではあるので、気軽に会えるようなせふれさんから始めれたらいいなって思ってます(*ﾟ▽ﾟ*)
-
-興味あったら連絡いただきたいです！"""
-
   options = Options()
   options.add_argument('--headless')
   options.add_argument("--no-sandbox")

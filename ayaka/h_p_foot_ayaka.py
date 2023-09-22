@@ -14,27 +14,18 @@ from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
 from datetime import timedelta
+import sqlite3
 
 
 def h_p_foot(cnt):
   name = "彩香"
-  return_foot_message = """足跡からです！
-
-初めまして、あやかです。
-アプリ入れるのやめたつもりが、なぜか入っていたので、この際やってしまおうと始めました...笑
-
-あ、自己紹介が遅れました。
-普段は都内の幼稚園で保育士として働いています〜！
-
-子供が大好きでもちもちしてます(ﾉ)`∨´(ヾ)
-
-お仕事とかは充実しているんですが、仕事柄なんですが出会いとかは全然なくて...泣
-
-同僚の子がここでせふれさんを作ったって言っていて、それなら私もって思ってせふれ探しを始めました！！
-職業柄甘えられるのも好きだけど、甘えるのも大好きな寂しがり屋です(>_<)
-
-私と友達以上、恋人未満の関係に興味あればお返事貰えたらとても嬉しいです( ´,,•ω•,,`)"""
-  h_return_foot_img = ""
+  dbpath = 'firstdb.db'
+  conn = sqlite3.connect(dbpath)
+  cur = conn.cursor()
+  cur.execute('SELECT return_foot_message, mail_img FROM happymail WHERE name = ?', (name,))
+  for row in cur:
+      return_foot_message = row[0]
+      h_return_foot_img = row[1]  
   p_return_foot_img = ""
   options = Options()
   options.add_argument('--headless')

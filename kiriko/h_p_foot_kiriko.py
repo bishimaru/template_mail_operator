@@ -14,24 +14,18 @@ from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
 from datetime import timedelta
+import sqlite3
 
 
 def h_p_foot(cnt):
   name = "きりこ"
-  return_foot_message = """はじめまして(*'ω'*)
-カーディーラーの受付嬢として働いている『きりこ』です(*´ω｀)
-　
-今お仕事とかで悩んでいることがあって・・・
-営業の人とかお客さんをおもてなしするのが仕事なんですけど
-「接客マナー」とか「気配り」をすごい求められる職業ですっごいストレスがたまっちゃうんです(´;ω;｀)
-
-休みの日でも営業の人から連絡きたりもするし、そんな仕事だけの毎日から解放されたくて.....
-ついでにあっちのほうもご無沙汰だしストレスと欲求不満を解消できるセフレさんを探そうと思ってサイトをはじめてみました(@_@。
-
-少しMっけのある男性のほうが相性いいかもです(*´ω｀)
-
-同じ感じでセフレ探してるなら返信もらえると嬉しいです"(-""-)"""
-  h_return_foot_img = ""
+  dbpath = 'firstdb.db'
+  conn = sqlite3.connect(dbpath)
+  cur = conn.cursor()
+  cur.execute('SELECT return_foot_message FROM happymail WHERE name = ?', (name,))
+  for row in cur:
+      return_foot_message = row[0]
+      h_return_foot_img = ""
   p_return_foot_img = ""
   options = Options()
   options.add_argument('--headless')

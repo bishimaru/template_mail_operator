@@ -61,8 +61,6 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
   common_list = driver.find_element(By.CLASS_NAME, "ds_common_table")
   common_table = common_list.find_elements(By.CLASS_NAME, "ds_mypage_text")
   for common_table_elem in common_table:
-     print(777)
-     print(common_table_elem.text)
      if "マイリスト" in common_table_elem.text:
         mylist = common_table_elem
   driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", mylist)
@@ -773,6 +771,7 @@ def send_fst_message(name_list):
     driver.quit()  
 
 def check_new_mail(driver, wait, name):
+  return_list = []
   dbpath = 'firstdb.db'
   conn = sqlite3.connect(dbpath)
   cur = conn.cursor()
@@ -782,8 +781,7 @@ def check_new_mail(driver, wait, name):
       login_pass = row[1]
       fst_message = row[2]
       return_foot_message = row[3]
-      conditions_message = row[4]
-      
+      conditions_message = row[4]   
   driver.delete_all_cookies()
   driver.get("https://happymail.jp/login/")
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -807,8 +805,7 @@ def check_new_mail(driver, wait, name):
         message_icon = message_icon_candidate
   if message_icon:
     new_message = message_icon.find_elements(By.CLASS_NAME, value="ds_red_circle")
-    print(666)
-    print(len(new_message))
+    
   else:
      print("message_iconが見つかりません")
      return
@@ -838,9 +835,9 @@ def check_new_mail(driver, wait, name):
         arrival_datetime = datetime(int(datetime.now().year), int(date_numbers[0]), int(date_numbers[1]), int(date_numbers[2]), int(date_numbers[3])) 
         now = datetime.today()
         elapsed_time = now - arrival_datetime
-        print(f"メール到着からの経過時間{elapsed_time}")
+        # print(f"メール到着からの経過時間{elapsed_time}")
         if elapsed_time >= timedelta(minutes=4):
-          print("4分以上経過しています。")
+          # print("4分以上経過しています。")
           new_mail[0].click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(2)
@@ -849,9 +846,19 @@ def check_new_mail(driver, wait, name):
             send_text = send_message[-1].find_elements(By.CLASS_NAME, value="message__block__body__text")[0].text
             if not send_text:
                 send_text = send_message[-2].find_elements(By.CLASS_NAME, value="message__block__body__text")[0].text
-            print(888888888888)
-            print(send_text)
-            if fst_message == send_text:
+            # print(888888888888)
+            # print(send_text)
+
+            # d = difflib.Differ()
+            # diff = list(d.compare(send_text, return_foot_message))
+
+            # for line in diff:
+            #     if line.startswith('-') or line.startswith('+'):
+            #         print(line)
+            # print("<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>")
+
+
+            if fst_message == send_text or return_foot_message == send_text or "掲示板メッセージ" in send_text:
                 print("やった")
                 text_area = driver.find_element(By.ID, value="text-message")
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", text_area)
@@ -861,14 +868,14 @@ def check_new_mail(driver, wait, name):
                 send_mail.click()
                 wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
                 time.sleep(wait_time)
-            elif return_foot_message == send_text:
-                print("naisudesu")
-            elif "掲示板メッセージ" in send_text:
-                print("keijiban")
-            elif conditions_message == send_text:
-               print(777777777777777777777)
             else:
                print('やり取りしてますん')
+               user_name = driver.find_elements(By.CLASS_NAME, value="app__navbar__item--title")[0]
+               user_name = user_name.text
+               receive_contents = driver.find_elements(By.CLASS_NAME, value="message__block--receive")[-1]
+               print(777777777777777777777)
+               print(f"{user_name}:{receive_contents.text}")
+               return_list.append([user_name, receive_contents])
           else:
             text_area = driver.find_element(By.ID, value="text-message")
             driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", text_area)
@@ -878,11 +885,12 @@ def check_new_mail(driver, wait, name):
             send_mail.click()
             wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
             time.sleep(wait_time)
+        else:
+           time.sleep(10)
         driver.get("https://happymail.co.jp/sp/app/html/message_list.php")
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(2)
         new_mail = driver.find_elements(By.CLASS_NAME, value="ds_list_r_kidoku")
-        return
-        # https://happymail.co.jp/sp/app/html/message_list.php
-           
+  
+  return return_list         
      

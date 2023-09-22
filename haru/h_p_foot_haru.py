@@ -15,18 +15,18 @@ import setting
 import traceback
 from selenium.webdriver.common.by import By
 from datetime import timedelta
-
+import sqlite3
 
 def h_p_foot(cnt):
   name = "ハル"
-  h_return_foot_img = ""
+  dbpath = 'firstdb.db'
+  conn = sqlite3.connect(dbpath)
+  cur = conn.cursor()
+  cur.execute('SELECT return_foot_message, mail_img FROM happymail WHERE name = ?', (name,))
+  for row in cur:
+      return_foot_message = row[0]
+      h_return_foot_img = row[1]  
   p_return_foot_img = ""
-
-  return_foot_message = """足跡ありがとうございます♪
-セクシー女優をしているハルです♪( ´▽｀)
-一応MM号にも出たことあるのが自慢です！！笑
-今って会う人とかって決まってたりしますか？？"""
-
   options = Options()
   options.add_argument('--headless')
   options.add_argument("--no-sandbox")

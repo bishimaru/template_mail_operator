@@ -14,17 +14,17 @@ from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
 from datetime import timedelta
-
+import sqlite3
 
 def h_p_foot(cnt):
   name = "ももか"
-  return_foot_message = """足跡ありがとうございます！
-都内在住の26歳のももかです♪
-25個年上の夫と結婚して2年経つんですけど、夫の年齢的に体力が
-あんまり無くてレスなので登録してみました...
-毎月最低でも1週間は夫が出張に行くのでその間に会えるような人を長期的に探しています( ^ω^ )
-もし今特定の人とか決まってなかったらぜひお返事ください♪"""
-  h_return_foot_img = ""
+  dbpath = 'firstdb.db'
+  conn = sqlite3.connect(dbpath)
+  cur = conn.cursor()
+  cur.execute('SELECT return_foot_message FROM happymail WHERE name = ?', (name,))
+  for row in cur:
+      return_foot_message = row[0]
+      h_return_foot_img = ""
   p_return_foot_img = ""
   options = Options()
   options.add_argument('--headless')

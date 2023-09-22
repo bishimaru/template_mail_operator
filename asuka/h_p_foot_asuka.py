@@ -14,19 +14,18 @@ from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
 from datetime import timedelta
+import sqlite3
 
 
 def h_p_foot(cnt):
   name = "あすか"
-  return_foot_message = """足跡が付いてたので気になってご連絡しちゃいました♪
-あすかです٩( 'ω’ )و
-友達のゆかと3人でエッチを楽しめるセフレさんを見つけたくてサイトに登録しました！
-
-2人ともメンズ専門の脱毛サロンで働いてるんですけど、毎回VIOの施術中にエッチな気分になっちゃって(//ω照♥
-
-私もゆかも今は特定の相手もいないし、折角なら3人でエッチを楽しめるセフレさんが出来たらなって思ってるんですけど今ってそういうお相手探してたりしませんか？？"""
-  relative_path = os.path.join(setting.BASE_DIR, setting.asuka_yuka_picture_path)
-  h_return_foot_img = relative_path
+  dbpath = 'firstdb.db'
+  conn = sqlite3.connect(dbpath)
+  cur = conn.cursor()
+  cur.execute('SELECT return_foot_message, mail_img FROM happymail WHERE name = ?', (name,))
+  for row in cur:
+      return_foot_message = row[0]
+      h_return_foot_img = row[1]
   p_return_foot_img = "230813"
   options = Options()
   options.add_argument('--headless')
