@@ -31,6 +31,9 @@ def get_driver():
     return driver, wait
 
 def sb_h_repost_returnfoot(name, cnt):
+  print(777)
+  print(setting.BASE_DIR)
+  
   dbpath = 'firstdb.db'
   conn = sqlite3.connect(dbpath)
   cur = conn.cursor()
@@ -41,7 +44,8 @@ def sb_h_repost_returnfoot(name, cnt):
       post_title = row[2]
       post_contents = row[3]
       return_foot_message = row[4]
-      return_foot_img = row[5]
+      return_foot_img =  setting.BASE_DIR + row[5]
+  print(return_foot_img)
   
   adult_flag = True
   genre_flag = setting.genre_flag
@@ -63,8 +67,8 @@ def sb_h_repost_returnfoot(name, cnt):
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
   time.sleep(2)
 
-  happymail.re_post(name, happy_windowhandle, driver, post_title, post_contents, adult_flag, genre_flag)
-  time.sleep(360)
+  # happymail.re_post(name, happy_windowhandle, driver, post_title, post_contents, adult_flag, genre_flag)
+  # time.sleep(360)
   happymail.return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt, return_foot_img)
   driver.quit()
 
