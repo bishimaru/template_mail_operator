@@ -45,8 +45,11 @@ def sb_h_repost_returnfoot(name, cnt):
       post_contents = row[3]
       return_foot_message = row[4]
       return_foot_img =  setting.BASE_DIR + row[5]
+      if setting.mac_mini:
+        return_foot_img = return_foot_img.replace("mail_tool", "mail_operator")
+  print(77744)
   print(return_foot_img)
-  
+  return
   adult_flag = True
   genre_flag = setting.genre_flag
   happy_windowhandle = ""
