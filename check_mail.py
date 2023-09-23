@@ -21,7 +21,7 @@ from datetime import timedelta
 
 order_list = ["あすか", "彩香","えりか", "haru...", "haru","きりこ","めあり","ももか","ゆうこ", 
                "りこ","りな","ハル",  ]
-# order_list = ["まいこ", ]
+order_list = ["あすか", ]
 
 def check_mail():
     window_handle_list= []

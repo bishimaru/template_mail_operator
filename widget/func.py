@@ -19,6 +19,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import TimeoutException
+
 
 def timer(fnc, seconds, h_cnt, p_cnt):  
   start_time = time.time() 
@@ -433,4 +435,78 @@ def get_debug_chromedriver():
   wait = WebDriverWait(driver, 15)
 
   return driver
-    
+
+def check_new_mail_gmail(driver, wait, mail_address):
+  return_list = []
+  dbpath = 'firstdb.db'
+  conn = sqlite3.connect(dbpath)
+  cur = conn.cursor()
+  cur.execute('SELECT window_Handle FROM gmail WHERE mail_address = ?', (mail_address,))
+  for row in cur:
+      w_h = row[0]
+  try:
+      driver.switch_to.window(w_h)
+      time.sleep(2)
+      driver.get("https://mail.google.com/mail/mu")
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(2)  
+  except TimeoutException as e:
+      print("TimeoutException")
+      driver.refresh()
+  # メニューをクリック
+  # カスタム属性の値を持つ要素をXPathで検索
+  custom_value = "メニュー"
+  xpath = f"//*[@aria-label='{custom_value}']"
+  element = driver.find_elements(By.XPATH, value=xpath)
+  element[0].click()
+  time.sleep(1) 
+  custom_value = "toggleaccountscallout+20"
+  xpath = f"//*[@data-control-type='{custom_value}']"
+  element = driver.find_elements(By.XPATH, value=xpath)
+  if len(element):
+      time.sleep(2)
+      element = driver.find_elements(By.XPATH, value=xpath)
+  address = element[0].text
+  # メインボックスのチェック
+  main_box = driver.find_elements(By.CLASS_NAME, value="Jd")
+  main_box[0].click()
+  time.sleep(1)
+  email_list = driver.find_element(By.CLASS_NAME, value="Kk")
+  # 最初の子要素を取得
+  latest_email = email_list.find_element(By.XPATH, value="./*[1]")
+  latest_new_email_address = latest_email.find_elements(By.TAG_NAME, value="b")
+  # print(777)
+  # print(address)
+  # print(len(latest_new_email_address))
+  if len(latest_new_email_address):
+      return_list.append(address)
+  # 迷惑メールフォルダーをチェック
+  custom_value = "メニュー"
+  xpath = f"//*[@aria-label='{custom_value}']"
+  element = driver.find_elements(By.XPATH, value=xpath)
+  element[0].click()
+  time.sleep(2) 
+  menu_list = driver.find_elements(By.XPATH, value="//*[@role='menuitem']")
+  spam = menu_list[-1]
+  driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", spam)
+  spam.click()
+  time.sleep(1) 
+  email_list = driver.find_element(By.CLASS_NAME, value="Kk")
+  latest_email = email_list.find_element(By.XPATH, value="./*[1]")
+  latest_new_spam = latest_email.find_elements(By.TAG_NAME, value="b")
+  time.sleep(1) 
+  if len(latest_new_spam):
+      return_list.append(address + ":迷惑フォルダ")
+  custom_value = "メニュー"
+  xpath = f"//*[@aria-label='{custom_value}']"
+  element = driver.find_elements(By.XPATH, value=xpath)
+  element[0].click()
+  # window_handles = driver.window_handles
+  # for window_handle in window_handles:
+  #   driver.switch_to.window(window_handle)
+  #   current_url = driver.current_url
+  #   if current_url.startswith("https://mail.google.com/mail/mu"):
+  #       print("URLがhttps://mail.google.com/mail/muから始まります。")
+  #   else:
+  #       print("URLがhttps://mail.google.com/mail/muから始まりません。")
+  return return_list   

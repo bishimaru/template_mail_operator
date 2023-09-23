@@ -865,6 +865,3 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
   except KeyboardInterrupt:
     print("Ctl + c")
     driver.quit()  
-
-  
-

@@ -18,6 +18,7 @@ import re
 from selenium.common.exceptions import TimeoutException
 import sqlite3
 from selenium.webdriver.chrome.service import Service as ChromeService
+from datetime import datetime, timedelta
 
 
 
@@ -848,3 +849,149 @@ def send_fst_mail(name, maji_soushin, select_areas, youngest_age, oldest_age, ng
   except KeyboardInterrupt:
     print("Ctl + c")
     driver.quit()  
+
+def check_new_mail(driver, wait, name):
+  return_list = []
+  dbpath = 'firstdb.db'
+  conn = sqlite3.connect(dbpath)
+  cur = conn.cursor()
+  cur.execute('SELECT login_id, passward, fst_mail, mail_img, second_message FROM pcmax WHERE name = ?', (name,))
+  for row in cur:
+      login_id = row[0]
+      login_pass = row[1]
+      fst_message = row[2]
+      mail_img = row[3]   
+      second_message = row[4]
+  try:
+    driver.delete_all_cookies()
+    driver.get("https://pcmax.jp/pcm/file.php?f=login_form")
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  except TimeoutException as e:
+    print("TimeoutException")
+    driver.refresh()
+  time.sleep(2)
+  id_form = driver.find_element(By.ID, value="login_id")
+  id_form.send_keys(login_id)
+  pass_form = driver.find_element(By.ID, value="login_pw")
+  pass_form.send_keys(login_pass)
+  time.sleep(1)
+  send_form = driver.find_element(By.NAME, value="login")
+  try:
+    send_form.click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(3)
+  except TimeoutException as e:
+    print("TimeoutException")
+    driver.refresh()
+  # 新着があるかチェック
+  new_message_elem = driver.find_elements(By.CLASS_NAME, value="message")
+  if len(new_message_elem):
+    new_message = new_message_elem[0]
+  else:
+    new_message = ""
+    print('新着メール取得に失敗しました')
+  if new_message:
+    if new_message.text[:2] == "新着":
+      print('新着があります')
+      message = driver.find_elements(By.CLASS_NAME, value="message")[0]
+      message.click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(2)
+      # 未読だけを表示
+      new_message_display = driver.find_elements(By.CLASS_NAME, value="msg-display_change")
+      new_message_display[0].click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(2)
+      # メッセージ一覧を取得
+      message_list = driver.find_elements(By.CLASS_NAME, value="receive_user")
+      while len(message_list):
+        arrival_date = message_list[0].find_elements(By.CLASS_NAME, value="date")
+        date_numbers = re.findall(r'\d+', arrival_date[0].text)
+        # datetime型を作成
+        arrival_datetime = datetime(int(date_numbers[0]), int(date_numbers[1]), int(date_numbers[2]), int(date_numbers[3]), int(date_numbers[4])) 
+        now = datetime.today()
+        elapsed_time = now - arrival_datetime
+        print(f"メール到着からの経過時間{elapsed_time}")
+        if elapsed_time >= timedelta(minutes=4):
+          print("4分以上経過しています。")
+          user_photo = message_list[0].find_element(By.CLASS_NAME, value="user_photo")
+          user_link = user_photo.find_element(By.TAG_NAME, value="a").get_attribute("href")
+          start_index = user_link.find("user_id=")
+          if start_index != -1:
+              user_id = user_link[start_index + len("user_id="):]
+              print("取得した文字列:", user_id)
+          else:
+              print("user_idが見つかりませんでした。")
+          mail_id = message_list[0].find_element(By.TAG_NAME, value="input").get_attribute("value")
+          new_mail_link = "https://pcmax.jp/mobile/mail_recive_detail.php?mail_id=" + str(mail_id) + "&user_id=" + str(user_id)
+          print("<<<<<<<<<<<<<<<<>>>>>>>>>>>>")
+          print(new_mail_link)
+          driver.get(new_mail_link)
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(2)
+          all_mail = driver.find_elements(By.ID, value="all_mail")
+          if len(all_mail):
+            all_mail[0].click()
+            time.sleep(1)
+            sent_by_me = driver.find_elements(By.CLASS_NAME, value="right_balloon_w")
+            sent_by_me_maji = driver.find_elements(By.CLASS_NAME, value="right_balloon-maji")
+          else:
+            sent_by_me = driver.find_elements(By.CLASS_NAME, value="right_balloon_w")
+            sent_by_me_maji = driver.find_elements(By.CLASS_NAME, value="right_balloon-maji")
+          no_history_second_mail = True
+          # メッセージ送信一件だけ
+          if len(sent_by_me) == 1 or len(sent_by_me_maji) == 1:
+            sent_by_me_list = []
+            if len(sent_by_me):
+              for sent_list in sent_by_me:
+                sent_by_me_list.append(sent_list)
+            elif len(sent_by_me_maji):
+              for sent_list in sent_by_me_maji:
+                sent_by_me_list.append(sent_list)
+            for send_my_text in sent_by_me_list:
+              if send_my_text.text == second_message:
+                print("second_mail履歴あり")
+                name_elem = driver.find_elements(By.CLASS_NAME, value="content_header_center")
+                user_name = name_elem[0].text
+                received_mail_elem = driver.find_elements(By.CLASS_NAME, value="left_balloon_m")
+                received_mail = received_mail_elem[-1].text
+                print(4444444444444)
+                print(user_name)
+                print(received_mail)
+                return_list.append([user_name, received_mail])
+                no_history_second_mail = False
+            # secondメッセージを入力
+            if no_history_second_mail:
+              text_area = driver.find_elements(By.ID, value="mdc")
+              if len(text_area):
+                text_area[0].send_keys(second_message)
+                time.sleep(4)
+                send = driver.find_element(By.ID, value="send_n")
+                send.click()
+                wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+                time.sleep(2)
+          elif sent_by_me[-1].text == second_message:
+            print('やり取り中')
+            name_elem = driver.find_elements(By.CLASS_NAME, value="content_header_center")
+            user_name = name_elem[0].text
+            received_mail_elem = driver.find_elements(By.CLASS_NAME, value="left_balloon_m")
+            received_mail = received_mail_elem[-1].text
+            print(4444444444444)
+            print(user_name)
+            print(received_mail)
+            return_list.append([user_name, received_mail])
+        else:
+          print("4分経過していません")
+          return return_list
+        # https://pcmax.jp/mobile/mail_recive_list.php?receipt_status=0
+        driver.get("https://pcmax.jp/mobile/mail_recive_list.php?receipt_status=0")
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(2)
+        # メッセージ一覧を取得
+        message_list = driver.find_elements(By.CLASS_NAME, value="receive_user")
+
+  return return_list  
+
+  
+
+

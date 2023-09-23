@@ -17,6 +17,8 @@ import sqlite3
 import re
 from datetime import datetime, timedelta
 import difflib
+from selenium.common.exceptions import NoSuchElementException
+
 
 
 
@@ -26,15 +28,15 @@ def catch_warning_screen(driver):
    warning = driver.find_elements(By.CLASS_NAME, value="warning screen")
    if len(warning):
       print(warning.text)
-      return False
-   else:
       return True
+   else:
+      return False
 
 def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genre_flag):
   area_list = ["東京都", "千葉県", "埼玉県", "神奈川県"]
   wait = WebDriverWait(driver, 15)
-  handle_array = driver.window_handles
-  driver.switch_to.window(happy_windowhandle)
+  if happy_windowhandle:
+    driver.switch_to.window(happy_windowhandle)
   wait_time = random.uniform(2, 3)
   # TOPに戻る
   driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
@@ -351,7 +353,8 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
 
 def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt, return_foot_img):
     wait = WebDriverWait(driver, 15)
-    driver.switch_to.window(happy_windowhandle)
+    if happy_windowhandle:
+      driver.switch_to.window(happy_windowhandle)
     # wait_time = random.uniform(2, 3)
     wait_time = 2
     driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
@@ -390,12 +393,14 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
       name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
       user_name = name_field.text
       mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
-      user_age = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_age")
-      if user_age.text[:2] == "ナイ":
+      user_age = f_user[user_icon].find_elements(By.CLASS_NAME, value="ds_like_list_age")
+      if not len(user_age):
+         send_status = False
+      if user_age[0].text[:2] == "ナイ":
          print("年齢不詳")
          user_age = 31
       else:
-        user_age = int(user_age.text[:2])
+        user_age = int(user_age[0].text[:2])
       if user_age >= 40:
          print(f'〜〜{user_age}代〜〜')
          # 実行確率（80%の場合）
@@ -411,7 +416,6 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         mail_icon_cnt += 1
         print(f'メールアイコンカウント{mail_icon_cnt}')
         # ユーザー名を取得
-
 
         # # メールアイコンが7つ続いたら終了
         if mail_icon_cnt == 7:
@@ -796,8 +800,15 @@ def check_new_mail(driver, wait, name):
   send_form.click()
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
   time.sleep(2)
-  name = driver.find_element(By.CLASS_NAME, "ds_user_display_name")
-  name = name.text  
+  name_elem = ""
+  try:
+    name_elem = driver.find_element(By.CLASS_NAME, "ds_user_display_name")
+  except NoSuchElementException:
+      pass
+  if not name_elem:
+     return_list.append(f"{name},ハッピーメールに警告画面が出ています")
+     return return_list
+  name = name_elem.text  
   message_icon_candidates = driver.find_elements(By.CLASS_NAME, value="ds_nav_item")
   message_icon = ""
   for message_icon_candidate in message_icon_candidates:
@@ -846,7 +857,6 @@ def check_new_mail(driver, wait, name):
             send_text = send_message[-1].find_elements(By.CLASS_NAME, value="message__block__body__text")[0].text
             if not send_text:
                 send_text = send_message[-2].find_elements(By.CLASS_NAME, value="message__block__body__text")[0].text
-            # print(888888888888)
             # print(send_text)
 
             # d = difflib.Differ()
@@ -856,8 +866,6 @@ def check_new_mail(driver, wait, name):
             #     if line.startswith('-') or line.startswith('+'):
             #         print(line)
             # print("<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>")
-
-
             if fst_message == send_text or return_foot_message == send_text or "掲示板メッセージ" in send_text:
                 print("やった")
                 text_area = driver.find_element(By.ID, value="text-message")
@@ -875,7 +883,7 @@ def check_new_mail(driver, wait, name):
                receive_contents = driver.find_elements(By.CLASS_NAME, value="message__block--receive")[-1]
                print(777777777777777777777)
                print(f"{user_name}:{receive_contents.text}")
-               return_list.append([user_name, receive_contents])
+               return_list.append([user_name, receive_contents.text])
           else:
             text_area = driver.find_element(By.ID, value="text-message")
             driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", text_area)
@@ -892,5 +900,21 @@ def check_new_mail(driver, wait, name):
         time.sleep(2)
         new_mail = driver.find_elements(By.CLASS_NAME, value="ds_list_r_kidoku")
   
-  return return_list         
+  return return_list
+
+def sb_repost(name, driver, wait):
+  area_list = ["東京都", "千葉県", "埼玉県", "神奈川県"]
+  warning = driver.find_elements(By.CLASS_NAME, value="ds_main_header_text")
+  if warning:
+     print("警告画面が出ました")
+     return
+   
+
+def sb_return_foot(name, cnt,driver, wait):
+  print(name)
+  print(cnt)
+  
+  
+
+       
      
