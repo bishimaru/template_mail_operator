@@ -30,10 +30,7 @@ def get_driver():
     wait = WebDriverWait(driver, 15)
     return driver, wait
 
-def sb_h_repost_returnfoot(name, cnt):
-  print(777)
-  print(setting.BASE_DIR)
-  
+def sb_h_repost_returnfoot(name, cnt): 
   dbpath = 'firstdb.db'
   conn = sqlite3.connect(dbpath)
   cur = conn.cursor()
@@ -47,9 +44,6 @@ def sb_h_repost_returnfoot(name, cnt):
       return_foot_img =  setting.BASE_DIR + row[5]
       if setting.mac_mini:
         return_foot_img = return_foot_img.replace("mail_tool", "mail_operator")
-  print(77744)
-  print(return_foot_img)
-  return
   adult_flag = True
   genre_flag = setting.genre_flag
   happy_windowhandle = ""
