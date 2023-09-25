@@ -58,9 +58,9 @@ def get_driver(debug):
 
 def check_mail():
   while True:
+    new_mail_list = []
     for order_info in order_list:
         debug = False
-        new_mail_list = []
         #  # ハッピーメール
         # try:
         #     driver, wait = get_driver(debug)
