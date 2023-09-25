@@ -939,8 +939,18 @@ def check_new_mail(driver, wait, name):
             sent_by_me = driver.find_elements(By.CLASS_NAME, value="right_balloon_w")
             sent_by_me_maji = driver.find_elements(By.CLASS_NAME, value="right_balloon-maji")
           no_history_second_mail = True
+          # メッセージ送信一件なし
+          if len(sent_by_me) == 0 and len(sent_by_me_maji) == 0:
+            text_area = driver.find_elements(By.ID, value="mdc")
+            if len(text_area):
+              text_area[0].send_keys(fst_message)
+              time.sleep(4)
+              send = driver.find_element(By.ID, value="send_n")
+              send.click()
+              wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+              time.sleep(2)
           # メッセージ送信一件だけ
-          if len(sent_by_me) == 1 or len(sent_by_me_maji) == 1:
+          elif len(sent_by_me) == 1 or len(sent_by_me_maji) == 1:
             sent_by_me_list = []
             if len(sent_by_me):
               for sent_list in sent_by_me:
@@ -949,17 +959,30 @@ def check_new_mail(driver, wait, name):
               for sent_list in sent_by_me_maji:
                 sent_by_me_list.append(sent_list)
             for send_my_text in sent_by_me_list:
+              # second_mailを既に送っているか
               if send_my_text.text == second_message:
                 print("second_mail履歴あり")
                 name_elem = driver.find_elements(By.CLASS_NAME, value="content_header_center")
                 user_name = name_elem[0].text
                 received_mail_elem = driver.find_elements(By.CLASS_NAME, value="left_balloon_m")
                 received_mail = received_mail_elem[-1].text
-                print(4444444444444)
-                print(user_name)
-                print(received_mail)
-                return_list.append([user_name, received_mail])
+                return_message = f"{name}pcmax,{user_name}:{received_mail}"
+                return_list.append(return_message)
                 no_history_second_mail = False
+              # メールアドレスが含まれているか
+              # メールアドレスを抽出する正規表現
+              email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
+              matches = re.findall(email_pattern, send_my_text.text)
+              if matches:
+                print("メールアドレスが含まれています")
+                name_elem = driver.find_elements(By.CLASS_NAME, value="content_header_center")
+                user_name = name_elem[0].text
+                received_mail_elem = driver.find_elements(By.CLASS_NAME, value="left_balloon_m")
+                received_mail = received_mail_elem[-1].text
+                return_message = f"{name}pcmax,{user_name}:{received_mail}"
+                return_list.append(return_message)
+                no_history_second_mail = False
+                
             # secondメッセージを入力
             if no_history_second_mail:
               text_area = driver.find_elements(By.ID, value="mdc")
@@ -979,7 +1002,8 @@ def check_new_mail(driver, wait, name):
             print(4444444444444)
             print(user_name)
             print(received_mail)
-            return_list.append([user_name, received_mail])
+            return_message = f"{name}pcmax,{user_name}:{received_mail}"
+            return_list.append(return_message)
         else:
           print("4分経過していません")
           return return_list
@@ -989,8 +1013,10 @@ def check_new_mail(driver, wait, name):
         time.sleep(2)
         # メッセージ一覧を取得
         message_list = driver.find_elements(By.CLASS_NAME, value="receive_user")
-
-  return return_list  
+  if len(return_list):
+    return return_list  
+  else:
+    None
 
   
 

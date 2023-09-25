@@ -883,7 +883,8 @@ def check_new_mail(driver, wait, name):
                receive_contents = driver.find_elements(By.CLASS_NAME, value="message__block--receive")[-1]
                print(777777777777777777777)
                print(f"{user_name}:{receive_contents.text}")
-               return_list.append([user_name, receive_contents.text])
+               return_message = f"{name}happymail,{user_name}:{receive_contents.text}"
+               return_list.append(return_message)
           else:
             text_area = driver.find_element(By.ID, value="text-message")
             driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", text_area)
@@ -899,8 +900,10 @@ def check_new_mail(driver, wait, name):
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(2)
         new_mail = driver.find_elements(By.CLASS_NAME, value="ds_list_r_kidoku")
-  
-  return return_list
+  if len(return_list):
+    return return_list
+  else:
+    return None
 
 def sb_repost(name, driver, wait):
   area_list = ["東京都", "千葉県", "埼玉県", "神奈川県"]

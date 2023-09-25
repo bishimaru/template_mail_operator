@@ -509,4 +509,7 @@ def check_new_mail_gmail(driver, wait, mail_address):
   #       print("URLがhttps://mail.google.com/mail/muから始まります。")
   #   else:
   #       print("URLがhttps://mail.google.com/mail/muから始まりません。")
-  return return_list   
+  if len(return_list):
+    return return_list
+  else:
+    return None
