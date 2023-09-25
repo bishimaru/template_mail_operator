@@ -867,7 +867,7 @@ def check_new_mail(driver, wait, name):
             #         print(line)
             # print("<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>")
             if fst_message == send_text or return_foot_message == send_text or "掲示板メッセージ" in send_text:
-                print("やった")
+                # print("やった")
                 text_area = driver.find_element(By.ID, value="text-message")
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", text_area)
                 text_area.send_keys(conditions_message)
@@ -881,7 +881,7 @@ def check_new_mail(driver, wait, name):
                user_name = driver.find_elements(By.CLASS_NAME, value="app__navbar__item--title")[0]
                user_name = user_name.text
                receive_contents = driver.find_elements(By.CLASS_NAME, value="message__block--receive")[-1]
-               print(777777777777777777777)
+              #  print(777777777777777777777)
                print(f"{user_name}:{receive_contents.text}")
                return_message = f"{name}happymail,{user_name}:{receive_contents.text}"
                return_list.append(return_message)

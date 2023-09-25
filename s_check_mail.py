@@ -67,8 +67,7 @@ def check_mail():
             happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
             if happymail_new:
                 new_mail_list.append(happymail_new)
-            print(1234)
-            print(happymail_new)
+            # print(happymail_new)
             driver.quit()
         except Exception as e:
             print(traceback.format_exc())
@@ -77,8 +76,7 @@ def check_mail():
         try:
             driver, wait = get_driver(debug)
             pcmax_new = pcmax.check_new_mail(driver, wait, order_info[0])
-            print(5678)
-            print(pcmax_new)
+            # print(pcmax_new)
             if pcmax_new:
                 new_mail_list.append(pcmax_new)
             driver.quit()
@@ -92,8 +90,7 @@ def check_mail():
             gmail_new = func.check_new_mail_gmail(driver, wait, order_info[1])
             if gmail_new:
                 new_mail_list.append(gmail_new)
-            print(9898)
-            print(gmail_new)
+            # print(gmail_new)
             driver.quit()
         except Exception as e:
             print(traceback.format_exc())
