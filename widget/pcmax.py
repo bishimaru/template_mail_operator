@@ -950,6 +950,7 @@ def check_new_mail(driver, wait, name):
             received_mail_elem = driver.find_elements(By.CLASS_NAME, value="left_balloon_m")
             received_mail = received_mail_elem[-1].text
             return_message = f"{name}pcmax,{user_name}:{received_mail}"
+            print(return_message)
             return_list.append(return_message)
             no_history_second_mail = False
           
