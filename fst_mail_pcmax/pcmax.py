@@ -737,8 +737,6 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
       print(f'リンクリストの数{len(link_list)}')
       # メール送信
       for idx, link_url in enumerate(link_list, 1):
-        print(666)
-        print(idx)
         send_status = True
         driver.get(link_url)
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -843,7 +841,7 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
             wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
             time.sleep(wait_time)
           time.sleep(wait_time)
-        print(f"idxの数{idx}")
+        # print(f"idxの数{idx}")
         if idx == 15:
           break
           # print(f'送信数{send_cnt} 上限{limit_send_cnt}')
