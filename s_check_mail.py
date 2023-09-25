@@ -57,73 +57,74 @@ def get_driver(debug):
     return driver, wait
 
 def check_mail():
-  for order_info in order_list:
-    debug = False
-    new_mail_list = []
-    #  # ハッピーメール
-    try:
-        driver, wait = get_driver(debug)
-        happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
-        if happymail_new:
-            new_mail_list.append(happymail_new)
-        print(1234)
-        print(happymail_new)
-        driver.quit()
-    except Exception as e:
-        print(traceback.format_exc())
-        driver.quit()
-    # pcmax
-    try:
-        driver, wait = get_driver(debug)
-        pcmax_new = pcmax.check_new_mail(driver, wait, order_info[0])
-        print(5678)
-        print(pcmax_new)
-        if pcmax_new:
-            new_mail_list.append(pcmax_new)
-        driver.quit()
-    except Exception as e:
-        print(traceback.format_exc())
-        driver.quit()
-    # gmail
-    try:
-        debug = True
-        driver, wait = get_driver(debug)
-        gmail_new = func.check_new_mail_gmail(driver, wait, order_info[1])
-        if gmail_new:
-            new_mail_list.append(gmail_new)
-        print(9898)
-        print(gmail_new)
-        driver.quit()
-    except Exception as e:
-        print(traceback.format_exc())
-        # driver.quit()
-    print("<<<<<<<<<<<<>>>>>>>>>>>>>")
-    print(new_mail_list)
-  # メール送信
-  mailaddress = 'kenta.bishi777@gmail.com'
-  password = 'rjdzkswuhgfvslvd'
-  text = ""
-  if len(new_mail_list) == 0:
-    subject = "新着はありません"
+  while True:
+    for order_info in order_list:
+        debug = False
+        new_mail_list = []
+        #  # ハッピーメール
+        try:
+            driver, wait = get_driver(debug)
+            happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
+            if happymail_new:
+                new_mail_list.append(happymail_new)
+            print(1234)
+            print(happymail_new)
+            driver.quit()
+        except Exception as e:
+            print(traceback.format_exc())
+            driver.quit()
+        # pcmax
+        try:
+            driver, wait = get_driver(debug)
+            pcmax_new = pcmax.check_new_mail(driver, wait, order_info[0])
+            print(5678)
+            print(pcmax_new)
+            if pcmax_new:
+                new_mail_list.append(pcmax_new)
+            driver.quit()
+        except Exception as e:
+            print(traceback.format_exc())
+            driver.quit()
+        # gmail
+        try:
+            debug = True
+            driver, wait = get_driver(debug)
+            gmail_new = func.check_new_mail_gmail(driver, wait, order_info[1])
+            if gmail_new:
+                new_mail_list.append(gmail_new)
+            print(9898)
+            print(gmail_new)
+            driver.quit()
+        except Exception as e:
+            print(traceback.format_exc())
+            # driver.quit()
+        print("<<<<<<<<<<<<>>>>>>>>>>>>>")
+        print(new_mail_list)
+    # メール送信
+    mailaddress = 'kenta.bishi777@gmail.com'
+    password = 'rjdzkswuhgfvslvd'
     text = ""
-  else:
-    subject = "新着メッセージ"
-    print("新着リスト＞＞＞＞＞＞＞＞＞＞＜＜＜＜＜＜＜＜＜")
-    print(new_mail_list)
-    for i in new_mail_list:
-        text = text + i[0] + ",\n"
-  address_from = 'kenta.bishi777@gmail.com'
-  address_to = 'bidato@wanko.be'
-  smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
-  smtpobj.starttls()
-  smtpobj.login(mailaddress, password)
-  msg = MIMEText(text)
-  msg['Subject'] = subject
-  msg['From'] = address_from
-  msg['To'] = address_to
-  msg['Date'] = formatdate()
-  smtpobj.send_message(msg)
-  smtpobj.close()
+    if len(new_mail_list) == 0:
+        subject = "新着はありません"
+        text = ""
+    else:
+        subject = "新着メッセージ"
+        print("新着リスト＞＞＞＞＞＞＞＞＞＞＜＜＜＜＜＜＜＜＜")
+        print(new_mail_list)
+        for i in new_mail_list:
+            text = text + i[0] + ",\n"
+    address_from = 'kenta.bishi777@gmail.com'
+    address_to = 'bidato@wanko.be'
+    smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
+    smtpobj.starttls()
+    smtpobj.login(mailaddress, password)
+    msg = MIMEText(text)
+    msg['Subject'] = subject
+    msg['From'] = address_from
+    msg['To'] = address_to
+    msg['Date'] = formatdate()
+    smtpobj.send_message(msg)
+    smtpobj.close()
 
 
 
