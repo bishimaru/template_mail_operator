@@ -437,6 +437,8 @@ def get_debug_chromedriver():
   return driver
 
 def check_new_mail_gmail(driver, wait, mail_address):
+  if not mail_address:
+    return None
   return_list = []
   dbpath = 'firstdb.db'
   conn = sqlite3.connect(dbpath)
@@ -444,8 +446,9 @@ def check_new_mail_gmail(driver, wait, mail_address):
   cur.execute('SELECT window_Handle FROM gmail WHERE mail_address = ?', (mail_address,))
   for row in cur:
       w_h = row[0]
+  if not w_h:
+    return None
   try:
-      
       driver.switch_to.window(w_h)
       time.sleep(2)
       driver.get("https://mail.google.com/mail/mu")
