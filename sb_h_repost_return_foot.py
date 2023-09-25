@@ -18,7 +18,7 @@ import sqlite3
 
 def get_driver():
     options = Options()
-    # options.add_argument('--headless')
+    options.add_argument('--headless')
     options.add_argument("--incognito")
     options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
     options.add_argument("--no-sandbox")
@@ -64,8 +64,8 @@ def sb_h_repost_returnfoot(name, cnt):
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
   time.sleep(2)
 
-  # happymail.re_post(name, happy_windowhandle, driver, post_title, post_contents, adult_flag, genre_flag)
-  # time.sleep(360)
+  happymail.re_post(name, happy_windowhandle, driver, post_title, post_contents, adult_flag, genre_flag)
+  time.sleep(360)
   happymail.return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt, return_foot_img)
   driver.quit()
 
