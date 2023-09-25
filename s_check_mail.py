@@ -70,6 +70,7 @@ def check_mail():
             # print(happymail_new)
             driver.quit()
         except Exception as e:
+            print(f"<<<<<<<<<<エラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
             print(traceback.format_exc())
             driver.quit()
         # pcmax
@@ -81,6 +82,7 @@ def check_mail():
                 new_mail_list.append(pcmax_new)
             driver.quit()
         except Exception as e:
+            print(f"<<<<<<<<<<エラー：pcmax{order_info[0]}>>>>>>>>>>>")
             print(traceback.format_exc())
             driver.quit()
         # gmail
@@ -94,6 +96,7 @@ def check_mail():
             # print(gmail_new)
             driver.quit()
         except Exception as e:
+            print(f"<<<<<<<<<<エラー：{order_info[1]}>>>>>>>>>>>")
             print(traceback.format_exc())
             # driver.quit()
         print("<<<<<<<<<<<<>>>>>>>>>>>>>")

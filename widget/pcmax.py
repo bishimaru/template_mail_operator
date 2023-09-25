@@ -999,7 +999,7 @@ def check_new_mail(driver, wait, name):
             received_mail = received_mail_elem[-1].text
             # print(user_name)
             # print(received_mail)
-            return_message = f"{name}pcmax,{user_name}:{received_mail}"
+            return_message = f"{name}pcmax:{user_name}「{received_mail}」"
             return_list.append(return_message)
         else:
           # print("4分経過していません")

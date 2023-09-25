@@ -445,6 +445,7 @@ def check_new_mail_gmail(driver, wait, mail_address):
   for row in cur:
       w_h = row[0]
   try:
+      
       driver.switch_to.window(w_h)
       time.sleep(2)
       driver.get("https://mail.google.com/mail/mu")
@@ -453,6 +454,10 @@ def check_new_mail_gmail(driver, wait, mail_address):
   except TimeoutException as e:
       print("TimeoutException")
       driver.refresh()
+  except Exception as e:
+      print(f"<<<<<<<<<<エラー：{mail_address}>>>>>>>>>>>")
+      print(traceback.format_exc())
+      driver.quit()
   # メニューをクリック
   # カスタム属性の値を持つ要素をXPathで検索
   custom_value = "メニュー"
