@@ -38,7 +38,11 @@ wait_cnt = 7200 / len(chara_order)
 start_time = time.time() 
 
 for chara in chara_order:
-  timer(wait_cnt, [lambda: sb_h_repost_returnfoot(chara, cnt)])
+  try:
+    timer(wait_cnt, [lambda: sb_h_repost_returnfoot(chara, cnt)])
+  except Exception as e:
+    print(f"エラー{chara}")
+    print(traceback.format_exc())
 
 elapsed_time = time.time() - start_time  
 elapsed_timedelta = timedelta(seconds=elapsed_time)
