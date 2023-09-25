@@ -889,10 +889,10 @@ def check_new_mail(driver, wait, name):
     new_message = new_message_elem[0]
   else:
     new_message = ""
-    print('新着メール取得に失敗しました')
+    # print('新着メール取得に失敗しました')
   if new_message:
     if new_message.text[:2] == "新着":
-      print('新着があります')
+      # print('新着があります')
       message = driver.find_elements(By.CLASS_NAME, value="message")[0]
       message.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -913,19 +913,17 @@ def check_new_mail(driver, wait, name):
         elapsed_time = now - arrival_datetime
         print(f"メール到着からの経過時間{elapsed_time}")
         if elapsed_time >= timedelta(minutes=4):
-          print("4分以上経過しています。")
+          # print("4分以上経過しています。")
           user_photo = message_list[0].find_element(By.CLASS_NAME, value="user_photo")
           user_link = user_photo.find_element(By.TAG_NAME, value="a").get_attribute("href")
           start_index = user_link.find("user_id=")
           if start_index != -1:
               user_id = user_link[start_index + len("user_id="):]
-              print("取得した文字列:", user_id)
+              # print("取得した文字列:", user_id)
           else:
               print("user_idが見つかりませんでした。")
           mail_id = message_list[0].find_element(By.TAG_NAME, value="input").get_attribute("value")
           new_mail_link = "https://pcmax.jp/mobile/mail_recive_detail.php?mail_id=" + str(mail_id) + "&user_id=" + str(user_id)
-          print("<<<<<<<<<<<<<<<<>>>>>>>>>>>>")
-          print(new_mail_link)
           driver.get(new_mail_link)
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(2)
@@ -961,7 +959,7 @@ def check_new_mail(driver, wait, name):
             for send_my_text in sent_by_me_list:
               # second_mailを既に送っているか
               if send_my_text.text == second_message:
-                print("second_mail履歴あり")
+                # print("second_mail履歴あり")
                 name_elem = driver.find_elements(By.CLASS_NAME, value="content_header_center")
                 user_name = name_elem[0].text
                 received_mail_elem = driver.find_elements(By.CLASS_NAME, value="left_balloon_m")
@@ -994,18 +992,17 @@ def check_new_mail(driver, wait, name):
                 wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
                 time.sleep(2)
           elif sent_by_me[-1].text == second_message:
-            print('やり取り中')
+            # print('やり取り中')
             name_elem = driver.find_elements(By.CLASS_NAME, value="content_header_center")
             user_name = name_elem[0].text
             received_mail_elem = driver.find_elements(By.CLASS_NAME, value="left_balloon_m")
             received_mail = received_mail_elem[-1].text
-            print(4444444444444)
-            print(user_name)
-            print(received_mail)
+            # print(user_name)
+            # print(received_mail)
             return_message = f"{name}pcmax,{user_name}:{received_mail}"
             return_list.append(return_message)
         else:
-          print("4分経過していません")
+          # print("4分経過していません")
           return return_list
         # https://pcmax.jp/mobile/mail_recive_list.php?receipt_status=0
         driver.get("https://pcmax.jp/mobile/mail_recive_list.php?receipt_status=0")
