@@ -841,6 +841,7 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
             time.sleep(wait_time)
           else:
             send = driver.find_element(By.ID, value="send_n")
+            driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", send)
             send.click()
             wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
             time.sleep(wait_time)
