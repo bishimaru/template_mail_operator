@@ -934,7 +934,7 @@ def check_new_mail(driver, wait, name):
           new_mail_link = "https://pcmax.jp/mobile/mail_recive_detail.php?mail_id=" + str(mail_id) + "&user_id=" + str(user_id)
           driver.get(new_mail_link)
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-          time.sleep(2)
+          time.sleep(3)
           all_mail = driver.find_elements(By.ID, value="all_mail")
           if len(all_mail):
             all_mail[0].click()
@@ -1012,11 +1012,14 @@ def check_new_mail(driver, wait, name):
             user_name = name_elem[0].text
             # print(user_name)
             # print(received_mail)
-            return_message = f"{name}pcmax:{user_name}「{received_mail}」"
+            return_message = f"{name}pcmax\n{login_id}:{login_pass}\n{user_name}「{received_mail}」"
             return_list.append(return_message)
         else:
           # print("4分経過していません")
-          return return_list
+          if len(return_list):
+            return return_list
+          else:
+            return
         # https://pcmax.jp/mobile/mail_recive_list.php?receipt_status=0
         driver.get("https://pcmax.jp/mobile/mail_recive_list.php?receipt_status=0")
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')

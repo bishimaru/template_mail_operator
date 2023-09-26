@@ -883,7 +883,7 @@ def check_new_mail(driver, wait, name):
                receive_contents = driver.find_elements(By.CLASS_NAME, value="message__block--receive")[-1]
               #  print(777777777777777777777)
                print(f"{user_name}:{receive_contents.text}")
-               return_message = f"{name}happymail:{user_name}「{receive_contents.text}」"
+               return_message = f"{name},happymail\n{login_id}:{login_pass}\n{user_name}「{receive_contents.text}」"
                return_list.append(return_message)
           else:
             text_area = driver.find_element(By.ID, value="text-message")
@@ -895,7 +895,10 @@ def check_new_mail(driver, wait, name):
             wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
             time.sleep(wait_time)
         else:
-           time.sleep(10)
+           if len(return_list):
+              return return_list
+           else:
+              return None
         driver.get("https://happymail.co.jp/sp/app/html/message_list.php")
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(2)
@@ -904,20 +907,5 @@ def check_new_mail(driver, wait, name):
     return return_list
   else:
     return None
-
-def sb_repost(name, driver, wait):
-  area_list = ["東京都", "千葉県", "埼玉県", "神奈川県"]
-  warning = driver.find_elements(By.CLASS_NAME, value="ds_main_header_text")
-  if warning:
-     print("警告画面が出ました")
-     return
-   
-
-def sb_return_foot(name, cnt,driver, wait):
-  print(name)
-  print(cnt)
-  
-  
-
        
      
