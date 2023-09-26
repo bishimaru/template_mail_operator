@@ -866,6 +866,15 @@ def check_new_mail(driver, wait, name):
             #     if line.startswith('-') or line.startswith('+'):
             #         print(line)
             # print("<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>")
+            if name == "きりこ":
+               print("<<<<<<<<<<<きりこ>>>>>>>>>>>>>")
+               print(send_text)
+               print("---------------------------------------")
+               print(fst_message == send_text)
+               print("---------------------------------------")
+               print(return_foot_message == send_text)
+               print("---------------------------------------")
+
             if fst_message == send_text or return_foot_message == send_text or "掲示板メッセージ" in send_text:
                 # print("やった")
                 text_area = driver.find_element(By.ID, value="text-message")
