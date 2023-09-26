@@ -968,7 +968,7 @@ def check_new_mail(driver, wait, name):
             text_area = driver.find_elements(By.ID, value="mdc")
             if len(text_area):
               text_area[0].send_keys(fst_message)
-              time.sleep(4)
+              time.sleep(3)
               send = driver.find_element(By.ID, value="send_n")
               send.click()
               wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -999,11 +999,21 @@ def check_new_mail(driver, wait, name):
               text_area = driver.find_elements(By.ID, value="mdc")
               if len(text_area):
                 text_area[0].send_keys(second_message)
-                time.sleep(4)
+                time.sleep(3)
                 send = driver.find_element(By.ID, value="send_n")
                 send.click()
                 wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
                 time.sleep(2)
+                # 連続防止で失敗
+                waiting = driver.find_elements(By.CLASS_NAME, value="banned-word")
+                if len(waiting):
+                  print("<<<<<<<<<<<<<<<<<<<連続防止で失敗>>>>>>>>>>>>>>>>>>>>")
+                  time.sleep(6)
+                  send = driver.find_element(By.ID, value="send_n")
+                  send.click()
+                  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+                  time.sleep(2)
+
           elif second_message in sent_by_me[-1].text:
             # print(555)
             print('やり取り中')
