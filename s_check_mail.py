@@ -101,30 +101,29 @@ def check_mail():
             driver.quit()
         print("<<<<<<<<<<<<>>>>>>>>>>>>>")
         print(new_mail_list)
-    # メール送信
-    
-    if len(new_mail_list) == 0:
-        pass
-    else:
-        mailaddress = 'kenta.bishi777@gmail.com'
-        password = 'rjdzkswuhgfvslvd'
-        text = ""
-        subject = "新着メッセージ"
-       
-        for i in new_mail_list:
-            text = text + i[0] + ",\n"
-        address_from = 'kenta.bishi777@gmail.com'
-        address_to = 'bidato@wanko.be'
-        smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
-        smtpobj.starttls()
-        smtpobj.login(mailaddress, password)
-        msg = MIMEText(text)
-        msg['Subject'] = subject
-        msg['From'] = address_from
-        msg['To'] = address_to
-        msg['Date'] = formatdate()
-        smtpobj.send_message(msg)
-        smtpobj.close()
+        # メール送信
+        if len(new_mail_list) == 0:
+            pass
+        else:
+            mailaddress = 'kenta.bishi777@gmail.com'
+            password = 'rjdzkswuhgfvslvd'
+            text = ""
+            subject = "新着メッセージ"
+        
+            for i in new_mail_list:
+                text = text + i[0] + ",\n"
+            address_from = 'kenta.bishi777@gmail.com'
+            address_to = 'bidato@wanko.be'
+            smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
+            smtpobj.starttls()
+            smtpobj.login(mailaddress, password)
+            msg = MIMEText(text)
+            msg['Subject'] = subject
+            msg['From'] = address_from
+            msg['To'] = address_to
+            msg['Date'] = formatdate()
+            smtpobj.send_message(msg)
+            smtpobj.close()
 
 
 if __name__ == '__main__':
