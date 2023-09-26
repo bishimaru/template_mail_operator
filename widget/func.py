@@ -20,7 +20,24 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import TimeoutException
+from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.firefox.options import Options
 
+
+def get_firefox_driver():
+  options = Options()
+  # Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_2 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8H7
+  user_agent = "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_2 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8H7"
+  profile = webdriver.FirefoxProfile()
+  profile.set_preference("general.useragent.override", user_agent)
+  options.profile = profile
+  # options.add_argument('--headless')
+  options.add_argument('--width=456')
+  options.add_argument('--height=912')
+  driver = webdriver.Firefox(options=options, service=FirefoxService(GeckoDriverManager().install()))
+  # driver.set_window_size(456, 912)
+  return driver
 
 def timer(fnc, seconds, h_cnt, p_cnt):  
   start_time = time.time() 

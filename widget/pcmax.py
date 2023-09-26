@@ -13,6 +13,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 import traceback
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from widget import func
 import setting
 import re
 from selenium.common.exceptions import TimeoutException
@@ -563,15 +564,17 @@ def make_footprints(name, pcmax_id, pcmax_pass, driver, wait):
 
 def send_fst_mail(name, maji_soushin, select_areas, youngest_age, oldest_age, ng_words,):
   options = Options()
-  options.add_argument('--headless')
+  # options.add_argument('--headless')
   options.add_argument("--incognito")
   options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
   options.add_argument("--no-sandbox")
   options.add_argument("--window-size=456,912")
   options.add_experimental_option("detach", True)
   options.add_argument("--disable-cache")
-  service = Service(executable_path="./chromedriver")
-  driver = webdriver.Chrome(service=service, options=options)
+
+  driver = func.get_firefox_driver()
+  # service = Service(executable_path="./chromedriver")
+  # driver = webdriver.Chrome(service=service, options=options)
   wait = WebDriverWait(driver, 15)
   
   try:
@@ -890,7 +893,9 @@ def check_new_mail(driver, wait, name):
   else:
     new_message = ""
     # print('新着メール取得に失敗しました')
+  # if 1 == 1: #dev
   if new_message:
+    # if 1 == 1: #dev
     if new_message.text[:2] == "新着":
       # print('新着があります')
       message = driver.find_elements(By.CLASS_NAME, value="message")[0]
@@ -914,6 +919,8 @@ def check_new_mail(driver, wait, name):
         print(f"メール到着からの経過時間{elapsed_time}")
         if elapsed_time >= timedelta(minutes=4):
           # print("4分以上経過しています。")
+          # dev
+          # user_photo = message_list[5].find_element(By.CLASS_NAME, value="user_photo")
           user_photo = message_list[0].find_element(By.CLASS_NAME, value="user_photo")
           user_link = user_photo.find_element(By.TAG_NAME, value="a").get_attribute("href")
           start_index = user_link.find("user_id=")
@@ -922,6 +929,7 @@ def check_new_mail(driver, wait, name):
               # print("取得した文字列:", user_id)
           else:
               print("user_idが見つかりませんでした。")
+          #dev # mail_id = message_list[5].find_element(By.TAG_NAME, value="input").get_attribute("value")
           mail_id = message_list[0].find_element(By.TAG_NAME, value="input").get_attribute("value")
           new_mail_link = "https://pcmax.jp/mobile/mail_recive_detail.php?mail_id=" + str(mail_id) + "&user_id=" + str(user_id)
           driver.get(new_mail_link)
@@ -954,9 +962,9 @@ def check_new_mail(driver, wait, name):
             return_list.append(return_message)
             no_history_second_mail = False
           
-          # メッセージ送信一件なし
+          # メッセージ送信一件もなし
           elif len(sent_by_me) == 0 and len(sent_by_me_maji) == 0:
-            print(777)
+            # print(777)
             text_area = driver.find_elements(By.ID, value="mdc")
             if len(text_area):
               text_area[0].send_keys(fst_message)
@@ -967,7 +975,7 @@ def check_new_mail(driver, wait, name):
               time.sleep(2)
           # メッセージ送信一件だけ
           elif len(sent_by_me) == 1 or len(sent_by_me_maji) == 1:
-            print(666)
+            # print(666)
             sent_by_me_list = []
             if len(sent_by_me):
               for sent_list in sent_by_me:
@@ -986,8 +994,6 @@ def check_new_mail(driver, wait, name):
                 return_message = f"{name}pcmax,{user_name}:{received_mail}"
                 return_list.append(return_message)
                 no_history_second_mail = False
-              
-                
             # secondメッセージを入力
             if no_history_second_mail:
               text_area = driver.find_elements(By.ID, value="mdc")
@@ -998,8 +1004,8 @@ def check_new_mail(driver, wait, name):
                 send.click()
                 wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
                 time.sleep(2)
-          elif sent_by_me[-1].text == second_message:
-            print(555)
+          elif second_message in sent_by_me[-1].text:
+            # print(555)
             print('やり取り中')
             print(sent_by_me[-1].text)
             name_elem = driver.find_elements(By.CLASS_NAME, value="content_header_center")

@@ -34,7 +34,7 @@ order_list = [
    ["ハル", "haruru414510@gmail.com"],#足跡NG
 ]
 # order_list = [
-#    ["めあり", "meari414510@gmail.com"],
+# ["あすか", "asuka414510@gmail.com"],
 # ]
 def get_driver(debug):
     options = Options()
@@ -62,17 +62,17 @@ def check_mail():
     for order_info in order_list:
         debug = False
         #  # ハッピーメール
-        # try:
-        #     driver, wait = get_driver(debug)
-        #     happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
-        #     if happymail_new:
-        #         new_mail_list.append(happymail_new)
-        #     # print(happymail_new)
-        #     driver.quit()
-        # except Exception as e:
-        #     print(f"<<<<<<<<<<エラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
-        #     print(traceback.format_exc())
-        #     driver.quit()
+        try:
+            driver, wait = get_driver(debug)
+            happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
+            if happymail_new:
+                new_mail_list.append(happymail_new)
+            # print(happymail_new)
+            driver.quit()
+        except Exception as e:
+            print(f"<<<<<<<<<<エラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
+            print(traceback.format_exc())
+            driver.quit()
         # pcmax
         try:
             driver, wait = get_driver(debug)
@@ -86,21 +86,21 @@ def check_mail():
             print(traceback.format_exc())
             driver.quit()
         # gmail
-        # try:
-        #     time.sleep(2)
-        #     debug = True
-        #     driver, wait = get_driver(debug)
-        #     gmail_new = func.check_new_mail_gmail(driver, wait, order_info[1])
-        #     if gmail_new:
-        #         new_mail_list.append(gmail_new)
-        #     # print(gmail_new)
-        #     driver.quit()
-        # except Exception as e:
-        #     print(f"<<<<<<<<<<エラー：{order_info[1]}>>>>>>>>>>>")
-        #     print(traceback.format_exc())
-        #     # driver.quit()
-        # print("<<<<<<<<<<<<>>>>>>>>>>>>>")
-        # print(new_mail_list)
+        try:
+            time.sleep(2)
+            debug = True
+            driver, wait = get_driver(debug)
+            gmail_new = func.check_new_mail_gmail(driver, wait, order_info[1])
+            if gmail_new:
+                new_mail_list.append(gmail_new)
+            # print(gmail_new)
+            driver.quit()
+        except Exception as e:
+            print(f"<<<<<<<<<<エラー：{order_info[1]}>>>>>>>>>>>")
+            print(traceback.format_exc())
+            driver.quit()
+        print("<<<<<<<<<<<<>>>>>>>>>>>>>")
+        print(new_mail_list)
     # メール送信
     mailaddress = 'kenta.bishi777@gmail.com'
     password = 'rjdzkswuhgfvslvd'
@@ -126,7 +126,6 @@ def check_mail():
     msg['Date'] = formatdate()
     smtpobj.send_message(msg)
     smtpobj.close()
-
 
 
 if __name__ == '__main__':
