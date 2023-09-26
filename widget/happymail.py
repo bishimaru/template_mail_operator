@@ -472,7 +472,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
           mail_icon_cnt += 1
       # メールするをクリック
       if send_status:
-        print('send_status = ' + str(send_status) +  ' ~' + str(foot_cnt) + "~")
+        print(f'{name} send_status = {str(send_status)} ~ {str(foot_cnt)} ~)')
         send_mail = mail_field.find_element(By.CLASS_NAME, value="ds_profile_target_btn")
         send_mail.click()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
