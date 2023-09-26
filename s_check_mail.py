@@ -58,8 +58,9 @@ def get_driver(debug):
 
 def check_mail():
   while True:
-    new_mail_list = []
+    
     for order_info in order_list:
+        new_mail_list = []
         debug = False
         #  # ハッピーメール
         try:
@@ -103,8 +104,10 @@ def check_mail():
         print(new_mail_list)
         # メール送信
         if len(new_mail_list) == 0:
+            print('メールなし')
             pass
         else:
+            print("メールあり")
             mailaddress = 'kenta.bishi777@gmail.com'
             password = 'rjdzkswuhgfvslvd'
             text = ""
