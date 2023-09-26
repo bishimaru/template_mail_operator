@@ -102,30 +102,29 @@ def check_mail():
         print("<<<<<<<<<<<<>>>>>>>>>>>>>")
         print(new_mail_list)
     # メール送信
-    mailaddress = 'kenta.bishi777@gmail.com'
-    password = 'rjdzkswuhgfvslvd'
-    text = ""
+    
     if len(new_mail_list) == 0:
-        subject = "新着はありません"
-        text = ""
+        pass
     else:
+        mailaddress = 'kenta.bishi777@gmail.com'
+        password = 'rjdzkswuhgfvslvd'
+        text = ""
         subject = "新着メッセージ"
-        print("新着リスト＞＞＞＞＞＞＞＞＞＞＜＜＜＜＜＜＜＜＜")
-        print(new_mail_list)
+       
         for i in new_mail_list:
             text = text + i[0] + ",\n"
-    address_from = 'kenta.bishi777@gmail.com'
-    address_to = 'bidato@wanko.be'
-    smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
-    smtpobj.starttls()
-    smtpobj.login(mailaddress, password)
-    msg = MIMEText(text)
-    msg['Subject'] = subject
-    msg['From'] = address_from
-    msg['To'] = address_to
-    msg['Date'] = formatdate()
-    smtpobj.send_message(msg)
-    smtpobj.close()
+        address_from = 'kenta.bishi777@gmail.com'
+        address_to = 'bidato@wanko.be'
+        smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
+        smtpobj.starttls()
+        smtpobj.login(mailaddress, password)
+        msg = MIMEText(text)
+        msg['Subject'] = subject
+        msg['From'] = address_from
+        msg['To'] = address_to
+        msg['Date'] = formatdate()
+        smtpobj.send_message(msg)
+        smtpobj.close()
 
 
 if __name__ == '__main__':
