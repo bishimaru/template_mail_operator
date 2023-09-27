@@ -954,6 +954,8 @@ def check_new_mail(driver, wait, name):
           if email_list:
             print("メールアドレスが含まれています")
             print(email_list)
+            name_elem = driver.find_elements(By.CLASS_NAME, value="content_header_center")
+            user_name = name_elem[0].text
             for user_address in email_list:
               dbpath = 'firstdb.db'
               conn = sqlite3.connect(dbpath)
@@ -968,9 +970,8 @@ def check_new_mail(driver, wait, name):
               cur.execute('SELECT mail_address FROM gmail WHERE name = ?', (name,))
               for row in cur:
                   mailaddress = row[0]
-              func.send_conditional(name, user_address, mailaddress, password, text)
-            # name_elem = driver.find_elements(By.CLASS_NAME, value="content_header_center")
-            # user_name = name_elem[0].text
+              func.send_conditional(user_name, user_address, mailaddress, password, text)
+            
             # received_mail_elem = driver.find_elements(By.CLASS_NAME, value="left_balloon_m")
             # received_mail = received_mail_elem[-1].text
             # return_message = f"{name}pcmax,{user_name}:{received_mail}"
