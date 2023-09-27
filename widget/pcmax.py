@@ -972,6 +972,9 @@ def check_new_mail(driver, wait, name):
                   mailaddress = row[0]
               func.send_conditional(user_name, user_address, mailaddress, password, text)
               # 見ちゃいや登録
+              latest_mail = driver.find_element(By.ID, value="dlink")
+              latest_mail.click()
+              time.sleep(2)
               dont_look_elems= driver.find_elements(By.CLASS_NAME, value="line-menu-inbox")
               dont_look = None
               for dont_look_elem in dont_look_elems:
