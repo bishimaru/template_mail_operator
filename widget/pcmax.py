@@ -949,7 +949,8 @@ def check_new_mail(driver, wait, name):
           received_mail_elem = driver.find_elements(By.CLASS_NAME, value="left_balloon_m")
           received_mail = received_mail_elem[-1].text
           # メールアドレスを抽出する正規表現
-          email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
+          email_pattern = r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+'
+          # email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
           email_list = re.findall(email_pattern, received_mail)
           if email_list:
             print("メールアドレスが含まれています")
