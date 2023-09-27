@@ -978,13 +978,11 @@ def check_new_mail(driver, wait, name):
               dont_look_elems= driver.find_elements(By.CLASS_NAME, value="line-menu-inbox")
               dont_look = None
               for dont_look_elem in dont_look_elems:
-                print(777)
+                print(name)
                 print(dont_look_elem.text)
                 if "見ちゃいや" in dont_look_elem.text:
-                  print(666)
                   dont_look = dont_look_elem
               if dont_look:
-                print(555)
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", dont_look)
                 time.sleep(1)
                 dont_look.click()
