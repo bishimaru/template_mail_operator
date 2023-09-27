@@ -27,7 +27,7 @@ order_list = [
    ["めあり", "meari414510@gmail.com"],
    ["ももか", "momoka414510@gmail.com"],
    ["波留（はる）", "k.haru414510@gmail.com"], 
-   ["haru...", ""],
+   ["波留（は...", ""],
    ["りこ", "riko414510@gmail.com"],
    ["りな", "k.rina414510@gmail.com"],
    ["ゆうこ", "yuko414510@gmail.com"], 
