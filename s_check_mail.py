@@ -100,14 +100,14 @@ def check_mail():
             print(f"<<<<<<<<<<エラー：{order_info[1]}>>>>>>>>>>>")
             print(traceback.format_exc())
             driver.quit()
-        print("<<<<<<<<<<<<>>>>>>>>>>>>>")
-        print(new_mail_list)
+        
         # メール送信
         if len(new_mail_list) == 0:
-            print('メールなし')
+            print(f'{order_info[0]}メールなし')
             pass
         else:
-            print("メールあり")
+            print(f'{order_info[0]}メールあり')
+            print(new_mail_list)
             mailaddress = 'kenta.bishi777@gmail.com'
             password = 'rjdzkswuhgfvslvd'
             text = ""

@@ -955,6 +955,7 @@ def check_new_mail(driver, wait, name):
           if email_list:
             print("メールアドレスが含まれています")
             print(email_list)
+            print(name)
             name_elem = driver.find_elements(By.CLASS_NAME, value="content_header_center")
             user_name = name_elem[0].text
             for user_address in email_list:
@@ -979,8 +980,6 @@ def check_new_mail(driver, wait, name):
               dont_look_elems= driver.find_elements(By.CLASS_NAME, value="line-menu-inbox")
               dont_look = None
               for dont_look_elem in dont_look_elems:
-                print(name)
-                print(dont_look_elem.text)
                 if "見ちゃいや" in dont_look_elem.text:
                   dont_look = dont_look_elem
               if dont_look:
