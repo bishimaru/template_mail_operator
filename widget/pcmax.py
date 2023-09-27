@@ -965,7 +965,7 @@ def check_new_mail(driver, wait, name):
               for row in cur:
                   text = row[0]
                   password = row[1]
-              cur.execute('SELECT gmail_password FROM gmail WHERE name = ?', (name,))
+              cur.execute('SELECT mail_address FROM gmail WHERE name = ?', (name,))
               for row in cur:
                   mailaddress = row[0]
               func.send_conditional(name, user_address, mailaddress, password, text)
