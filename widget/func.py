@@ -35,7 +35,7 @@ def get_firefox_driver():
   # options.add_argument('--headless')
   options.add_argument('--width=456')
   options.add_argument('--height=912')
-  driver = webdriver.Firefox(options=options, service=FirefoxService(GeckoDriverManager().install()))
+  driver = webdriver.Firefox(options=options, )
   # driver.set_window_size(456, 912)
   return driver
 

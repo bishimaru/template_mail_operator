@@ -874,6 +874,7 @@ def check_new_mail(driver, wait, name):
                print("---------------------------------------")
                print(return_foot_message == send_text)
                print("---------------------------------------")
+               print("掲示板メッセージ" in send_text)
 
             if fst_message == send_text or return_foot_message == send_text or "掲示板メッセージ" in send_text:
                 # print("やった")
