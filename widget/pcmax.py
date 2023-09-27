@@ -971,6 +971,30 @@ def check_new_mail(driver, wait, name):
               for row in cur:
                   mailaddress = row[0]
               func.send_conditional(user_name, user_address, mailaddress, password, text)
+              # 見ちゃいや登録
+              dont_look_elems= driver.find_elements(By.CLASS_NAME, value="line-menu-inbox")
+              dont_look = None
+              for dont_look_elem in dont_look_elems:
+                print(777)
+                print(dont_look_elem.text)
+                if "見ちゃいや" in dont_look_elem.text:
+                  print(666)
+                  dont_look = dont_look_elem
+              if dont_look:
+                print(555)
+                driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", dont_look)
+                time.sleep(1)
+                dont_look.click()
+                wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+                time.sleep(1)
+              dont_look_registration = driver.find_elements(By.CLASS_NAME, value="del")
+              dont_look_registration[0].click()
+              wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+              time.sleep(1)
+              driver.get("https://pcmax.jp/mobile/mail_recive_list.php?receipt_status=0")
+              wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+              time.sleep(2)
+              continue
             
             # received_mail_elem = driver.find_elements(By.CLASS_NAME, value="left_balloon_m")
             # received_mail = received_mail_elem[-1].text
