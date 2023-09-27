@@ -950,17 +950,33 @@ def check_new_mail(driver, wait, name):
           received_mail = received_mail_elem[-1].text
           # メールアドレスを抽出する正規表現
           email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
-          matches = re.findall(email_pattern, received_mail)
-          if matches:
+          email_list = re.findall(email_pattern, received_mail)
+          if email_list:
             print("メールアドレスが含まれています")
-            name_elem = driver.find_elements(By.CLASS_NAME, value="content_header_center")
-            user_name = name_elem[0].text
-            received_mail_elem = driver.find_elements(By.CLASS_NAME, value="left_balloon_m")
-            received_mail = received_mail_elem[-1].text
-            return_message = f"{name}pcmax,{user_name}:{received_mail}"
-            print(return_message)
-            return_list.append(return_message)
-            no_history_second_mail = False
+            print(email_list)
+            for user_address in email_list:
+              dbpath = 'firstdb.db'
+              conn = sqlite3.connect(dbpath)
+              # # SQLiteを操作するためのカーソルを作成
+              cur = conn.cursor()
+              # # 順番
+              # # データ検索
+              cur.execute('SELECT conditions_message, gmail_password FROM pcmax WHERE name = ?', (name,))
+              for row in cur:
+                  text = row[0]
+                  password = row[1]
+              cur.execute('SELECT gmail_password FROM gmail WHERE name = ?', (name,))
+              for row in cur:
+                  mailaddress = row[0]
+              func.send_conditional(name, user_address, mailaddress, password, text)
+            # name_elem = driver.find_elements(By.CLASS_NAME, value="content_header_center")
+            # user_name = name_elem[0].text
+            # received_mail_elem = driver.find_elements(By.CLASS_NAME, value="left_balloon_m")
+            # received_mail = received_mail_elem[-1].text
+            # return_message = f"{name}pcmax,{user_name}:{received_mail}"
+            # print(return_message)
+            # return_list.append(return_message)
+            # no_history_second_mail = False
           
           # メッセージ送信一件もなし
           elif len(sent_by_me) == 0 and len(sent_by_me_maji) == 0:
@@ -1015,7 +1031,7 @@ def check_new_mail(driver, wait, name):
                   time.sleep(2)
 
           elif second_message in sent_by_me[-1].text:
-            # print(555)
+            # 受信メールにアドレスがあるか
             print('やり取り中')
             print(sent_by_me[-1].text)
             name_elem = driver.find_elements(By.CLASS_NAME, value="content_header_center")

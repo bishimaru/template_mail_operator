@@ -32,7 +32,7 @@ def get_firefox_driver():
   profile = webdriver.FirefoxProfile()
   profile.set_preference("general.useragent.override", user_agent)
   options.profile = profile
-  # options.add_argument('--headless')
+  options.add_argument('--headless')
   options.add_argument('--width=456')
   options.add_argument('--height=912')
   driver = webdriver.Firefox(options=options, )
