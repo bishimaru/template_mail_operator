@@ -31,17 +31,20 @@ def sb_h_all_do(cnt, return_foot_cnt):
   wait_cnt = 7200 / len(chara_order)
 
   while cnt:
-    start_time = time.time() 
+
+    start_one_rap_time = time.time() 
     for chara in chara_order:
       try:
         timer(wait_cnt, [lambda: sb_h_repost_returnfoot(chara, return_foot_cnt)])
       except Exception as e:
         print(f"エラー{chara}")
         print(traceback.format_exc())
-    elapsed_time = time.time() - start_time  
-    elapsed_timedelta = timedelta(seconds=elapsed_time)
-    elapsed_time_formatted = str(elapsed_timedelta)
-    print(f"<<<<<<<<<<<<<サイト回し一周タイム： {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
+    elapsed_time = time.time() - start_one_rap_time  
+    while elapsed_time < 7200:
+      time.sleep(300)
+      elapsed_timedelta = timedelta(seconds=elapsed_time)
+      elapsed_time_formatted = str(elapsed_timedelta)
+      print(f"<<<<<<<<<<<<<サイト回し一周タイム： {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
     cnt -= 1
 
 if __name__ == '__main__':
