@@ -19,6 +19,9 @@ def sb_h_all_do(cnt, return_foot_cnt):
   chara_order = [
     "あすか", "彩香", "えりか", "きりこ", "波留（はる）", "めあり", "ももか", "りこ", "りな", "ゆうこ", "ハル",
   ]
+  chara_order = [
+    "きりこ", 
+  ]
   def timer(sec, functions):
     start_time = time.time() 
     for func in functions:

@@ -52,7 +52,6 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
   # print(777)
   # print(driver.get_cookies())
   # return
-
   # マイページをクリック
   nav_list = driver.find_element(By.ID, value='ds_nav')
   mypage = nav_list.find_element(By.LINK_TEXT, "マイページ")
@@ -277,7 +276,8 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
                 wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
                 time.sleep(wait_time)
                 # 書き込みをクリック
-                write = driver.find_element(By.CLASS_NAME, value="icon-header_kakikomi")
+                write = driver.find_element(By.CLASS_NAME, value="icon-kakikomi_float")
+                # write = driver.find_element(By.CLASS_NAME, value="icon-header_kakikomi")
                 write.click()
                 wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
                 time.sleep(wait_time)
@@ -332,7 +332,9 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
                   # マイリストをクリック
                   common_list = driver.find_element(By.CLASS_NAME, "ds_common_table")
                   common_table = common_list.find_elements(By.CLASS_NAME, "ds_mypage_text")
-                  mylist = common_table[5]
+                  for common_table_elem in common_table:
+                     if common_table_elem.text == "マイリスト":  
+                      mylist = common_table_elem
                   driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", mylist)
                   time.sleep(wait_time)
                   mylist.click()
