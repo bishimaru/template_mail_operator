@@ -15,7 +15,7 @@ import traceback
 from datetime import timedelta
 from sb_h_repost_return_foot import sb_h_repost_returnfoot
 
-def sb_h_all_do(cnt, return_foot_cnt):
+def sb_h_all_do(return_foot_cnt):
   chara_order = [
     "あすか", "彩香", "えりか", "きりこ", "波留（はる）", "めあり", "ももか", "りこ", "りな", "ゆうこ", "ハル",
   ]
@@ -47,5 +47,4 @@ if __name__ == '__main__':
     return_foot_cnt = 22
   elif len(sys.argv) >= 2:
     return_foot_cnt = int(sys.argv[1])
-
   sb_h_all_do(return_foot_cnt)

@@ -27,7 +27,7 @@ if __name__ == '__main__':
     # scheduler.add_job(foot_print, 'date', run_date=execute_time)
 
     # サイト回し
-    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=1, minute=9, args=[30])
+    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=1, minute=15, args=[30])
     scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=7, minute=40, args=[20])
     scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=11, minute=0, args=[20])
 
