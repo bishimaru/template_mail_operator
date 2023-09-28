@@ -24,12 +24,12 @@ if __name__ == '__main__':
     # 足跡付け
     # 現在の日時に1分を加えた日時を計算
     execute_time = datetime.now() + timedelta(minutes=1)
-    scheduler.add_job(foot_print, 'date', run_date=execute_time)
+    # scheduler.add_job(foot_print, 'date', run_date=execute_time)
 
     # サイト回し
-    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=30, minute=5, args=[1, 30])
-    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=40, minute=7, args=[1, 20])
-    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=0, minute=11, args=[1, 20])
+    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=1, minute=9, args=[30])
+    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=7, minute=40, args=[20])
+    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=11, minute=0, args=[20])
 
     scheduler.add_job(tick, 'interval', seconds=11)  
     print(
