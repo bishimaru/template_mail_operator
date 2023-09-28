@@ -18,7 +18,7 @@ import sqlite3
 
 def get_driver():
     options = Options()
-    options.add_argument('--headless')
+    # options.add_argument('--headless')
     options.add_argument("--incognito")
     options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
     options.add_argument("--no-sandbox")
@@ -31,11 +31,15 @@ def get_driver():
     return driver, wait
 
 def sb_h_repost_returnfoot(name, cnt): 
+  print(666)
+  print(name)
   dbpath = 'firstdb.db'
   conn = sqlite3.connect(dbpath)
   cur = conn.cursor()
   cur.execute('SELECT login_id, passward, post_title, post_contents, return_foot_message, mail_img FROM happymail WHERE name = ?', (name,))
   for row in cur:
+      print(777)
+      print(row)
       login_id = row[0]
       login_pass = row[1]
       post_title = row[2]
@@ -66,10 +70,17 @@ def sb_h_repost_returnfoot(name, cnt):
   send_form.click()
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
   time.sleep(2)
-
-  happymail.re_post(name, happy_windowhandle, driver, post_title, post_contents, adult_flag, genre_flag)
-  time.sleep(360)
-  happymail.return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt, return_foot_img)
+  try:
+    happymail.re_post(name, happy_windowhandle, driver, post_title, post_contents, adult_flag, genre_flag)
+  except Exception as e:
+    print(f"掲示板エラー{name}")
+    print(traceback.format_exc())
+  # time.sleep(360)
+  try:
+    happymail.return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt, return_foot_img)
+  except Exception as e:
+    print(f"足跡返しエラー{name}")
+    print(traceback.format_exc())
   driver.quit()
 
 
