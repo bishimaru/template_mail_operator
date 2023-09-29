@@ -18,14 +18,14 @@ if __name__ == '__main__':
     scheduler = BlockingScheduler()  # スケジューラを作る
 
     # サイト回し
-    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=5, minute=30, args=[30])
-    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=7, minute=40, args=[20])
-    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=10, minute=5, args=[20])
-    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=13, minute=0, args=[20])
-    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=17, minute=30, args=[20])
-    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=20, minute=0, args=[20])
+    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=5, minute=30, args=[30], misfire_grace_time=60*60)
+    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=7, minute=40, args=[20], misfire_grace_time=60*60)
+    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=10, minute=5, args=[20], misfire_grace_time=60*60)
+    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=13, minute=0, args=[20], misfire_grace_time=60*60)
+    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=17, minute=30, args=[20], misfire_grace_time=60*60)
+    scheduler.add_job(sb_h_all_do.sb_h_all_do, 'cron', hour=20, minute=0, args=[20], misfire_grace_time=60*60)
 
-    scheduler.add_job(tick, 'interval', minute=5)  
+    # scheduler.add_job(tick, 'interval', second=5)  
     print("Press Ctrl+{0} to exit.".format('Break' if os.name == 'nt' else 'C'))
     
     try:
