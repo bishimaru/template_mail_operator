@@ -404,14 +404,14 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
       else:
         user_age = int(user_age[0].text[:2])
       if user_age >= 40:
-         print(f'〜〜{user_age}代〜〜')
+        #  print(f'〜〜{user_age}代〜〜')
          # 実行確率（80%の場合）
          execution_probability = 0.20
          # ランダムな数値を生成し、実行確率と比較
          if random.random() < execution_probability:
             send_status = False
       # メールアイコンがあるかチェック
-      print(user_name_list)
+      # print(user_name_list)
       if len(mail_icon):
         send_status = False
         print('メールアイコンがあります')
@@ -467,14 +467,14 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
       mail_history = mail_field.find_element(By.ID, value="mail-history")
       display_value = mail_history.value_of_css_property("display")
       if display_value != "none":
-          print('メール履歴があります')
-          print(user_name)
+          # print('メール履歴があります')
+          # print(user_name)
           user_name_list.append(user_name) 
           send_status = False
           mail_icon_cnt += 1
       # メールするをクリック
       if send_status:
-        print(f'{name} send_status = {str(send_status)} ~ {str(foot_cnt)} ~)')
+        print(f'{name}:足跡返し send_status = {str(send_status)} ~ {str(foot_cnt)} ~)')
         send_mail = mail_field.find_element(By.CLASS_NAME, value="ds_profile_target_btn")
         send_mail.click()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -632,7 +632,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
           time.sleep(2)
       # driver.get("https://happymail.co.jp/sp/app/html/profile_list.php")
       # driver.back()
-      print(f'{name}:ハッピーメール、足跡{i+1}件, いいね:{like_flag}、タイプ{type_flag}')
+      print(f'{name}:足跡付け{i+1}件, いいね:{like_flag}、タイプ{type_flag}')
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
       if i == 40:

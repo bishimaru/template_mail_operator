@@ -27,7 +27,7 @@ from selenium.webdriver.firefox.options import Options
 
 def get_driver():
     options = G_options()
-    # options.add_argument('--headless')
+    options.add_argument('--headless')
     options.add_argument("--incognito")
     options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
     options.add_argument("--no-sandbox")
