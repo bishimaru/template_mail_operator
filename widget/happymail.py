@@ -782,15 +782,16 @@ def check_new_mail(driver, wait, name):
   conn = sqlite3.connect(dbpath)
   cur = conn.cursor()
   cur.execute('SELECT login_id, passward, fst_message, return_foot_message, conditions_message FROM happymail WHERE name = ?', (name,))
-  if not cur:
-     return
+  login_id = None
   for row in cur:
       login_id = row[0]
       login_pass = row[1]
       fst_message = row[2]
       return_foot_message = row[3]
       conditions_message = row[4]   
-  
+  if not login_id:
+    print(f"{name}のhappymailキャラ情報を取得できませんでした")
+    return
   driver.delete_all_cookies()
   driver.get("https://happymail.jp/login/")
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -892,12 +893,11 @@ def check_new_mail(driver, wait, name):
                 wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
                 time.sleep(wait_time)
             else:
-               print('やり取りしてますん')
+              #  print('やり取りしてますん')
                user_name = driver.find_elements(By.CLASS_NAME, value="app__navbar__item--title")[0]
                user_name = user_name.text
                receive_contents = driver.find_elements(By.CLASS_NAME, value="message__block--receive")[-1]
-              #  print(777777777777777777777)
-               print(f"{user_name}:{receive_contents.text}")
+              #  print(f"{user_name}:{receive_contents.text}")
                return_message = f"{name},happymail\n{login_id}:{login_pass}\n{user_name}「{receive_contents.text}」"
                return_list.append(return_message)
           else:
