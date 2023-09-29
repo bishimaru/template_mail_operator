@@ -498,7 +498,7 @@ def check_new_mail_gmail(driver, wait, mail_address):
   xpath = f"//*[@aria-label='{custom_value}']"
   element = driver.find_elements(By.XPATH, value=xpath)
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-  time.sleep(1) 
+  time.sleep(2) 
   element[0].click()
   time.sleep(1) 
   custom_value = "toggleaccountscallout+20"

@@ -79,7 +79,7 @@ for i in range(len(handle_array)):
         if element is None:
             print("要素が見つかりません。")
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-        time.sleep(1) 
+        time.sleep(2) 
         element[0].click()
         time.sleep(1) 
         # toggleaccountscallout+20 
