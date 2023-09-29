@@ -859,6 +859,8 @@ def check_new_mail(driver, wait, name):
   conn = sqlite3.connect(dbpath)
   cur = conn.cursor()
   cur.execute('SELECT login_id, passward, fst_mail, mail_img, second_message FROM pcmax WHERE name = ?', (name,))
+  if not cur:
+    return
   for row in cur:
       login_id = row[0]
       login_pass = row[1]
