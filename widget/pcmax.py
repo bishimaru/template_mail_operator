@@ -859,6 +859,9 @@ def check_new_mail(driver, wait, name):
   conn = sqlite3.connect(dbpath)
   cur = conn.cursor()
   cur.execute('SELECT login_id, passward, fst_mail, mail_img, second_message FROM pcmax WHERE name = ?', (name,))
+  print("DBカラ取得した中身")
+  print(cur)
+  print(len(cur))
   if not cur:
     return
   for row in cur:
@@ -918,7 +921,7 @@ def check_new_mail(driver, wait, name):
         arrival_datetime = datetime(int(date_numbers[0]), int(date_numbers[1]), int(date_numbers[2]), int(date_numbers[3]), int(date_numbers[4])) 
         now = datetime.today()
         elapsed_time = now - arrival_datetime
-        print(f"メール到着からの経過時間{elapsed_time}")
+        # print(f"メール到着からの経過時間{elapsed_time}")
         if elapsed_time >= timedelta(minutes=4):
           # print("4分以上経過しています。")
           # dev
@@ -955,9 +958,9 @@ def check_new_mail(driver, wait, name):
           # email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
           email_list = re.findall(email_pattern, received_mail)
           if email_list:
-            print("メールアドレスが含まれています")
-            print(email_list)
-            print(name)
+            # print("メールアドレスが含まれています")
+            # print(email_list)
+            # print(name)
             name_elem = driver.find_elements(By.CLASS_NAME, value="content_header_center")
             user_name = name_elem[0].text
             for user_address in email_list:
@@ -998,7 +1001,7 @@ def check_new_mail(driver, wait, name):
               wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
               time.sleep(2)
               continue
-            
+
             # received_mail_elem = driver.find_elements(By.CLASS_NAME, value="left_balloon_m")
             # received_mail = received_mail_elem[-1].text
             # return_message = f"{name}pcmax,{user_name}:{received_mail}"
@@ -1008,7 +1011,6 @@ def check_new_mail(driver, wait, name):
           
           # メッセージ送信一件もなし
           elif len(sent_by_me) == 0 and len(sent_by_me_maji) == 0:
-            # print(777)
             text_area = driver.find_elements(By.ID, value="mdc")
             if len(text_area):
               text_area[0].send_keys(fst_message)
@@ -1019,7 +1021,6 @@ def check_new_mail(driver, wait, name):
               time.sleep(2)
           # メッセージ送信一件だけ
           elif len(sent_by_me) == 1 or len(sent_by_me_maji) == 1:
-            # print(666)
             sent_by_me_list = []
             if len(sent_by_me):
               for sent_list in sent_by_me:
@@ -1060,8 +1061,8 @@ def check_new_mail(driver, wait, name):
 
           elif second_message in sent_by_me[-1].text:
             # 受信メールにアドレスがあるか
-            print('やり取り中')
-            print(sent_by_me[-1].text)
+            # print('やり取り中')
+            # print(sent_by_me[-1].text)
             name_elem = driver.find_elements(By.CLASS_NAME, value="content_header_center")
             user_name = name_elem[0].text
             # print(user_name)

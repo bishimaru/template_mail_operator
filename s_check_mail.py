@@ -71,7 +71,7 @@ def check_mail():
             # print(happymail_new)
             driver.quit()
         except Exception as e:
-            print(f"<<<<<<<<<<エラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
+            print(f"<<<<<<<<<<メールチェックエラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
             print(traceback.format_exc())
             driver.quit()
         # pcmax
@@ -83,7 +83,7 @@ def check_mail():
                 new_mail_list.append(pcmax_new)
             driver.quit()
         except Exception as e:
-            print(f"<<<<<<<<<<エラー：pcmax{order_info[0]}>>>>>>>>>>>")
+            print(f"<<<<<<<<<<メールチェックエラー：pcmax{order_info[0]}>>>>>>>>>>>")
             print(traceback.format_exc())
             driver.quit()
         # gmail
@@ -97,16 +97,16 @@ def check_mail():
             # print(gmail_new)
             driver.quit()
         except Exception as e:
-            print(f"<<<<<<<<<<エラー：{order_info[1]}>>>>>>>>>>>")
+            print(f"<<<<<<<<<<メールチェックエラー：{order_info[1]}>>>>>>>>>>>")
             print(traceback.format_exc())
             driver.quit()
         
         # メール送信
         if len(new_mail_list) == 0:
-            print(f'{order_info[0]}メールなし')
+            print(f'{order_info[0]}手動メールなし')
             pass
         else:
-            print(f'{order_info[0]}メールあり')
+            print(f'{order_info[0]}手動メールあり')
             print(new_mail_list)
             mailaddress = 'kenta.bishi777@gmail.com'
             password = 'rjdzkswuhgfvslvd'
@@ -130,9 +130,9 @@ def check_mail():
 
 
 if __name__ == '__main__':
-   start_time = time.time() 
+#    start_time = time.time() 
    check_mail()
-   elapsed_time = time.time() - start_time  # 経過時間を計算する
-   elapsed_timedelta = timedelta(seconds=elapsed_time)
-   elapsed_time_formatted = str(elapsed_timedelta)
-   print(f"<<<<<<<<<<<<<経過時間 {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
+#    elapsed_time = time.time() - start_time  # 経過時間を計算する
+#    elapsed_timedelta = timedelta(seconds=elapsed_time)
+#    elapsed_time_formatted = str(elapsed_timedelta)
+#    print(f"<<<<<<<<<<<<<経過時間 {elapsed_time_formatted}>>>>>>>>>>>>>>>>>>")
