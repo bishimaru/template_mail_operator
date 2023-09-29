@@ -859,17 +859,16 @@ def check_new_mail(driver, wait, name):
   conn = sqlite3.connect(dbpath)
   cur = conn.cursor()
   cur.execute('SELECT login_id, passward, fst_mail, mail_img, second_message FROM pcmax WHERE name = ?', (name,))
-  print("DBカラ取得した中身")
-  print(cur)
-  print(len(cur))
-  if not cur:
-    return
+  login_id = None
   for row in cur:
       login_id = row[0]
       login_pass = row[1]
       fst_message = row[2]
       mail_img = row[3]   
       second_message = row[4]
+  if not login_id:
+    print(f"{name}のpcmaxキャラ情報を取得できませんでした")
+    return
   try:
     driver.delete_all_cookies()
     driver.get("https://pcmax.jp/pcm/file.php?f=login_form")
