@@ -78,6 +78,8 @@ for i in range(len(handle_array)):
         element = driver.find_elements(By.XPATH, value=xpath)
         if element is None:
             print("要素が見つかりません。")
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(1) 
         element[0].click()
         time.sleep(1) 
         # toggleaccountscallout+20 
