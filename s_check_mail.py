@@ -31,10 +31,10 @@ order_list = [
    ["りこ", "riko414510@gmail.com"],
    ["りな", "k.rina414510@gmail.com"],
    ["ゆうこ", "yuko414510@gmail.com"], 
-   ["ハル", "haruru414510@gmail.com"],#足跡NG
+   ["ハル", "haruru414510@gmail.com"],
 ]
 order_list = [
-["めあり", ""],
+["ももか", "momoka414510@gmail.com"],
 ]
 def get_driver(debug):
     options = Options()
@@ -74,18 +74,18 @@ def check_mail():
         #     print(f"<<<<<<<<<<メールチェックエラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
         #     print(traceback.format_exc())
         #     driver.quit()
-        # pcmax
-        try:
-            driver, wait = get_driver(debug)
-            pcmax_new = pcmax.check_new_mail(driver, wait, order_info[0])
-            # print(pcmax_new)
-            if pcmax_new:
-                new_mail_list.append(pcmax_new)
-            driver.quit()
-        except Exception as e:
-            print(f"<<<<<<<<<<メールチェックエラー：pcmax{order_info[0]}>>>>>>>>>>>")
-            print(traceback.format_exc())
-            driver.quit()
+        # # pcmax
+        # try:
+        #     driver, wait = get_driver(debug)
+        #     pcmax_new = pcmax.check_new_mail(driver, wait, order_info[0])
+        #     # print(pcmax_new)
+        #     if pcmax_new:
+        #         new_mail_list.append(pcmax_new)
+        #     driver.quit()
+        # except Exception as e:
+        #     print(f"<<<<<<<<<<メールチェックエラー：pcmax{order_info[0]}>>>>>>>>>>>")
+        #     print(traceback.format_exc())
+        #     driver.quit()
         # gmail
         try:
             time.sleep(2)

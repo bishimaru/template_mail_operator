@@ -34,7 +34,7 @@ def pcmax_footprints(driver, wait):
 
   # 年齢選択（最小18歳、最高60以上）
   youngest_age = "19"
-  oldest_age = "36"
+  oldest_age = "31"
 
   dbpath = 'firstdb.db'
   conn = sqlite3.connect(dbpath)
@@ -44,8 +44,10 @@ def pcmax_footprints(driver, wait):
   # # データ検索
   cur.execute('SELECT name, login_id, passward FROM pcmax')
   pcmax_user_list = []
-  foot_order_list = ["えりか","あすか","りな", "めあり","りこ", "ハル","きりこ",  "ももか", "ゆうこ", "彩香", "haru"]
-  foot_order_list = ["彩香",]
+  foot_order_list = [
+     "めあり","波留（は..."
+     "えりか","あすか","りな", "りこ", "ハル","きりこ",  "ももか", "ゆうこ", "彩香", ]
+  # foot_order_list = ["彩香",]
 
   for row in cur:
       if row[0] in foot_order_list:

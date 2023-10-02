@@ -475,6 +475,7 @@ def check_new_mail_gmail(driver, wait, mail_address):
   conn = sqlite3.connect(dbpath)
   cur = conn.cursor()
   cur.execute('SELECT window_Handle FROM gmail WHERE mail_address = ?', (mail_address,))
+  w_h = ""
   for row in cur:
       w_h = row[0]
   if not w_h:
@@ -516,17 +517,19 @@ def check_new_mail_gmail(driver, wait, mail_address):
   # 最初の子要素を取得
   latest_email = email_list.find_element(By.XPATH, value="./*[1]")
   latest_new_email_address = latest_email.find_elements(By.TAG_NAME, value="b")
-  # print(777)
-  # print(address)
-  # print(len(latest_new_email_address))
+  
   if len(latest_new_email_address):
       latest_email.click()
       time.sleep(1)
-      mail_content = latest_email.find_elements(By.CLASS_NAME, value="yh")
-      print(len(mail_content))
-      print(mail_content[-1].text)
+      mail_content = driver.find_elements(By.CLASS_NAME, value="yh")
+      divs = mail_content[-1].find_elements(By.TAG_NAME, value="div")
+      for xxx in divs:
+        if xxx.get_attribute("dir") == "auto":
+          print(xxx.text)
+          return_list.append(f"{address}「{xxx.text}」")
+      driver.back()
+      time.sleep(1)
       
-      return_list.append(f"{address}「{mail_content[-1].text}」")
   # 迷惑メールフォルダーをチェック
   custom_value = "メニュー"
   xpath = f"//*[@aria-label='{custom_value}']"
@@ -543,6 +546,7 @@ def check_new_mail_gmail(driver, wait, mail_address):
   latest_new_spam = latest_email.find_elements(By.TAG_NAME, value="b")
   time.sleep(1) 
   if len(latest_new_spam):
+      
       return_list.append(address + ":迷惑フォルダ")
   custom_value = "メニュー"
   xpath = f"//*[@aria-label='{custom_value}']"

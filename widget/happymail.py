@@ -806,13 +806,17 @@ def check_new_mail(driver, wait, name):
   send_form.click()
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
   time.sleep(2)
+  warning = driver.find_elements(By.CLASS_NAME, value="information__dialog")
+  if len(warning):
+     return_list.append(f"{name},ハッピーメールに警告画面が出ている可能性があります")
+     return return_list
   name_elem = ""
   try:
     name_elem = driver.find_element(By.CLASS_NAME, "ds_user_display_name")
   except NoSuchElementException:
       pass
   if not name_elem:
-     return_list.append(f"{name},ハッピーメールに警告画面が出ています")
+     return_list.append(f"{name},ハッピーメールに警告画面が出ている可能性があります")
      return return_list
   name = name_elem.text  
   message_icon_candidates = driver.find_elements(By.CLASS_NAME, value="ds_nav_item")

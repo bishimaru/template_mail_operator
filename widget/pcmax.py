@@ -984,6 +984,12 @@ def check_new_mail(driver, wait, name):
   except TimeoutException as e:
     print("TimeoutException")
     driver.refresh()
+  warning = driver.find_elements(By.CLASS_NAME, value="caution-title")
+  warning2 = driver.find_elements(By.CLASS_NAME, value="suspend-title")
+  if len(warning) or len(warning2):
+    # print(f"{name}pcmaxに警告画面が出ている可能性があります")
+    return_list.append(f"{name}pcmaxに警告画面が出ている可能性があります")
+    return return_list  
   # 新着があるかチェック
   have_new_massage_users = []
   new_message_elem = driver.find_elements(By.CLASS_NAME, value="message")
@@ -1009,16 +1015,14 @@ def check_new_mail(driver, wait, name):
       # 新着ありのユーザーをリストに追加
       message_list = driver.find_elements(By.CLASS_NAME, value="receive_user")
       for usr_info in message_list:
-          name = usr_info.find_element(By.CLASS_NAME, value="name").text
-          if len(name) > 7:
-            name = name[:7] + "…"
-          have_new_massage_users.append(name)
-      print("新着メッセージリスト")
-      print(have_new_massage_users)
-      # メッセージ一覧を取得
-      message_list = driver.find_elements(By.CLASS_NAME, value="receive_user")
+          new_mail_user = usr_info.find_element(By.CLASS_NAME, value="name").text
+          if len(new_mail_user) > 7:
+            new_mail_user = new_mail_user[:7] + "…"
+          have_new_massage_users.append(new_mail_user)
+      # print("新着メッセージリスト")
+      # メッセージ一覧を取得      
       while len(message_list):
-        arrival_date = message_list[0].find_elements(By.CLASS_NAME, value="date")
+        arrival_date = message_list[-1].find_elements(By.CLASS_NAME, value="date")
         date_numbers = re.findall(r'\d+', arrival_date[0].text)
         # datetime型を作成
         arrival_datetime = datetime(int(date_numbers[0]), int(date_numbers[1]), int(date_numbers[2]), int(date_numbers[3]), int(date_numbers[4])) 
@@ -1029,7 +1033,7 @@ def check_new_mail(driver, wait, name):
           print("4分以上経過しています。")
           # dev
           # user_photo = message_list[5].find_element(By.CLASS_NAME, value="user_photo")
-          user_photo = message_list[0].find_element(By.CLASS_NAME, value="user_photo")
+          user_photo = message_list[-1].find_element(By.CLASS_NAME, value="user_photo")
           user_link = user_photo.find_element(By.TAG_NAME, value="a").get_attribute("href")
           start_index = user_link.find("user_id=")
           if start_index != -1:
@@ -1038,7 +1042,7 @@ def check_new_mail(driver, wait, name):
           else:
               print("user_idが見つかりませんでした。")
           #dev # mail_id = message_list[5].find_element(By.TAG_NAME, value="input").get_attribute("value")
-          mail_id = message_list[0].find_element(By.TAG_NAME, value="input").get_attribute("value")
+          mail_id = message_list[-1].find_element(By.TAG_NAME, value="input").get_attribute("value")
           new_mail_link = "https://pcmax.jp/mobile/mail_recive_detail.php?mail_id=" + str(mail_id) + "&user_id=" + str(user_id)
           driver.get(new_mail_link)
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -1189,9 +1193,21 @@ def check_new_mail(driver, wait, name):
     print("TimeoutException")
     driver.refresh()
   time.sleep(2)
+  warning = driver.find_elements(By.CLASS_NAME, value="caution-title")
+  warning2 = driver.find_elements(By.CLASS_NAME, value="suspend-title")
+  if len(warning) or len(warning2):
+    print(f"{name}pcmaxに警告画面が出ている可能性があります")
+    if len(return_list):
+      return return_list  
+    else:
+      return
   # 右下のキャラ画像をクリック
-  chara_img = driver.find_element(By.XPATH, value="//*[@id='sp_footer']/a[5]")
-  chara_img.click()
+  chara_img = driver.find_elements(By.XPATH, value="//*[@id='sp_footer']/a[5]")
+  if len(chara_img):
+    time.sleep(5)
+    print("右下のキャラ画像が見つかりません")
+    chara_img = driver.find_elements(By.XPATH, value="//*[@id='sp_footer']/a[5]")
+  chara_img[0].click()
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
   time.sleep(2)
   # //*[@id="contents"]/div[2]/div[2]/ul/li[5]/a
@@ -1237,6 +1253,7 @@ def check_new_mail(driver, wait, name):
     # print(1111111111111111)
     # print(user_name)
     if user_name in have_new_massage_users:
+      print('新着リストのユーザーです')
       user_cnt += 1
     elif not len(like):
       user_cnt += 1
@@ -1250,13 +1267,13 @@ def check_new_mail(driver, wait, name):
       user_cnt += 1
   # print(len(link_list))
   for i in link_list:
-    if mail_history == 7:
-      break
+    # if mail_history == 7:
+    #   break
     driver.get(i)
     # //*[@id="profile-box"]/div/div[2]/p/a/span
     sent = driver.find_elements(By.XPATH, value="//*[@id='profile-box']/div/div[2]/p/a/span")
     if len(sent):
-      print('送信履歴があります')
+      # print('送信履歴があります')
       # いいねする
       with_like = driver.find_elements(By.CLASS_NAME, value="type1")
       if len(with_like):
@@ -1286,7 +1303,7 @@ def check_new_mail(driver, wait, name):
           refusal_registration = driver.find_elements(By.CLASS_NAME, value="del")
           refusal_registration[0].click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-          time.sleep(1)
+          time.sleep(2)
         continue
     # 残ポイントチェック
     point = driver.find_elements(By.ID, value="point")
@@ -1329,7 +1346,9 @@ def check_new_mail(driver, wait, name):
     text_area = driver.find_element(By.ID, value="mdc")
     text_area.send_keys(return_foot_message)
     time.sleep(4)
-    print("マジ送信 " + str(maji_soushin) + " ~" + str(send_count + 1) + "~")
+    # print("マジ送信 " + str(maji_soushin) + " ~" + str(send_count + 1) + "~")
+    print(f"{name}pcmax マジ送信:{maji_soushin} {send_count + 1}件送信")
+
     # メッセージを送信
     if maji_soushin:
       send = driver.find_element(By.CLASS_NAME, value="maji_send")
