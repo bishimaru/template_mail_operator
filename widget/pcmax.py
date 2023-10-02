@@ -1208,7 +1208,7 @@ def check_new_mail(driver, wait, name):
   chara_img = driver.find_elements(By.XPATH, value="//*[@id='sp_footer']/a[5]")
   if len(chara_img):
     time.sleep(5)
-    print("右下のキャラ画像が見つかりません")
+    # print("右下のキャラ画像が見つかりません")
     chara_img = driver.find_elements(By.XPATH, value="//*[@id='sp_footer']/a[5]")
   chara_img[0].click()
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -1236,8 +1236,8 @@ def check_new_mail(driver, wait, name):
     user_list = driver.find_element(By.CLASS_NAME, value="list-content")
     div = user_list.find_elements(By.XPATH, value='./div')
     if len(div) > 40:
-      print(666)
-      print(len(div))
+      # print(666)
+      # print(len(div))
       break
   # リンクを取得
   user_cnt = 1
@@ -1256,7 +1256,7 @@ def check_new_mail(driver, wait, name):
     # print(1111111111111111)
     # print(user_name)
     if user_name in have_new_massage_users:
-      print('新着リストのユーザーです')
+      # print('新着リストのユーザーです')
       user_cnt += 1
     elif not len(like):
       user_cnt += 1

@@ -63,17 +63,17 @@ def check_mail():
         new_mail_list = []
         debug = False
         #  # ハッピーメール
-        # try:
-        #     driver, wait = get_driver(debug)
-        #     happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
-        #     if happymail_new:
-        #         new_mail_list.append(happymail_new)
-        #     # print(happymail_new)
-        #     driver.quit()
-        # except Exception as e:
-        #     print(f"<<<<<<<<<<メールチェックエラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
-        #     print(traceback.format_exc())
-        #     driver.quit()
+        try:
+            driver, wait = get_driver(debug)
+            happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
+            if happymail_new:
+                new_mail_list.append(happymail_new)
+            # print(happymail_new)
+            driver.quit()
+        except Exception as e:
+            print(f"<<<<<<<<<<メールチェックエラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
+            print(traceback.format_exc())
+            driver.quit()
         # # pcmax
         try:
             driver, wait = get_driver(debug)
