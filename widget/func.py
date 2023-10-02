@@ -520,7 +520,13 @@ def check_new_mail_gmail(driver, wait, mail_address):
   # print(address)
   # print(len(latest_new_email_address))
   if len(latest_new_email_address):
-      return_list.append(address)
+      latest_email.click()
+      time.sleep(1)
+      mail_content = latest_email.find_elements(By.CLASS_NAME, value="yh")
+      print(len(mail_content))
+      print(mail_content[-1].text)
+      
+      return_list.append(f"{address}「{mail_content[-1].text}」")
   # 迷惑メールフォルダーをチェック
   custom_value = "メニュー"
   xpath = f"//*[@aria-label='{custom_value}']"

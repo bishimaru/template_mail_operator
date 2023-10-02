@@ -33,9 +33,9 @@ order_list = [
    ["ゆうこ", "yuko414510@gmail.com"], 
    ["ハル", "haruru414510@gmail.com"],#足跡NG
 ]
-# order_list = [
-# ["あすか", "asuka414510@gmail.com"],
-# ]
+order_list = [
+["めあり", ""],
+]
 def get_driver(debug):
     options = Options()
     
@@ -43,7 +43,7 @@ def get_driver(debug):
         options.add_argument("--remote-debugging-port=9222")
         options.add_argument('--headless')
     else:
-        options.add_argument('--headless')
+        # options.add_argument('--headless')
         options.add_argument("--incognito")
         options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
     options.add_argument("--no-sandbox")
@@ -63,17 +63,17 @@ def check_mail():
         new_mail_list = []
         debug = False
         #  # ハッピーメール
-        try:
-            driver, wait = get_driver(debug)
-            happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
-            if happymail_new:
-                new_mail_list.append(happymail_new)
-            # print(happymail_new)
-            driver.quit()
-        except Exception as e:
-            print(f"<<<<<<<<<<メールチェックエラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
-            print(traceback.format_exc())
-            driver.quit()
+        # try:
+        #     driver, wait = get_driver(debug)
+        #     happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
+        #     if happymail_new:
+        #         new_mail_list.append(happymail_new)
+        #     # print(happymail_new)
+        #     driver.quit()
+        # except Exception as e:
+        #     print(f"<<<<<<<<<<メールチェックエラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
+        #     print(traceback.format_exc())
+        #     driver.quit()
         # pcmax
         try:
             driver, wait = get_driver(debug)
