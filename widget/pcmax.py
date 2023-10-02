@@ -987,9 +987,12 @@ def check_new_mail(driver, wait, name):
   warning = driver.find_elements(By.CLASS_NAME, value="caution-title")
   warning2 = driver.find_elements(By.CLASS_NAME, value="suspend-title")
   if len(warning) or len(warning2):
-    # print(f"{name}pcmaxに警告画面が出ている可能性があります")
-    return_list.append(f"{name}pcmaxに警告画面が出ている可能性があります")
-    return return_list  
+    print(f"{name}pcmaxに警告画面が出ている可能性があります")
+    # return_list.append(f"{name}pcmaxに警告画面が出ている可能性があります")
+    if len(return_list):
+      return return_list  
+    else:
+      return
   # 新着があるかチェック
   have_new_massage_users = []
   new_message_elem = driver.find_elements(By.CLASS_NAME, value="message")
