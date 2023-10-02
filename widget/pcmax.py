@@ -1325,6 +1325,7 @@ def check_new_mail(driver, wait, name):
     # いいねする
     with_like = driver.find_elements(By.CLASS_NAME, value="type1")
     if len(with_like):
+      time.sleep(1)
       with_like[0].click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(1)
@@ -1372,7 +1373,9 @@ def check_new_mail(driver, wait, name):
       time.sleep(2)
       send_count += 1
       mail_history = 0
-
+  print(send_count)
+  if send_count:
+    return_list.append(f'{name}pcmax 足跡返し{send_count}件')
 
   if len(return_list):
     return return_list  
