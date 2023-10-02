@@ -1300,6 +1300,8 @@ def check_new_mail(driver, wait, name):
           if "お断り" in candidate_elem.text:
             refusal_elem = candidate_elem
         if refusal_elem:
+          driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", refusal_elem)
+          time.sleep(1)
           refusal_elem.click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(2)
