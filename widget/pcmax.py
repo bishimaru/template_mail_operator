@@ -1360,11 +1360,11 @@ def check_new_mail(driver, wait, name):
       send = driver.find_element(By.CLASS_NAME, value="maji_send")
       send.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      time.sleep(1)
-      send_link = driver.find_element(By.ID, value="link_OK")
+      time.sleep(2)
+      send_link = driver.find_elements(By.ID, value="link_OK")
       send_link.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      time.sleep(3)
+      time.sleep(2)
       send_count += 1
       mail_history = 0
       
