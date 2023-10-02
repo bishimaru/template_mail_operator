@@ -1362,7 +1362,7 @@ def check_new_mail(driver, wait, name):
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(2)
       send_link = driver.find_elements(By.ID, value="link_OK")
-      send_link.click()
+      send_link[0].click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(2)
       send_count += 1
