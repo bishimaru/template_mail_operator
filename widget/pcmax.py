@@ -990,9 +990,9 @@ def check_new_mail(driver, wait, name):
     print(f"{name}pcmaxに警告画面が出ている可能性があります")
     # return_list.append(f"{name}pcmaxに警告画面が出ている可能性があります")
     if len(return_list):
-      return return_list  
+      return return_list, 0
     else:
-      return
+      return None, 0
   # 新着があるかチェック
   have_new_massage_users = []
   new_message_elem = driver.find_elements(By.CLASS_NAME, value="message")
@@ -1201,9 +1201,9 @@ def check_new_mail(driver, wait, name):
   if len(warning) or len(warning2):
     print(f"{name}pcmaxに警告画面が出ている可能性があります")
     if len(return_list):
-      return return_list  
+      return return_list, 0
     else:
-      return
+      return None, 0
   # 右下のキャラ画像をクリック
   chara_img = driver.find_elements(By.XPATH, value="//*[@id='sp_footer']/a[5]")
   if len(chara_img):
@@ -1375,14 +1375,13 @@ def check_new_mail(driver, wait, name):
       time.sleep(2)
       send_count += 1
       mail_history = 0
-  print(send_count)
   # if send_count:
   #   return_list.append(f'{name}pcmax 足跡返し{send_count}件')
 
   if len(return_list):
-    return return_list  
+    return return_list, send_count
   else:
-    return
+    return None, send_count
 
   
 

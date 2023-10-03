@@ -58,29 +58,42 @@ def get_driver(debug):
 
 def check_mail():
   while True:
-    
+    return_foot_count_dic = {
+        "ゆうこ": 0,
+        "ハル": 0,
+        "彩香": 0,
+        "りな": 0,
+        "ももか": 0,
+    }
     for order_info in order_list:
         new_mail_list = []
         debug = False
         #  # ハッピーメール
-        try:
-            driver, wait = get_driver(debug)
-            happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
-            if happymail_new:
-                new_mail_list.append(happymail_new)
-            # print(happymail_new)
-            driver.quit()
-        except Exception as e:
-            print(f"<<<<<<<<<<メールチェックエラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
-            print(traceback.format_exc())
-            driver.quit()
+        # try:
+        #     driver, wait = get_driver(debug)
+        #     happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
+        #     if happymail_new:
+        #         new_mail_list.append(happymail_new)
+        #     # print(happymail_new)
+        #     driver.quit()
+        # except Exception as e:
+        #     print(f"<<<<<<<<<<メールチェックエラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
+        #     print(traceback.format_exc())
+        #     driver.quit()
         # # pcmax
         try:
             driver, wait = get_driver(debug)
-            pcmax_new = pcmax.check_new_mail(driver, wait, order_info[0])
+            pcmax_new, return_foot_cnt = pcmax.check_new_mail(driver, wait, order_info[0])
             # print(pcmax_new)
             if pcmax_new:
                 new_mail_list.append(pcmax_new)
+            if return_foot_cnt:     
+                for r_f_user in return_foot_count_dic:
+                    if order_info[0] == r_f_user:
+                        print(777)
+                        print(return_foot_count_dic[r_f_user])
+                        return_foot_count_dic[r_f_user] = return_foot_count_dic[r_f_user] + return_foot_cnt
+                        print(return_foot_count_dic[r_f_user])
             driver.quit()
         except Exception as e:
             print(f"<<<<<<<<<<メールチェックエラー：pcmax{order_info[0]}>>>>>>>>>>>")
@@ -127,6 +140,8 @@ def check_mail():
             msg['Date'] = formatdate()
             smtpobj.send_message(msg)
             smtpobj.close()
+    print("<<<<<<<<<<<<<<<<<<<<足跡返し総数>>>>>>>>>>>>>>>>>>>>")
+    print(return_foot_count_dic)
 
 
 if __name__ == '__main__':
