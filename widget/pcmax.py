@@ -1376,8 +1376,8 @@ def check_new_mail(driver, wait, name):
       send_count += 1
       mail_history = 0
   print(send_count)
-  if send_count:
-    return_list.append(f'{name}pcmax 足跡返し{send_count}件')
+  # if send_count:
+  #   return_list.append(f'{name}pcmax 足跡返し{send_count}件')
 
   if len(return_list):
     return return_list  
