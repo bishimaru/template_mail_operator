@@ -57,29 +57,29 @@ def get_driver(debug):
     return driver, wait
 
 def check_mail():
-  while True:
-    return_foot_count_dic = {
+  return_foot_count_dic = {
         "ゆうこ": 0,
         "ハル": 0,
         "彩香": 0,
         "りな": 0,
         "ももか": 0,
     }
+  while True:
     for order_info in order_list:
         new_mail_list = []
         debug = False
         #  # ハッピーメール
-        # try:
-        #     driver, wait = get_driver(debug)
-        #     happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
-        #     if happymail_new:
-        #         new_mail_list.append(happymail_new)
-        #     # print(happymail_new)
-        #     driver.quit()
-        # except Exception as e:
-        #     print(f"<<<<<<<<<<メールチェックエラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
-        #     print(traceback.format_exc())
-        #     driver.quit()
+        try:
+            driver, wait = get_driver(debug)
+            happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
+            if happymail_new:
+                new_mail_list.append(happymail_new)
+            # print(happymail_new)
+            driver.quit()
+        except Exception as e:
+            print(f"<<<<<<<<<<メールチェックエラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
+            print(traceback.format_exc())
+            driver.quit()
         # # pcmax
         try:
             driver, wait = get_driver(debug)
