@@ -1351,7 +1351,7 @@ def check_new_mail(driver, wait, name):
     # メッセージを入力
     text_area = driver.find_element(By.ID, value="mdc")
     text_area.send_keys(return_foot_message)
-    time.sleep(4)
+    time.sleep(6)
     # print("マジ送信 " + str(maji_soushin) + " ~" + str(send_count + 1) + "~")
     print(f"{name}pcmax マジ送信:{maji_soushin} {send_count + 1}件送信")
 
