@@ -139,7 +139,8 @@ def check_mail():
                 text = text + i[0] + ",\n"
             address_from = 'kenta.bishi777@gmail.com'
             # address_to = 'bidato@wanko.be'
-            address_to = 'receptiontos54@gmail.com'
+            address_to = "ryapya694@ruru.be"
+            # address_to = 'receptiontos54@gmail.com'
 
             smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
             smtpobj.starttls()
