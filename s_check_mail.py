@@ -58,11 +58,18 @@ def get_driver(debug):
 
 def check_mail():
   return_foot_count_dic = {
+        "あすか": 0,
+        "彩香": 0,
+        "えりか": 0,
+        "きりこ": 0,
+        "波留（は...": 0,
+        "めあり": 0,
+        "ももか": 0,
+        "りこ": 0,
+        "りな": 0,
         "ゆうこ": 0,
         "ハル": 0,
-        "彩香": 0,
-        "りな": 0,
-        "ももか": 0,
+        
     }
   while True:
     start_time = time.time() 
@@ -131,7 +138,9 @@ def check_mail():
             for i in new_mail_list:
                 text = text + i[0] + ",\n"
             address_from = 'kenta.bishi777@gmail.com'
-            address_to = 'bidato@wanko.be'
+            # address_to = 'bidato@wanko.be'
+            address_to = 'receptiontos54@gmail.com'
+
             smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
             smtpobj.starttls()
             smtpobj.login(mailaddress, password)

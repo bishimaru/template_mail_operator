@@ -71,7 +71,7 @@ def sb_h_repost_returnfoot(name, cnt):
   except Exception as e:
     print(f"掲示板エラー{name}")
     print(traceback.format_exc())
-  # time.sleep(360)
+  time.sleep(280)
   try:
     happymail.return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt, return_foot_img)
   except Exception as e:
