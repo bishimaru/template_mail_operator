@@ -18,6 +18,8 @@ from email.mime.text import MIMEText
 from email.utils import formatdate
 import sqlite3
 from datetime import timedelta
+from datetime import datetime
+
 
 order_list = [
    ["あすか", "asuka414510@gmail.com"],
@@ -73,6 +75,7 @@ def check_mail():
     }
   while True:
     start_time = time.time() 
+    current_datetime = datetime.utcfromtimestamp(start_time)
     for order_info in order_list:
         new_mail_lists = []
         
@@ -81,6 +84,8 @@ def check_mail():
         try:
             driver, wait = get_driver(debug)
             happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
+            print(999999999)
+            print(happymail_new)
             if happymail_new:
                 new_mail_list.append(happymail_new)
             # print(happymail_new)
@@ -160,7 +165,7 @@ def check_mail():
     elapsed_time = time.time() - start_time  
     elapsed_timedelta = timedelta(seconds=elapsed_time)
     elapsed_time_formatted = str(elapsed_timedelta)
-    print(f"<<<<<<<<<<<<<<<<<<<<足跡返し総数　　開始時間{elapsed_time_formatted}>>>>>>>>>>>>>>>>>>>>")
+    print(f"<<<<<<<<<<<<<<<<<<<<足跡返し総数　　開始時間{current_datetime}, 経過時間{elapsed_time_formatted}>>>>>>>>>>>>>>>>>>>>")
     print(return_foot_count_dic)
 
 

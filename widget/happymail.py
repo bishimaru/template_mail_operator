@@ -870,15 +870,15 @@ def check_new_mail(driver, wait, name):
             # print(send_text)
             
             # print("<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>")
-            # if name == "きりこ":
-            #    print("<<<<<<<<<<<きりこ>>>>>>>>>>>>>")
-            #    print(send_text)
-            #    print("---------------------------------------")
-            #    print(fst_message == send_text)
-            #    print("---------------------------------------")
-            #    print(return_foot_message == send_text)
-            #    print("---------------------------------------")
-            #    print("掲示板メッセージ" in send_text)
+            # if name == "りこ":
+            print("<<<<<<<<<<<>>>>>>>>>>>>>")
+            print(send_text)
+            print("---------------------------------------")
+            print(fst_message == send_text)
+            print("---------------------------------------")
+            print(return_foot_message == send_text)
+            print("---------------------------------------")
+            print("掲示板メッセージ" in send_text)
 
             if fst_message == send_text or return_foot_message == send_text or "掲示板メッセージ" in send_text:
                 # print("やった")
