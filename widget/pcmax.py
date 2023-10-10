@@ -28,8 +28,8 @@ genre_dic = {0:"スグ会いたい", 1:"スグじゃないけど"}
 post_area_tokyo = ["千代田区", "中央区", "港区", "新宿区", "文京区", "台東区",
                    "品川区", "目黒区", "大田区", "世田谷区", "渋谷区", "中野区",
                    "杉並区", "豊島区", "北区", "荒川区", "板橋区", "練馬区",
-                   "立川市", "武蔵野市", "三鷹市", "府中市", "西東京市", "国分寺市",
-                   "狛江市", "調布市"]
+                    "武蔵野市",  
+                   ]
 post_area_kanagawa = ["横浜市鶴見区", "横浜市神奈川区", "横浜市西区", "横浜市中区", "横浜市南区", "横浜市保土ｹ谷区", 
                       "横浜市磯子区", "横浜市金沢区", "横浜市港北区", "横浜市戸塚区", "横浜市港南区", "横浜市旭区",
                       "横浜市緑区", "横浜市瀬谷区", "横浜市栄区", "横浜市泉区", "横浜市青葉区", "横浜市都筑区", 
@@ -85,8 +85,41 @@ def login(driver, wait):
     
 def re_post(name, pcmax_windowhandle, driver, genre_flag):
   wait = WebDriverWait(driver, 15)
-  handle_array = driver.window_handles
-  driver.switch_to.window(pcmax_windowhandle)
+  if pcmax_windowhandle:
+    handle_array = driver.window_handles
+    driver.switch_to.window(pcmax_windowhandle)
+  else:
+    dbpath = 'firstdb.db'
+    conn = sqlite3.connect(dbpath)
+    # # SQLiteを操作するためのカーソルを作成
+    cur = conn.cursor()
+    # # 順番
+    # # データ検索
+    cur.execute('SELECT login_id, passward, post_title, post_article FROM pcmax WHERE name = ?', (name,))
+    for row in cur:
+        login_id = row[0]
+        login_pass = row[1]
+        post_title = row[2]
+        post_contents = row[3] 
+    driver.delete_all_cookies()
+    driver.get("https://pcmax.jp/pcm/file.php?f=login_form")
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    wait_time = random.uniform(3, 6)
+    time.sleep(2)
+    id_form = driver.find_element(By.ID, value="login_id")
+    id_form.send_keys(login_id)
+    pass_form = driver.find_element(By.ID, value="login_pw")
+    pass_form.send_keys(login_pass)
+    time.sleep(1)
+    send_form = driver.find_element(By.NAME, value="login")
+    send_form.click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(1)
+    # 利用制限中
+    suspend = driver.find_elements(By.CLASS_NAME, value="suspend-title")
+    if len(suspend):
+      print(f'{name}pcmax利用制限中です')
+      return  
   wait_time = random.uniform(3, 4)
   login(driver, wait)
   if setting.mac_os:
@@ -111,60 +144,98 @@ def re_post(name, pcmax_windowhandle, driver, genre_flag):
   if len(no_post):
     if no_post[0].text == "まだ掲示板への投稿はありません。":
       print(no_post[0].text)
-      # dbpath = 'firstdb.db'
-      # conn = sqlite3.connect(dbpath)
-      # # SQLiteを操作するためのカーソルを作成
-      # cur = conn.cursor()
-      # # 順番
-      # # データ検索
-      # cur.execute('SELECT * FROM pcmax WHERE name = ?', (name,))
-      # for row in cur:
-      #     print(row)
-      #     post_title = row[8]
-      #     post_article = row[9]
+      add_post = driver.find_elements(By.CLASS_NAME, value="white_last")
+      add_post_button = add_post[0].find_elements(By.TAG_NAME, value="a")
+      add_post_button[0].click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(wait_time)
+      if genre_flag == 0:
+          choices = driver.find_elements(By.CLASS_NAME, value="choice")
+          for choice in choices:
+            candidate_choice = choice.get_attribute('href')
+            if candidate_choice is not None:
+                if choice.text == "スグ会いたい":
+                  add_post_link = candidate_choice
+            else:
+                continue
+      driver.get(add_post_link)
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(wait_time) 
+      for kanto_region, kanto_area in post_area_dic.items():
+        # # アダルトを選択
+        adult = driver.find_element(By.ID, value="genre2")
+        adult.click()
+        title = driver.find_element(By.ID, value="title1") 
+        title.send_keys(post_title)
+        time.sleep(1)
+        post_text = driver.find_element(By.ID, value="textarea1") 
+        post_text.send_keys(post_contents)
+        time.sleep(1)
+        # 投稿地域を選択
+        area = driver.find_element(By.ID, "prech")
+        driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", area)
+        time.sleep(1)
+        select = Select(area)
+        select.select_by_visible_text(kanto_region)
+        time.sleep(1)
+        # 詳細地域を選択
+        detailed_area = driver.find_element(By.NAME, value="city_id")
+        select = Select(detailed_area)
+        detail_area = random.choice(kanto_area)
+        print('今回の詳細地域 ~' + str(detail_area) + "~")
+        select.select_by_visible_text(detail_area)
+        time.sleep(1)
+        # メール受付数を変更
+        mail_reception = driver.find_element(By.NAME, "max_reception_count")
+        select = Select(mail_reception)
+        select.select_by_visible_text("5通")
+        time.sleep(1)
+        # チェック項目にチェック
+        today_check = driver.find_element(By.ID, value="bty_4")
+        today_check.click()
+        ask_date = driver.find_element(By.ID, value="bty_5")
+        ask_date.click()
+        check3 = driver.find_element(By.ID, value="bty_6")
+        check3.click()
+        check4 = driver.find_element(By.ID, value="bty_7")
+        check4.click()
+        check5 = driver.find_element(By.ID, value="bty_8")
+        check5.click()
+        check6 = driver.find_element(By.ID, value="bty_9")
+        check6.click()
+        # 掲示板に書く 
+        write_bulletin_board = driver.find_element(By.ID, value="bbs_write_btn")
+        driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", write_bulletin_board)
+        write_bulletin_board.click()
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(wait_time)
+        # 利用制限チェック
+        usage_limit = driver.find_elements(By.CLASS_NAME, value="white_box")
+        if len(usage_limit):
+          print(f"{name}pcmax利用制限画面が出ました")
+          break
+        # https://pcmax.jp/pcm/index.php
+        driver.get("https://pcmax.jp/pcm/index.php")
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(wait_time)
+        
+        # MENUをクリック
+        menu = driver.find_element(By.ID, value='sp_nav')
+        menu.click()
+        time.sleep(wait_time)
+        # 掲示板書き込みをクリック　
+        bulletin_board_history = driver.find_element(By.CLASS_NAME, value="nav-content-list")
+        bulletin_board_history = bulletin_board_history.find_elements(By.TAG_NAME, value="dd")
+        for i in bulletin_board_history:
+          if i.text == "掲示板書込み":
+            bulletin_board_history = i.find_element(By.TAG_NAME, value="a")
+            driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", bulletin_board_history)
+            bulletin_board_history.click()
+            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+            time.sleep(wait_time)
+            break
       
-      # MENUをクリック
-      # menu = driver.find_element(By.ID, value='sp_nav')
-      # menu.click()
-      # time.sleep(wait_time)
-      # # 掲示板書き込みをクリック　
-      # bulletin_board_history = driver.find_element(By.CLASS_NAME, value="nav-content-list")
-      # bulletin_board_history = bulletin_board_history.find_elements(By.TAG_NAME, value="dd")
-      # for i in bulletin_board_history:
-      #   if i.text == "掲示板書込み":
-      #     bulletin_board_history = i.find_element(By.TAG_NAME, value="a")
-      #     driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", bulletin_board_history)
-      #     bulletin_board_history.click()
-      #     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      #     time.sleep(wait_time)
-      #     break
-      # # アダルトを選択
-      # adult = driver.find_element(By.ID, value="genre2")
-      # adult.click()
-      # time.sleep(1)
-      # # ジャンルを選択
-      # select_genre = driver.find_element(By.ID, value="selectb")
-      # select = Select(select_genre)
-      # select.select_by_visible_text(genre_dic[genre_flag])
-      # time.sleep(1)
-      # # 投稿地域を選択(新規一個目は東京)
-      # area = driver.find_element(By.ID, "prech")
-      # driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", area)
-      # time.sleep(1)
-      # select = Select(area)
-      # select.select_by_visible_text("東京都")
-      # time.sleep(1)
-      # # 詳細地域を選択
-      # detailed_area = driver.find_element(By.NAME, value="city_id")
-      # select = Select(detailed_area)
-      # try:
-      #   post_area_dic[last_area].remove(detail_selected)
-      # except ValueError:
-      #   pass
-      # detail_area = random.choice(post_area_dic[last_area])
-      # print('今回の詳細地域 ~' + str(detail_area) + "~")
-      # select.select_by_visible_text(detail_area)
-      # time.sleep(1)
+      
     
   #掲示板4つ再投稿
   link_list = []
@@ -235,7 +306,7 @@ def re_post(name, pcmax_windowhandle, driver, genre_flag):
     # 利用制限チェック
     usage_limit = driver.find_elements(By.CLASS_NAME, value="white_box")
     if len(usage_limit):
-      print("利用制限画面が出ました")
+      print(f"{name}pcmax利用制限画面が出ました")
       top_logo = driver.find_elements(By.ID, value="top")
       a = top_logo[0].find_element(By.TAG_NAME, value="a")
       a.click()

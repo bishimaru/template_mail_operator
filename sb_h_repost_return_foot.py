@@ -35,6 +35,7 @@ def sb_h_repost_returnfoot(name, cnt):
   conn = sqlite3.connect(dbpath)
   cur = conn.cursor()
   cur.execute('SELECT login_id, passward, post_title, post_contents, return_foot_message, mail_img FROM happymail WHERE name = ?', (name,))
+  login_id = ""
   for row in cur:
       login_id = row[0]
       login_pass = row[1]
@@ -47,6 +48,8 @@ def sb_h_repost_returnfoot(name, cnt):
           return_foot_img = return_foot_img.replace("mail_tool", "mail_operator")
       else:
          return_foot_img = ""
+  if not login_id:
+    return
   adult_flag = True
   genre_flag = setting.genre_flag
   happy_windowhandle = ""

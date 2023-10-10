@@ -13,11 +13,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 import setting
 import traceback
 from datetime import timedelta
+from sb_p_repost import pcmax_repost
 from sb_h_repost_return_foot import sb_h_repost_returnfoot
+
 
 def sb_h_all_do(return_foot_cnt):
   chara_order = [
-    "あすか", "彩香", "えりか", "きりこ", "波留（はる）", "めあり", "ももか", "りこ", "りな", "ゆうこ", "ハル",
+    "りこ",
+    # "あすか", "彩香", "えりか", "きりこ", "波留（はる）", "めあり", "ももか",  "りな", "ゆうこ", "ハル",
   ]
   def timer(sec, functions):
     start_time = time.time() 
@@ -33,7 +36,7 @@ def sb_h_all_do(return_foot_cnt):
 
   for chara in chara_order:
     try:
-      timer(wait_cnt, [lambda: sb_h_repost_returnfoot(chara, return_foot_cnt)])
+      timer(wait_cnt, [lambda: pcmax_repost(chara), lambda: sb_h_repost_returnfoot(chara, return_foot_cnt)])
     except Exception as e:
       print(f"エラー{chara}")
       print(traceback.format_exc())
