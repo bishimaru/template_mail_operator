@@ -75,7 +75,8 @@ def check_mail():
     }
   while True:
     start_time = time.time() 
-    current_datetime = datetime.utcfromtimestamp(start_time)
+    current_datetime = datetime.utcfromtimestamp(int(start_time))
+   
     for order_info in order_list:
         new_mail_lists = []
         
@@ -87,8 +88,8 @@ def check_mail():
             print(999999999)
             print(happymail_new)
             if happymail_new:
-                new_mail_list.append(happymail_new)
-            # print(happymail_new)
+                new_mail_lists.append(happymail_new)
+            print(new_mail_lists)
             driver.quit()
         except Exception as e:
             print(f"<<<<<<<<<<メールチェックエラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
@@ -100,7 +101,7 @@ def check_mail():
             pcmax_new, return_foot_cnt = pcmax.check_new_mail(driver, wait, order_info[0])
             # print(pcmax_new)
             if pcmax_new:
-                new_mail_list.append(pcmax_new)
+                new_mail_lists.append(pcmax_new)
             if return_foot_cnt:     
                 for r_f_user in return_foot_count_dic:
                     if order_info[0] == r_f_user:
@@ -164,7 +165,7 @@ def check_mail():
             smtpobj.close()
     elapsed_time = time.time() - start_time  
     elapsed_timedelta = timedelta(seconds=elapsed_time)
-    elapsed_time_formatted = str(elapsed_timedelta)
+    elapsed_time_formatted = int(elapsed_timedelta)
     print(f"<<<<<<<<<<<<<<<<<<<<足跡返し総数　　開始時間{current_datetime}, 経過時間{elapsed_time_formatted}>>>>>>>>>>>>>>>>>>>>")
     print(return_foot_count_dic)
 
