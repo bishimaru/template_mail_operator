@@ -1071,46 +1071,84 @@ def check_new_mail(driver, wait, name):
             # print("メールアドレスが含まれています")
             # print(email_list)
             # print(name)
-            name_elem = driver.find_elements(By.CLASS_NAME, value="content_header_center")
-            user_name = name_elem[0].text
-            for user_address in email_list:
+
+            # icloudの場合
+            if "icloud.com" in received_mail:
+              print("icloud.comが含まれています")
+              icloud_text = "メール送ったんですけど、ブロックされちゃって届かないのでこちらのアドレスにお名前添えて送ってもらえますか？"
               dbpath = 'firstdb.db'
               conn = sqlite3.connect(dbpath)
               # # SQLiteを操作するためのカーソルを作成
               cur = conn.cursor()
               # # 順番
               # # データ検索
-              cur.execute('SELECT conditions_message, gmail_password FROM pcmax WHERE name = ?', (name,))
-              for row in cur:
-                  text = row[0]
-                  password = row[1]
               cur.execute('SELECT mail_address FROM gmail WHERE name = ?', (name,))
               for row in cur:
-                  mailaddress = row[0]
-              func.send_conditional(user_name, user_address, mailaddress, password, text)
-              # 見ちゃいや登録
-              latest_mail = driver.find_element(By.ID, value="dlink")
-              latest_mail.click()
-              time.sleep(2)
-              dont_look_elems= driver.find_elements(By.CLASS_NAME, value="line-menu-inbox")
-              dont_look = None
-              for dont_look_elem in dont_look_elems:
-                if "見ちゃいや" in dont_look_elem.text:
-                  dont_look = dont_look_elem
-              if dont_look:
-                driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", dont_look)
-                time.sleep(1)
-                dont_look.click()
+                  mail_address = row[0]
+              icloud_text = icloud_text + "\n" + mail_address
+              text_area = driver.find_elements(By.ID, value="mdc")
+              if len(text_area):
+                text_area[0].send_keys(icloud_text)
+                time.sleep(3)
+                send = driver.find_element(By.ID, value="send_n")
+                send.click()
                 wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-                time.sleep(1)
-              dont_look_registration = driver.find_elements(By.CLASS_NAME, value="del")
-              dont_look_registration[0].click()
+                time.sleep(2)
+                # 連続防止で失敗
+                waiting = driver.find_elements(By.CLASS_NAME, value="banned-word")
+                if len(waiting):
+                  print("<<<<<<<<<<<<<<<<<<<連続防止で失敗>>>>>>>>>>>>>>>>>>>>")
+                  time.sleep(6)
+                  send = driver.find_element(By.ID, value="send_n")
+                  send.click()
+                  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+                  time.sleep(2)
+              # 戻って見ちゃいや登録
+              back = driver.find_ekement(By.ID, value="back2")
+              back.click()
+              wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+              time.sleep(2)
+            else:
+              name_elem = driver.find_elements(By.CLASS_NAME, value="content_header_center")
+              user_name = name_elem[0].text
+              for user_address in email_list:
+                dbpath = 'firstdb.db'
+                conn = sqlite3.connect(dbpath)
+                # # SQLiteを操作するためのカーソルを作成
+                cur = conn.cursor()
+                # # 順番
+                # # データ検索
+                cur.execute('SELECT conditions_message, gmail_password FROM pcmax WHERE name = ?', (name,))
+                for row in cur:
+                    text = row[0]
+                    password = row[1]
+                cur.execute('SELECT mail_address FROM gmail WHERE name = ?', (name,))
+                for row in cur:
+                    mailaddress = row[0]
+                func.send_conditional(user_name, user_address, mailaddress, password, text)
+            # 見ちゃいや登録
+            latest_mail = driver.find_element(By.ID, value="dlink")
+            latest_mail.click()
+            time.sleep(2)
+            dont_look_elems= driver.find_elements(By.CLASS_NAME, value="line-menu-inbox")
+            dont_look = None
+            for dont_look_elem in dont_look_elems:
+              if "見ちゃいや" in dont_look_elem.text:
+                dont_look = dont_look_elem
+            if dont_look:
+              driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", dont_look)
+              time.sleep(1)
+              dont_look.click()
               wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
               time.sleep(1)
-              driver.get("https://pcmax.jp/mobile/mail_recive_list.php?receipt_status=0")
-              wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-              time.sleep(2)
-              continue
+            dont_look_registration = driver.find_elements(By.CLASS_NAME, value="del")
+            dont_look_registration[0].click()
+            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+            time.sleep(1)
+            driver.get("https://pcmax.jp/mobile/mail_recive_list.php?receipt_status=0")
+            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+            time.sleep(2)
+            continue
 
             # received_mail_elem = driver.find_elements(By.CLASS_NAME, value="left_balloon_m")
             # received_mail = received_mail_elem[-1].text

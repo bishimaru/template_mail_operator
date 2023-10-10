@@ -74,7 +74,7 @@ def check_mail():
   while True:
     start_time = time.time() 
     for order_info in order_list:
-        new_mail_list = []
+        new_mail_lists = []
         
         debug = False
         #  # ハッピーメール
@@ -115,7 +115,8 @@ def check_mail():
             driver, wait = get_driver(debug)
             gmail_new = func.check_new_mail_gmail(driver, wait, order_info[1])
             if gmail_new:
-                new_mail_list.append(gmail_new)
+                new_mail_lists.append(gmail_new)
+            # print(456)
             # print(gmail_new)
             driver.quit()
         except Exception as e:
@@ -124,19 +125,23 @@ def check_mail():
             driver.quit()
         
         # メール送信
-        if len(new_mail_list) == 0:
+        if len(new_mail_lists) == 0:
             print(f'{order_info[0]}新着チェック完了手動メールなし')
             pass
         else:
             print(f'{order_info[0]}新着チェック完了手動メールあり')
-            print(new_mail_list)
+            print(new_mail_lists)
             mailaddress = 'kenta.bishi777@gmail.com'
             password = 'rjdzkswuhgfvslvd'
             text = ""
             subject = "新着メッセージ"
         
-            for i in new_mail_list:
-                text = text + i[0] + ",\n"
+            for new_mail_list in new_mail_lists:
+                print('<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>')
+                print(new_mail_list)
+                for new_mail in new_mail_list:
+
+                    text = text + new_mail + ",\n"
             address_from = 'kenta.bishi777@gmail.com'
             # address_to = 'bidato@wanko.be'
             address_to = "ryapya694@ruru.be"
@@ -157,6 +162,7 @@ def check_mail():
     elapsed_time_formatted = str(elapsed_timedelta)
     print(f"<<<<<<<<<<<<<<<<<<<<足跡返し総数　　開始時間{elapsed_time_formatted}>>>>>>>>>>>>>>>>>>>>")
     print(return_foot_count_dic)
+    break
 
 
 if __name__ == '__main__':

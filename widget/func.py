@@ -514,21 +514,20 @@ def check_new_mail_gmail(driver, wait, mail_address):
   main_box[0].click()
   time.sleep(1)
   email_list = driver.find_element(By.CLASS_NAME, value="Kk")
-  # 最初の子要素を取得
-  latest_email = email_list.find_element(By.XPATH, value="./*[1]")
-  latest_new_email_address = latest_email.find_elements(By.TAG_NAME, value="b")
-  
-  if len(latest_new_email_address):
-      latest_email.click()
-      time.sleep(1)
-      mail_content = driver.find_elements(By.CLASS_NAME, value="yh")
-      divs = mail_content[-1].find_elements(By.TAG_NAME, value="div")
-      for xxx in divs:
-        if xxx.get_attribute("dir") == "auto":
-          print(xxx.text)
-          return_list.append(f"{address}「{xxx.text}」")
+  emails = email_list.find_elements(By.XPATH, value='//*[@role="listitem"]')
+  for email in emails:
+    new_email = email.find_elements(By.TAG_NAME, value="b")
+    if len(new_email):
+      child_elements = email.find_elements(By.CLASS_NAME, value="Qk")
+      if child_elements[0].text:  # テキストが空でない場合
+          # print(f"この子要素にテキストが含まれています: {child_elements[0].text}")
+          return_list.append(f"{address}「{child_elements[0].text}」")
+      email.click()
+      time.sleep(2)
       driver.back()
       time.sleep(1)
+    else:
+      continue
       
   # 迷惑メールフォルダーをチェック
   custom_value = "メニュー"
@@ -542,12 +541,20 @@ def check_new_mail_gmail(driver, wait, mail_address):
   spam.click()
   time.sleep(1) 
   email_list = driver.find_element(By.CLASS_NAME, value="Kk")
-  latest_email = email_list.find_element(By.XPATH, value="./*[1]")
-  latest_new_spam = latest_email.find_elements(By.TAG_NAME, value="b")
-  time.sleep(1) 
-  if len(latest_new_spam):
-      
-      return_list.append(address + ":迷惑フォルダ")
+  emails = email_list.find_elements(By.XPATH, value='//*[@role="listitem"]')
+  for email in emails:
+    new_email = email.find_elements(By.TAG_NAME, value="b")
+    if len(new_email):
+      child_elements = email.find_elements(By.CLASS_NAME, value="Qk")
+      if child_elements[0].text:  # テキストが空でない場合
+          # print(f"この子要素にテキストが含まれています: {child_elements[0].text}")
+          return_list.append(f"{address}:迷惑フォルダ「{child_elements[0].text}」")
+      email.click()
+      time.sleep(2)
+      driver.back()
+      time.sleep(1)
+    else:
+      continue
   custom_value = "メニュー"
   xpath = f"//*[@aria-label='{custom_value}']"
   element = driver.find_elements(By.XPATH, value=xpath)

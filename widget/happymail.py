@@ -848,7 +848,6 @@ def check_new_mail(driver, wait, name):
          time.sleep(2)
      #新着がある間はループ  
      while len(new_mail):
-        # 4分経過しているか
         parent_element = new_mail[0].find_element(By.XPATH, value="..")
         next_element = parent_element.find_element(By.XPATH, value="following-sibling::*")
         date = next_element.find_elements(By.CLASS_NAME, value="ds_message_date")
@@ -857,6 +856,7 @@ def check_new_mail(driver, wait, name):
         now = datetime.today()
         elapsed_time = now - arrival_datetime
         # print(f"メール到着からの経過時間{elapsed_time}")
+        # 4分経過しているか
         if elapsed_time >= timedelta(minutes=4):
           # print("4分以上経過しています。")
           new_mail[0].click()
@@ -868,23 +868,17 @@ def check_new_mail(driver, wait, name):
             if not send_text:
                 send_text = send_message[-2].find_elements(By.CLASS_NAME, value="message__block__body__text")[0].text
             # print(send_text)
-
-            # d = difflib.Differ()
-            # diff = list(d.compare(send_text, return_foot_message))
-
-            # for line in diff:
-            #     if line.startswith('-') or line.startswith('+'):
-            #         print(line)
+            
             # print("<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>")
-            if name == "きりこ":
-               print("<<<<<<<<<<<きりこ>>>>>>>>>>>>>")
-               print(send_text)
-               print("---------------------------------------")
-               print(fst_message == send_text)
-               print("---------------------------------------")
-               print(return_foot_message == send_text)
-               print("---------------------------------------")
-               print("掲示板メッセージ" in send_text)
+            # if name == "きりこ":
+            #    print("<<<<<<<<<<<きりこ>>>>>>>>>>>>>")
+            #    print(send_text)
+            #    print("---------------------------------------")
+            #    print(fst_message == send_text)
+            #    print("---------------------------------------")
+            #    print(return_foot_message == send_text)
+            #    print("---------------------------------------")
+            #    print("掲示板メッセージ" in send_text)
 
             if fst_message == send_text or return_foot_message == send_text or "掲示板メッセージ" in send_text:
                 # print("やった")
