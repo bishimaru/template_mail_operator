@@ -16,6 +16,7 @@ import sqlite3
 from selenium.webdriver.chrome.service import Service
 from datetime import timedelta
 
+
 def pcmax_returnfoot(driver, wait):
   
   dbpath = 'firstdb.db'
@@ -27,7 +28,7 @@ def pcmax_returnfoot(driver, wait):
   cur.execute('SELECT name, login_id, passward FROM pcmax')
   pcmax_user_list = []
   foot_order_list = ["えりか","あすか","りな", "めあり","りこ", "ハル","きりこ",  "ももか", "ゆうこ", "彩香", ]
-  foot_order_list = ["彩香",]
+  # foot_order_list = ["彩香",]
 
   for row in cur:
       if row[0] in foot_order_list:
