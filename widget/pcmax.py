@@ -1096,8 +1096,16 @@ def check_new_mail(driver, wait, name):
       # print("新着メッセージリスト")
       # メッセージ一覧を取得      
       while len(message_list):
-        arrival_date = message_list[-1].find_elements(By.CLASS_NAME, value="date")
-        date_numbers = re.findall(r'\d+', arrival_date[0].text)
+        wait = WebDriverWait(driver, 10)  # 10秒まで待つ（必要に応じて変更）
+        try:
+            element = wait.until(EC.presence_of_elements_located((By.CLASS_NAME, "receive_user")))
+            # 要素が見つかった後の処理をここに記述
+            arrival_date = element[-1].find_elements(By.CLASS_NAME, value="date")
+            date_numbers = re.findall(r'\d+', arrival_date[0].text)
+        except TimeoutException:
+            print("要素が見つかりませんでした。")
+        # arrival_date = message_list[-1].find_elements(By.CLASS_NAME, value="date")
+        # date_numbers = re.findall(r'\d+', arrival_date[0].text)
         # datetime型を作成
         arrival_datetime = datetime(int(date_numbers[0]), int(date_numbers[1]), int(date_numbers[2]), int(date_numbers[3]), int(date_numbers[4])) 
         now = datetime.today()
