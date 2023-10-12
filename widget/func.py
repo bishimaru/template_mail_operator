@@ -525,7 +525,7 @@ def check_new_mail_gmail(driver, wait, name, mail_address):
       child_elements = email.find_elements(By.CLASS_NAME, value="Qk")
       if child_elements[0].text:  # テキストが空でない場合
           # print(f"この子要素にテキストが含まれています: {child_elements[0].text}")
-          return_list.append(f"{address},\n{login_id}:{passward}\n「{child_elements[0].text}」")
+          return_list.append(f"{address},{login_id}:{passward}\n「{child_elements[0].text}」")
       email.click()
       time.sleep(2)
       driver.back()
@@ -552,7 +552,7 @@ def check_new_mail_gmail(driver, wait, name, mail_address):
       child_elements = email.find_elements(By.CLASS_NAME, value="Qk")
       if child_elements[0].text:  # テキストが空でない場合
           # print(f"この子要素にテキストが含まれています: {child_elements[0].text}")
-          return_list.append(f"{address}:迷惑フォルダ,\n{login_id}:{passward}\n「{child_elements[0].text}」")
+          return_list.append(f"{address}:迷惑フォルダ,{login_id}:{passward}\n「{child_elements[0].text}」")
       email.click()
       time.sleep(2)
       driver.back()

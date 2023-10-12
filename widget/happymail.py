@@ -896,7 +896,7 @@ def check_new_mail(driver, wait, name):
                user_name = user_name.text
                receive_contents = driver.find_elements(By.CLASS_NAME, value="message__block--receive")[-1]
               #  print(f"{user_name}:{receive_contents.text}")
-               return_message = f"{name},happymail\n{login_id}:{login_pass}\n{user_name}「{receive_contents.text}」"
+               return_message = f"{name}happymail,{login_id}:{login_pass}\n{user_name}「{receive_contents.text}」"
                return_list.append(return_message)
           else:
             text_area = driver.find_element(By.ID, value="text-message")

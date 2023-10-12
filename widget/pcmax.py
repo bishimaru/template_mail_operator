@@ -1102,7 +1102,7 @@ def check_new_mail(driver, wait, name):
             
         except TimeoutException:
             print("要素が見つかりませんでした。")
-        arrival_date = message_list[-1].find_elements(By.CLASS_NAME, value="date")
+        arrival_date = element[-1].find_elements(By.CLASS_NAME, value="date")
         date_numbers = re.findall(r'\d+', arrival_date[0].text)
         # datetime型を作成
         arrival_datetime = datetime(int(date_numbers[0]), int(date_numbers[1]), int(date_numbers[2]), int(date_numbers[3]), int(date_numbers[4])) 
@@ -1265,7 +1265,7 @@ def check_new_mail(driver, wait, name):
                 user_name = name_elem[0].text
                 received_mail_elem = driver.find_elements(By.CLASS_NAME, value="left_balloon_m")
                 received_mail = received_mail_elem[-1].text
-                return_message = f"{name}pcmax,{user_name}:{received_mail}"
+                return_message = f"{name}pcmax,{login_id}:{login_pass}\n{user_name}「{received_mail}」"
                 return_list.append(return_message)
                 no_history_second_mail = False
             # secondメッセージを入力
@@ -1296,7 +1296,7 @@ def check_new_mail(driver, wait, name):
             user_name = name_elem[0].text
             # print(user_name)
             # print(received_mail)
-            return_message = f"{name}pcmax\n{login_id}:{login_pass}\n{user_name}「{received_mail}」"
+            return_message = f"{name}pcmax,{login_id}:{login_pass}\n{user_name}「{received_mail}」"
             return_list.append(return_message)
        
           # https://pcmax.jp/mobile/mail_recive_list.php?receipt_status=0
