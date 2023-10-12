@@ -481,6 +481,8 @@ def check_new_mail_gmail(driver, wait, name, mail_address):
   if not w_h:
     return None
   cur.execute('SELECT login_id, passward FROM pcmax WHERE name = ?', (name,))
+  login_id = ""
+  passward = ""
   for row in cur:
     login_id = row[0]
     passward = row[1]

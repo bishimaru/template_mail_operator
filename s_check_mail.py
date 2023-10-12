@@ -35,9 +35,9 @@ order_list = [
    ["ゆうこ", "yuko414510@gmail.com"], 
    ["ハル", "haruru414510@gmail.com"],
 ]
-order_list = [
-["ゆうこ", "yuko414510@gmail.com"], 
-]
+# order_list = [
+# ["ゆうこ", "yuko414510@gmail.com"], 
+# ]
 def get_driver(debug):
     options = Options()
     
@@ -92,24 +92,24 @@ def check_mail():
             print(traceback.format_exc())
             driver.quit()
         # # pcmax
-        # try:
-        #     driver, wait = get_driver(debug)
-        #     pcmax_new, return_foot_cnt = pcmax.check_new_mail(driver, wait, order_info[0])
-        #     # print(pcmax_new)
-        #     if pcmax_new:
-        #         new_mail_lists.append(pcmax_new)
-        #     if return_foot_cnt:     
-        #         for r_f_user in return_foot_count_dic:
-        #             if order_info[0] == r_f_user:
-        #                 # print(777)
-        #                 # print(return_foot_count_dic[r_f_user])
-        #                 return_foot_count_dic[r_f_user] = return_foot_count_dic[r_f_user] + return_foot_cnt
-        #                 # print(return_foot_count_dic[r_f_user])
-        #     driver.quit()
-        # except Exception as e:
-        #     print(f"<<<<<<<<<<メールチェックエラー：pcmax{order_info[0]}>>>>>>>>>>>")
-        #     print(traceback.format_exc())
-        #     driver.quit()
+        try:
+            driver, wait = get_driver(debug)
+            pcmax_new, return_foot_cnt = pcmax.check_new_mail(driver, wait, order_info[0])
+            # print(pcmax_new)
+            if pcmax_new:
+                new_mail_lists.append(pcmax_new)
+            if return_foot_cnt:     
+                for r_f_user in return_foot_count_dic:
+                    if order_info[0] == r_f_user:
+                        # print(777)
+                        # print(return_foot_count_dic[r_f_user])
+                        return_foot_count_dic[r_f_user] = return_foot_count_dic[r_f_user] + return_foot_cnt
+                        # print(return_foot_count_dic[r_f_user])
+            driver.quit()
+        except Exception as e:
+            print(f"<<<<<<<<<<メールチェックエラー：pcmax{order_info[0]}>>>>>>>>>>>")
+            print(traceback.format_exc())
+            driver.quit()
         # gmail
         try:
             time.sleep(2)
