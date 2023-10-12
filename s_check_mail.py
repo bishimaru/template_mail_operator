@@ -35,9 +35,9 @@ order_list = [
    ["ゆうこ", "yuko414510@gmail.com"], 
    ["ハル", "haruru414510@gmail.com"],
 ]
-# order_list = [
-# ["ゆうこ", "yuko414510@gmail.com"], 
-# ]
+order_list = [
+["ゆうこ", "yuko414510@gmail.com"], 
+]
 def get_driver(debug):
     options = Options()
     
@@ -45,7 +45,7 @@ def get_driver(debug):
         options.add_argument("--remote-debugging-port=9222")
         options.add_argument('--headless')
     else:
-        options.add_argument('--headless')
+        # options.add_argument('--headless')
         options.add_argument("--incognito")
         options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
     options.add_argument("--no-sandbox")
@@ -79,47 +79,43 @@ def check_mail():
    
     for order_info in order_list:
         new_mail_lists = []
-        
         debug = False
         #  # ハッピーメール
-        try:
-            driver, wait = get_driver(debug)
-            happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
-            print(999999999)
-            print(happymail_new)
-            if happymail_new:
-                new_mail_lists.append(happymail_new)
-            print(new_mail_lists)
-            driver.quit()
-        except Exception as e:
-            print(f"<<<<<<<<<<メールチェックエラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
-            print(traceback.format_exc())
-            driver.quit()
+        # try:
+        #     driver, wait = get_driver(debug)
+        #     happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
+        #     if happymail_new:
+        #         new_mail_lists.append(happymail_new)
+        #     driver.quit()
+        # except Exception as e:
+        #     print(f"<<<<<<<<<<メールチェックエラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
+        #     print(traceback.format_exc())
+        #     driver.quit()
         # # pcmax
-        try:
-            driver, wait = get_driver(debug)
-            pcmax_new, return_foot_cnt = pcmax.check_new_mail(driver, wait, order_info[0])
-            # print(pcmax_new)
-            if pcmax_new:
-                new_mail_lists.append(pcmax_new)
-            if return_foot_cnt:     
-                for r_f_user in return_foot_count_dic:
-                    if order_info[0] == r_f_user:
-                        # print(777)
-                        # print(return_foot_count_dic[r_f_user])
-                        return_foot_count_dic[r_f_user] = return_foot_count_dic[r_f_user] + return_foot_cnt
-                        # print(return_foot_count_dic[r_f_user])
-            driver.quit()
-        except Exception as e:
-            print(f"<<<<<<<<<<メールチェックエラー：pcmax{order_info[0]}>>>>>>>>>>>")
-            print(traceback.format_exc())
-            driver.quit()
+        # try:
+        #     driver, wait = get_driver(debug)
+        #     pcmax_new, return_foot_cnt = pcmax.check_new_mail(driver, wait, order_info[0])
+        #     # print(pcmax_new)
+        #     if pcmax_new:
+        #         new_mail_lists.append(pcmax_new)
+        #     if return_foot_cnt:     
+        #         for r_f_user in return_foot_count_dic:
+        #             if order_info[0] == r_f_user:
+        #                 # print(777)
+        #                 # print(return_foot_count_dic[r_f_user])
+        #                 return_foot_count_dic[r_f_user] = return_foot_count_dic[r_f_user] + return_foot_cnt
+        #                 # print(return_foot_count_dic[r_f_user])
+        #     driver.quit()
+        # except Exception as e:
+        #     print(f"<<<<<<<<<<メールチェックエラー：pcmax{order_info[0]}>>>>>>>>>>>")
+        #     print(traceback.format_exc())
+        #     driver.quit()
         # gmail
         try:
             time.sleep(2)
             debug = True
             driver, wait = get_driver(debug)
-            gmail_new = func.check_new_mail_gmail(driver, wait, order_info[1])
+            gmail_new = func.check_new_mail_gmail(driver, wait, order_info[0], order_info[1])
             if gmail_new:
                 new_mail_lists.append(gmail_new)
             # print(456)
@@ -143,8 +139,8 @@ def check_mail():
             subject = "新着メッセージ"
         
             for new_mail_list in new_mail_lists:
-                print('<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>')
-                print(new_mail_list)
+                # print('<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>')
+                # print(new_mail_list)
                 for new_mail in new_mail_list:
 
                     text = text + new_mail + ",\n"

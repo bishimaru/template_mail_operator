@@ -467,7 +467,7 @@ def get_debug_chromedriver():
 
   return driver
 
-def check_new_mail_gmail(driver, wait, mail_address):
+def check_new_mail_gmail(driver, wait, name, mail_address):
   if not mail_address:
     return None
   return_list = []
@@ -480,6 +480,10 @@ def check_new_mail_gmail(driver, wait, mail_address):
       w_h = row[0]
   if not w_h:
     return None
+  cur.execute('SELECT login_id, passward FROM pcmax WHERE name = ?', (name,))
+  for row in cur:
+    login_id = row[0]
+    passward = row[1]
   try:
       driver.switch_to.window(w_h)
       time.sleep(2)
@@ -521,7 +525,7 @@ def check_new_mail_gmail(driver, wait, mail_address):
       child_elements = email.find_elements(By.CLASS_NAME, value="Qk")
       if child_elements[0].text:  # テキストが空でない場合
           # print(f"この子要素にテキストが含まれています: {child_elements[0].text}")
-          return_list.append(f"{address}「{child_elements[0].text}」")
+          return_list.append(f"{address},\n{login_id}:{passward}\n「{child_elements[0].text}」")
       email.click()
       time.sleep(2)
       driver.back()
@@ -548,7 +552,7 @@ def check_new_mail_gmail(driver, wait, mail_address):
       child_elements = email.find_elements(By.CLASS_NAME, value="Qk")
       if child_elements[0].text:  # テキストが空でない場合
           # print(f"この子要素にテキストが含まれています: {child_elements[0].text}")
-          return_list.append(f"{address}:迷惑フォルダ「{child_elements[0].text}」")
+          return_list.append(f"{address}:迷惑フォルダ,\n{login_id}:{passward}\n「{child_elements[0].text}」")
       email.click()
       time.sleep(2)
       driver.back()

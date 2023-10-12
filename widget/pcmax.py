@@ -1098,14 +1098,12 @@ def check_new_mail(driver, wait, name):
       while len(message_list):
         wait = WebDriverWait(driver, 10)  # 10秒まで待つ（必要に応じて変更）
         try:
-            element = wait.until(EC.presence_of_elements_located((By.CLASS_NAME, "receive_user")))
-            # 要素が見つかった後の処理をここに記述
-            arrival_date = element[-1].find_elements(By.CLASS_NAME, value="date")
-            date_numbers = re.findall(r'\d+', arrival_date[0].text)
+            element = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "receive_user")))
+            
         except TimeoutException:
             print("要素が見つかりませんでした。")
-        # arrival_date = message_list[-1].find_elements(By.CLASS_NAME, value="date")
-        # date_numbers = re.findall(r'\d+', arrival_date[0].text)
+        arrival_date = message_list[-1].find_elements(By.CLASS_NAME, value="date")
+        date_numbers = re.findall(r'\d+', arrival_date[0].text)
         # datetime型を作成
         arrival_datetime = datetime(int(date_numbers[0]), int(date_numbers[1]), int(date_numbers[2]), int(date_numbers[3]), int(date_numbers[4])) 
         now = datetime.today()
@@ -1115,7 +1113,11 @@ def check_new_mail(driver, wait, name):
           print("4分以上経過しています。")
           # dev
           # user_photo = message_list[5].find_element(By.CLASS_NAME, value="user_photo")
-          user_photo = message_list[-1].find_element(By.CLASS_NAME, value="user_photo")
+          try:
+            element = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "receive_user")))
+          except TimeoutException:
+              print("要素が見つかりませんでした。")
+          user_photo = element[-1].find_element(By.CLASS_NAME, value="user_photo")
           user_link = user_photo.find_element(By.TAG_NAME, value="a").get_attribute("href")
           start_index = user_link.find("user_id=")
           if start_index != -1:
@@ -1183,7 +1185,7 @@ def check_new_mail(driver, wait, name):
                   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
                   time.sleep(2)
               # 戻って見ちゃいや登録
-              back = driver.find_ekement(By.ID, value="back2")
+              back = driver.find_element(By.ID, value="back2")
               back.click()
               wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
               time.sleep(2)
