@@ -32,11 +32,13 @@ order_list = [
    ["波留（は...", ""],
    ["りこ", "riko414510@gmail.com"],
    ["りな", "k.rina414510@gmail.com"],
-   ["ゆうこ", "yuko414510@gmail.com"], 
+   ["ゆっこ", "yuko414510@gmail.com"], 
    ["ハル", "haruru414510@gmail.com"],
+   ["ゆかり", "y216154@gmail.com"],
+
 ]
 # order_list = [
-# ["ゆうこ", "yuko414510@gmail.com"], 
+# ["ハル", "yuko414510@gmail.com"], 
 # ]
 def get_driver(debug):
     options = Options()
