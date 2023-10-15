@@ -22,7 +22,7 @@ from datetime import datetime
 
 
 order_list = [
-   ["あすか", "asuka414510@gmail.com"],
+   ["アスカ", "asuka414510@gmail.com"],
    ["彩香", "ayaka414510@gmail.com"],
    ["えりか", "k.erika414510@gmail.com"],
    ["きりこ", "kiriko414510@gmail.com"],
@@ -148,8 +148,8 @@ def check_mail():
                     text = text + new_mail + ",\n"
             address_from = 'kenta.bishi777@gmail.com'
             # address_to = 'bidato@wanko.be'
-            address_to = "ryapya694@ruru.be"
-            # address_to = 'receptiontos54@gmail.com'
+            # address_to = "ryapya694@ruru.be"
+            address_to = 'misuzu414510@gmail.com'
 
             smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
             smtpobj.starttls()
