@@ -1118,6 +1118,16 @@ def check_new_mail(driver, wait, name):
           except TimeoutException:
               print("要素が見つかりませんでした。")
           user_photo = element[-1].find_element(By.CLASS_NAME, value="user_photo")
+          # 退会してるか判定
+          out = user_photo.find_elements(By.CLASS_NAME, value="out")
+          if len(out):
+            out.click()
+            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+            time.sleep(1)
+            driver.get("https://pcmax.jp/mobile/mail_recive_list.php?receipt_status=0")
+            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+            time.sleep(2)
+            continue
           user_link = user_photo.find_element(By.TAG_NAME, value="a").get_attribute("href")
           start_index = user_link.find("user_id=")
           if start_index != -1:
