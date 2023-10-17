@@ -771,7 +771,7 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
             span_elem_list.append(span)
           for i in span_elem_list:
             if i.text == "送信歴あり":
-              print("送信歴ありのためスキップ")
+              print(f"{name}:送信歴ありのためスキップ")
               send_status = False
               break
           user_age = span_elem[0].text
