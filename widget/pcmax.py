@@ -1102,6 +1102,7 @@ def check_new_mail(driver, wait, name):
             
         except TimeoutException:
             print("要素が見つかりませんでした。")
+            break
         arrival_date = element[-1].find_elements(By.CLASS_NAME, value="date")
         date_numbers = re.findall(r'\d+', arrival_date[0].text)
         # datetime型を作成

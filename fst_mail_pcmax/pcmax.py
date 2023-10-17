@@ -825,10 +825,9 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
         text_area = driver.find_element(By.ID, value="mdc")
         text_area.send_keys(fst_message)
         time.sleep(4)
-        print(str(name) + ": pcmax、マジ送信 " + str(maji_soushin) + " ~" + str(send_cnt) + "~ " + str(user_age) + " " + str(area_of_activity) + " " + str(user_name))
+        
         # メッセージを送信
         if send_status:
-          send_cnt += 1
           if maji_soushin:
             send = driver.find_elements(By.CLASS_NAME, value="maji_send")
             driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", send[0])
@@ -846,6 +845,8 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
             wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
             time.sleep(wait_time)
           time.sleep(wait_time)
+          print(str(name) + ": pcmax、マジ送信 " + str(maji_soushin) + " ~" + str(send_cnt) + "~ " + str(user_age) + " " + str(area_of_activity) + " " + str(user_name))
+          send_cnt += 1
         # print(f"idxの数{idx}")
         if idx == 15:
           break
