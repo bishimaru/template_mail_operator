@@ -814,9 +814,12 @@ def check_new_mail(driver, wait, name):
   try:
     name_elem = driver.find_element(By.CLASS_NAME, "ds_user_display_name")
   except NoSuchElementException:
+      time.sleep(7)
+      name_elem = driver.find_elements(By.CLASS_NAME, "ds_user_display_name")
+      name_elem = name_elem[0]
       pass
   if not name_elem:
-     return_list.append(f"{name},{login_id}:{login_pass} ハッピーメールに警告画面が出ている可能性があります")
+     return_list.append(f"{name},{login_id}:{login_pass} ハッピーメールに警告画面が出ている可能性があります.....")
      return return_list
   name = name_elem.text  
   message_icon_candidates = driver.find_elements(By.CLASS_NAME, value="ds_nav_item")
