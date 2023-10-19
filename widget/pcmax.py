@@ -1134,8 +1134,19 @@ def check_new_mail(driver, wait, name):
           if start_index != -1:
               user_id = user_link[start_index + len("user_id="):]
               # print("取得した文字列:", user_id)
+          elif "void" in start_index:
+            user_link.click()
+            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+            time.sleep(2)
+            driver.back()
+            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+            time.sleep(2)
+            # メッセージ一覧を取得
+            message_list = driver.find_elements(By.CLASS_NAME, value="receive_user")
+            continue
           else:
               print("user_idが見つかりませんでした。")
+              break
           #dev # mail_id = message_list[5].find_element(By.TAG_NAME, value="input").get_attribute("value")
           mail_id = message_list[-1].find_element(By.TAG_NAME, value="input").get_attribute("value")
           new_mail_link = "https://pcmax.jp/mobile/mail_recive_detail.php?mail_id=" + str(mail_id) + "&user_id=" + str(user_id)
