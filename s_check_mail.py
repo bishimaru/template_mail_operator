@@ -62,7 +62,7 @@ def get_driver(debug):
 
 def check_mail():
   return_foot_count_dic = {
-        "あすか": 0,
+        "アスカ": 0,
         "彩香": 0,
         "えりか": 0,
         "きりこ": 0,
