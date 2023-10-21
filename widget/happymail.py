@@ -899,12 +899,30 @@ def check_new_mail(driver, wait, name):
                 time.sleep(wait_time)
             else:
               #  print('やり取りしてますん')
-               user_name = driver.find_elements(By.CLASS_NAME, value="app__navbar__item--title")[0]
-               user_name = user_name.text
-               receive_contents = driver.find_elements(By.CLASS_NAME, value="message__block--receive")[-1]
+              user_name = driver.find_elements(By.CLASS_NAME, value="app__navbar__item--title")[0]
+              user_name = user_name.text
+              receive_contents = driver.find_elements(By.CLASS_NAME, value="message__block--receive")[-1]
               #  print(f"{user_name}:{receive_contents.text}")
-               return_message = f"{name}happymail,{login_id}:{login_pass}\n{user_name}「{receive_contents.text}」"
-               return_list.append(return_message)
+              return_message = f"{name}happymail,{login_id}:{login_pass}\n{user_name}「{receive_contents.text}」"
+              return_list.append(return_message)
+              # みちゃいや
+              plus_icon = driver.find_elements(By.CLASS_NAME, value="icon-message_plus")
+              plus_icon.click()
+              wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+              time.sleep(2)
+              # ds_message_txt_media_text
+              mityaiya = ""
+              candidate_mityaiya = driver.find_elements(By.CLASS_NAME, value="ds_message_txt_media_text")
+              for c_m in candidate_mityaiya:
+                 if c_m.text == "見ちゃいや":
+                    mityaiya = c_m
+              if mityaiya:
+                 print('<<<<<<<<<<<<<<<<<みちゃいや登録>>>>>>>>>>>>>>>>>>>')
+                 mityaiya.click()
+                 wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+                 time.sleep(1)
+
+              
           else:
             text_area = driver.find_element(By.ID, value="text-message")
             driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", text_area)
