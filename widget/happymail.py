@@ -808,7 +808,7 @@ def check_new_mail(driver, wait, name):
   time.sleep(2)
   remodal = driver.find_elements(By.CLASS_NAME,value="remodal-close")
   if len(remodal):
-     remodal.click()
+     remodal[0].click()
      time.sleep(1)
   warning = driver.find_elements(By.CLASS_NAME, value="information__dialog")
   if len(warning):
