@@ -922,8 +922,11 @@ def check_new_mail(driver, wait, name):
                  mityaiya.click()
                  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
                  time.sleep(1)
-
-              
+                 mityaiya_send = driver.find_element(By.CLASS_NAME, value="input__form__action__button__send")
+                 mityaiya_send.click()
+                 wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+                 time.sleep(1)
+                 
           else:
             text_area = driver.find_element(By.ID, value="text-message")
             driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", text_area)
