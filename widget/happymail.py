@@ -820,7 +820,8 @@ def check_new_mail(driver, wait, name):
   except NoSuchElementException:
       time.sleep(7)
       name_elem = driver.find_elements(By.CLASS_NAME, "ds_user_display_name")
-      name_elem = name_elem[0]
+      if len(name_elem):
+        name_elem = name_elem[0]
       pass
   if not name_elem:
      return_list.append(f"{name},{login_id}:{login_pass} ハッピーメールに警告画面が出ている可能性があります.....")
@@ -907,7 +908,7 @@ def check_new_mail(driver, wait, name):
               return_list.append(return_message)
               # みちゃいや
               plus_icon = driver.find_elements(By.CLASS_NAME, value="icon-message_plus")
-              plus_icon.click()
+              plus_icon[0].click()
               wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
               time.sleep(2)
               # ds_message_txt_media_text
