@@ -1134,7 +1134,7 @@ def check_new_mail(driver, wait, name):
           if start_index != -1:
               user_id = user_link[start_index + len("user_id="):]
               # print("取得した文字列:", user_id)
-          elif "void" in start_index:
+          elif "void" in str(start_index):
             user_link.click()
             wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
             time.sleep(2)
