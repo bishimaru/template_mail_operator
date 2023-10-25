@@ -35,6 +35,8 @@ order_list = [
    ["ゆっこ", "yuko414510@gmail.com"], 
    ["ハル", "haruru414510@gmail.com"],
    ["ゆかり", "y216154@gmail.com"],
+   ["すい", "sui187586@gmail.com"],
+   
 
 ]
 # order_list = [
@@ -74,6 +76,7 @@ def check_mail():
         "ゆっこ": 0,
         "ハル": 0,
         "ゆかり": 0,
+        "すい": 0,
         
     }
   while True:

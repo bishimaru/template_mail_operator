@@ -14,11 +14,11 @@ def main(maji_soushin, chara_name_list):
   # 地域選択（3つまで選択可能）
   select_areas = [
     "東京都",
-    "千葉県",
+    # "千葉県",
     # "埼玉県",
     "神奈川県",
     # "静岡県",
-    # "新潟県",
+    "新潟県",
     # "山梨県",
     # "長野県",
     # "茨城県",
@@ -27,7 +27,7 @@ def main(maji_soushin, chara_name_list):
   ]
   # 年齢選択（最小18歳、最高60以上）
   youngest_age = "19"
-  oldest_age = "34"
+  oldest_age = "39"
   # NGワード（複数、追加可能）
   ng_words = [
     "通報",
