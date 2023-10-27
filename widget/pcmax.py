@@ -1367,12 +1367,7 @@ def check_new_mail(driver, wait, name):
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     # ページが完全に読み込まれるまで待機
     time.sleep(1)
-    # 新しい高さを取得
-    new_height = driver.execute_script("return document.body.scrollHeight")
-    # ページの高さが変わらなければ、すべての要素が読み込まれたことを意味する
-    if new_height == last_height:
-        break
-    last_height = new_height
+    
     # ユーザーを取得
     user_list = driver.find_element(By.CLASS_NAME, value="list-content")
     div = user_list.find_elements(By.XPATH, value='./div')
@@ -1380,6 +1375,12 @@ def check_new_mail(driver, wait, name):
       # print(666)
       # print(len(div))
       break
+    # 新しい高さを取得
+    new_height = driver.execute_script("return document.body.scrollHeight")
+    # ページの高さが変わらなければ、すべての要素が読み込まれたことを意味する
+    if new_height == last_height:
+      break
+    last_height = new_height
   # リンクを取得
   user_cnt = 1
   mail_history = 0
