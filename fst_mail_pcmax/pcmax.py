@@ -24,7 +24,7 @@ from widget import func
 
 def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, second_message, maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt, user_sort_list):
   options = Options()
-  options.add_argument('--headless')
+  # options.add_argument('--headless')
   options.add_argument("--incognito")
   options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
   options.add_argument("--no-sandbox")
@@ -42,7 +42,7 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
   except TimeoutException as e:
     print("TimeoutException")
     driver.refresh()
-  wait_time = random.uniform(4, 16)
+  wait_time = random.uniform(6, 8)
   time.sleep(2)
   id_form = driver.find_element(By.ID, value="login_id")
   id_form.send_keys(login_id)
