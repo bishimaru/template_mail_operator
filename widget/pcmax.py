@@ -1112,6 +1112,7 @@ def check_new_mail(driver, wait, name):
         # print(f"メール到着からの経過時間{elapsed_time}")
         if elapsed_time >= timedelta(minutes=4):
           print("4分以上経過しています。")
+          taikai = False
           # dev
           # user_photo = message_list[5].find_element(By.CLASS_NAME, value="user_photo")
           try:
@@ -1131,24 +1132,44 @@ def check_new_mail(driver, wait, name):
             continue
           user_link = user_photo.find_element(By.TAG_NAME, value="a").get_attribute("href")
           start_index = user_link.find("user_id=")
+          # print(777)
+          # print(start_index)
           if start_index != -1:
               user_id = user_link[start_index + len("user_id="):]
               # print("取得した文字列:", user_id)
           elif "void" in str(start_index):
-            user_link.click()
-            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-            time.sleep(2)
-            driver.back()
-            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-            time.sleep(2)
-            # メッセージ一覧を取得
-            message_list = driver.find_elements(By.CLASS_NAME, value="receive_user")
-            continue
+            user_page = user_photo.find_element(By.TAG_NAME, value="a")
+            if user_page.is_enabled():
+              driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", user_page)
+              user_page.click()
+              wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+              time.sleep(2)
+              driver.back()
+              wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+              time.sleep(2)
+              # 未読だけを表示
+              new_message_display = driver.find_elements(By.CLASS_NAME, value="msg-display_change")
+              new_message_display[0].click()
+              wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+              time.sleep(2)
+              # メッセージ一覧を取得
+              message_list = driver.find_elements(By.CLASS_NAME, value="receive_user")
+              continue
           else:
+              # https://pcmax.jp/mobile/mail_recive_detail.php?mail_id=1167384264&user_id=16164934
               print("user_idが見つかりませんでした。")
-              break
+              user_photo = element[-2].find_element(By.CLASS_NAME, value="user_photo")
+              user_link = user_photo.find_element(By.TAG_NAME, value="a").get_attribute("href")
+              start_index = user_link.find("user_id=")
+              if start_index != -1:
+                user_id = user_link[start_index + len("user_id="):]
+                # print("取得した文字列:", user_id)
+                taikai = True
           #dev # mail_id = message_list[5].find_element(By.TAG_NAME, value="input").get_attribute("value")
-          mail_id = message_list[-1].find_element(By.TAG_NAME, value="input").get_attribute("value")
+          if taikai:
+            mail_id = message_list[-2].find_element(By.TAG_NAME, value="input").get_attribute("value")
+          else:
+            mail_id = message_list[-1].find_element(By.TAG_NAME, value="input").get_attribute("value")
           new_mail_link = "https://pcmax.jp/mobile/mail_recive_detail.php?mail_id=" + str(mail_id) + "&user_id=" + str(user_id)
           driver.get(new_mail_link)
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
