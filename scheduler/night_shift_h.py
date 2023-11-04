@@ -4,9 +4,7 @@ import os
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from widget import pcmax, happymail, func
-import h_footprints01
 import sb_h_night_shift
-import s_check_mail
 from datetime import datetime, timedelta
 
 
