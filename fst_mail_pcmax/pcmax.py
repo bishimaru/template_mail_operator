@@ -427,9 +427,10 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
           time.sleep(wait_time)
           print(str(name) + ": pcmax、マジ送信 " + str(maji_soushin) + " ~" + str(send_cnt) + "~ " + str(user_age) + " " + str(area_of_activity) + " " + str(user_name))
           send_cnt += 1
+          
         # print(f"idxの数{idx}")
-        if idx == 20:
-          break
+        # if idx == 20:
+        #   break
           # print(f'送信数{send_cnt} 上限{limit_send_cnt}')
         if send_cnt == limit_send_cnt + 1:
           driver.quit()

@@ -1,13 +1,13 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
-from datetime import datetime
+from datetime import datetime, time, timedelta
 import os
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from widget import pcmax, happymail, func
-import h_footprints01
-import sb_h_all_do
-import s_check_mail
-from fst_mail_pcmax import template_multiple_fst_mail
+import h_footprint01
+import sb_h_day_shift
+import s_check_mail_hp
+from fst_mail_pcmax import template_multiple_fst_mail, chara_order_fstmail
 from datetime import datetime, timedelta
 
 
@@ -19,9 +19,17 @@ if __name__ == '__main__':
     scheduler = BlockingScheduler()  # スケジューラを作る
 
     # fst_mail
-    scheduler.add_job(template_multiple_fst_mail.main, 'cron', hour=6, minute=0, args=[False], kwargs={'chara_name_list': {"めあり":{}, "ゆうこ":{},"ハル":{}, "彩香":{}, }}, misfire_grace_time=60*60)
+    chara_name_list = {
+    "アスカ":{},"あやか":{},"えりか":{},"きりこ":{},
+    "すい":{}, "波留（は...":{}, "ハル":{}, "めあり":{},
+    "りこ":{}, "りな":{}, "ゆっこ":{},   "ゆかり":{}, 
+    }
     
-    # scheduler.add_job(tick, 'interval', second=5)  
+    scheduler.add_job(chara_order_fstmail.main, 'cron', hour=6, minute=0, args=[0], kwargs={'chara_name_list': chara_name_list}, misfire_grace_time=60*60)
+    
+    end_time = time(22, 0)
+    end_datetime = datetime.combine(datetime.now(), end_time) + timedelta(days=1)
+    scheduler.add_job(scheduler.shutdown, 'date', run_date=end_datetime)
     print("Press Ctrl+{0} to exit.".format('Break' if os.name == 'nt' else 'C'))
     
     try:
