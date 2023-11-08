@@ -11,7 +11,7 @@ import random
 def main(maji_soushin, chara_name_list):
   # 〜〜〜〜〜〜検索設定〜〜〜〜〜〜
   # メール送信数（上限なしは0）
-  limit_send_cnt = 1
+  limit_send_cnt = 20
   
   # 年齢選択（最小18歳、最高60以上）
   youngest_age = "19"
@@ -83,6 +83,7 @@ def main(maji_soushin, chara_name_list):
       pcmax.send_fst_mail(names[order_count], chara_name_list[names[order_count]]["login_id"], chara_name_list[names[order_count]]["login_pass"], chara_name_list[names[order_count]]["fst_message"], chara_name_list[names[order_count]]["fst_message_img"], chara_name_list[names[order_count]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt, user_sort)
      except Exception as e:
       print(traceback.format_exc())
+      
 
 if __name__ == '__main__':
   maji_soushin = False
