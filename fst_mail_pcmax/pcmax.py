@@ -155,6 +155,8 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
       suspend = driver.find_elements(By.CLASS_NAME, value="suspend-title")
       if len(suspend):
         print(f'{name}利用制限中です')  
+        driver.quit()
+        return
       #プロフ検索をクリック
       footer_icons = driver.find_element(By.ID, value="sp_footer")
       search_profile = footer_icons.find_element(By.XPATH, value="./*[1]")
@@ -288,7 +290,7 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
         user_list = driver.find_element(By.CLASS_NAME, value="content_inner")
         users = user_list.find_elements(By.XPATH, value='./div')
         # print(len(users))
-        if len(users) > 150:
+        if len(users) > 200:
           # print('ユーザー件数200　OVER')
           break
         # 新しい高さを取得
@@ -350,6 +352,7 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
             if i.text == "送信歴あり":
               print(f"{name}:送信歴ありのためスキップ")
               send_status = False
+              send_cnt += 1
               break
           user_age = span_elem[0].text
           area_of_activity = span_elem[1].text
@@ -428,9 +431,9 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
         if idx == 20:
           break
           # print(f'送信数{send_cnt} 上限{limit_send_cnt}')
-        if send_cnt == limit_send_cnt:
+        if send_cnt == limit_send_cnt + 1:
           driver.quit()
-          print(f"<<<<<<<<<<<{name}、送信数{send_cnt}件:上限に達しました>>>>>>>>>>>>>>")
+          print(f"<<<<<<<<<<<{name}、送信数{send_cnt - 1}件:上限に達しました>>>>>>>>>>>>>>")
           return
       try:
         driver.get("https://pcmax.jp/pcm/index.php")
@@ -445,4 +448,7 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
   # 何らかの処理
   except KeyboardInterrupt:
     print("Ctl + c")
+    driver.quit()  
+  except Exception:
+    print("何らかのエラー")
     driver.quit()  

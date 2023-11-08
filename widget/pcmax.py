@@ -1156,6 +1156,7 @@ def check_new_mail(driver, wait, name):
               message_list = driver.find_elements(By.CLASS_NAME, value="receive_user")
               continue
           else:
+              # user info にIDが載ってる　i1167384264
               # https://pcmax.jp/mobile/mail_recive_detail.php?mail_id=1167384264&user_id=16164934
               print("user_idが見つかりませんでした。")
               user_photo = element[-2].find_element(By.CLASS_NAME, value="user_photo")
