@@ -168,8 +168,8 @@ def check_mail():
     elapsed_time = time.time() - start_time  
     elapsed_timedelta = timedelta(seconds=elapsed_time)
     elapsed_time_formatted = str(elapsed_timedelta)
-    print(f"<<<<<<<<<<<<<<<<<<<<足跡返し総数　　開始時間{current_datetime}, 経過時間{elapsed_time_formatted}>>>>>>>>>>>>>>>>>>>>")
-    print(return_foot_count_dic)
+    # print(f"<<<<<<<<<<<<<<<<<<<<足跡返し総数　　開始時間{current_datetime}, 経過時間{elapsed_time_formatted}>>>>>>>>>>>>>>>>>>>>")
+    # print(return_foot_count_dic)
 
 
 if __name__ == '__main__':
