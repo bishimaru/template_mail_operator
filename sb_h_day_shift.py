@@ -46,7 +46,7 @@ def sb_h_all_do(return_foot_cnt):
 
 if __name__ == '__main__':
   if len(sys.argv) < 2:
-    return_foot_cnt = 22
+    return_foot_cnt = 18
   elif len(sys.argv) >= 2:
     return_foot_cnt = int(sys.argv[1])
   sb_h_all_do(return_foot_cnt)
