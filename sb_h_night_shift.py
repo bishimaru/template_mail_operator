@@ -19,7 +19,7 @@ from sb_h_repost_return_foot import sb_h_repost_returnfoot
 
 def sb_h_all_do(return_foot_cnt):
   chara_order = [
-    "えりか", "めあり", "ゆっこ", "りな", 
+    "えりか", "めあり", "ゆっこ", "りな",  "ゆうな"
   ]
   def timer(sec, functions):
     start_time = time.time() 
