@@ -100,6 +100,8 @@ def send_conditional(user_name, user_address, mailaddress, password, text):
   smtpobj.close()  
 
 def send_error(chara, error_message):
+  print("エラー送信＞＞＞＜＜＜＜＜＜＜")
+  print(f"{chara}  :  {error_message}")
   mailaddress = 'kenta.bishi777@gmail.com'
   password = 'rjdzkswuhgfvslvd'
   text = f"キャラ名:{chara} \n {error_message}"
