@@ -597,6 +597,15 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
       driver.get(f"https://{no_history_user}")
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
+      #リモーダル画面が開いていれば閉じる
+      # remodal-close
+      remodal_close_button = driver.find_elements(By.CLASS_NAME, value="remodal-close") 
+      print(99999)
+      print(len(remodal_close_button))
+      if len(remodal_close_button):
+          print(999)
+          remodal_close_button[0].click()
+          time.sleep(1)
       # userのidxを取得（タイプボタン取得のため）
       #  正規表現パターンを定義
       pattern = r'idx=(\d+)'
