@@ -921,8 +921,10 @@ def check_new_mail(driver, wait, name):
               return_list.append(return_message)
               # みちゃいや
               plus_icon = driver.find_elements(By.CLASS_NAME, value="icon-message_plus")
-              driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", plus_icon[0])
-              plus_icon[0].click()
+              print(567)
+              print(len(plus_icon))
+              driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", plus_icon[1])
+              plus_icon[1].click()
               wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
               time.sleep(2)
               # ds_message_txt_media_text
