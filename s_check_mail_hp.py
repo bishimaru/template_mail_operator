@@ -22,11 +22,12 @@ from datetime import datetime
 
 
 order_list = [
-   ["アスカ", "asuka414510@gmail.com"],
-   ["あやか", "ayaka414510@gmail.com"],
-   ["えりか", "k.erika414510@gmail.com"],
-   ["きりこ", "kiriko414510@gmail.com"],
-   ["すい", "sui187586@gmail.com"],
+#    ["アスカ", "asuka414510@gmail.com"],
+#    ["あやか", "ayaka414510@gmail.com"],
+#    ["彩香", ""],
+#    ["えりか", "k.erika414510@gmail.com"],
+#    ["きりこ", "kiriko414510@gmail.com"],
+#    ["すい", "sui187586@gmail.com"],
    ["なお", "n414510a@gmail.com"],
    ["ハル", "haruru414510@gmail.com"],
    ["波留（はる）", "k.haru414510@gmail.com"], 
@@ -34,14 +35,14 @@ order_list = [
    ["めあり", "meari414510@gmail.com"],
    ["りこ", "riko414510@gmail.com"],
    ["りな", "k.rina414510@gmail.com"],
-   ["ゆうな", "@gmail.com"],
+   ["ゆうな", "y8708336@gmail.com"],
    ["ゆっこ", "yuko414510@gmail.com"], 
    ["ゆかり", "y216154@gmail.com"],
   
 ]
-# order_list = [
-# ["ハル", "yuko414510@gmail.com"], 
-# ]
+order_list = [
+   ["ゆうな", "y8708336@gmail.com"],
+ ]
 def get_driver(debug):
     options = Options()
     
@@ -102,8 +103,10 @@ def check_mail():
             driver, wait = get_driver(debug)
             pcmax_new, return_foot_cnt = pcmax.check_new_mail(driver, wait, order_info[0])
             # print(pcmax_new)
-            if pcmax_new:
+            if pcmax_new is not None:
                 new_mail_lists.append(pcmax_new)
+            else:
+                None
             if return_foot_cnt:     
                 for r_f_user in return_foot_count_dic:
                     if order_info[0] == r_f_user:

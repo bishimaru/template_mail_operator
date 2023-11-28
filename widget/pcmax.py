@@ -1159,15 +1159,26 @@ def check_new_mail(driver, wait, name):
               # user info にIDが載ってる　i1167384264
               # https://pcmax.jp/mobile/mail_recive_detail.php?mail_id=1167384264&user_id=16164934
               print("user_idが見つかりませんでした。")
-              user_photo = element[-2].find_element(By.CLASS_NAME, value="user_photo")
-              user_link = user_photo.find_element(By.TAG_NAME, value="a").get_attribute("href")
-              start_index = user_link.find("user_id=")
-              if start_index != -1:
-                user_id = user_link[start_index + len("user_id="):]
-                # print("取得した文字列:", user_id)
-                taikai = True
+              if len(element):
+                print(456)
+                print(len(element))
+                user_photo = element[-1].find_element(By.CLASS_NAME, value="user_photo")
+                user_link = user_photo.find_element(By.TAG_NAME, value="a").get_attribute("href")
+                start_index = user_link.find("user_id=")
+                print(start_index)
+                if start_index != -1:
+                  print(456456)
+                  user_id = user_link[start_index + len("user_id="):]
+                  # print("取得した文字列:", user_id)
+                  taikai = False
+                else:
+                  taikai = True
           #dev # mail_id = message_list[5].find_element(By.TAG_NAME, value="input").get_attribute("value")
           if taikai:
+            print(456456)
+            taikai_link = user_photo.find_elements(By.TAG_NAME, value="a")
+            print(len(taikai_link))
+            taikai_link[1].click()
             mail_id = message_list[-2].find_element(By.TAG_NAME, value="input").get_attribute("value")
           else:
             mail_id = message_list[-1].find_element(By.TAG_NAME, value="input").get_attribute("value")
@@ -1408,8 +1419,12 @@ def check_new_mail(driver, wait, name):
   mail_history = 0
   send_count = 0
   link_list = []
-  while user_cnt <= 40:
+  while user_cnt < len(div):
     # 新着リストの名前ならスキップ
+    print(7777)
+    print(user_cnt)
+    print(len(div))
+    
     span= div[user_cnt].find_elements(By.TAG_NAME, value="span")
     user_name = ""
     for i in span:
@@ -1522,10 +1537,12 @@ def check_new_mail(driver, wait, name):
     # メッセージを送信
     if maji_soushin:
       send = driver.find_element(By.CLASS_NAME, value="maji_send")
+      driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", send)
       send.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(2)
       send_link = driver.find_elements(By.ID, value="link_OK")
+      driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", send_link[0])
       send_link[0].click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(2)

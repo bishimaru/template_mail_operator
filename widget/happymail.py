@@ -540,6 +540,15 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    send_form.click()
    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
    time.sleep(2)
+   #リモーダル画面が開いていれば閉じる
+   # remodal-close
+   remodal_close_button = driver.find_elements(By.ID, value="remodal-close") 
+   print(7777)
+   print(len(remodal_close_button))
+   if len(remodal_close_button):
+      print(666)
+      remodal_close_button[1].click()
+      time.sleep(1)
    # プロフ検索をクリック
    nav_list = driver.find_element(By.ID, value='ds_nav')
    mypage = nav_list.find_element(By.LINK_TEXT, "プロフ検索")
@@ -893,7 +902,6 @@ def check_new_mail(driver, wait, name):
             print("掲示板メッセージ" in send_text)
 
             if fst_message == send_text or return_foot_message == send_text or "掲示板メッセージ" in send_text:
-                # print("やった")
                 text_area = driver.find_element(By.ID, value="text-message")
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", text_area)
                 text_area.send_keys(conditions_message)
@@ -902,34 +910,36 @@ def check_new_mail(driver, wait, name):
                 send_mail.click()
                 wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
                 time.sleep(wait_time)
-                # みちゃいや
-                plus_icon = driver.find_elements(By.CLASS_NAME, value="icon-message_plus")
-                plus_icon[0].click()
-                wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-                time.sleep(2)
-                # ds_message_txt_media_text
-                mityaiya = ""
-                candidate_mityaiya = driver.find_elements(By.CLASS_NAME, value="ds_message_txt_media_text")
-                for c_m in candidate_mityaiya:
-                  if c_m.text == "見ちゃいや":
-                      mityaiya = c_m
-                if mityaiya:
-                  #  print('<<<<<<<<<<<<<<<<<みちゃいや登録>>>>>>>>>>>>>>>>>>>')
-                  mityaiya.click()
-                  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-                  time.sleep(1)
-                  mityaiya_send = driver.find_element(By.CLASS_NAME, value="input__form__action__button__send")
-                  mityaiya_send.click()
-                  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-                  time.sleep(1)
+                
             else:
-              #  print('やり取りしてます')
+              print('やり取りしてます')
               user_name = driver.find_elements(By.CLASS_NAME, value="app__navbar__item--title")[0]
               user_name = user_name.text
               receive_contents = driver.find_elements(By.CLASS_NAME, value="message__block--receive")[-1]
               #  print(f"{user_name}:{receive_contents.text}")
               return_message = f"{name}happymail,{login_id}:{login_pass}\n{user_name}「{receive_contents.text}」"
               return_list.append(return_message)
+              # みちゃいや
+              plus_icon = driver.find_elements(By.CLASS_NAME, value="icon-message_plus")
+              driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", plus_icon[0])
+              plus_icon[0].click()
+              wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+              time.sleep(2)
+              # ds_message_txt_media_text
+              mityaiya = ""
+              candidate_mityaiya = driver.find_elements(By.CLASS_NAME, value="ds_message_txt_media_text")
+              for c_m in candidate_mityaiya:
+                if c_m.text == "見ちゃいや":
+                    mityaiya = c_m
+              if mityaiya:
+                #  print('<<<<<<<<<<<<<<<<<みちゃいや登録>>>>>>>>>>>>>>>>>>>')
+                mityaiya.click()
+                wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+                time.sleep(1)
+                mityaiya_send = driver.find_element(By.CLASS_NAME, value="input__form__action__button__send")
+                mityaiya_send.click()
+                wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+                time.sleep(1)
                  
           else:
             text_area = driver.find_element(By.ID, value="text-message")

@@ -28,6 +28,8 @@ def happymail_footprints(driver, wait):
   cur.execute('SELECT name, login_id, passward FROM happymail')
   happy_user_list = []
   foot_order_list = ["ハル", "りこ", "りな","ゆっこ", "ゆかり", "ゆうな"]
+  foot_order_list = [ "ゆうな",]
+
   for row in cur:
       # print(row[0])
       if row[0] in foot_order_list:
@@ -53,7 +55,7 @@ if __name__ == '__main__':
   # else:
   #   cnt = int(sys.argv[1])
   options = Options()
-  options.add_argument('--headless')
+  # options.add_argument('--headless')
   options.add_argument("--incognito")
   options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
   options.add_argument("--no-sandbox")
