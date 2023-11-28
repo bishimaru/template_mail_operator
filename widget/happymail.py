@@ -614,9 +614,10 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
           if input.get_attribute('value') == matches[0]:
             user_profile = input.find_element(By.XPATH, 'following-sibling::div[contains(@class, "ds_profile_picture")]')
             type_btn = user_profile.find_elements(By.CLASS_NAME, value="icon-type_off")
-            type_btn[0].click()
-            type_flag = True
-            time.sleep(2)
+            if len(type_btn):
+              type_btn[0].click()
+              type_flag = True
+              time.sleep(2)
       # いいね
       # ランダムな数値を生成し、実行確率と比較
          # 実行確率
