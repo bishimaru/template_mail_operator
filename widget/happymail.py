@@ -542,7 +542,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    time.sleep(2)
    #リモーダル画面が開いていれば閉じる
    # remodal-close
-   remodal_close_button = driver.find_elements(By.ID, value="remodal-close") 
+   remodal_close_button = driver.find_elements(By.CLASS_NAME, value="remodal-close") 
    print(7777)
    print(len(remodal_close_button))
    if len(remodal_close_button):
