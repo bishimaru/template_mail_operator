@@ -547,7 +547,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    print(len(remodal_close_button))
    if len(remodal_close_button):
       print(666)
-      remodal_close_button[1].click()
+      remodal_close_button[0].click()
       time.sleep(1)
    # プロフ検索をクリック
    nav_list = driver.find_element(By.ID, value='ds_nav')
