@@ -490,8 +490,10 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         # 画像があれば送信
         if return_foot_img:
           img_conform = driver.find_element(By.ID, value="media-confirm")
-          plus_icon = driver.find_element(By.CLASS_NAME, value="icon-message_plus")
-          plus_icon.click()
+          plus_icon = driver.find_elements(By.CLASS_NAME, value="icon-message_plus")
+          driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", plus_icon[1])
+          time.sleep(1)
+          plus_icon[1].click()
           time.sleep(1)
           upload_file = driver.find_element(By.ID, "upload_file")
           upload_file.send_keys(return_foot_img)
