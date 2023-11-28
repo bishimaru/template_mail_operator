@@ -45,8 +45,10 @@ def pcmax_footprints(driver, wait):
   cur.execute('SELECT name, login_id, passward FROM pcmax')
   pcmax_user_list = []
   foot_order_list = [
-     "めあり","波留（は...", "りこ", "すい",
-      "ハル", "ゆっこ", "あやか", "りな","えりか","アスカ","きりこ", "ゆかり", 
+     "アスカ", "彩香", "えりか", "きりこ", "すい", "めあり",
+      "ハル", "波留（は...", "りこ", "りな",
+      "ゆうな","ゆっこ", 
+      # "ゆかり", "なお" 
   ]
   # foot_order_list = ["彩香",]
 

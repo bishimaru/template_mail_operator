@@ -27,19 +27,17 @@ order_list = [
    ["えりか", "k.erika414510@gmail.com"],
    ["きりこ", "kiriko414510@gmail.com"],
    ["すい", "sui187586@gmail.com"],
-   ["めあり", "meari414510@gmail.com"],
+   ["なお", "n414510a@gmail.com"],
    ["ハル", "haruru414510@gmail.com"],
    ["波留（はる）", "k.haru414510@gmail.com"], 
    ["波留（は...", ""],
+   ["めあり", "meari414510@gmail.com"],
    ["りこ", "riko414510@gmail.com"],
    ["りな", "k.rina414510@gmail.com"],
+   ["ゆうな", "@gmail.com"],
    ["ゆっこ", "yuko414510@gmail.com"], 
    ["ゆかり", "y216154@gmail.com"],
   
-    # ["ゆうな", "@gmail.com"],
-
-   
-
 ]
 # order_list = [
 # ["ハル", "yuko414510@gmail.com"], 
@@ -70,16 +68,16 @@ def check_mail():
         "彩香": 0,
         "えりか": 0,
         "きりこ": 0,
+        "すい": 0,
+        "なお": 0,
+        "ハル": 0,
         "波留（は...": 0,
         "めあり": 0,
-        "ももか": 0,
         "りこ": 0,
         "りな": 0,
+        "ゆうな": 0,
         "ゆっこ": 0,
-        "ハル": 0,
-        "ゆかり": 0,
-        "すい": 0,
-        
+        "ゆかり": 0,   
     }
   while True:
     start_time = time.time() 

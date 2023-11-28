@@ -18,8 +18,8 @@ from sb_h_repost_return_foot import sb_h_repost_returnfoot
 
 
 def sb_h_all_do(return_foot_cnt):
-  chara_order = [
-    "アスカ", "彩香", "きりこ", "波留（はる）",  "りこ",  "ハル", "ゆかり", "すい","ゆうな"
+  chara_order = [  
+    "アスカ", "あやか", "えりか", "きりこ",  "すい", "なお", "波留（はる）", "ハル", "めあり", "りこ", "りな", "ゆうな", "ゆっこ", "ゆかり",
   ]
   def timer(sec, functions):
     start_time = time.time() 
@@ -39,6 +39,7 @@ def sb_h_all_do(return_foot_cnt):
     except Exception as e:
       print(f"エラー{chara}")
       print(traceback.format_exc())
+      func.send_error(chara, traceback.format_exc())
   elapsed_time = time.time() - start_one_rap_time  
   elapsed_timedelta = timedelta(seconds=elapsed_time)
   elapsed_time_formatted = str(elapsed_timedelta)

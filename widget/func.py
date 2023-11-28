@@ -99,6 +99,25 @@ def send_conditional(user_name, user_address, mailaddress, password, text):
   smtpobj.send_message(msg)
   smtpobj.close()  
 
+def send_error(chara, error_message):
+  mailaddress = 'kenta.bishi777@gmail.com'
+  password = 'rjdzkswuhgfvslvd'
+  text = f"キャラ名:{chara} \n {error_message}"
+  subject = "サイト回しエラーメッセージ"
+  address_from = 'kenta.bishi777@gmail.com'
+  address_to = "ryapya694@ruru.be"
+  smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
+  smtpobj.starttls()
+  smtpobj.login(mailaddress, password)
+  msg = MIMEText(text)
+  msg['Subject'] = subject
+  msg['From'] = address_from
+  msg['To'] = address_to
+  msg['Date'] = formatdate()
+  smtpobj.send_message(msg)
+  smtpobj.close()
+
+
 def h_p_return_footprint(name, h_w, p_w, driver, return_foot_message, cnt, h_return_foot_img, p_return_foot_img):
   start_time = time.time() 
   wait = WebDriverWait(driver, 10)
