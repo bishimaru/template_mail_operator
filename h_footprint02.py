@@ -39,7 +39,9 @@ def happymail_footprints(driver, wait):
         try:
           happymail.make_footprints(user_list[0], user_list[1], user_list[2], driver, wait)
         except Exception as e:
+          print(f"{user_list[0]}:エラー")
           print(traceback.format_exc())
+          func.send_error(f"h足跡付けエラー:{user_list[0]}", traceback.format_exc())
     elapsed_time = time.time() - start_time  # 経過時間を計算する
     elapsed_timedelta = timedelta(seconds=elapsed_time)
     elapsed_time_formatted = str(elapsed_timedelta)

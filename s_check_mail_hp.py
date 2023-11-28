@@ -96,6 +96,7 @@ def check_mail():
         except Exception as e:
             print(f"<<<<<<<<<<メールチェックエラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
             print(traceback.format_exc())
+            func.send_error(f"メールチェックエラー：ハッピーメール{order_info[0]}", traceback.format_exc())
             driver.quit()
         # # pcmax
         try:
@@ -115,6 +116,7 @@ def check_mail():
         except Exception as e:
             print(f"<<<<<<<<<<メールチェックエラー：pcmax{order_info[0]}>>>>>>>>>>>")
             print(traceback.format_exc())
+            func.send_error(f"メールチェックエラー：pcmax{order_info[0]}", traceback.format_exc())
             driver.quit()
         # # gmail
         # try:
