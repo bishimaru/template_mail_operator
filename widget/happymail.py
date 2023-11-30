@@ -25,10 +25,8 @@ from selenium.common.exceptions import NoSuchElementException
 def catch_remodal_screen(driver):
    # remodal-close
    remodal_close_button = driver.find_elements(By.CLASS_NAME, value="remodal-close") 
-   print("リモーダル画面が出ました")
-   print(len(remodal_close_button))
    if len(remodal_close_button):
-      print(666)
+      print("リモーダル画面が出ました")
       remodal_close_button[0].click()
       time.sleep(1)
 # 警告画面
@@ -82,7 +80,7 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
   bulletin_board_history = menu_link[5]
   bulletin_board_history.click()
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-  time.sleep(wait_time)
+  time.sleep(wait_time)s
   catch_remodal_screen(driver)
   # ピュア掲示板かその他掲示板をクリック
   if adult_flag:
@@ -599,14 +597,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
       #リモーダル画面が開いていれば閉じる
-      # remodal-close
-      remodal_close_button = driver.find_elements(By.CLASS_NAME, value="remodal-close") 
-      print(99999)
-      print(len(remodal_close_button))
-      if len(remodal_close_button):
-          print(999)
-          remodal_close_button[0].click()
-          time.sleep(1)
+      catch_remodal_screen(driver)
       # userのidxを取得（タイプボタン取得のため）
       #  正規表現パターンを定義
       pattern = r'idx=(\d+)'
