@@ -112,9 +112,22 @@ def re_post(name, pcmax_windowhandle, driver, genre_flag):
     pass_form.send_keys(login_pass)
     time.sleep(1)
     send_form = driver.find_element(By.NAME, value="login")
-    send_form.click()
-    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-    time.sleep(1)
+    try:
+      send_form.click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(1)
+    except TimeoutException as e:
+      print("TimeoutException")
+      driver.refresh()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(2)
+      id_form = driver.find_element(By.ID, value="login_id")
+      id_form.send_keys(login_id)
+      pass_form = driver.find_element(By.ID, value="login_pw")
+      pass_form.send_keys(login_pass)
+      time.sleep(1)
+      send_form = driver.find_element(By.NAME, value="login")
+      send_form.click()
     # 利用制限中
     suspend = driver.find_elements(By.CLASS_NAME, value="suspend-title")
     if len(suspend):

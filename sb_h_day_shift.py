@@ -38,8 +38,8 @@ def sb_h_all_do(return_foot_cnt):
       timer(wait_cnt, [lambda: pcmax_repost(chara), lambda: sb_h_repost_returnfoot(chara, return_foot_cnt)])
     except Exception as e:
       print(f"エラー{chara}")
-      print(traceback.format_exc())
-      func.send_error(chara, traceback.format_exc())
+      # print(traceback.format_exc())
+      # func.send_error(chara, traceback.format_exc())
   elapsed_time = time.time() - start_one_rap_time  
   elapsed_timedelta = timedelta(seconds=elapsed_time)
   elapsed_time_formatted = str(elapsed_timedelta)

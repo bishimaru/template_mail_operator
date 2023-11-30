@@ -80,7 +80,7 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
   bulletin_board_history = menu_link[5]
   bulletin_board_history.click()
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-  time.sleep(wait_time)s
+  time.sleep(wait_time)
   catch_remodal_screen(driver)
   # ピュア掲示板かその他掲示板をクリック
   if adult_flag:
