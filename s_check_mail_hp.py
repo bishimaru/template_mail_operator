@@ -22,12 +22,12 @@ from datetime import datetime
 
 
 order_list = [
-#    ["アスカ", "asuka414510@gmail.com"],
-#    ["あやか", "ayaka414510@gmail.com"],
-#    ["彩香", ""],
-#    ["えりか", "k.erika414510@gmail.com"],
-#    ["きりこ", "kiriko414510@gmail.com"],
-#    ["すい", "sui187586@gmail.com"],
+   ["アスカ", "asuka414510@gmail.com"],
+   ["あやか", "ayaka414510@gmail.com"],
+   ["彩香", ""],
+   ["えりか", "k.erika414510@gmail.com"],
+   ["きりこ", "kiriko414510@gmail.com"],
+   ["すい", "sui187586@gmail.com"],
    ["なお", "n414510a@gmail.com"],
    ["ハル", "haruru414510@gmail.com"],
    ["波留（はる）", "k.haru414510@gmail.com"], 
@@ -40,9 +40,9 @@ order_list = [
    ["ゆかり", "y216154@gmail.com"],
   
 ]
-order_list = [
-   ["ゆうな", "y8708336@gmail.com"],
- ]
+# order_list = [
+#    ["ゆうな", "y8708336@gmail.com"],
+#  ]
 def get_driver(debug):
     options = Options()
     

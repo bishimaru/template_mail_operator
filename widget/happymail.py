@@ -21,7 +21,16 @@ from selenium.common.exceptions import NoSuchElementException
 
 
 
-
+#リモーダル画面が開いていれば閉じる
+def catch_remodal_screen(driver):
+   # remodal-close
+   remodal_close_button = driver.find_elements(By.CLASS_NAME, value="remodal-close") 
+   print("リモーダル画面が出ました")
+   print(len(remodal_close_button))
+   if len(remodal_close_button):
+      print(666)
+      remodal_close_button[0].click()
+      time.sleep(1)
 # 警告画面
 # b2_dialog_title
 def catch_warning_screen(driver):
@@ -49,9 +58,7 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
   if warning:
      print("警告画面が出ました")
      return
-  # print(777)
-  # print(driver.get_cookies())
-  # return
+  
   # マイページをクリック
   nav_list = driver.find_element(By.ID, value='ds_nav')
   mypage = nav_list.find_element(By.LINK_TEXT, "マイページ")
@@ -76,6 +83,7 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
   bulletin_board_history.click()
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
   time.sleep(wait_time)
+  catch_remodal_screen(driver)
   # ピュア掲示板かその他掲示板をクリック
   if adult_flag:
     link_tab = driver.find_elements(By.CLASS_NAME, "ds_link_tab_text")
@@ -541,14 +549,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
    time.sleep(2)
    #リモーダル画面が開いていれば閉じる
-   # remodal-close
-   remodal_close_button = driver.find_elements(By.CLASS_NAME, value="remodal-close") 
-   print(7777)
-   print(len(remodal_close_button))
-   if len(remodal_close_button):
-      print(666)
-      remodal_close_button[0].click()
-      time.sleep(1)
+   catch_remodal_screen(driver)
    # プロフ検索をクリック
    nav_list = driver.find_element(By.ID, value='ds_nav')
    mypage = nav_list.find_element(By.LINK_TEXT, "プロフ検索")
@@ -633,6 +634,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
       execution_probability = 0.70
       like_flag = False
       if random.random() < execution_probability:
+        catch_remodal_screen(driver)
         others_icon = driver.find_elements(By.CLASS_NAME, value="icon-profile_other_on")
         others_icon[0].click()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
