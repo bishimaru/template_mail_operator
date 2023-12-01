@@ -1178,9 +1178,10 @@ def check_new_mail(driver, wait, name):
                 user_photo = element[-1].find_element(By.CLASS_NAME, value="user_photo")
                 user_link = user_photo.find_element(By.TAG_NAME, value="a").get_attribute("href")
                 start_index = user_link.find("user_id=")
-                print(start_index)
+                print(type(start_index))
+                # print(start_index)
                 if start_index != -1:
-                  print(456456)
+                  print(444444)
                   user_id = user_link[start_index + len("user_id="):]
                   # print("取得した文字列:", user_id)
                   taikai = False
@@ -1434,10 +1435,6 @@ def check_new_mail(driver, wait, name):
   link_list = []
   while user_cnt < len(div):
     # 新着リストの名前ならスキップ
-    print(7777)
-    print(user_cnt)
-    print(len(div))
-    
     span= div[user_cnt].find_elements(By.TAG_NAME, value="span")
     user_name = ""
     for i in span:
