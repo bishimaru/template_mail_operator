@@ -28,7 +28,8 @@ def catch_remodal_screen(driver):
    if len(remodal_close_button):
       print("リモーダル画面が出ました")
       remodal_close_button[0].click()
-      time.sleep(1)
+      time.sleep(2)
+
 # 警告画面
 # b2_dialog_title
 def catch_warning_screen(driver):
@@ -96,7 +97,9 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
     time.sleep(1)
   # ジャンル選択
   genre_dict = {0:"今すぐ会いたい", 1:"大人の出会い"}
-  genre = driver.find_elements(By.CLASS_NAME, value="ds_bd_none")[1].text
+  # genre = driver.find_elements(By.CLASS_NAME, value="ds_bd_none")[1].text
+  genre = driver.find_elements(By.ID, value="keijiban_adult_janl")
+
   print("<<<再投稿する掲示板のジャンル取得>>>")
   print(genre)
   # 1日に書き込めるのは五回まで
@@ -699,7 +702,10 @@ def send_fst_message(name_list):
       remodal = driver.find_elements(By.CLASS_NAME, value="remodal-close")
       if len(remodal):
         print('リモーダル画面')
-        remodal[0].click()
+        # remodal[0].click()
+        # time.sleep(wait_time)
+        driver.refresh()
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(wait_time)
       # 並びの表示を設定
       sort_order = driver.find_elements(By.ID, value="kind_select")

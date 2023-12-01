@@ -6,6 +6,8 @@ import sqlite3
 from concurrent.futures import ThreadPoolExecutor
 import traceback
 import random
+from datetime import datetime
+
 
 
 def main(maji_soushin, chara_name_list):
@@ -59,31 +61,38 @@ def main(maji_soushin, chara_name_list):
   
   
   while True:
-   for order_count in range(len(names)):
-     # 地域選択（3つまで選択可能）
-     areas = [
-       "東京都",
-       "千葉県",
-       "埼玉県",
-       "神奈川県",
-       "静岡県",
-       # "新潟県",
-       # "山梨県",
-       # "長野県",
-       # "茨城県",
-       "栃木県",
-       # "群馬県",
-     ]
-     areas.remove("東京都")
-     select_areas = random.sample(areas, 2)
-     select_areas.append("東京都")
-     print(f"キャラ:{names[order_count]}、選択地域:{select_areas}")
+    for order_count in range(len(names)):
+      # 地域選択（3つまで選択可能）
+      areas = [
+        "東京都",
+        "千葉県",
+        "埼玉県",
+        "神奈川県",
+        "静岡県",
+        # "新潟県",
+        # "山梨県",
+        # "長野県",
+        # "茨城県",
+        "栃木県",
+        # "群馬県",
+      ]
+      areas.remove("東京都")
+      select_areas = random.sample(areas, 2)
+      select_areas.append("東京都")
+      print(f"キャラ:{names[order_count]}、選択地域:{select_areas}")
 
-     try:
-      pcmax.send_fst_mail(names[order_count], chara_name_list[names[order_count]]["login_id"], chara_name_list[names[order_count]]["login_pass"], chara_name_list[names[order_count]]["fst_message"], chara_name_list[names[order_count]]["fst_message_img"], chara_name_list[names[order_count]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt, user_sort)
-     except Exception as e:
-      print(traceback.format_exc())
-      
+      try:
+        pcmax.send_fst_mail(names[order_count], chara_name_list[names[order_count]]["login_id"], chara_name_list[names[order_count]]["login_pass"], chara_name_list[names[order_count]]["fst_message"], chara_name_list[names[order_count]]["fst_message_img"], chara_name_list[names[order_count]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt, user_sort)
+      except Exception as e:
+        print(traceback.format_exc())
+    # 現在時刻を取得
+    current_time = datetime.now()
+    if current_time.hour == 10 and current_time.minute == 0:
+        print("現在時刻は午前10時です。")
+        break
+    else:
+        print("現在時刻:", current_time)
+   
 
 if __name__ == '__main__':
   maji_soushin = False
@@ -93,11 +102,11 @@ if __name__ == '__main__':
       maji_soushin = True
   chara_name_list = {
     "アスカ":{},"彩香":{},"えりか":{},"きりこ":{},
-    "すい":{},  "波留（は...":{}, "ハル":{}, 
-    "めあり":{}, "りこ":{}, "りな":{}, "ゆうな":{},
+    "すい":{},  "なお":{},"波留（は...":{}, "ハル":{}, 
+    "めあり":{},"りこ":{}, "りな":{}, "ゆうな":{},
     "ゆっこ":{},
     # "ゆかり":{}, 
-    # "なお":{},
+    
   }
   
   main(maji_soushin, chara_name_list)
