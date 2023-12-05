@@ -41,7 +41,7 @@ order_list = [
   
 ]
 order_list = [
-   ["彩香", ""],
+   ["ゆかり", "y216154@gmail.com"],
  ]
 def get_driver(debug):
     options = Options()
