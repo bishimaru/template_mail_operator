@@ -10,6 +10,7 @@ import os
 from selenium.webdriver.support.select import Select
 import random
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import traceback
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -1106,7 +1107,8 @@ def check_new_mail(driver, wait, name):
           if len(new_mail_user) > 7:
             new_mail_user = new_mail_user[:7] + "…"
           have_new_massage_users.append(new_mail_user)
-      # print("新着メッセージリスト")
+      print("新着メッセージリスト")
+      print(len(message_list))
       # メッセージ一覧を取得      
       while len(message_list):
         wait = WebDriverWait(driver, 10)  # 10秒まで待つ（必要に応じて変更）
@@ -1121,8 +1123,10 @@ def check_new_mail(driver, wait, name):
         # datetime型を作成
         arrival_datetime = datetime(int(date_numbers[0]), int(date_numbers[1]), int(date_numbers[2]), int(date_numbers[3]), int(date_numbers[4])) 
         now = datetime.today()
+        print(777)
+        print(arrival_datetime)
         elapsed_time = now - arrival_datetime
-        # print(f"メール到着からの経過時間{elapsed_time}")
+        print(f"メール到着からの経過時間{elapsed_time}")
         if elapsed_time >= timedelta(minutes=4):
           print("4分以上経過しています。")
           taikai = False
@@ -1134,11 +1138,23 @@ def check_new_mail(driver, wait, name):
               print("要素が見つかりませんでした。")
           user_photo = element[-1].find_element(By.CLASS_NAME, value="user_photo")
           # 退会してるか判定
-          out = user_photo.find_elements(By.CLASS_NAME, value="out")
+          out = element[-1].find_elements(By.CLASS_NAME, value="out")
+          print(666)
+          print(len(out))
           if len(out):
-            out.click()
+            next_element = element[-1].find_elements(By.XPATH, value='following-sibling::*')
+            script_code = next_element[0].get_attribute("innerHTML")
+            # 取得したJavaScriptコードを表示
+            # 正規表現パターン
+            pattern = r"mail_recive_detail\.php\?mail_id=(.*?);"
+            match = re.search(pattern, script_code)
+            result = match.group(1)
+            print(result)
+            
+            taikai_user_url = f"https://pcmax.jp/mobile/mail_recive_detail.php?mail_id={result}"
+            driver.get(taikai_user_url)
             wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-            time.sleep(1)
+            time.sleep(2)
             driver.get("https://pcmax.jp/mobile/mail_recive_list.php?receipt_status=0")
             wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
             time.sleep(2)
@@ -1188,14 +1204,7 @@ def check_new_mail(driver, wait, name):
                 else:
                   taikai = True
           #dev # mail_id = message_list[5].find_element(By.TAG_NAME, value="input").get_attribute("value")
-          if taikai:
-            print(456456)
-            taikai_link = user_photo.find_elements(By.TAG_NAME, value="a")
-            print(len(taikai_link))
-            taikai_link[1].click()
-            mail_id = message_list[-2].find_element(By.TAG_NAME, value="input").get_attribute("value")
-          else:
-            mail_id = message_list[-1].find_element(By.TAG_NAME, value="input").get_attribute("value")
+          mail_id = message_list[-1].find_element(By.TAG_NAME, value="input").get_attribute("value")
           new_mail_link = "https://pcmax.jp/mobile/mail_recive_detail.php?mail_id=" + str(mail_id) + "&user_id=" + str(user_id)
           driver.get(new_mail_link)
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -1239,7 +1248,7 @@ def check_new_mail(driver, wait, name):
               text_area = driver.find_elements(By.ID, value="mdc")
               if len(text_area):
                 text_area[0].send_keys(icloud_text)
-                time.sleep(3)
+                time.sleep(4)
                 send = driver.find_element(By.ID, value="send_n")
                 send.click()
                 wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -1312,7 +1321,7 @@ def check_new_mail(driver, wait, name):
             text_area = driver.find_elements(By.ID, value="mdc")
             if len(text_area):
               text_area[0].send_keys(fst_message)
-              time.sleep(3)
+              time.sleep(4)
               send = driver.find_element(By.ID, value="send_n")
               send.click()
               wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -1342,7 +1351,7 @@ def check_new_mail(driver, wait, name):
               text_area = driver.find_elements(By.ID, value="mdc")
               if len(text_area):
                 text_area[0].send_keys(second_message)
-                time.sleep(3)
+                time.sleep(4)
                 send = driver.find_element(By.ID, value="send_n")
                 send.click()
                 wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
