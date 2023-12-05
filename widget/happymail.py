@@ -438,12 +438,12 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
           print("メールアイコンが10続きました")
           return
       # ユーザー重複チェック
-      while user_name in user_name_list:
-          print('重複ユーザー')
-          user_icon = user_icon + 1
-          
-          name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
-          user_name = name_field.text      
+      if len(user_name_list):
+        while user_name in user_name_list:
+            print('重複ユーザー')
+            user_icon = user_icon + 1
+            name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
+            user_name = name_field.text      
       # 足跡ユーザーをクリック
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", f_user[user_icon])
       time.sleep(1)
