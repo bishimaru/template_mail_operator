@@ -41,7 +41,7 @@ order_list = [
   
 ]
 order_list = [
-   ["ゆかり", "y216154@gmail.com"],
+   ["あやか", "ayaka414510@gmail.com"],
  ]
 def get_driver(debug):
     options = Options()
@@ -88,27 +88,27 @@ def check_mail():
         new_mail_lists = []
         debug = False
         #  # ハッピーメール
-        try:
-            driver, wait = get_driver(debug)
-            happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
-            if happymail_new:
-                new_mail_lists.append(happymail_new)
-            driver.quit()
-        except Exception as e:
-            print(f"<<<<<<<<<<メールチェックエラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
-            print(traceback.format_exc())
-            func.send_error(f"h足跡付けエラー:{order_info[0]}", traceback.format_exc())
+        # try:
+        #     driver, wait = get_driver(debug)
+        #     happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
+        #     if happymail_new:
+        #         new_mail_lists.append(happymail_new)
+        #     driver.quit()
+        # except Exception as e:
+        #     print(f"<<<<<<<<<<メールチェックエラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
+        #     print(traceback.format_exc())
+        #     func.send_error(f"h足跡付けエラー:{order_info[0]}", traceback.format_exc())
 
-            driver.quit()
+        #     driver.quit()
         # # pcmax
         try:
             driver, wait = get_driver(debug)
             pcmax_new, return_foot_cnt = pcmax.check_new_mail(driver, wait, order_info[0])
-            # print(pcmax_new)
-            if pcmax_new is not None:
+            print(6767)
+            print(pcmax_new)
+            if pcmax_new != 1:
                 new_mail_lists.append(pcmax_new)
-            else:
-                None
+           
             if return_foot_cnt:     
                 for r_f_user in return_foot_count_dic:
                     if order_info[0] == r_f_user:

@@ -1045,9 +1045,10 @@ def check_new_mail(driver, wait, name):
       mail_img = row[3]   
       second_message = row[4]
       return_foot_message = row[5]
-  if not login_id:
+  print(login_id)
+  if login_id is None:
     print(f"{name}のpcmaxキャラ情報を取得できませんでした")
-    return
+    return 1, 0
   try:
     driver.delete_all_cookies()
     driver.get("https://pcmax.jp/pcm/file.php?f=login_form")
@@ -1078,7 +1079,7 @@ def check_new_mail(driver, wait, name):
     if len(return_list):
       return return_list, 0
     else:
-      return None, 0
+      return 1, 0
   # 新着があるかチェック
   have_new_massage_users = []
   new_message_elem = driver.find_elements(By.CLASS_NAME, value="message")
@@ -1401,7 +1402,7 @@ def check_new_mail(driver, wait, name):
     if len(return_list):
       return return_list, 0
     else:
-      return None, 0
+      return 1, 0
   # 右下のキャラ画像をクリック
   chara_img = driver.find_elements(By.XPATH, value="//*[@id='sp_footer']/a[5]")
   if len(chara_img):
@@ -1582,7 +1583,7 @@ def check_new_mail(driver, wait, name):
   if len(return_list):
     return return_list, send_count
   else:
-    return None, send_count
+    return 1, send_count
 
   
 
