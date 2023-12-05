@@ -40,9 +40,9 @@ order_list = [
    ["ゆかり", "y216154@gmail.com"],
   
 ]
-order_list = [
-   ["あやか", "ayaka414510@gmail.com"],
- ]
+# order_list = [
+#    ["あやか", "ayaka414510@gmail.com"],
+#  ]
 def get_driver(debug):
     options = Options()
     
@@ -88,18 +88,18 @@ def check_mail():
         new_mail_lists = []
         debug = False
         #  # ハッピーメール
-        # try:
-        #     driver, wait = get_driver(debug)
-        #     happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
-        #     if happymail_new:
-        #         new_mail_lists.append(happymail_new)
-        #     driver.quit()
-        # except Exception as e:
-        #     print(f"<<<<<<<<<<メールチェックエラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
-        #     print(traceback.format_exc())
-        #     func.send_error(f"h足跡付けエラー:{order_info[0]}", traceback.format_exc())
+        try:
+            driver, wait = get_driver(debug)
+            happymail_new = happymail.check_new_mail(driver, wait, order_info[0])
+            if happymail_new:
+                new_mail_lists.append(happymail_new)
+            driver.quit()
+        except Exception as e:
+            print(f"<<<<<<<<<<メールチェックエラー：ハッピーメール{order_info[0]}>>>>>>>>>>>")
+            print(traceback.format_exc())
+            func.send_error(f"h足跡付けエラー:{order_info[0]}", traceback.format_exc())
 
-        #     driver.quit()
+            driver.quit()
         # # pcmax
         try:
             driver, wait = get_driver(debug)
