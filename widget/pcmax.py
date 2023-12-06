@@ -1046,7 +1046,6 @@ def check_new_mail(driver, wait, name):
       mail_img = row[3]   
       second_message = row[4]
       return_foot_message = row[5]
-  print(login_id)
   if login_id is None:
     print(f"{name}のpcmaxキャラ情報を取得できませんでした")
     return 1, 0
@@ -1126,8 +1125,6 @@ def check_new_mail(driver, wait, name):
         # datetime型を作成
         arrival_datetime = datetime(int(date_numbers[0]), int(date_numbers[1]), int(date_numbers[2]), int(date_numbers[3]), int(date_numbers[4])) 
         now = datetime.today()
-        print(777)
-        print(arrival_datetime)
         elapsed_time = now - arrival_datetime
         print(f"メール到着からの経過時間{elapsed_time}")
         if elapsed_time >= timedelta(minutes=4):
@@ -1142,8 +1139,7 @@ def check_new_mail(driver, wait, name):
           user_photo = element[-1].find_element(By.CLASS_NAME, value="user_photo")
           # 退会してるか判定
           out = element[-1].find_elements(By.CLASS_NAME, value="out")
-          print(666)
-          print(len(out))
+          
           if len(out):
             next_element = element[-1].find_elements(By.XPATH, value='following-sibling::*')
             script_code = next_element[0].get_attribute("innerHTML")
@@ -1560,7 +1556,8 @@ def check_new_mail(driver, wait, name):
     if maji_soushin:
       send = driver.find_element(By.CLASS_NAME, value="maji_send")
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", send)
-      send.click()
+      # send.click()
+      driver.execute_script("arguments[0].click();", send)
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(2)
       send_link = driver.find_elements(By.ID, value="link_OK")

@@ -358,7 +358,7 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
                   print(str(area) + "の書き込みに失敗しました")
                   driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
                   return
-      print(str(repost_cnt + 1) + "件の書き込みに成功しました")
+      print(f"「{name}」ハッピーメール、{str(repost_cnt + 1)} 件の掲示板書き込みに成功しました")
     if setting.mac_os:
         os.system("osascript -e 'display notification \"ハッピーメール掲示板再投稿中に成功しました◎\" with title \"{}\"'".format(name))
 
@@ -444,9 +444,13 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
             print('重複ユーザー')
             user_icon = user_icon + 1
             if len(f_user) <= user_icon:
+               duplication_user = True
                break
             name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
-            user_name = name_field.text      
+            user_name = name_field.text
+      if duplication_user:
+         print("重複により終了")
+         break      
       # 足跡ユーザーをクリック
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", f_user[user_icon])
       time.sleep(1)
@@ -935,8 +939,8 @@ def check_new_mail(driver, wait, name):
               plus_icon = driver.find_elements(By.CLASS_NAME, value="icon-message_plus")
               print(567)
               print(len(plus_icon))
-              driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", plus_icon[1])
-              plus_icon[1].click()
+              driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", plus_icon[0])
+              plus_icon[0].click()
               wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
               time.sleep(2)
               # ds_message_txt_media_text
