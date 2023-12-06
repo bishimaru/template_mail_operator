@@ -41,7 +41,7 @@ order_list = [
   
 ]
 order_list = [
-   ["ゆっこ", "yuko414510@gmail.com"], 
+["りこ", "riko414510@gmail.com"],
  ]
 def get_driver(debug):
     options = Options()
@@ -104,8 +104,7 @@ def check_mail():
         try:
             driver, wait = get_driver(debug)
             pcmax_new, return_foot_cnt = pcmax.check_new_mail(driver, wait, order_info[0])
-            print(6767)
-            print(pcmax_new)
+            
             if pcmax_new != 1:
                 new_mail_lists.append(pcmax_new)
            

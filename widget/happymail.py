@@ -380,6 +380,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
     user_name_list = []
     # 上から順番に足跡返し
     while cnt >= foot_cnt:
+      catch_remodal_screen(driver)
       warning = catch_warning_screen(driver) 
       if warning:
          break
@@ -442,6 +443,8 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         while user_name in user_name_list:
             print('重複ユーザー')
             user_icon = user_icon + 1
+            if len(f_user) <= user_icon:
+               break
             name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
             user_name = name_field.text      
       # 足跡ユーザーをクリック
