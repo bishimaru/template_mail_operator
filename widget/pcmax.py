@@ -1115,12 +1115,11 @@ def check_new_mail(driver, wait, name):
       while len(message_list):
         wait = WebDriverWait(driver, 10)  # 10秒まで待つ（必要に応じて変更）
         try:
-            element = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "receive_user")))
-            
+            message_list = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "receive_user")))   
         except TimeoutException:
             print("要素が見つかりませんでした。")
             break
-        arrival_date = element[-1].find_elements(By.CLASS_NAME, value="date")
+        arrival_date = message_list[-1].find_elements(By.CLASS_NAME, value="date")
         date_numbers = re.findall(r'\d+', arrival_date[0].text)
         # datetime型を作成
         arrival_datetime = datetime(int(date_numbers[0]), int(date_numbers[1]), int(date_numbers[2]), int(date_numbers[3]), int(date_numbers[4])) 
@@ -1202,6 +1201,11 @@ def check_new_mail(driver, wait, name):
                   taikai = False
                 else:
                   taikai = True
+          try:
+            message_list = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "receive_user")))   
+          except TimeoutException:
+              print("要素が見つかりませんでした。")
+              break
           #dev # mail_id = message_list[5].find_element(By.TAG_NAME, value="input").get_attribute("value")
           mail_id = message_list[-1].find_element(By.TAG_NAME, value="input").get_attribute("value")
           new_mail_link = "https://pcmax.jp/mobile/mail_recive_detail.php?mail_id=" + str(mail_id) + "&user_id=" + str(user_id)
