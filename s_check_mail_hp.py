@@ -41,7 +41,7 @@ order_list = [
   
 ]
 # order_list = [
-# ["りこ", "riko414510@gmail.com"],
+# ["ゆっこ", "yuko414510@gmail.com"], 
 #  ]
 def get_driver(debug):
     options = Options()

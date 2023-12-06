@@ -764,6 +764,7 @@ def send_fst_mail(name, maji_soushin, select_areas, youngest_age, oldest_age, ng
     driver.refresh()
   wait_time = random.uniform(2, 5)
   time.sleep(wait_time)
+  
   id_form = driver.find_element(By.ID, value="login_id")
   id_form.send_keys(login_id)
   pass_form = driver.find_element(By.ID, value="login_pw")
@@ -1265,7 +1266,7 @@ def check_new_mail(driver, wait, name):
                   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
                   time.sleep(2)
               # 戻って見ちゃいや登録
-              back = driver.find_element(By.ID, value="back2")
+              back = driver.find_element(By.ID, value="back3")
               back.click()
               wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
               time.sleep(2)
