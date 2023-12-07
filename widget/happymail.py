@@ -953,11 +953,12 @@ def check_new_mail(driver, wait, name):
                 #  print('<<<<<<<<<<<<<<<<<みちゃいや登録>>>>>>>>>>>>>>>>>>>')
                 mityaiya.click()
                 wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-                time.sleep(1)
-                mityaiya_send = driver.find_element(By.CLASS_NAME, value="input__form__action__button__send")
-                mityaiya_send.click()
-                wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-                time.sleep(1)
+                time.sleep(2)
+                mityaiya_send = driver.find_elements(By.CLASS_NAME, value="input__form__action__button__send")
+                if len(mityaiya_send):
+                  mityaiya_send[0].click()
+                  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+                  time.sleep(1)
                  
           else:
             text_area = driver.find_element(By.ID, value="text-message")
