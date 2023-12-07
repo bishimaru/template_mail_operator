@@ -437,7 +437,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(wait_time)
           print("メールアイコンが10続きました")
-          return
+          return foot_cnt - 1
       # ユーザー重複チェック
       if len(user_name_list):
         while user_name in user_name_list:
@@ -450,7 +450,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
             user_name = name_field.text
       if duplication_user:
          print("重複により終了")
-         break      
+         return foot_cnt - 1     
       # 足跡ユーザーをクリック
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", f_user[user_icon])
       time.sleep(1)
@@ -540,7 +540,8 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         time.sleep(wait_time)
     if setting.mac_os:
        os.system("osascript -e 'beep' -e 'display notification \"ハッピーメール{}件の足跡返しに成功しました...\" with title \"{}\"'".format(foot_cnt, name))
-  
+    return foot_cnt - 1
+
 def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    driver.delete_all_cookies()
    driver.get("https://happymail.jp/login/")
