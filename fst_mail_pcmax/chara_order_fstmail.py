@@ -62,6 +62,14 @@ def main(maji_soushin, chara_name_list):
   
   while True:
     for order_count in range(len(names)):
+      # 現在時刻を取得
+      current_time = datetime.now()
+      # 午前10時0分を過ぎているか判定
+      if current_time.hour > 22 or (current_time.hour == 22 and current_time.minute >= 00):
+          print("現在時刻は午前10時を過ぎました。")
+          return
+      else:
+          print("現在時刻:", current_time)
       # 地域選択（3つまで選択可能）
       areas = [
         "東京都",
@@ -85,13 +93,6 @@ def main(maji_soushin, chara_name_list):
         pcmax.send_fst_mail(names[order_count], chara_name_list[names[order_count]]["login_id"], chara_name_list[names[order_count]]["login_pass"], chara_name_list[names[order_count]]["fst_message"], chara_name_list[names[order_count]]["fst_message_img"], chara_name_list[names[order_count]]["second_message"], maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt, user_sort)
       except Exception as e:
         print(traceback.format_exc())
-    # 現在時刻を取得
-    current_time = datetime.now()
-    if current_time.hour == 10 and current_time.minute == 0:
-        print("現在時刻は午前10時です。")
-        break
-    else:
-        print("現在時刻:", current_time)
    
 
 if __name__ == '__main__':
@@ -104,8 +105,7 @@ if __name__ == '__main__':
     "アスカ":{},"彩香":{},"えりか":{},"きりこ":{},
     "すい":{},  "なお":{},"波留（は...":{}, "ハル":{}, 
     "めあり":{},"りこ":{}, "りな":{}, "ゆうな":{},
-    "ゆっこ":{},
-    # "ゆかり":{}, 
+    "ゆっこ":{},"ゆかり":{}, 
     
   }
   

@@ -21,8 +21,9 @@ if __name__ == '__main__':
     # fst_mail
     chara_name_list = {
     "アスカ":{},"あやか":{},"えりか":{},"きりこ":{},
-    "すい":{}, "波留（は...":{}, "ハル":{}, "めあり":{},
-    "りこ":{}, "りな":{}, "ゆっこ":{},   "ゆかり":{}, 
+    "すい":{}, "なお":{}, "波留（は...":{}, "ハル":{}, 
+    "めあり":{},"りこ":{}, "りな":{}, "ゆっこ":{}, 
+    "ゆうな":{},  "ゆかり":{}, 
     }
     
     # 朝のジョブ
@@ -31,7 +32,7 @@ if __name__ == '__main__':
     end_day_shift = time(9, 30)
     end_datetime = datetime.combine(datetime.now(), end_day_shift)
     scheduler.add_job(chara_order_fstmail.main, 'cron', hour=6, minute=0, args=[0], kwargs={'chara_name_list': chara_name_list}, misfire_grace_time=60*60)
-    scheduler.add_job(scheduler.shutdown, 'date', run_date=end_datetime)
+    # scheduler.add_job(scheduler.shutdown, 'date', run_date=end_datetime)
     
     # # 夜のジョブ
     # start_night_shift = time(17, 0)
