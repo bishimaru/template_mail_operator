@@ -10,10 +10,10 @@ from datetime import datetime
 
 
 
-def main(maji_soushin, chara_name_list):
+def main(maji_soushin, chara_name_list, end_hour, end_minute):
   # 〜〜〜〜〜〜検索設定〜〜〜〜〜〜
   # メール送信数（上限なしは0）
-  limit_send_cnt = 20
+  limit_send_cnt = 5
   
   # 年齢選択（最小18歳、最高60以上）
   youngest_age = "19"
@@ -64,12 +64,8 @@ def main(maji_soushin, chara_name_list):
     for order_count in range(len(names)):
       # 現在時刻を取得
       current_time = datetime.now()
-      # 午前10時0分を過ぎているか判定
-      if current_time.hour > 10 or (current_time.hour == 10 and current_time.minute >= 00):
-          print("現在時刻は午前10時を過ぎました。")
-          return
-      elif current_time.hour > 21 or (current_time.hour == 21 and current_time.minute >= 30):
-          print("現在時刻は午後21時30分を過ぎました。")
+      if current_time.hour > int(end_hour) or (current_time.hour == int(end_hour) and current_time.minute >= int(end_minute)):
+          print("終了時刻を過ぎました。")
           return
       else:
           print("現在時刻:", current_time)
@@ -100,10 +96,11 @@ def main(maji_soushin, chara_name_list):
 
 if __name__ == '__main__':
   maji_soushin = False
-
-  if len(sys.argv) > 1:
-    if sys.argv[1] == str(1):
+  if sys.argv[1] == str(1):
       maji_soushin = True
+  end_hour = sys.argv[2]
+  end_minute = sys.argv[3]
+    
   chara_name_list = {
     "アスカ":{},"彩香":{},"えりか":{},"きりこ":{},
     "すい":{},  "なお":{},"波留（は...":{}, "ハル":{}, 
@@ -112,5 +109,5 @@ if __name__ == '__main__':
     
   }
   
-  main(maji_soushin, chara_name_list)
+  main(maji_soushin, chara_name_list, end_hour, end_minute)
   
