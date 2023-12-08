@@ -65,8 +65,11 @@ def main(maji_soushin, chara_name_list):
       # 現在時刻を取得
       current_time = datetime.now()
       # 午前10時0分を過ぎているか判定
-      if current_time.hour > 22 or (current_time.hour == 22 and current_time.minute >= 00):
+      if current_time.hour > 10 or (current_time.hour == 10 and current_time.minute >= 00):
           print("現在時刻は午前10時を過ぎました。")
+          return
+      elif current_time.hour > 21 or (current_time.hour == 21 and current_time.minute >= 30):
+          print("現在時刻は午後21時30分を過ぎました。")
           return
       else:
           print("現在時刻:", current_time)

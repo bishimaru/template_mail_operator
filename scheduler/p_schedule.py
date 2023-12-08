@@ -29,18 +29,13 @@ if __name__ == '__main__':
     # 朝のジョブ
     start_day_shift = time(6, 0)
     start_datetime = datetime.combine(datetime.now(), start_day_shift)
-    end_day_shift = time(9, 30)
-    end_datetime = datetime.combine(datetime.now(), end_day_shift)
     scheduler.add_job(chara_order_fstmail.main, 'cron', hour=6, minute=0, args=[0], kwargs={'chara_name_list': chara_name_list}, misfire_grace_time=60*60)
     # scheduler.add_job(scheduler.shutdown, 'date', run_date=end_datetime)
     
-    # # 夜のジョブ
-    # start_night_shift = time(17, 0)
-    # start_datetime = datetime.combine(datetime.now(), start_night_shift)
-    # end_night_shift = time(21, 30)
-    # end_datetime = datetime.combine(datetime.now(), end_night_shift)
-    # scheduler.add_job(chara_order_fstmail.main, 'cron', hour=17, minute=0, args=[0], kwargs={'chara_name_list': chara_name_list}, misfire_grace_time=60*60)
-    # scheduler.add_job(scheduler.shutdown, 'date', run_date=end_datetime)
+    # 夜のジョブ
+    start_night_shift = time(17, 0)
+    start_datetime = datetime.combine(datetime.now(), start_night_shift)
+    scheduler.add_job(chara_order_fstmail.main, 'cron', hour=17, minute=0, args=[0], kwargs={'chara_name_list': chara_name_list}, misfire_grace_time=60*60)
     print("Press Ctrl+{0} to exit.".format('Break' if os.name == 'nt' else 'C'))
     
     try:
