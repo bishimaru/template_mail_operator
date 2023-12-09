@@ -13,7 +13,7 @@ from datetime import datetime
 def main(maji_soushin, chara_name_list, end_hour, end_minute):
   # 〜〜〜〜〜〜検索設定〜〜〜〜〜〜
   # メール送信数（上限なしは0）
-  limit_send_cnt = 5
+  limit_send_cnt = 20
   
   # 年齢選択（最小18歳、最高60以上）
   youngest_age = "19"
