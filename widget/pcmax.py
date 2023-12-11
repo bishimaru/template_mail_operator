@@ -1406,8 +1406,10 @@ def check_new_mail(driver, wait, name):
   time.sleep(2)
   warning = driver.find_elements(By.CLASS_NAME, value="caution-title")
   warning2 = driver.find_elements(By.CLASS_NAME, value="suspend-title")
-  if len(warning) or len(warning2):
+  warning3 = driver.find_elements(By.CLASS_NAME, value="setting-title")
+  if len(warning) or len(warning2) or len(warning3):
     print(f"{name}pcmaxに警告画面が出ている可能性があります")
+    return_list.append(f"{name}pcmaxに警告画面が出ている可能性があります")
     if len(return_list):
       return return_list, 0
     else:
