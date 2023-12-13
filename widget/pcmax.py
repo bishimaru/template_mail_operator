@@ -1409,7 +1409,7 @@ def check_new_mail(driver, wait, name):
   warning3 = driver.find_elements(By.CLASS_NAME, value="setting-title")
   if len(warning) or len(warning2) or len(warning3):
     print(f"{name}pcmaxに警告画面が出ている可能性があります")
-    return_list.append(f"{name}pcmaxに警告画面が出ている可能性があります")
+    # return_list.append(f"{name}pcmaxに警告画面が出ている可能性があります")
     if len(return_list):
       return return_list, 0
     else:
@@ -1598,5 +1598,330 @@ def check_new_mail(driver, wait, name):
     return 1, send_count
 
   
+def re_registration(name, driver):
+  print(name)
+  wait = WebDriverWait(driver, 15)  
+  dbpath = 'firstdb.db'
+  conn = sqlite3.connect(dbpath)
+  # # SQLiteを操作するためのカーソルを作成
+  cur = conn.cursor()
+  # # 順番
+  # # データ検索
+  cur.execute('SELECT * FROM pcmax WHERE name = ?', (name,))
+  for row in cur:
+      print(6666)
+      print(row)
+      login_id = row[2]
+      login_pass = row[3]
+      date_of_birth = row[13]
+      self_promotion = row[14]
+      height = row[15]
+      body_shape = row[16]
+      blood_type = row[17]
+      activity_area = row[18]
+      detail_activity_area = row[19]
+      profession = row[20]
+      freetime = row[21]
+      car_ownership = row[22]
+      smoking = row[23]
+      ecchiness_level = row[24]
+      sake = row[25]
+      process_before_meeting = row[26]
+      first_date_cost = row[27]
 
+  driver.delete_all_cookies()
+  driver.get("https://pcmax.jp/pcm/file.php?f=login_form")
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  wait_time = random.uniform(3, 6)
+  time.sleep(2)
+  id_form = driver.find_element(By.ID, value="login_id")
+  id_form.send_keys(login_id)
+  pass_form = driver.find_element(By.ID, value="login_pw")
+  pass_form.send_keys(login_pass)
+  time.sleep(1)
+  send_form = driver.find_element(By.NAME, value="login")
+  try:
+    send_form.click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(1)
+  except TimeoutException as e:
+    print("TimeoutException")
+    driver.refresh()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(2)
+    id_form = driver.find_element(By.ID, value="login_id")
+    id_form.send_keys(login_id)
+    pass_form = driver.find_element(By.ID, value="login_pw")
+    pass_form.send_keys(login_pass)
+    time.sleep(1)
+    send_form = driver.find_element(By.NAME, value="login")
+    send_form.click()
+  # 利用制限中
+  suspend = driver.find_elements(By.CLASS_NAME, value="suspend-title")
+  if len(suspend):
+    print(f'{name}pcmax利用制限中です')
+    return  
+  wait_time = random.uniform(3, 4)
+  login(driver, wait)
+  # MENUをクリック
+  menu = driver.find_element(By.ID, value='sp_nav')
+  menu.click()
+  time.sleep(wait_time)
+  # プロフィール編集をクリック　
+  bulletin_board_history = driver.find_element(By.CLASS_NAME, value="nav-content-list")
+  bulletin_board_history = bulletin_board_history.find_elements(By.TAG_NAME, value="dd")
+  for i in bulletin_board_history:
+    if i.text == "プロフィール編集":
+      edit_profile = i.find_element(By.TAG_NAME, value="a")
+      driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", edit_profile)
+      edit_profile.click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(wait_time)
+      break
+  # 名前を変更
+  info_change = driver.find_elements(By.CLASS_NAME, value="info_change")
+  name_change = info_change[0].find_elements(By.TAG_NAME, value="a")[0]
+  name_change.click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(wait_time)
+  nick_name = driver.find_elements(By.CLASS_NAME, value="textbox")
+  nick_name[0].clear()
+  nick_name[0].send_keys(name)
+  time.sleep(2)
+  set_button = driver.find_elements(By.CLASS_NAME, value="basic_btn")
+  set_button[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(wait_time)
+  # 生年月日を変更
+  info_change = driver.find_elements(By.CLASS_NAME, value="info_change")
+  birthdate_change = info_change[0].find_elements(By.TAG_NAME, value="a")[1]
+  birthdate_change.click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(wait_time)
+  birth_date = driver.find_elements(By.CLASS_NAME, value="textbox")
+  birth_date[0].clear()
+  birth_date[0].send_keys(date_of_birth)
+  time.sleep(2)
+  set_button = driver.find_elements(By.CLASS_NAME, value="basic_btn")
+  set_button[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(wait_time)
+  # 自己PR
+  if self_promotion:
+    print("自己紹介ぶん")
+  # 身長
+  prof_list = driver.find_elements(By.CLASS_NAME, value="prof_lst")
+  height_link = prof_list[0].find_elements(By.TAG_NAME, value="a")
+  driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", height_link[0])
+  time.sleep(1)
+  height_link[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(wait_time)
+  height_select = driver.find_elements(By.CLASS_NAME, value="s_select")
+  select = Select(height_select[0])
+  select.select_by_value(height)
+  time.sleep(1)
+  set_button = driver.find_elements(By.CLASS_NAME, value="basic_btn")
+  set_button[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(wait_time)
+  # 体型
+  if body_shape:
+    prof_list = driver.find_elements(By.CLASS_NAME, value="prof_lst")
+    body_shape_link = prof_list[1].find_elements(By.TAG_NAME, value="a")
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", body_shape_link[0])
+    time.sleep(1)
+    body_shape_link[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+    body_shape_select = driver.find_elements(By.CLASS_NAME, value="s_select")
+    select = Select(body_shape_select[0])
+    select.select_by_visible_text(body_shape)
+    time.sleep(1)
+    set_button = driver.find_elements(By.CLASS_NAME, value="basic_btn")
+    set_button[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+  # 血液型
+  if blood_type:
+    prof_list = driver.find_elements(By.CLASS_NAME, value="prof_lst")
+    blood_type_link = prof_list[2].find_elements(By.TAG_NAME, value="a")
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", blood_type_link[0])
+    time.sleep(1)
+    blood_type_link[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+    blood_type_link_select = driver.find_elements(By.CLASS_NAME, value="s_select")
+    select = Select(blood_type_link_select[0])
+    select.select_by_visible_text(blood_type)
+    time.sleep(1)
+    set_button = driver.find_elements(By.CLASS_NAME, value="basic_btn")
+    set_button[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+  # 活動エリア
+  prof_list = driver.find_elements(By.CLASS_NAME, value="prof_lst")
+  activity_area_link = prof_list[5].find_elements(By.TAG_NAME, value="a")
+  driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", activity_area_link[0])
+  time.sleep(1)
+  activity_area_link[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(wait_time)
+  activity_area_link_select = driver.find_elements(By.CLASS_NAME, value="s_select")
+  select = Select(activity_area_link_select[0])
+  select.select_by_visible_text(activity_area)
+  time.sleep(1)
+  set_button = driver.find_elements(By.CLASS_NAME, value="basic_btn")
+  set_button[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(wait_time)
+  # 活動詳細エリア
+  if detail_activity_area:
+    # prech
+    activity_area_link_select = driver.find_elements(By.ID, value="prech")
+    select = Select(activity_area_link_select[0])
+    select.select_by_visible_text(activity_area)
+    time.sleep(2)
+    detail_activity_area_link_select = driver.find_elements(By.ID, value="city_id_1")
+    select = Select(detail_activity_area_link_select[0])
+    select.select_by_visible_text(detail_activity_area)
+  time.sleep(1)
+  set_button = driver.find_elements(By.CLASS_NAME, value="basic_btn")
+  set_button[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(wait_time)
+  # ヒマな時間帯
+  if freetime:
+    prof_list = driver.find_elements(By.CLASS_NAME, value="prof_lst")
+    freetime_link = prof_list[9].find_elements(By.TAG_NAME, value="a")
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", freetime_link[0])
+    time.sleep(1)
+    freetime_link[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+    freetime_link_select = driver.find_elements(By.CLASS_NAME, value="s_select")
+    select = Select(freetime_link_select[0])
+    select.select_by_visible_text(freetime)
+    time.sleep(1)
+    set_button = driver.find_elements(By.CLASS_NAME, value="basic_btn")
+    set_button[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+  # 車の所有
+  if car_ownership:
+    prof_list = driver.find_elements(By.CLASS_NAME, value="prof_lst")
+    car_ownership_link = prof_list[10].find_elements(By.TAG_NAME, value="a")
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", car_ownership_link[0])
+    time.sleep(1)
+    car_ownership_link[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+    car_ownership_link_select = driver.find_elements(By.CLASS_NAME, value="s_select")
+    select = Select(car_ownership_link_select[0])
+    select.select_by_visible_text(car_ownership)
+    time.sleep(1)
+    set_button = driver.find_elements(By.CLASS_NAME, value="basic_btn")
+    set_button[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+  # 喫煙
+  if smoking:
+    prof_list = driver.find_elements(By.CLASS_NAME, value="prof_lst")
+    smoking_link = prof_list[11].find_elements(By.TAG_NAME, value="a")
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", smoking_link[0])
+    time.sleep(1)
+    smoking_link[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+    smoking_link_select = driver.find_elements(By.CLASS_NAME, value="s_select")
+    select = Select(smoking_link_select[0])
+    select.select_by_visible_text(smoking)
+    time.sleep(1)
+    set_button = driver.find_elements(By.CLASS_NAME, value="basic_btn")
+    set_button[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+  # エッチ度
+  if ecchiness_level:
+    prof_list = driver.find_elements(By.CLASS_NAME, value="prof_lst")
+    ecchiness_level_link = prof_list[12].find_elements(By.TAG_NAME, value="a")
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", ecchiness_level_link[0])
+    time.sleep(1)
+    ecchiness_level_link[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+    ecchiness_level_link_select = driver.find_elements(By.CLASS_NAME, value="s_select")
+    select = Select(ecchiness_level_link_select[0])
+    select.select_by_visible_text(ecchiness_level)
+    time.sleep(1)
+    set_button = driver.find_elements(By.CLASS_NAME, value="basic_btn")
+    set_button[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+  # お酒
+  if sake:
+    prof_list = driver.find_elements(By.CLASS_NAME, value="prof_lst")
+    sake_link = prof_list[13].find_elements(By.TAG_NAME, value="a")
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", sake_link[0])
+    time.sleep(1)
+    sake_link[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+    sake_link_select = driver.find_elements(By.CLASS_NAME, value="s_select")
+    select = Select(sake_link_select[0])
+    select.select_by_visible_text(sake)
+    time.sleep(1)
+    set_button = driver.find_elements(By.CLASS_NAME, value="basic_btn")
+    set_button[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+  # 会うまでのプロセス
+  if process_before_meeting:
+    prof_list = driver.find_elements(By.CLASS_NAME, value="prof_lst")
+    process_before_meeting_link = prof_list[14].find_elements(By.TAG_NAME, value="a")
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", process_before_meeting_link[0])
+    time.sleep(1)
+    process_before_meeting_link[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+    process_before_meeting_link_select = driver.find_elements(By.CLASS_NAME, value="s_select")
+    select = Select(process_before_meeting_link_select[0])
+    select.select_by_visible_text(process_before_meeting)
+    time.sleep(1)
+    set_button = driver.find_elements(By.CLASS_NAME, value="basic_btn")
+    set_button[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+  # 初回デート費用
+  if first_date_cost:
+    prof_list = driver.find_elements(By.CLASS_NAME, value="prof_lst")
+    first_date_cost_link = prof_list[15].find_elements(By.TAG_NAME, value="a")
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", first_date_cost_link[0])
+    time.sleep(1)
+    first_date_cost_link[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+    first_date_cost_link_select = driver.find_elements(By.CLASS_NAME, value="s_select")
+    select = Select(first_date_cost_link_select[0])
+    select.select_by_visible_text(first_date_cost)
+    time.sleep(1)
+    set_button = driver.find_elements(By.CLASS_NAME, value="basic_btn")
+    set_button[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+  # 旅行・宿泊
+  # 出身地
+  # 学歴
+  # 年収
+  # 同居人
+  # 結婚
+  # 子供
+  # 家事・育児
+  # 社交性
 
+  registration_button = driver.find_elements(By.CLASS_NAME, value="btn")
+  registration_button[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(wait_time)
+
+  
