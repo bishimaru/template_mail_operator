@@ -25,7 +25,9 @@ def happymail_footprints(driver, wait):
   # # データ検索
   cur.execute('SELECT name, login_id, passward FROM happymail')
   happy_user_list = []
-  foot_order_list = ["アスカ","あやか","えりか","きりこ", "すい", "なお", "めあり","波留（はる）",]
+  foot_order_list = ["アスカ","あやか","えりか","きりこ", "すい", "なお", "めあり","波留（はる）",
+                      "ハル", "りこ", "りな","ゆっこ", "ゆかり", "ゆうな"
+                     ]
 
   for row in cur:
       # print(row[0])
