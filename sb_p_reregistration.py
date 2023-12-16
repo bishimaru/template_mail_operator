@@ -15,7 +15,6 @@ from widget import pcmax, happymail, func
 import sqlite3
 from selenium.webdriver.chrome.service import Service
 from datetime import timedelta
-import setting
 
 def pcmax_reregistration(name):
   options = Options()
