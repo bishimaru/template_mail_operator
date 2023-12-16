@@ -983,5 +983,81 @@ def check_new_mail(driver, wait, name):
     return return_list
   else:
     return None
-       
+  
+def re_registration(name, driver):
+  dbpath = 'firstdb.db'
+  conn = sqlite3.connect(dbpath)
+  cur = conn.cursor()
+  cur.execute('SELECT * FROM happymail WHERE name = ?', (name,))
+  login_id = ""
+  for row in cur:
+      print(777)
+      print(row)
+      login_id = row[2]
+      login_pass = row[3]
      
+     
+  if not login_id:
+    return
+
+  driver.delete_all_cookies()
+  wait = WebDriverWait(driver, 15)  
+  driver.get("https://happymail.jp/login/")
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  # wait_time = random.uniform(2, 5)
+  time.sleep(2)
+  id_form = driver.find_element(By.ID, value="TelNo")
+  id_form.send_keys(login_id)
+  pass_form = driver.find_element(By.ID, value="TelPass")
+  pass_form.send_keys(login_pass)
+  time.sleep(1)
+  send_form = driver.find_element(By.ID, value="login_btn")
+  send_form.click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(2)
+
+  # 警告画面が出たらスキップ
+  warning = driver.find_elements(By.CLASS_NAME, value="ds_main_header_text")
+  if warning:
+     print("警告画面が出ました")
+     return
+  # マイページをクリック
+  nav_list = driver.find_element(By.ID, value='ds_nav')
+  mypage = nav_list.find_element(By.LINK_TEXT, "マイページ")
+  mypage.click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(2)
+  # プロフィールをクリック
+  common_list = driver.find_element(By.CLASS_NAME, "ds_common_table")
+  common_table = common_list.find_elements(By.CLASS_NAME, "ds_mypage_text")
+  for common_table_elem in common_table:
+     if "プロフィール" in common_table_elem.text:
+        mylist = common_table_elem
+  driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", mylist)
+  time.sleep(2)
+  mylist.click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(2)
+  
+  # 名前
+  links = driver.find_elements(By.CLASS_NAME, value="input__form__input__block")
+  name_link = links[5].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(2)
+  name_textarea = driver.find_elements(By.CLASS_NAME, value="text_content")
+  name_textarea_value = name_textarea[0].get_attribute("value")
+  if name == name_textarea_value:
+    driver.back()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(2)
+  else:
+    name_textarea[0].clear()
+    name_textarea[0].send_keys(name)
+    save_button = driver.find_elements(By.ID, value="save")
+    save_button[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(2)
+    save_confirmation = driver.find_elements(By.CLASS_NAME, value="modal-confirm")
+    save_confirmation[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(20)
