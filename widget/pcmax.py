@@ -1790,6 +1790,24 @@ def re_registration(name, driver):
   set_button[0].click()
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
   time.sleep(wait_time)
+  # 職業
+  if profession:
+    prof_list = driver.find_elements(By.CLASS_NAME, value="prof_lst")
+    profession_link = prof_list[6].find_elements(By.TAG_NAME, value="a")
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", profession_link[0])
+    time.sleep(1)
+    profession_link[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+    profession_link_select = driver.find_elements(By.CLASS_NAME, value="s_select")
+    select = Select(profession_link_select[0])
+    select.select_by_visible_text(profession)
+    time.sleep(1)
+    set_button = driver.find_elements(By.CLASS_NAME, value="basic_btn")
+    set_button[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(wait_time)
+
   # ヒマな時間帯
   if freetime:
     prof_list = driver.find_elements(By.CLASS_NAME, value="prof_lst")
