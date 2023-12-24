@@ -464,6 +464,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         f_user[user_icon].click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
+      catch_remodal_screen(driver)
       m = driver.find_elements(By.XPATH, value="//*[@id='ds_main']/div/p")
       if len(m):
         print(m[0].text)
@@ -1061,3 +1062,8 @@ def re_registration(name, driver):
     save_confirmation[0].click()
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
     time.sleep(20)
+  # 年齢
+  age_select = driver.find_elements(By.ID, value="age")
+  select = Select(age_select[0])
+  select.select_by_visible_text(age)
+  time.sleep(1)

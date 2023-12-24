@@ -24,7 +24,6 @@ from datetime import datetime
 order_list = [
    ["アスカ", "asuka414510@gmail.com"],
    ["あやか", "ayaka414510@gmail.com"],
-   ["彩香", ""],
    ["えりか", "k.erika414510@gmail.com"],
    ["きりこ", "kiriko414510@gmail.com"],
    ["すい", "sui187586@gmail.com"],
