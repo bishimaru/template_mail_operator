@@ -77,13 +77,13 @@ def sb_h_repost_returnfoot(name, cnt):
     print(traceback.format_exc())
     func.send_error(f"ハッピーメール掲示板エラー{name}", traceback.format_exc())
   time.sleep(60)
-  # try:
-  #   return_foot_cnt = happymail.return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt, return_foot_img)
-  # except Exception as e:
-  #   print(f"足跡返しエラー{name}")
-  #   print(traceback.format_exc())
-  #   func.send_error(f"足跡返しエラー{name}", traceback.format_exc())
-  # driver.quit()
+  try:
+    return_foot_cnt = happymail.return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt, return_foot_img)
+  except Exception as e:
+    print(f"足跡返しエラー{name}")
+    print(traceback.format_exc())
+    func.send_error(f"足跡返しエラー{name}", traceback.format_exc())
+  driver.quit()
   return return_foot_cnt
 
 
