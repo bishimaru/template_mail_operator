@@ -1416,10 +1416,14 @@ def check_new_mail(driver, wait, name):
       return 1, 0
   # 右下のキャラ画像をクリック
   chara_img = driver.find_elements(By.XPATH, value="//*[@id='sp_footer']/a[5]")
-  if len(chara_img):
+  reload_cnt = 1
+  while not len(chara_img):
     time.sleep(5)
     # print("右下のキャラ画像が見つかりません")
     chara_img = driver.find_elements(By.XPATH, value="//*[@id='sp_footer']/a[5]")
+    reload_cnt += 1
+    if reload_cnt == 5:
+      break
   chara_img[0].click()
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
   time.sleep(2)

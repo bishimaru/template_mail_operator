@@ -96,18 +96,16 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
     others_bulletin_board.click()
     time.sleep(1)
   # ジャンル選択
-  genre_dict = {0:"今すぐ会いたい", 1:"大人の出会い"}
+  genre_dict = {0:"今すぐ会いたい", 1:"大人の出会い"}  
   genre = driver.find_elements(By.CLASS_NAME, value="ds_bd_none")
   road_cnt = 1
-  while not len(genre):
+  while len(genre) <= 2:
      time.sleep(2)
      genre = driver.find_elements(By.CLASS_NAME, value="ds_bd_none")
      road_cnt += 1
      if road_cnt == 7:
         break
-  genre = driver.find_elements(By.CLASS_NAME, value="ds_bd_none")[1].text
-  # genre = driver.find_elements(By.ID, value="keijiban_adult_janl")
-
+  genre = genre[1].text
   print("<<<再投稿する掲示板のジャンル取得>>>")
   print(genre)
   # 1日に書き込めるのは五回まで
@@ -913,7 +911,7 @@ def check_new_mail(driver, wait, name):
           remodal = driver.find_elements(By.CLASS_NAME, value="remodal-image")
           if len(remodal):
             driver.execute_script("arguments[0].style.display = 'none';", driver.find_element_by_class_name("remodal-image"))
-            
+
           send_message = driver.find_elements(By.CLASS_NAME, value="message__block--send")          
           if len(send_message):
             send_text = send_message[-1].find_elements(By.CLASS_NAME, value="message__block__body__text")[0].text
