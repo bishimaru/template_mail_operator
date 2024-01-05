@@ -636,6 +636,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
           like_cancel[0].click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(2)
+      print(f'{name}:足跡付け{i+1}件, いいね:{like_flag}、タイプ{type_flag}')
       # 戻る
       back = driver.find_elements(By.CLASS_NAME, value="ds_prev_arrow")
       back[0].click()
