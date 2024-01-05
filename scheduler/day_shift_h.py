@@ -17,12 +17,12 @@ if __name__ == '__main__':
     scheduler = BlockingScheduler()  # スケジューラを作る
 
     # サイト回し
-    scheduler.add_job(sb_h_day_shift.sb_h_all_do, 'cron', hour=5, minute=30, args=[27], misfire_grace_time=60*60)
-    scheduler.add_job(sb_h_day_shift.sb_h_all_do, 'cron', hour=7, minute=40, args=[18], misfire_grace_time=60*60)
-    scheduler.add_job(sb_h_day_shift.sb_h_all_do, 'cron', hour=11, minute=5, args=[18], misfire_grace_time=60*60)
-    scheduler.add_job(sb_h_day_shift.sb_h_all_do, 'cron', hour=15, minute=50, args=[18], misfire_grace_time=60*60)
-    scheduler.add_job(sb_h_day_shift.sb_h_all_do, 'cron', hour=18, minute=0, args=[18], misfire_grace_time=60*60)
-    scheduler.add_job(sb_h_day_shift.sb_h_all_do, 'cron', hour=20, minute=10, args=[18], misfire_grace_time=60*60)
+    scheduler.add_job(sb_h_day_shift.sb_h_all_do, 'cron', hour=5, minute=30, args=[27], max_instances=1,misfire_grace_time=60*60)
+    scheduler.add_job(sb_h_day_shift.sb_h_all_do, 'cron', hour=7, minute=40, args=[18], max_instances=1,misfire_grace_time=60*60)
+    scheduler.add_job(sb_h_day_shift.sb_h_all_do, 'cron', hour=11, minute=5, args=[18], max_instances=1,misfire_grace_time=60*60)
+    scheduler.add_job(sb_h_day_shift.sb_h_all_do, 'cron', hour=15, minute=50, args=[18], max_instances=1,misfire_grace_time=60*60)
+    scheduler.add_job(sb_h_day_shift.sb_h_all_do, 'cron', hour=18, minute=0, args=[18], max_instances=1,misfire_grace_time=60*60)
+    scheduler.add_job(sb_h_day_shift.sb_h_all_do, 'cron', hour=20, minute=10, args=[18], max_instances=1,misfire_grace_time=60*60)
 
     # scheduler.add_job(tick, 'interval', second=5)  
     print("Press Ctrl+{0} to exit.".format('Break' if os.name == 'nt' else 'C'))
