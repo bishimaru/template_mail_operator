@@ -578,72 +578,44 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    select.select_by_visible_text("プロフ一覧")
    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
    time.sleep(wait_time)
-   no_history_user_list = []
-   # ページの高さを取得
-   last_height = driver.execute_script("return document.body.scrollHeight")
-   while True:
-    # ページの最後までスクロール
-    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    # ページが完全に読み込まれるまで待機
-    time.sleep(2)
-    user_list = driver.find_elements(By.CLASS_NAME, value="ds_user_post_link_item_r")
-    for user in user_list:
-       user_class = user.get_attribute('class')
-       if not "ds_ribbon" in user_class:
-          # user_name = user.find_elements(By.CLASS_NAME, value="ds_post_body_name_small")
-          user_link = user.find_elements(By.TAG_NAME, value="a")
-          onclick_value = user_link[0].get_attribute('onclick')
-          # 正規表現パターンを定義
-          pattern = r'happymail\.co\.jp.*?idx=(\d+)'
-          match = re.search(pattern, onclick_value)
-          if match:
-            result = match.group(0)
-          no_history_user_list.append(result)
-# https://happymail.jp/login/
-    if len(no_history_user_list) > 33:
-      print('ユーザー件数33　OVER')
-      print(len(no_history_user_list))
-      break
-    # 新しい高さを取得
-    new_height = driver.execute_script("return document.body.scrollHeight")
-    # ページの高さが変わらなければ、すべての要素が読み込まれたことを意味する
-    if new_height == last_height:
-        break
-    last_height = new_height
-   for i, no_history_user in enumerate(no_history_user_list):
-      driver.get(f"https://{no_history_user}")
+   for i in range(15):
+      user_list = driver.find_elements(By.CLASS_NAME, value="ds_user_post_link_item_r")
+      no_history_user = False
+      #  メールアイコン（送信履歴）があるかチェック
+      mail_icon_flag = True
+      mail_icon_try_cnt = 0
+      while mail_icon_flag:
+        user = user_list[i]
+        driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", user)
+        mail_icon_parent = user.find_elements(By.CLASS_NAME, value="text-male")
+        mail_icon = mail_icon_parent[0].find_elements(By.TAG_NAME, value="img")
+        if  not len(mail_icon):
+          mail_icon_flag = False
+          break
+        i += 1
+        mail_icon_try_cnt += 1
+        if mail_icon_try_cnt == 10:
+           break
+      user_link = user.find_elements(By.TAG_NAME, value="a")
+      user_link[0].click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
-      #リモーダル画面が開いていれば閉じる
-      catch_remodal_screen(driver)
-      # userのidxを取得（タイプボタン取得のため）
-      #  正規表現パターンを定義
-      pattern = r'idx=(\d+)'
-      # 正規表現でマッチングを行う
-      matches = re.findall(pattern, no_history_user)
-      # idxを目印にユーザーのディスプレイを取得
-      inputs = driver.find_elements(By.NAME, value="idx")
-      type_flag = False
       # タイプ
       # ランダムな数値を生成し、実行確率と比較
+      type_flag = False
       # 実行確率
-      execution_probability = 0.70
+      execution_probability = 0.60
       if random.random() < execution_probability:
-        for input in inputs:
-          if input.get_attribute('value') == matches[0]:
-            user_profile = input.find_element(By.XPATH, 'following-sibling::div[contains(@class, "ds_profile_picture")]')
-            type_btn = user_profile.find_elements(By.CLASS_NAME, value="icon-type_off")
-            if len(type_btn):
-              type_btn[0].click()
-              type_flag = True
-              time.sleep(2)
+        type_button = driver.find_element(By.ID, value="btn-type")
+        type_button.click()
+        type_flag = True
+        time.sleep(2)
       # いいね
       # ランダムな数値を生成し、実行確率と比較
-         # 実行確率
-      execution_probability = 0.70
       like_flag = False
+      # 実行確率
+      execution_probability = 0.60
       if random.random() < execution_probability:
-        catch_remodal_screen(driver)
         others_icon = driver.find_elements(By.CLASS_NAME, value="icon-profile_other_on")
         others_icon[0].click()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -664,14 +636,115 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
           like_cancel[0].click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(2)
-      # driver.get("https://happymail.co.jp/sp/app/html/profile_list.php")
-      # driver.back()
-      print(f'{name}:足跡付け{i+1}件, いいね:{like_flag}、タイプ{type_flag}')
+      # 戻る
+      back = driver.find_elements(By.CLASS_NAME, value="ds_prev_arrow")
+      back[0].click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      time.sleep(wait_time)
-      if i == 40:
-         break
-   driver.refresh()
+      time.sleep(2)
+      # たまに変なページに遷移するのでurl確認
+      current_url = driver.current_url
+      # 特定の文字列で始まっているか確認
+      if not current_url.startswith("https://happymail.co.jp/sp/app/html/profile_list.php"):
+          print("URLは指定した文字列で始まっていません。")
+          driver.get("https://happymail.co.jp/sp/app/html/profile_list.php")
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(2)
+
+
+  #  no_history_user_list = []
+#    # ページの高さを取得
+#    last_height = driver.execute_script("return document.body.scrollHeight")
+#    while True:
+#     # ページの最後までスクロール
+#     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+#     # ページが完全に読み込まれるまで待機
+#     time.sleep(2)
+#     user_list = driver.find_elements(By.CLASS_NAME, value="ds_user_post_link_item_r")
+#     for user in user_list:
+#        user_class = user.get_attribute('class')
+#        if not "ds_ribbon" in user_class:
+#           # user_name = user.find_elements(By.CLASS_NAME, value="ds_post_body_name_small")
+#           user_link = user.find_elements(By.TAG_NAME, value="a")
+#           onclick_value = user_link[0].get_attribute('onclick')
+#           # 正規表現パターンを定義
+#           pattern = r'happymail\.co\.jp.*?idx=(\d+)'
+#           match = re.search(pattern, onclick_value)
+#           if match:
+#             result = match.group(0)
+#           no_history_user_list.append(result)
+# # https://happymail.jp/login/
+#     if len(no_history_user_list) > 33:
+#       print('ユーザー件数33　OVER')
+#       print(len(no_history_user_list))
+#       break
+#     # 新しい高さを取得
+#     new_height = driver.execute_script("return document.body.scrollHeight")
+#     # ページの高さが変わらなければ、すべての要素が読み込まれたことを意味する
+#     if new_height == last_height:
+#         break
+#     last_height = new_height
+#    for i, no_history_user in enumerate(no_history_user_list):
+#       driver.get(f"https://{no_history_user}")
+#       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+#       time.sleep(wait_time)
+#       #リモーダル画面が開いていれば閉じる
+#       catch_remodal_screen(driver)
+#       # userのidxを取得（タイプボタン取得のため）
+#       #  正規表現パターンを定義
+#       pattern = r'idx=(\d+)'
+#       # 正規表現でマッチングを行う
+#       matches = re.findall(pattern, no_history_user)
+#       # idxを目印にユーザーのディスプレイを取得
+#       inputs = driver.find_elements(By.NAME, value="idx")
+#       type_flag = False
+#       # タイプ
+#       # ランダムな数値を生成し、実行確率と比較
+#       # 実行確率
+#       execution_probability = 0.70
+#       if random.random() < execution_probability:
+#         for input in inputs:
+#           if input.get_attribute('value') == matches[0]:
+#             user_profile = input.find_element(By.XPATH, 'following-sibling::div[contains(@class, "ds_profile_picture")]')
+#             type_btn = user_profile.find_elements(By.CLASS_NAME, value="icon-type_off")
+#             if len(type_btn):
+#               type_btn[0].click()
+#               type_flag = True
+#               time.sleep(2)
+#       # いいね
+#       # ランダムな数値を生成し、実行確率と比較
+#          # 実行確率
+#       execution_probability = 0.70
+#       like_flag = False
+#       if random.random() < execution_probability:
+#         catch_remodal_screen(driver)
+#         others_icon = driver.find_elements(By.CLASS_NAME, value="icon-profile_other_on")
+#         others_icon[0].click()
+#         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+#         time.sleep(1)
+#         like_icon = driver.find_elements(By.ID, value="btn-like")
+#         like_icon_classes = like_icon[0].get_attribute("class")
+#         if not "disabled" in like_icon_classes:
+#           like_flag = True
+#           # footer_menu-list-item-link
+#           like = like_icon[0].find_elements(By.CLASS_NAME, value="footer_menu-list-item-link")
+#           like[0].click()
+#           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+#           time.sleep(2)
+#           like_cancel = driver.find_elements(By.CLASS_NAME, value="modal-cancel")
+#           while not len(like_cancel):
+#              time.sleep(1)
+#              like_cancel = driver.find_elements(By.CLASS_NAME, value="modal-cancel")
+#           like_cancel[0].click()
+#           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+#           time.sleep(2)
+#       # driver.get("https://happymail.co.jp/sp/app/html/profile_list.php")
+#       # driver.back()
+#       print(f'{name}:足跡付け{i+1}件, いいね:{like_flag}、タイプ{type_flag}')
+#       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+#       time.sleep(wait_time)
+#       if i == 40:
+#          break
+#    driver.refresh()
 
 def send_fst_message(name_list):
   options = Options()
