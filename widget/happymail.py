@@ -23,20 +23,21 @@ from selenium.common.exceptions import NoSuchElementException
 
 #リモーダル画面が開いていれば閉じる
 def catch_remodal_screen(driver):
-  # remodal-close
-  remodal_close_button = driver.find_elements(By.CLASS_NAME, value="remodal-close") 
-  if len(remodal_close_button):
-    print("リモーダル画面が出ました")
-    remodal_close_button[0].click()
-    time.sleep(2)
   # _information_dialog
   dialog = driver.find_elements(By.ID, value="_information_dialog")
-  if len(dialog):
-    print("インフォメーション画面が出ました")
+  # remodal-close
+  remodal_close_button = driver.find_elements(By.CLASS_NAME, value="remodal-close") 
+  if len(remodal_close_button) or len(dialog):
+    print("リモーダル画面が出ました")
+    # remodal_close_button[0].click()
+    # time.sleep(2)
     wait = WebDriverWait(driver, 15)
     driver.refresh()
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
     time.sleep(2)
+  
+  
+    
 
 # 警告画面
 # b2_dialog_title
