@@ -516,6 +516,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         text_area.send_keys(return_foot_message)
         # 送信
         send_mail = driver.find_element(By.ID, value="submitButton")
+        driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", send_mail)
         send_mail.click()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(wait_time)
@@ -1064,6 +1065,7 @@ def check_new_mail(driver, wait, name):
             text_area.send_keys(fst_message)
             # 送信
             send_mail = driver.find_element(By.ID, value="submitButton")
+            driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", send_mail)
             send_mail.click()
             wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
             time.sleep(wait_time)
