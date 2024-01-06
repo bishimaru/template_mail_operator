@@ -531,6 +531,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
           upload_file.send_keys(return_foot_img)
           time.sleep(2)
           submit = driver.find_element(By.ID, value="submit_button")
+          driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", submit)
           submit.click()
           while img_conform.is_displayed():
              time.sleep(2)
@@ -875,6 +876,7 @@ def send_fst_message(name_list):
             upload_file.send_keys(fst_message_img)
             time.sleep(2)
             submit = driver.find_element(By.ID, value="submit_button")
+            driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", submit)
             submit.click()
             while img_conform.is_displayed():
                 time.sleep(2)
