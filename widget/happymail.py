@@ -993,11 +993,7 @@ def check_new_mail(driver, wait, name):
           new_mail[0].click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(2)
-          # リモーダル画面が出たら画像要素を非表示にする
-          remodal = driver.find_elements(By.CLASS_NAME, value="remodal-image")
-          if len(remodal):
-            driver.execute_script("arguments[0].style.display = 'none';", driver.find_element_by_class_name("remodal-image"))
-
+          catch_warning_screen(driver)
           send_message = driver.find_elements(By.CLASS_NAME, value="message__block--send")          
           if len(send_message):
             send_text = send_message[-1].find_elements(By.CLASS_NAME, value="message__block__body__text")[0].text
