@@ -23,11 +23,13 @@ from selenium.common.exceptions import NoSuchElementException
 
 #リモーダル画面が開いていれば閉じる
 def catch_remodal_screen(driver):
+  # anno
+  anno = driver.find_elements(By.CLASS_NAME, value="anno")
   # _information_dialog
   dialog = driver.find_elements(By.ID, value="_information_dialog")
   # remodal-close
   remodal_close_button = driver.find_elements(By.CLASS_NAME, value="remodal-close") 
-  if len(remodal_close_button) or len(dialog):
+  if len(remodal_close_button) or len(dialog) or len(anno):
     print("リモーダル画面が出ました")
     # remodal_close_button[0].click()
     # time.sleep(2)
@@ -45,6 +47,9 @@ def catch_warning_screen(driver):
    warning = driver.find_elements(By.CLASS_NAME, value="warning screen")
    if len(warning):
       print(warning.text)
+      return True
+   elif len(anno):
+      print("anno")
       return True
    else:
       return False
@@ -299,6 +304,7 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
                 bulletin_board.click()
                 wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
                 time.sleep(wait_time)
+                catch_remodal_screen(driver)
                 # 書き込みをクリック
                 write = driver.find_element(By.CLASS_NAME, value="icon-kakikomi_float")
                 # write = driver.find_element(By.CLASS_NAME, value="icon-header_kakikomi")

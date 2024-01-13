@@ -83,10 +83,10 @@ for i in range(len(handle_array)):
         element[0].click()
         time.sleep(1) 
         # toggleaccountscallout+20 
-        custom_value = "toggleaccountscallout+20"
+        custom_value = "toggleaccountscallout+21"
         xpath = f"//*[@data-control-type='{custom_value}']"
         element = driver.find_elements(By.XPATH, value=xpath)
-        if element is None:
+        if len(element):
             print("要素が見つかりません")
         address = element[0].text
         # print(address)

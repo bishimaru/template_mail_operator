@@ -549,7 +549,7 @@ def check_new_mail_gmail(driver, wait, name, mail_address):
   time.sleep(2) 
   element[0].click()
   time.sleep(1) 
-  custom_value = "toggleaccountscallout+20"
+  custom_value = "toggleaccountscallout+21"
   xpath = f"//*[@data-control-type='{custom_value}']"
   element = driver.find_elements(By.XPATH, value=xpath)
   if len(element):
