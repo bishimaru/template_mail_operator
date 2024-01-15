@@ -557,15 +557,15 @@ def check_new_mail_gmail(driver, wait, name, mail_address):
       element = driver.find_elements(By.XPATH, value=xpath)
   address = element[0].text
   # メインボックスのチェック
-  main_box = driver.find_elements(By.CLASS_NAME, value="Jd")
-  main_box[0].click()
+  menuitem_element = driver.find_elements(By.XPATH, '//*[@role="menuitem"]')
+  main_box = menuitem_element[0]
+  main_box.click()
   time.sleep(1)
-  email_list = driver.find_element(By.CLASS_NAME, value="Kk")
-  emails = email_list.find_elements(By.XPATH, value='//*[@role="listitem"]')
+  emails = driver.find_elements(By.XPATH, value='//*[@role="listitem"]')
   for email in emails:
     new_email = email.find_elements(By.TAG_NAME, value="b")
     if len(new_email):
-      child_elements = email.find_elements(By.CLASS_NAME, value="Qk")
+      child_elements = email.find_elements(By.CLASS_NAME, value="Rk")
       if child_elements[0].text:  # テキストが空でない場合
           # print(f"この子要素にテキストが含まれています: {child_elements[0].text}")
           return_list.append(f"{address},{login_id}:{passward}\n「{child_elements[0].text}」")
@@ -587,12 +587,11 @@ def check_new_mail_gmail(driver, wait, name, mail_address):
   driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", spam)
   spam.click()
   time.sleep(1) 
-  email_list = driver.find_element(By.CLASS_NAME, value="Kk")
-  emails = email_list.find_elements(By.XPATH, value='//*[@role="listitem"]')
+  emails = driver.find_elements(By.XPATH, value='//*[@role="listitem"]')
   for email in emails:
     new_email = email.find_elements(By.TAG_NAME, value="b")
     if len(new_email):
-      child_elements = email.find_elements(By.CLASS_NAME, value="Qk")
+      child_elements = email.find_elements(By.CLASS_NAME, value="Rk")
       if child_elements[0].text:  # テキストが空でない場合
           # print(f"この子要素にテキストが含まれています: {child_elements[0].text}")
           return_list.append(f"{address}:迷惑フォルダ,{login_id}:{passward}\n「{child_elements[0].text}」")

@@ -44,6 +44,7 @@ def catch_remodal_screen(driver):
 # 警告画面
 # b2_dialog_title
 def catch_warning_screen(driver):
+   anno = driver.find_elements(By.CLASS_NAME, value="anno")
    warning = driver.find_elements(By.CLASS_NAME, value="warning screen")
    if len(warning):
       print(warning.text)
