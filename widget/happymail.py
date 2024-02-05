@@ -155,7 +155,7 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
 
       #  掲示板をクリック
       nav_list = driver.find_element(By.ID, value='ds_nav')
-      bulletin_board = nav_list.find_element(By.LINK_TEXT, "掲示板")
+      bulletin_board = nav_list.find_element(By.LINK_TEXT, "募集")
       bulletin_board.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
