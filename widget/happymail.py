@@ -25,15 +25,17 @@ def catch_warning_screen(driver):
   anno = driver.find_elements(By.CLASS_NAME, value="anno")
   warning = driver.find_elements(By.CLASS_NAME, value="warning screen")
   dialog = driver.find_elements(By.ID, value="_information_dialog")
+  remodal = driver.find_elements(By.CLASS_NAME, value="remodal-image")
 
-  while len(warning) or len(anno) or len(dialog):
+  while len(warning) or len(anno) or len(dialog) or len(remodal):
     driver.refresh()
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
     time.sleep(2)
     warning = driver.find_elements(By.CLASS_NAME, value="warning screen")
     anno = driver.find_elements(By.CLASS_NAME, value="anno")
     dialog = driver.find_elements(By.ID, value="_information_dialog")
-  
+    remodal = driver.find_elements(By.CLASS_NAME, value="remodal-image")
+
   return True
    
 def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genre_flag):
