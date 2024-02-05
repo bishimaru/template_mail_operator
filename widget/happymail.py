@@ -247,8 +247,8 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
             delete.click()
             time.sleep(2)
       blue_round_buttons = driver.find_elements(By.CLASS_NAME, "ds_round_btn_blue2")
-      if len(blue_round_buttons) >= repost_cnt:
-        blue_round_button = blue_round_buttons[repost_cnt]
+      if len(blue_round_buttons):
+        blue_round_button = blue_round_buttons[0]
         driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", blue_round_button)
         time.sleep(wait_time)
         driver.execute_script('arguments[0].click();', blue_round_button)
@@ -1021,7 +1021,8 @@ def check_new_mail(driver, wait, name):
               return_message = f"{name}happymail,{login_id}:{login_pass}\n{user_name}「{receive_contents.text}」"
               return_list.append(return_message)
               # みちゃいや
-              plus_icon = driver.find_elements(By.CLASS_NAME, value="icon-message_plus")
+              plus_icon_parent = driver.find_elements(By.CLASS_NAME, value="message__form__action")
+              plus_icon = plus_icon_parent[0].find_elements(By.CLASS_NAME, value="icon-message_plus")
               print(567)
               print(len(plus_icon))
               driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", plus_icon[0])
