@@ -19,42 +19,23 @@ from datetime import datetime, timedelta
 import difflib
 from selenium.common.exceptions import NoSuchElementException
 
-
-
-#リモーダル画面が開いていれば閉じる
-def catch_remodal_screen(driver):
-  # anno
+# 警告画面
+def catch_warning_screen(driver):
+  wait = WebDriverWait(driver, 15)
   anno = driver.find_elements(By.CLASS_NAME, value="anno")
-  # _information_dialog
+  warning = driver.find_elements(By.CLASS_NAME, value="warning screen")
   dialog = driver.find_elements(By.ID, value="_information_dialog")
-  # remodal-close
-  remodal_close_button = driver.find_elements(By.CLASS_NAME, value="remodal-close") 
-  if len(remodal_close_button) or len(dialog) or len(anno):
-    print("リモーダル画面が出ました")
-    # remodal_close_button[0].click()
-    # time.sleep(2)
-    wait = WebDriverWait(driver, 15)
+
+  while len(warning) or len(anno) or len(dialog):
     driver.refresh()
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
     time.sleep(2)
+    warning = driver.find_elements(By.CLASS_NAME, value="warning screen")
+    anno = driver.find_elements(By.CLASS_NAME, value="anno")
+    dialog = driver.find_elements(By.ID, value="_information_dialog")
   
-  
-    
-
-# 警告画面
-# b2_dialog_title
-def catch_warning_screen(driver):
-   anno = driver.find_elements(By.CLASS_NAME, value="anno")
-   warning = driver.find_elements(By.CLASS_NAME, value="warning screen")
-   if len(warning):
-      print(warning.text)
-      return True
-   elif len(anno):
-      print("anno")
-      return True
-   else:
-      return False
-
+  return True
+   
 def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genre_flag):
   area_list = ["東京都", "千葉県", "埼玉県", "神奈川県"]
   wait = WebDriverWait(driver, 15)
@@ -97,7 +78,7 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
   bulletin_board_history.click()
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
   time.sleep(wait_time)
-  catch_remodal_screen(driver)
+  catch_warning_screen(driver)
   # ピュア掲示板かその他掲示板をクリック
   if adult_flag:
     link_tab = driver.find_elements(By.CLASS_NAME, "ds_link_tab_text")
@@ -305,7 +286,7 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
                 bulletin_board.click()
                 wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
                 time.sleep(wait_time)
-                catch_remodal_screen(driver)
+                catch_warning_screen(driver)
                 # 書き込みをクリック
                 write = driver.find_element(By.CLASS_NAME, value="icon-kakikomi_float")
                 # write = driver.find_element(By.CLASS_NAME, value="icon-header_kakikomi")
@@ -402,10 +383,8 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
     user_name_list = []
     # 上から順番に足跡返し
     while cnt >= foot_cnt:
-      catch_remodal_screen(driver)
-      warning = catch_warning_screen(driver) 
-      if warning:
-         break
+      catch_warning_screen(driver)
+    
       user_icon = 0
       # マイページをクリック
       nav_list = driver.find_element(By.ID, value='ds_nav')
@@ -486,7 +465,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         f_user[user_icon].click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
-      catch_remodal_screen(driver)
+      catch_warning_screen(driver)
       m = driver.find_elements(By.XPATH, value="//*[@id='ds_main']/div/p")
       if len(m):
         print(m[0].text)
@@ -583,7 +562,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
    time.sleep(2)
    #リモーダル画面が開いていれば閉じる
-   catch_remodal_screen(driver)
+   catch_warning_screen(driver)
    # プロフ検索をクリック
    nav_list = driver.find_element(By.ID, value='ds_nav')
    mypage = nav_list.find_element(By.LINK_TEXT, "プロフ検索")
@@ -707,7 +686,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
 #       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
 #       time.sleep(wait_time)
 #       #リモーダル画面が開いていれば閉じる
-#       catch_remodal_screen(driver)
+#       catch_warning_screen(driver)
 #       # userのidxを取得（タイプボタン取得のため）
 #       #  正規表現パターンを定義
 #       pattern = r'idx=(\d+)'
@@ -735,7 +714,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
 #       execution_probability = 0.70
 #       like_flag = False
 #       if random.random() < execution_probability:
-#         catch_remodal_screen(driver)
+#         catch_warning_screen(driver)
 #         others_icon = driver.find_elements(By.CLASS_NAME, value="icon-profile_other_on")
 #         others_icon[0].click()
 #         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
