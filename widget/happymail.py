@@ -35,7 +35,6 @@ def catch_warning_screen(driver):
     anno = driver.find_elements(By.CLASS_NAME, value="anno")
     dialog = driver.find_elements(By.ID, value="_information_dialog")
     remodal = driver.find_elements(By.CLASS_NAME, value="remodal-image")
-
   return True
    
 def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genre_flag):
@@ -263,8 +262,6 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
       parent_blue_round_button = driver.execute_script(js_parent_script, blue_round_button)
       # area_text = driver.find_elements(By.CLASS_NAME, value="ds_write_bbs_status")
       area_text = parent_blue_round_button.text.replace(" ", "").replace("\n", "")
-      
-      print(area_text)
       skip_flug = False
       for area in area_list:
         if area in area_text:
@@ -392,8 +389,6 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
                   time.sleep(wait_time)
                   blue_round_buttons = driver.find_elements(By.CLASS_NAME, "ds_round_btn_blue2")
                   blue_round_buttons = driver.find_elements(By.CLASS_NAME, "ds_round_btn_blue2")
-                  print('一周')
-                  print(len(blue_round_buttons))
                 else:
                   print(str(area) + "の再投稿に失敗しました")
                   not_be_repost_areas.append(str(area))
@@ -1050,10 +1045,7 @@ def check_new_mail(driver, wait, name):
             send_text = send_message[-1].find_elements(By.CLASS_NAME, value="message__block__body__text")[0].text
             if not send_text:
                 send_text = send_message[-2].find_elements(By.CLASS_NAME, value="message__block__body__text")[0].text
-            # print(send_text)
             
-            # print("<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>")
-            # if name == "りこ":
             print("<<<<<<<<<<<>>>>>>>>>>>>>")
             print(send_text)
             print("---------------------------------------")
