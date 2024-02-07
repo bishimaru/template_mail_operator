@@ -18,7 +18,7 @@ import sqlite3
 
 def get_driver():
     options = Options()
-    options.add_argument('--headless')
+    # options.add_argument('--headless')
     options.add_argument("--incognito")
     options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
     options.add_argument("--no-sandbox")
@@ -77,12 +77,12 @@ def sb_h_repost_returnfoot(name, cnt):
     print(traceback.format_exc())
     func.send_error(f"ハッピーメール掲示板エラー{name}", traceback.format_exc())
   time.sleep(2)
-  try:
-    return_foot_cnt = happymail.return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt, return_foot_img)
-  except Exception as e:
-    print(f"足跡返しエラー{name}")s
-    print(traceback.format_exc())
-    func.send_error(f"足跡返しエラー{name}", traceback.format_exc())
+  # try:
+  #   return_foot_cnt = happymail.return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt, return_foot_img)
+  # except Exception as e:
+  #   print(f"足跡返しエラー{name}")s
+  #   print(traceback.format_exc())
+  #   func.send_error(f"足跡返しエラー{name}", traceback.format_exc())
   driver.quit()
   return return_foot_cnt
 
