@@ -1055,7 +1055,7 @@ def check_new_mail(driver, wait, name):
             print("---------------------------------------")
             print("募集メッセージ" in send_text)
 
-            if fst_message == send_text or return_foot_message == send_text or "掲示板メッセージ" in send_text:
+            if fst_message == send_text or return_foot_message == send_text or "募集メッセージ" in send_text:
                 text_area = driver.find_element(By.ID, value="text-message")
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", text_area)
                 text_area.send_keys(conditions_message)
