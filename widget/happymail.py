@@ -255,7 +255,8 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
     not_be_repost_areas = []
     blue_round_buttons = driver.find_elements(By.CLASS_NAME, "ds_round_btn_blue2")
     while len(blue_round_buttons):
-      blue_round_buttons = driver.find_elements(By.CLASS_NAME, "ds_round_btn_blue2")
+      if not len(blue_round_buttons):
+         return
       blue_round_button = blue_round_buttons[0]
       # 再掲載できなかった場合はスキップ
       js_parent_script = "return arguments[0].parentNode;"
@@ -387,7 +388,6 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
                   bulletin_board_history.click()
                   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
                   time.sleep(wait_time)
-                  blue_round_buttons = driver.find_elements(By.CLASS_NAME, "ds_round_btn_blue2")
                   blue_round_buttons = driver.find_elements(By.CLASS_NAME, "ds_round_btn_blue2")
                 else:
                   print(str(area) + "の再投稿に失敗しました")
