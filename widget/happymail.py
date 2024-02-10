@@ -260,7 +260,13 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
       blue_round_button = blue_round_buttons[0]
       # 再掲載できなかった場合はスキップ
       js_parent_script = "return arguments[0].parentNode;"
-      parent_blue_round_button = driver.execute_script(js_parent_script, blue_round_button)
+      for try_cnt in range(5):
+        try:
+          parent_blue_round_button = driver.execute_script(js_parent_script, blue_round_button)
+          break
+        except:
+          time.sleep(5)
+          continue
       # area_text = driver.find_elements(By.CLASS_NAME, value="ds_write_bbs_status")
       area_text = parent_blue_round_button.text.replace(" ", "").replace("\n", "")
       skip_flug = False
