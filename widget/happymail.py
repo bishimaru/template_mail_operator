@@ -255,18 +255,10 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
     not_be_repost_areas = []
     blue_round_buttons = driver.find_elements(By.CLASS_NAME, "ds_round_btn_blue2")
     while len(blue_round_buttons):
-      if not len(blue_round_buttons):
-         return
       blue_round_button = blue_round_buttons[0]
       # 再掲載できなかった場合はスキップ
       js_parent_script = "return arguments[0].parentNode;"
-      for try_cnt in range(5):
-        try:
-          parent_blue_round_button = driver.execute_script(js_parent_script, blue_round_button)
-          break
-        except:
-          time.sleep(5)
-          continue
+      parent_blue_round_button = driver.execute_script(js_parent_script, blue_round_button)
       # area_text = driver.find_elements(By.CLASS_NAME, value="ds_write_bbs_status")
       area_text = parent_blue_round_button.text.replace(" ", "").replace("\n", "")
       skip_flug = False
@@ -394,7 +386,6 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
                   bulletin_board_history.click()
                   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
                   time.sleep(wait_time)
-                  blue_round_buttons = driver.find_elements(By.CLASS_NAME, "ds_round_btn_blue2")
                 else:
                   print(str(area) + "の再投稿に失敗しました")
                   not_be_repost_areas.append(str(area))
@@ -421,8 +412,8 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
                   bulletin_board_history.click()
                   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
                   time.sleep(wait_time)
-                  blue_round_buttons = driver.find_elements(By.CLASS_NAME, "ds_round_btn_blue2")
-
+                  
+      blue_round_buttons = driver.find_elements(By.CLASS_NAME, "ds_round_btn_blue2")
       # print(f"「{name}」ハッピーメールの掲示板書き込みに成功しました")
       repost_cnt += 1
       if repost_cnt == 4:
