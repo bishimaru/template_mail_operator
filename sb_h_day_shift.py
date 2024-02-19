@@ -24,6 +24,7 @@ def sb_h_all_do(return_foot_cnt):
   # chara_order = [  
   #   "なお", "波留（はる）",
   # ]
+  
   def timer(sec, functions):
     start_time = time.time() 
     for func in functions:
@@ -46,7 +47,7 @@ def sb_h_all_do(return_foot_cnt):
         return_cnt_list.append(f"{chara}:足跡返し {int(return_func)}件")
     except Exception as e:
       print(f"エラー{chara}")
-      # print(traceback.format_exc())
+      print(traceback.format_exc())
       # func.send_error(chara, traceback.format_exc())
   elapsed_time = time.time() - start_one_rap_time  
   elapsed_timedelta = timedelta(seconds=elapsed_time)

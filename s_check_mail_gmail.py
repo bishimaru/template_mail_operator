@@ -23,21 +23,18 @@ from datetime import datetime
 
 order_list = [
    ["アスカ", "asuka414510@gmail.com"],
-   ["彩香", "ayaka414510@gmail.com"],
+   ["あやか", "ayaka414510@gmail.com"],
    ["えりか", "k.erika414510@gmail.com"],
    ["きりこ", "kiriko414510@gmail.com"],
    ["すい", "sui187586@gmail.com"],
    ["なお", "n414510a@gmail.com"],
    ["めあり", "meari414510@gmail.com"],
-#    ["ももか", "momoka414510@gmail.com"],
-   ["波留（はる）", "k.haru414510@gmail.com"], 
-   ["波留（は...", ""],
+   ["はづき", "k.haru414510@gmail.com"], 
    ["ハル", "haruru414510@gmail.com"],
    ["りこ", "riko414510@gmail.com"],
    ["りな", "k.rina414510@gmail.com"],
    ["ゆうな", "y8708336@gmail.com"], 
    ["ゆっこ", "yuko414510@gmail.com"], 
-   
    ["ゆかり", "y216154@gmail.com"],
   
    
@@ -52,11 +49,14 @@ def get_driver(debug):
     if debug:
         options.add_argument("--remote-debugging-port=9222")
         options.add_argument('--headless')
-    else:
-        # options.add_argument('--headless')
         options.add_argument("--incognito")
         options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
-    options.add_argument("--no-sandbox")
+    else:
+        options.add_argument("--remote-debugging-port=9222")
+        options.add_argument('--headless')
+        options.add_argument("--incognito")
+        # options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
+    # options.add_argument("--no-sandbox")
     options.add_argument("--window-size=456,912")
     options.add_experimental_option("detach", True)
     options.add_argument("--disable-cache")
@@ -72,16 +72,17 @@ def check_mail():
         "あやか": 0,
         "えりか": 0,
         "きりこ": 0,
-         "すい": 0,
-        "波留（は...": 0,
+        "すい": 0,
+        "なお": 0,
+        "はづき": 0,
+        "ハル": 0,
         "めあり": 0,
         "りこ": 0,
         "りな": 0,
+        "ゆうな": 0,
         "ゆっこ": 0,
-        "ハル": 0,
         "ゆかり": 0,
        
-        
     }
   while True:
     start_time = time.time() 
