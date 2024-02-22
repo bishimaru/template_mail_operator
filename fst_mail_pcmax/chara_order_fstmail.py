@@ -17,18 +17,18 @@ def main(maji_soushin, chara_name_list, end_hour, end_minute):
   
   # 年齢選択（最小18歳、最高60以上）
   youngest_age = "19"
-  oldest_age = "33"
+  oldest_age = "37"
   # NGワード（複数、追加可能）
   ng_words = [
     "通報",
     "業者",
-    "食事",
-    "お茶",
-    "円",
-    "パパ",
-    "援",
-    "援交",
-    "お金のやり取り",
+    # "食事",
+    # "お茶",
+    # "円",
+    # "パパ",
+    # "援",
+    # "援交",
+    # "お金のやり取り",
   ]
 
   user_sort = [

@@ -31,8 +31,6 @@ order_list = [
    ["なお", "n414510a@gmail.com"],
    ["ハル", "haruru414510@gmail.com"],
    ["はづき", "k.haru414510@gmail.com"], 
-   ["波留（は...", ""],
-
    ["めあり", "meari414510@gmail.com"],
    ["りこ", "riko414510@gmail.com"],
    ["りな", "k.rina414510@gmail.com"],
@@ -70,6 +68,7 @@ def check_mail():
         "あやか": 0,
         "えりか": 0,
         "きりこ": 0,
+        "さな": 0,
         "すい": 0,
         "なお": 0,
         "ハル": 0,

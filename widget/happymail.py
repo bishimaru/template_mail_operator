@@ -421,6 +421,15 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
     if setting.mac_os:
         os.system("osascript -e 'display notification \"ハッピーメール掲示板再投稿中に成功しました◎\" with title \"{}\"'".format(name))
 
+def return_matching(name, driver, message, cnt, img,):
+   wait = WebDriverWait(driver, 15)
+   print(6789)
+   driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
+   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+   time.sleep(2)
+   return_matching_cnt = 0
+   
+
 def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt, return_foot_img):
     wait = WebDriverWait(driver, 15)
     if happy_windowhandle:
@@ -588,7 +597,8 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", ds_logo)
         top_link = ds_logo.find_element(By.TAG_NAME, value="a")
         time.sleep(1)
-        top_link.click()
+        driver.execute_script("arguments[0].click();", top_link)
+        # top_link.click()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(wait_time)
       else:
@@ -596,7 +606,8 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         # TOPに戻る
         ds_logo = driver.find_element(By.CLASS_NAME, value="ds_logo")
         top_link = ds_logo.find_element(By.TAG_NAME, value="a")
-        top_link.click()
+        driver.execute_script("arguments[0].click();", top_link)
+        # top_link.click()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(wait_time)
     if setting.mac_os:
