@@ -471,21 +471,22 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
       name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
       user_name = name_field.text
       mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
-      user_age = f_user[user_icon].find_elements(By.CLASS_NAME, value="ds_like_list_age")
-      if not len(user_age):
-         send_status = False
-      if user_age[0].text[:2] == "ナイ":
-         print("年齢不詳")
-         user_age = 31
-      else:
-        user_age = int(user_age[0].text[:2])
-      if user_age >= 40:
-        #  print(f'〜〜{user_age}代〜〜')
-         # 実行確率（80%の場合）
-         execution_probability = 0.20
-         # ランダムな数値を生成し、実行確率と比較
-         if random.random() < execution_probability:
-            send_status = False
+      # 年齢で返信する確率を調整する
+      # user_age = f_user[user_icon].find_elements(By.CLASS_NAME, value="ds_like_list_age")
+      # if not len(user_age):
+      #    send_status = False
+      # if user_age[0].text[:2] == "ナイ" or user_age[0].text == "":
+      #    print("年齢不詳")
+      #    user_age = 31
+      # else:
+      #   user_age = int(user_age[0].text[:2])
+      # if user_age >= 40:
+      #   #  print(f'〜〜{user_age}代〜〜')
+      #    # 実行確率（80%の場合）
+      #    execution_probability = 0.20
+      #    # ランダムな数値を生成し、実行確率と比較
+      #    if random.random() < execution_probability:
+      #       send_status = False
       # メールアイコンがあるかチェック
       # print(user_name_list)
       if len(mail_icon):
