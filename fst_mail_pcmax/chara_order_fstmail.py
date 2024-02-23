@@ -108,10 +108,10 @@ if __name__ == '__main__':
     "りな":{}, "ゆっこ":{},"ゆかり":{}, "ゆうな":{},
     
   }
-  chara_name_list = {
-    "つむぎ":{},
+  # chara_name_list = {
+  #   "つむぎ":{},
     
-  }
+  # }
   
   main(maji_soushin, chara_name_list, end_hour, end_minute)
   
