@@ -1665,7 +1665,7 @@ def re_registration(name, driver):
   if len(suspend):
     print(f'{name}pcmax利用制限中です')
     return  
-  wait_time = random.uniform(3, 4)
+  wait_time = random.uniform(4,5)
   login(driver, wait)
   # MENUをクリック
   menu = driver.find_element(By.ID, value='sp_nav')
