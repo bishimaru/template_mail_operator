@@ -24,7 +24,7 @@ from widget import func
 
 def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, second_message, maji_soushin, select_areas, youngest_age, oldest_age, ng_words, limit_send_cnt, user_sort_list):
   options = Options()
-  options.add_argument('--headless')
+  # options.add_argument('--headless')
   options.add_argument("--incognito")
   options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
   options.add_argument("--no-sandbox")
@@ -53,6 +53,7 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
   send_form.click()
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
   time.sleep(3)
+  send_complete = False
   try:
     send_cnt = 1
     while True:
@@ -430,6 +431,7 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
         if send_cnt == limit_send_cnt + 1:
           driver.quit()
           print(f"<<<<<<<<<<<{name}、送信数{send_cnt - 1}件:上限に達しました>>>>>>>>>>>>>>")
+          send_complete = True
           break
       try:
         driver.get("https://pcmax.jp/pcm/index.php")
@@ -441,11 +443,15 @@ def send_fst_mail(name, login_id, login_pass, fst_message, fst_message_img, seco
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(2)
       
-
   # 何らかの処理
   except KeyboardInterrupt:
     print("Ctl + c")
     driver.quit()  
   except Exception:
-    print("警告画面、何らかのエラー")
-    driver.quit()  
+    if send_complete:
+      driver.quit()  
+    else:
+      print("エラー")
+      print(traceback.format_exc())
+      
+    

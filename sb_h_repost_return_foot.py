@@ -18,7 +18,7 @@ import sqlite3
 
 def get_driver():
     options = Options()
-    options.add_argument('--headless')
+    # options.add_argument('--headless')
     options.add_argument("--incognito")
     options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
     options.add_argument("--no-sandbox")
@@ -34,7 +34,7 @@ def sb_h_repost_returnfoot(name, cnt):
   dbpath = 'firstdb.db'
   conn = sqlite3.connect(dbpath)
   cur = conn.cursor()
-  cur.execute('SELECT login_id, passward, post_title, post_contents, return_foot_message, mail_img FROM happymail WHERE name = ?', (name,))
+  cur.execute('SELECT login_id, passward, post_title, post_contents, return_foot_message, mail_img, fst_message FROM happymail WHERE name = ?', (name,))
   login_id = ""
   for row in cur:
       login_id = row[0]
@@ -48,6 +48,7 @@ def sb_h_repost_returnfoot(name, cnt):
           return_foot_img = return_foot_img.replace("mail_tool", "mail_operator")
       else:
          return_foot_img = ""
+      fst_message = row[6]
   if not login_id:
     return
   adult_flag = True
@@ -70,15 +71,15 @@ def sb_h_repost_returnfoot(name, cnt):
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
   time.sleep(2)
   return_foot_cnt = 0
+  # try:
+  #   happymail.re_post(name, happy_windowhandle, driver, post_title, post_contents, adult_flag, genre_flag)
+  # except Exception as e:
+  #   print(f"ハッピーメール掲示板エラー{name}")
+  #   print(traceback.format_exc())
+  #   func.send_error(f"ハッピーメール掲示板エラー{name}", traceback.format_exc())
+  # time.sleep(2)
   try:
-    happymail.re_post(name, happy_windowhandle, driver, post_title, post_contents, adult_flag, genre_flag)
-  except Exception as e:
-    print(f"ハッピーメール掲示板エラー{name}")
-    print(traceback.format_exc())
-    func.send_error(f"ハッピーメール掲示板エラー{name}", traceback.format_exc())
-  time.sleep(2)
-  try:
-    return_foot_cnt = happymail.return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt, return_foot_img)
+    return_foot_cnt = happymail.return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt, return_foot_img, fst_message)
   except Exception as e:
     print(f"足跡返しエラー{name}")
     print(traceback.format_exc())

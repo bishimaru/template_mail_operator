@@ -33,7 +33,7 @@ if __name__ == '__main__':
     # 夜のジョブ
     start_night_shift = time(17, 0)
     start_datetime = datetime.combine(datetime.now(), start_night_shift)
-    scheduler.add_job(chara_order_fstmail.main, 'cron', hour=14, minute=14, args=[1, chara_name_list, 21, 30], misfire_grace_time=60*60)
+    scheduler.add_job(chara_order_fstmail.main, 'cron', hour=16, minute=41, args=[1, chara_name_list, 21, 30], misfire_grace_time=60*60)
     print("Press Ctrl+{0} to exit.".format('Break' if os.name == 'nt' else 'C'))
     
     try:
