@@ -27,7 +27,7 @@ def main(maji_soushin, chara_name_list):
   ]
   # 年齢選択（最小18歳、最高60以上）
   youngest_age = "19"
-  oldest_age = "39"
+  oldest_age = "33"
   # NGワード（複数、追加可能）
   ng_words = [
     "通報",

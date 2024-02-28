@@ -27,7 +27,7 @@ if __name__ == '__main__':
     # 朝のジョブ
     start_day_shift = time(6, 0)
     start_datetime = datetime.combine(datetime.now(), start_day_shift)
-    scheduler.add_job(chara_order_fstmail.main, 'cron', hour=6, minute=0, args=[1, chara_name_list, 16, 0],  misfire_grace_time=60*60)
+    scheduler.add_job(chara_order_fstmail.main, 'cron', hour=6, minute=0, args=[1, chara_name_list, 11, 0],  misfire_grace_time=60*60)
     # scheduler.add_job(scheduler.shutdown, 'date', run_date=end_datetime)
 
     # 夜のジョブ
