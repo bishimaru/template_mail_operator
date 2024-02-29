@@ -50,7 +50,7 @@ def get_driver(debug):
         options.add_argument("--remote-debugging-port=9222")
         options.add_argument('--headless')
     else:
-        options.add_argument('--headless')
+        # options.add_argument('--headless')
         options.add_argument("--incognito")
         options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
     options.add_argument("--no-sandbox")
@@ -102,43 +102,43 @@ def check_mail():
             func.send_error(f"メールチェックエラー：ハッピーメール{order_info[0]}", traceback.format_exc())
 
         #     driver.quit()
-        # # pcmax
-        # try:
-        #     driver, wait = get_driver(debug)
-        #     pcmax_new, return_foot_cnt = pcmax.check_new_mail(driver, wait, order_info[0])
+        # pcmax
+        try:
+            driver, wait = get_driver(debug)
+            pcmax_new, return_foot_cnt = pcmax.check_new_mail(driver, wait, order_info[0])
             
-        #     if pcmax_new != 1:
-        #         new_mail_lists.append(pcmax_new)
+            if pcmax_new != 1:
+                new_mail_lists.append(pcmax_new)
            
-        #     if return_foot_cnt:     
-        #         for r_f_user in return_foot_count_dic:
-        #             if order_info[0] == r_f_user:
-        #                 # print(777)
-        #                 # print(return_foot_count_dic[r_f_user])
-        #                 return_foot_count_dic[r_f_user] = return_foot_count_dic[r_f_user] + return_foot_cnt
-        #                 # print(return_foot_count_dic[r_f_user])
-        #     driver.quit()
-        # except Exception as e:
-        #     print(f"<<<<<<<<<<メールチェックエラー：pcmax{order_info[0]}>>>>>>>>>>>")
-        #     print(traceback.format_exc())
-        #     func.send_error(f"メールチェックエラー：pcmax{order_info[0]}", traceback.format_exc())
+            if return_foot_cnt:     
+                for r_f_user in return_foot_count_dic:
+                    if order_info[0] == r_f_user:
+                        # print(777)
+                        # print(return_foot_count_dic[r_f_user])
+                        return_foot_count_dic[r_f_user] = return_foot_count_dic[r_f_user] + return_foot_cnt
+                        # print(return_foot_count_dic[r_f_user])
+            driver.quit()
+        except Exception as e:
+            print(f"<<<<<<<<<<メールチェックエラー：pcmax{order_info[0]}>>>>>>>>>>>")
+            print(traceback.format_exc())
+            func.send_error(f"メールチェックエラー：pcmax{order_info[0]}", traceback.format_exc())
 
-        #     driver.quit()
-        # # gmail
-        # try:
-        #     time.sleep(2)
-        #     debug = True
-        #     driver, wait = get_driver(debug)
-        #     gmail_new = func.check_new_mail_gmail(driver, wait, order_info[0], order_info[1])
-        #     if gmail_new:
-        #         new_mail_lists.append(gmail_new)
-        #     # print(456)
-        #     # print(gmail_new)
-        #     driver.quit()
-        # except Exception as e:
-        #     print(f"<<<<<<<<<<メールチェックエラー：{order_info[1]}>>>>>>>>>>>")
-        #     print(traceback.format_exc())
-        #     driver.quit()
+            driver.quit()
+        # gmail
+        try:
+            time.sleep(2)
+            debug = True
+            driver, wait = get_driver(debug)
+            gmail_new = func.check_new_mail_gmail(driver, wait, order_info[0], order_info[1])
+            if gmail_new:
+                new_mail_lists.append(gmail_new)
+            # print(456)
+            # print(gmail_new)
+            driver.quit()
+        except Exception as e:
+            print(f"<<<<<<<<<<メールチェックエラー：{order_info[1]}>>>>>>>>>>>")
+            print(traceback.format_exc())
+            driver.quit()
         
         # メール送信
         if len(new_mail_lists) == 0:
