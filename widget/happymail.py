@@ -800,7 +800,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
       # ランダムな数値を生成し、実行確率と比較
       type_flag = False
       # 実行確率
-      execution_probability = 0.60
+      execution_probability = 0.87
       if random.random() < execution_probability:
         type_button = driver.find_element(By.ID, value="btn-type")
         type_button.click()
@@ -810,7 +810,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
       # ランダムな数値を生成し、実行確率と比較
       like_flag = False
       # 実行確率
-      execution_probability = 0.60
+      execution_probability = 0.20
       if random.random() < execution_probability:
         others_icon = driver.find_elements(By.CLASS_NAME, value="icon-profile_other_on")
         others_icon[0].click()
