@@ -22,7 +22,7 @@ def sb_h_all_do(return_foot_cnt):
     "アスカ", "いおり", "あやか", "えりか", "きりこ", "さな", "すい", "つむぎ", "なお", 
   ]
   # chara_order = [  
-  #   "なお", "波留（はる）",
+  #   "アスカ", 
   # ]
 
   def timer(sec, functions):

@@ -578,11 +578,11 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
     while cnt >= return_cnt:
       catch_warning_screen(driver)
       # マッチング返し
-      matching_cnt = return_matching(name, return_cnt, wait, wait_time, driver, user_icon, user_name_list, duplication_user, fst_message, return_foot_img)
-      print(77777777)
-      print(matching_cnt)
-      return_cnt = return_cnt + mail_icon_cnt
-      return
+      # matching_cnt = return_matching(name, return_cnt, wait, wait_time, driver, user_icon, user_name_list, duplication_user, fst_message, return_foot_img)
+      # print(77777777)
+      # print(matching_cnt)
+      # return_cnt = return_cnt + mail_icon_cnt
+      # return
       # マイページをクリック
       nav_list = driver.find_element(By.ID, value='ds_nav')
       mypage = nav_list.find_element(By.LINK_TEXT, "マイページ")
