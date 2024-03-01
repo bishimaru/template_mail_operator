@@ -126,20 +126,20 @@ def check_mail():
 
             driver.quit()
         # gmail
-        try:
-            time.sleep(2)
-            debug = True
-            driver, wait = get_driver(debug)
-            gmail_new = func.check_new_mail_gmail(driver, wait, order_info[0], order_info[1])
-            if gmail_new:
-                new_mail_lists.append(gmail_new)
-            # print(456)
-            # print(gmail_new)
-            driver.quit()
-        except Exception as e:
-            print(f"<<<<<<<<<<メールチェックエラー：{order_info[1]}>>>>>>>>>>>")
-            print(traceback.format_exc())
-            driver.quit()
+        # try:
+        #     time.sleep(2)
+        #     debug = True
+        #     driver, wait = get_driver(debug)
+        #     gmail_new = func.check_new_mail_gmail(driver, wait, order_info[0], order_info[1])
+        #     if gmail_new:
+        #         new_mail_lists.append(gmail_new)
+        #     # print(456)
+        #     # print(gmail_new)
+        #     driver.quit()
+        # except Exception as e:
+        #     print(f"<<<<<<<<<<メールチェックエラー：{order_info[1]}>>>>>>>>>>>")
+        #     print(traceback.format_exc())
+        #     driver.quit()
         
         # メール送信
         if len(new_mail_lists) == 0:

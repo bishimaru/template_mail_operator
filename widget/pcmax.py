@@ -145,6 +145,8 @@ def re_post(name, pcmax_windowhandle, driver, genre_flag):
   # 掲示板履歴をクリック　
   bulletin_board_history = driver.find_element(By.CLASS_NAME, value="nav-content-list")
   bulletin_board_history = bulletin_board_history.find_elements(By.TAG_NAME, value="dd")
+  print(777)
+  print(len(bulletin_board_history))
   for i in bulletin_board_history:
     if i.text == "投稿履歴・編集":
       bulletin_board_history = i.find_element(By.TAG_NAME, value="a")
@@ -254,6 +256,7 @@ def re_post(name, pcmax_windowhandle, driver, genre_flag):
   #掲示板4つ再投稿
   link_list = []
   copies = driver.find_elements(By.CLASS_NAME, value="copy_title")
+  print(f"777      {len(copies)}")
   if not len(copies):
     return
   for i in range(len(copies)):
