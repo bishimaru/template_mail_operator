@@ -255,12 +255,12 @@ def re_post(name, pcmax_windowhandle, driver, genre_flag):
     
   #掲示板4つ再投稿
   link_list = []
-  copies = driver.find_elements(By.CLASS_NAME, value="copy_title")
-  print(f"777      {len(copies)}")
-  if not len(copies):
+  posts = driver.find_elements(By.CLASS_NAME, value="bbs_posted_wrap")
+  if not len(posts):
     return
-  for i in range(len(copies)):
-    copy = copies[i].find_elements(By.TAG_NAME, value="a")
+  for i in range(len(posts)):
+
+    copy = posts[i].find_elements(By.TAG_NAME, value="a")
     for a_element in copy:
       link_text = a_element.text
       if link_text == "コピーする":
@@ -270,11 +270,14 @@ def re_post(name, pcmax_windowhandle, driver, genre_flag):
     driver.get(i)
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
     time.sleep(wait_time)
-    detail_selected = driver.find_element(By.XPATH, value="/html/body/form/div[2]/div[3]/div[2]")
+    detail_selected = driver.find_elements(By.CLASS_NAME, value="back_in_box")
+    detail_selected = detail_selected[2].find_element(By.CLASS_NAME, value="item_r")
     detail_selected = detail_selected.text.replace(' ', '')
+    
     # 前回の都道府県を取得
-    last_area = driver.find_element(By.XPATH, value="/html/body/form/div[2]/div[2]/div[2]")
-    last_area = last_area.text.replace(' ', '').replace('"', '')
+    last_area = driver.find_elements(By.CLASS_NAME, value="back_in_box")
+    last_area = last_area[1].find_element(By.CLASS_NAME, value="item_r")
+    last_area = last_area.text.replace(' ', '')
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print(last_area)
     print("前回の詳細地域 ~" + str(detail_selected) + "~" )
@@ -345,11 +348,11 @@ def re_post(name, pcmax_windowhandle, driver, genre_flag):
           break
       #掲示板4つ再投稿
       link_list = []
-      copies = driver.find_elements(By.CLASS_NAME, value="copy_title")
-      if not len(copies):
+      posts = driver.find_elements(By.CLASS_NAME, value="copy_title")
+      if not len(posts):
         return
-      for i in range(len(copies)):
-        copy = copies[i].find_elements(By.TAG_NAME, value="a")
+      for i in range(len(posts)):
+        copy = posts[i].find_elements(By.TAG_NAME, value="a")
         for a_element in copy:
           link_text = a_element.text
           if link_text == "コピーする":
