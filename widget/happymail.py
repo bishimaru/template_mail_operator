@@ -528,7 +528,7 @@ def return_matching(name, wait, wait_time, driver, user_name_list, duplication_u
         time.sleep(2)
         submit = driver.find_element(By.ID, value="submit_button")
         driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", submit)
-        submit.click()
+        driver.execute_script("arguments[0].click();", submit)
         while img_conform.is_displayed():
           time.sleep(2)
       mail_icon_cnt = 0
@@ -678,7 +678,7 @@ def return_type(name, wait, wait_time, driver, user_name_list, duplication_user,
         time.sleep(2)
         submit = driver.find_element(By.ID, value="submit_button")
         driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", submit)
-        submit.click()
+        driver.execute_script("arguments[0].click();", submit)
         while img_conform.is_displayed():
           time.sleep(2)
       mail_icon_cnt = 0
@@ -734,13 +734,13 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
       print(f"タイプ返し総数 {mail_icon_cnt}")
       return_cnt = return_cnt + type_cnt
       print(f"メッセージ送信数　{return_cnt}")
-    elif name == "アスカ":
+    elif name == "アスカ" or name == "いおり":
       # マッチング返し
       matching_cnt = return_matching(name, wait, wait_time, driver, user_name_list, duplication_user, fst_message, return_foot_img)
       print(f"マッチング返し総数 {matching_cnt}")
       # タイプ返し
       type_cnt = return_type(name, wait, wait_time, driver, user_name_list, duplication_user, fst_message, return_foot_img)
-      print(f"タイプ返し総数 {mail_icon_cnt}")
+      print(f"タイプ返し総数 {type_cnt}")
     # 足跡返し
     while cnt >= return_cnt + 1:
       catch_warning_screen(driver)
@@ -794,8 +794,8 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
           top_link.click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(wait_time)
-          print("メールアイコンが6続きました")
-          return return_cnt - 1
+          print("送れないユーザーが6回続きました")
+          return return_cnt
       # ユーザー重複チェック
       if len(user_name_list):
         while user_name in user_name_list:
@@ -876,7 +876,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
           time.sleep(2)
           submit = driver.find_element(By.ID, value="submit_button")
           driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", submit)
-          submit.click()
+          driver.execute_script("arguments[0].click();", submit)
           while img_conform.is_displayed():
              time.sleep(2)
         return_cnt += 1
@@ -956,11 +956,14 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
       user_link[0].click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
+      # ユーザ名を取得
+      user_name = driver.find_elements(By.CLASS_NAME, value="ds_user_display_name")
+      user_name = user_name[0].text
       # タイプ
       # ランダムな数値を生成し、実行確率と比較
       type_flag = False
       # 実行確率
-      execution_probability = 0.87
+      execution_probability = 0.80
       if random.random() < execution_probability:
         type_button = driver.find_element(By.ID, value="btn-type")
         type_button.click()
@@ -970,7 +973,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
       # ランダムな数値を生成し、実行確率と比較
       like_flag = False
       # 実行確率
-      execution_probability = 0.20
+      execution_probability = 0.80
       if random.random() < execution_probability:
         others_icon = driver.find_elements(By.CLASS_NAME, value="icon-profile_other_on")
         others_icon[0].click()
@@ -992,7 +995,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
           like_cancel[0].click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(2)
-      print(f'{name}:足跡付け{i+1}件, いいね:{like_flag}、タイプ{type_flag}')
+      print(f'{name}:足跡付け{i+1}件, いいね:{like_flag}、タイプ{type_flag}  {user_name}')
       # 戻る
       back = driver.find_elements(By.CLASS_NAME, value="ds_prev_arrow")
       back[0].click()
@@ -1223,7 +1226,7 @@ def send_fst_message(name_list):
             time.sleep(2)
             submit = driver.find_element(By.ID, value="submit_button")
             driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", submit)
-            submit.click()
+            driver.execute_script("arguments[0].click();", submit)
             while img_conform.is_displayed():
                 time.sleep(2)
           send_cnt += 1
