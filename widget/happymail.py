@@ -788,13 +788,13 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         mail_icon_cnt += 1
         print(f'メールアイコンカウント{mail_icon_cnt}')
         # # メールアイコンが5つ続いたら終了
-        if mail_icon_cnt > 5:
+        if mail_icon_cnt > 4:
           ds_logo = driver.find_element(By.CLASS_NAME, value="ds_logo")
           top_link = ds_logo.find_element(By.TAG_NAME, value="a")
           top_link.click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
           time.sleep(wait_time)
-          print("送れないユーザーが6回続きました")
+          print("送れないユーザーが5回続きました")
           return return_cnt
       # ユーザー重複チェック
       if len(user_name_list):
