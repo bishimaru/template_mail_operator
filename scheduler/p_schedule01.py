@@ -25,10 +25,10 @@ if __name__ == '__main__':
     }
     
     # 朝のジョブ
-    scheduler.add_job(chara_order_fstmail.main, 'cron', hour=12, minute=0, args=[1, chara_name_list, 15, 0],  misfire_grace_time=60*60)
+    scheduler.add_job(chara_order_fstmail.main, 'cron', hour=5, minute=55, args=[1, chara_name_list, 10, 0],  misfire_grace_time=60*60)
 
     # 夜のジョブ
-    scheduler.add_job(chara_order_fstmail.main, 'cron', hour=16, minute=41, args=[1, chara_name_list, 21, 30], misfire_grace_time=60*60)
+    scheduler.add_job(chara_order_fstmail.main, 'cron', hour=16, minute=0, args=[1, chara_name_list, 21, 30], misfire_grace_time=60*60)
     print("Press Ctrl+{0} to exit.".format('Break' if os.name == 'nt' else 'C'))
     
     try:
