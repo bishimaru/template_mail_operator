@@ -521,7 +521,8 @@ def return_matching(name, wait, wait_time, driver, user_name_list, duplication_u
         plus_icon = driver.find_elements(By.CLASS_NAME, value="icon-message_plus")
         driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", plus_icon[1])
         time.sleep(1)
-        plus_icon[1].click()
+        driver.execute_script("arguments[0].click();", plus_icon[1])
+        # plus_icon[1].click()
         time.sleep(1)
         upload_file = driver.find_element(By.ID, "upload_file")
         upload_file.send_keys(return_foot_img)
@@ -797,15 +798,20 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
           print("送れないユーザーが5回続きました")
           return return_cnt
       # ユーザー重複チェック
+      duplication_cnt = 0
       if len(user_name_list):
         while user_name in user_name_list:
             print('重複ユーザー')
+            duplication_cnt += 1
             user_icon = user_icon + 1
             if len(f_user) <= user_icon:
                duplication_user = True
                break
             name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
             user_name = name_field.text
+            if duplication_cnt > 4:
+               print("重複ユーザーが5回続きました")
+               return return_cnt
       # if duplication_user:
       #    print("重複により終了")
       #    return return_cnt - 1     
