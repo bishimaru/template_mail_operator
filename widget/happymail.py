@@ -753,7 +753,8 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
       time.sleep(wait_time)
       # 足あとをクリック
       return_footpoint = driver.find_element(By.CLASS_NAME, value="icon-ico_footprint")
-      return_footpoint.click()
+      driver.execute_script("arguments[0].click();", return_footpoint)
+      # return_footpoint.click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(wait_time)
       send_status = True
