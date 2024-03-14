@@ -11,7 +11,6 @@ import sys
 import traceback
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from widget import func
-import setting
 from selenium.webdriver.support.select import Select
 import sqlite3
 import re
@@ -46,8 +45,6 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
   # TOPに戻る
   driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
   driver.delete_cookie("outbrain_cid_fetch")
-  if setting.mac_os:
-    os.system("osascript -e 'display notification \"ハッピーメール掲示板再投稿中...\" with title \"{}\"'".format(name))
   # 警告画面が出たらスキップ
   # ds_main_header_text
   warning = driver.find_elements(By.CLASS_NAME, value="ds_main_header_text")
@@ -418,8 +415,6 @@ def re_post(name, happy_windowhandle, driver, title, post_text, adult_flag, genr
       repost_cnt += 1
       if repost_cnt == 4:
          break
-    if setting.mac_os:
-        os.system("osascript -e 'display notification \"ハッピーメール掲示板再投稿中に成功しました◎\" with title \"{}\"'".format(name))
 
 def return_matching(name, wait, wait_time, driver, user_name_list, duplication_user, fst_message, return_foot_img):
   return_matching_cnt = 0

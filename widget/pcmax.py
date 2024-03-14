@@ -15,7 +15,6 @@ import traceback
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from widget import func
-import setting
 import re
 from selenium.common.exceptions import TimeoutException
 import sqlite3
@@ -136,8 +135,6 @@ def re_post(name, pcmax_windowhandle, driver, genre_flag):
       return  
   wait_time = random.uniform(3, 4)
   login(driver, wait)
-  if setting.mac_os:
-    os.system("osascript -e 'display notification \"PCMAX掲示板再投稿中...\" with title \"{}\"'".format(name))
   # MENUをクリック
   menu = driver.find_element(By.ID, value='sp_nav')
   menu.click()
@@ -381,8 +378,6 @@ def re_post(name, pcmax_windowhandle, driver, genre_flag):
     driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", bulletin_board_history)
     bulletin_board_history.click()
     time.sleep(1)
-  if setting.mac_os:
-    os.system("osascript -e 'beep' -e 'display notification \"PCMAX掲示板再投稿に成功しました◎\" with title \"{}\"'".format(name))
   driver.get("https://pcmax.jp/pcm/index.php")
   
 def return_footpoint(name, pcmax_windowhandle, driver, return_foot_message, cnt, return_foot_img):
