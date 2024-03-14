@@ -5,7 +5,6 @@ import os
 import sys
 import re
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-import setting
 import traceback
 import smtplib
 from email.mime.text import MIMEText
