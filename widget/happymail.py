@@ -712,8 +712,6 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
     driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
     time.sleep(wait_time)
-    if setting.mac_os:
-       os.system("osascript -e 'beep' -e 'display notification \"ハッピーメール足跡返し実行中...\" with title \"{}\"'".format(name))
     return_cnt = 0
     mail_icon_cnt = 0
     duplication_user = False
