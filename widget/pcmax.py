@@ -1040,13 +1040,15 @@ def check_new_mail(driver, wait, name):
   cur.execute('SELECT login_id, passward, fst_mail, mail_img, second_message, return_foot_message FROM pcmax WHERE name = ?', (name,))
   login_id = None
   for row in cur:
+      
       login_id = row[0]
       login_pass = row[1]
       fst_message = row[2]
       mail_img = row[3]   
       second_message = row[4]
       return_foot_message = row[5]
-  if login_id is None:
+  
+  if login_id == None or login_id == "":
     print(f"{name}のpcmaxキャラ情報を取得できませんでした")
     return 1, 0
   try:
