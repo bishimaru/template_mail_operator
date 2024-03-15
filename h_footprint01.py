@@ -39,7 +39,7 @@ def happymail_footprints(driver, wait):
   for i in range(9999):
     start_time = time.time() 
     for user_list in happy_user_list:
-        if user_list[0] == None or user_list[0] == "":
+        if user_list[1] == None or user_list[1] == "":
            continue
         try:
           happymail.make_footprints(user_list[0], user_list[1], user_list[2], driver, wait)
