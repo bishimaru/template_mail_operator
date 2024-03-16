@@ -20,15 +20,17 @@ if __name__ == '__main__':
 
     # fst_mail
     chara_name_list = {
-      "はづき":{}, "めあり":{},"りこ":{},
      "りな":{}, "ゆっこ":{}, "ゆかり":{}, 
+      "いおり":{}, "きりこ":{}, "さな":{},
+      "ゆうな":{}, "つむぎ":{},
     }
     
-    
+    # 朝のジョブ
     scheduler.add_job(chara_order_fstmail.main, 'cron', hour=6, minute=10, args=[1, chara_name_list, 11, 0],  misfire_grace_time=60*60)
-    # scheduler.add_job(scheduler.shutdown, 'date', run_date=end_datetime)
+    # 昼のジョブ
+    scheduler.add_job(chara_order_fstmail.main, 'cron', hour=15, minute=10, args=[1, chara_name_list, 16, 30], misfire_grace_time=60*60)
     # 夜のジョブ
-    scheduler.add_job(chara_order_fstmail.main, 'cron', hour=15, minute=10, args=[1, chara_name_list, 20, 30], misfire_grace_time=60*60)
+    scheduler.add_job(chara_order_fstmail.main, 'cron', hour=18, minute=10, args=[1, chara_name_list, 22, 0], misfire_grace_time=60*60)
     print("Press Ctrl+{0} to exit.".format('Break' if os.name == 'nt' else 'C'))
     
     try:
