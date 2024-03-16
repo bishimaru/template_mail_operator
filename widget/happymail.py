@@ -739,8 +739,8 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
     matching_cnt = return_matching(name, wait, wait_time, driver, user_name_list, duplication_user, fst_message, return_foot_img)
     print(f"マッチング返し総数 {matching_cnt}")
     # タイプ返し
-    type_cnt = return_type(name, wait, wait_time, driver, user_name_list, duplication_user, fst_message, return_foot_img)
-    print(f"タイプ返し総数 {type_cnt}")
+    # type_cnt = return_type(name, wait, wait_time, driver, user_name_list, duplication_user, fst_message, return_foot_img)
+    # print(f"タイプ返し総数 {type_cnt}")
     # 足跡返し
     while cnt >= return_cnt + 1:
       catch_warning_screen(driver)
