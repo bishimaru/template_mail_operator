@@ -754,9 +754,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
       print(traceback.format_exc())
       driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      time.sleep(wait_time)
-    # # タイプ返し
-      
+      time.sleep(wait_time)      
 
     # 足跡返し
     while cnt >= return_cnt + 1:
