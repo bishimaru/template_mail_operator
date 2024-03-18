@@ -736,25 +736,25 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
     #   type_cnt = return_type(name, wait, wait_time, driver, user_name_list, duplication_user, fst_message, return_foot_img)
     #   print(f"タイプ返し総数 {type_cnt}")
     # # マッチング返し
-    try:
-      matching_cnt = return_matching(name, wait, wait_time, driver, user_name_list, duplication_user, fst_message, return_foot_img)
-      print(f"マッチング返し総数 {matching_cnt}")
-    except Exception as e:  
-      print("マッチ返しエラー")
-      print(traceback.format_exc())
-      driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
-      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      time.sleep(wait_time)
-    # # タイプ返し
-    try:
-      type_cnt = return_type(name, wait, wait_time, driver, user_name_list, duplication_user, fst_message, return_foot_img)
-      print(f"タイプ返し総数 {type_cnt}")
-    except Exception as e:  
-      print("タイプ返しエラー")
-      print(traceback.format_exc())
-      driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
-      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      time.sleep(wait_time)      
+    # try:
+    #   matching_cnt = return_matching(name, wait, wait_time, driver, user_name_list, duplication_user, fst_message, return_foot_img)
+    #   print(f"マッチング返し総数 {matching_cnt}")
+    # except Exception as e:  
+    #   print("マッチ返しエラー")
+    #   print(traceback.format_exc())
+    #   driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
+    #   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    #   time.sleep(wait_time)
+    # # # タイプ返し
+    # try:
+    #   type_cnt = return_type(name, wait, wait_time, driver, user_name_list, duplication_user, fst_message, return_foot_img)
+    #   print(f"タイプ返し総数 {type_cnt}")
+    # except Exception as e:  
+    #   print("タイプ返しエラー")
+    #   print(traceback.format_exc())
+    #   driver.get("https://happymail.co.jp/sp/app/html/mbmenu.php")
+    #   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    #   time.sleep(wait_time)      
 
     # 足跡返し
     while cnt >= return_cnt + 1:
@@ -773,13 +773,44 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
       time.sleep(wait_time)
       send_status = True
       time.sleep(1)
+      # ページの最後までスクロール
+      driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+      # ページが完全に読み込まれるまで待機
+      time.sleep(1)
       f_user = driver.find_elements(By.CLASS_NAME, value="ds_post_head_main_info")
       while len(f_user) == 0:
          time.sleep(2)
          f_user = driver.find_elements(By.CLASS_NAME, value="ds_post_head_main_info")
+
       name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
       user_name = name_field.text
       mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
+      send_skip_cnt = 0
+      while len(mail_icon) or user_name in user_name_list:
+        if len(mail_icon):
+          user_icon += 1
+          print(f'メールアイコンがあります {user_name}')
+          send_skip_cnt += 1
+          name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
+          user_name = name_field.text
+          mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
+          if send_skip_cnt > 9:
+            print("送れないユーザーが10回続きました")
+            return return_cnt
+        elif len(user_name_list):
+          while user_name in user_name_list:
+              print('重複ユーザー')
+              send_skip_cnt += 1
+              user_icon = user_icon + 1
+              if len(f_user) <= user_icon:
+                duplication_user = True
+                break
+              name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
+              user_name = name_field.text
+              if send_skip_cnt > 9:
+                print("送れないユーザーが10回続きました")
+                return return_cnt
+
       # 年齢で返信する確率を調整する
       # user_age = f_user[user_icon].find_elements(By.CLASS_NAME, value="ds_like_list_age")
       # if not len(user_age):
@@ -796,41 +827,11 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
       #    # ランダムな数値を生成し、実行確率と比較
       #    if random.random() < execution_probability:
       #       send_status = False
-      # メールアイコンがあるかチェック
-      # print(user_name_list)
-      if len(mail_icon):
-        send_status = False
-        print(f'メールアイコンがあります {user_name}')
-        mail_icon_cnt += 1
-        print(f'メールアイコンカウント{mail_icon_cnt}')
-        # # メールアイコンが5つ続いたら終了
-        if mail_icon_cnt > 4:
-          ds_logo = driver.find_element(By.CLASS_NAME, value="ds_logo")
-          top_link = ds_logo.find_element(By.TAG_NAME, value="a")
-          top_link.click()
-          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-          time.sleep(wait_time)
-          print("送れないユーザーが5回続きました")
-          return return_cnt
-      # ユーザー重複チェック
-      duplication_cnt = 0
-      if len(user_name_list):
-        while user_name in user_name_list:
-            print('重複ユーザー')
-            duplication_cnt += 1
-            user_icon = user_icon + 1
-            if len(f_user) <= user_icon:
-               duplication_user = True
-               break
-            name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
-            user_name = name_field.text
-            if duplication_cnt > 4:
-               print("重複ユーザーが5回続きました")
-               return return_cnt
-      # if duplication_user:
-      #    print("重複により終了")
-      #    return return_cnt - 1     
+    
       # 足跡ユーザーをクリック
+      print(777)
+      print(len(f_user))
+      print(user_icon)
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", f_user[user_icon])
       time.sleep(1)
       if duplication_user:
@@ -856,7 +857,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", contains_violations)
         self_introduction_text = contains_violations.text.replace(" ", "").replace("\n", "")
         if '通報' in self_introduction_text or '業者' in self_introduction_text:
-            print('自己紹介文に危険なワードが含まれていました')
+            print(f'自己紹介文に危険なワードが含まれていました {user_name}')
             send_status = False
       # メッセージ履歴があるかチェック
       mail_field = driver.find_element(By.ID, value="ds_nav")
@@ -903,7 +904,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         return_cnt += 1
         mail_icon_cnt = 0
         user_icon = 0
-        print(f'{name}:足跡返し send_status = {str(send_status)} ~ {str(return_cnt)} ~)')
+        print(f'{name}:足跡返し send_status = {str(send_status)} ~ {str(return_cnt)} ~ {user_name} ')
         # TOPに戻る
         driver.execute_script("window.scrollTo(0, 0);")
         ds_logo = driver.find_element(By.CLASS_NAME, value="ds_logo")
