@@ -829,9 +829,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
       #       send_status = False
     
       # 足跡ユーザーをクリック
-      print(777)
-      print(len(f_user))
-      print(user_icon)
+     
       driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", f_user[user_icon])
       time.sleep(1)
       if duplication_user:
