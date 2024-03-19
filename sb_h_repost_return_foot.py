@@ -71,13 +71,13 @@ def sb_h_repost_returnfoot(name, cnt):
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
   time.sleep(2)
   return_foot_cnt = 0
-  # try:
-  #   happymail.re_post(name, happy_windowhandle, driver, post_title, post_contents, adult_flag, genre_flag)
-  # except Exception as e:
-  #   print(f"ハッピーメール掲示板エラー{name}")
-  #   print(traceback.format_exc())
-  #   func.send_error(f"ハッピーメール掲示板エラー{name}", traceback.format_exc())
-  # time.sleep(2)
+  try:
+    happymail.re_post(name, happy_windowhandle, driver, post_title, post_contents, adult_flag, genre_flag)
+  except Exception as e:
+    print(f"ハッピーメール掲示板エラー{name}")
+    print(traceback.format_exc())
+    func.send_error(f"ハッピーメール掲示板エラー{name}", traceback.format_exc())
+  time.sleep(2)
   try:
     return_foot_cnt = happymail.return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt, return_foot_img, fst_message)
   except Exception as e:
