@@ -27,7 +27,7 @@ order_list = [
    ["いおり", "iori547253@gmail.com"],
    ["えりか", "k.erika414510@gmail.com"],
    ["きりこ", "kiriko414510@gmail.com"],
-#    ["さな", "sana.cnfwijl@gmail.com"],
+   ["さな", "sana.cnfwijl@gmail.com"],
    ["すい", "sui187586@gmail.com"],
    ["つむぎ", "tumtum.jpwa@gmail.com"],
    ["なお", "n414510a@gmail.com"],
@@ -38,12 +38,13 @@ order_list = [
    ["りな", "k.rina414510@gmail.com"],
    ["ゆうな", "y8708336@gmail.com"],
    ["ゆっこ", "yuko414510@gmail.com"], 
-#    ["ゆかり", "y216154@gmail.com"],
+   ["ゆかり", "y216154@gmail.com"],
   
 ]
-# order_list = [
-#   ["なお", "n414510a@gmail.com"],
-#    ]
+order_list = [
+  ["さな", "sana.cnfwijl@gmail.com"],
+  ["ゆかり", "y216154@gmail.com"],
+   ]
 def get_driver(debug):
     options = Options()
     
