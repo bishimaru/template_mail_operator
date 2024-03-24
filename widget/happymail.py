@@ -794,8 +794,8 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
           name_field = f_user[user_icon].find_element(By.CLASS_NAME, value="ds_like_list_name")
           user_name = name_field.text
           mail_icon = name_field.find_elements(By.TAG_NAME, value="img")
-          if send_skip_cnt > 9:
-            print("送れないユーザーが10回続きました")
+          if send_skip_cnt > 8:
+            print("送れないユーザーが9回続きました")
             return return_cnt
         elif len(user_name_list):
           while user_name in user_name_list:
