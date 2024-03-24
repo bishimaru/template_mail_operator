@@ -25,8 +25,9 @@ def happymail_footprints(driver, wait):
   # # データ検索
   cur.execute('SELECT name, login_id, passward FROM happymail')
   happy_user_list = []
-  foot_order_list = [ "きりこ",  "すい", "つむぎ", 
-                     ]
+  foot_order_list = [
+     "さな","ゆかり",
+  ]
   # foot_order_list = ["アスカ",
   #                    ]
 
@@ -38,6 +39,8 @@ def happymail_footprints(driver, wait):
   for i in range(9999):
     start_time = time.time() 
     for user_list in happy_user_list:
+        if user_list[1] == None or user_list[1] == "":
+           continue
         try:
           happymail.make_footprints(user_list[0], user_list[1], user_list[2], driver, wait)
         except Exception as e:
