@@ -11,7 +11,6 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from widget import pcmax, happymail, func
 from selenium.webdriver.support.ui import WebDriverWait
-import setting
 import traceback
 import smtplib
 from email.mime.text import MIMEText
