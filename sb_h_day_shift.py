@@ -19,7 +19,8 @@ from sb_h_repost_return_foot import sb_h_repost_returnfoot
 
 def sb_h_all_do(return_foot_cnt):
   chara_order = [  
-    "アスカ", "あやか", "いおり", "えりか", "きりこ",  "すい", "つむぎ", "なお", 
+    "アスカ", "あやか", "いおり", "えりか", 
+    "きりこ", "さな", "すい", "つむぎ", "なお", 
   ]
   # chara_order = [  
   #   "アスカ", 
