@@ -27,6 +27,7 @@ def happymail_footprints(driver, wait):
   happy_user_list = []
   foot_order_list = [
      "りこ","りな","ゆうな",  "ゆっこ",
+     "ゆかり"
                      ]
   # foot_order_list = ["アスカ",
   #                    ]
