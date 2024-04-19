@@ -29,7 +29,11 @@ def sb_h_all_do(return_foot_cnt):
   def timer(sec, functions):
     start_time = time.time() 
     for func in functions:
-      return_func = func()
+      try:
+        return_func = func()
+      except Exception as e:
+        print(e)
+        return_func = 0
     elapsed_time = time.time() - start_time  # 経過時間を計算する
     while elapsed_time < sec:
       time.sleep(5)
