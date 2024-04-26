@@ -1342,8 +1342,9 @@ def check_new_mail(driver, wait, name):
     
      new_mail = driver.find_elements(By.CLASS_NAME, value="ds_list_r_kidoku")  
      if not len(new_mail):
-         list_load = driver.find_element(By.ID, value="load_bL")
-         list_load.click()
+         list_load = driver.find_elements(By.ID, value="load_bL")
+         if len(list_load):
+          list_load[0].click()
          time.sleep(2)
      #新着がある間はループ  
      while len(new_mail):
