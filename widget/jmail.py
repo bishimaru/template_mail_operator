@@ -118,56 +118,75 @@ def check_new_mail(driver, wait, name):
   dbpath = 'firstdb.db'
   conn = sqlite3.connect(dbpath)
   cur = conn.cursor()
-  cur.execute('SELECT login_id, login_passward, return_foot_message, second_message FROM jmail WHERE name = ?', (name,))
+  cur.execute('SELECT login_id, login_passward, fst_message, return_foot_message, second_message FROM jmail WHERE name = ?', (name,))
   login_id = None
   for row in cur:
     print(row)
     login_id = row[0]
     login_pass = row[1]
-    return_foot_message = row[2]
-    second_message = row[3]
+    fst_message = row[2]
+    return_foot_message = row[3]
+    second_message = row[4]
   if login_id == None or login_id == "":
     print(f"{name}のjmailキャラ情報を取得できませんでした")
     return 1, 0
   login_jmail(driver, wait, login_id, login_pass)
-  # 新着アイコンをチェック
-  new_icon_parent = driver.find_elements(By.CLASS_NAME, value="mail-off")
-  new_icon = new_icon_parent[0].find_elements(By.CLASS_NAME, value="notification-badge")
-  # 新着があった
-  print(8888)
-  print(len(new_icon))
-  # デバッグ用
-  if 1 ==1:
-  # if len(new_icon):
-    print("新着があった")
-    link = new_icon_parent[0].find_element(By.XPATH, "./..")
-   
-    driver.get(link.get_attribute("href"))
-    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-    time.sleep(2)
-    interacting_user_list = []
-    interacting_users = driver.find_elements(By.CLASS_NAME, value="icon_sex_m")
-    # 未読が無くなるまでループ
-    for usr_info in interacting_users:
-      
-      if "未読" in usr_info.text:
-        # 時間を取得　align_right
-        parent_usr_info = usr_info.find_element(By.XPATH, "./..")
-        parent_usr_info = parent_usr_info.find_element(By.XPATH, "./..")
-        next_element = parent_usr_info.find_element(By.XPATH, value="following-sibling::*[1]")
-        print(next_element.text)
-        current_year = datetime.now().year
-        date_string = f"{current_year} {next_element.text}"
-        date_format = "%Y %m/%d %H:%M" 
-        date_object = datetime.strptime(date_string, date_format)
-        now = datetime.today()
-       
-        elapsed_time = now - date_object
-        print(usr_info.text)
-        print(f"メール到着からの経過時間{elapsed_time}")
-        # if elapsed_time >= timedelta(minutes=4):
-        #   print("4分以上経過しています。")
-        
+  # メールアイコンをクリック
+  mail_icon = driver.find_elements(By.CLASS_NAME, value="mail-off")
+  link = mail_icon[0].find_element(By.XPATH, "./..")
+  driver.get(link.get_attribute("href"))
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(2)
+  interacting_user_list = []
+  interacting_users = driver.find_elements(By.CLASS_NAME, value="icon_sex_m")
+  # 未読以外でNEWのアイコンも存在してそう
+  if "未読" in interacting_users[0].text:
+  # deug
+  # if 1== 1:
+    print(777)
+    # 時間を取得　align_right
+    parent_usr_info = interacting_users[0].find_element(By.XPATH, "./..")
+    parent_usr_info = parent_usr_info.find_element(By.XPATH, "./..")
+    next_element = parent_usr_info.find_element(By.XPATH, value="following-sibling::*[1]")
+    print(next_element.text)
+    current_year = datetime.now().year
+    date_string = f"{current_year} {next_element.text}"
+    date_format = "%Y %m/%d %H:%M" 
+    date_object = datetime.strptime(date_string, date_format)
+    now = datetime.today()
+    
+    elapsed_time = now - date_object
+    print(interacting_users[0].text)
+    print(f"メール到着からの経過時間{elapsed_time}")
+    if elapsed_time >= timedelta(minutes=4):
+      print("4分以上経過しています。")
+      # リンクを取得
+      link_element = interacting_users[0].find_element(By.XPATH, "./..")
+      print(666)
+      print(link_element.get_attribute("href"))
+      print(link_element.tag_name)
+      driver.get(link_element.get_attribute("href"))
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(2)
+      # 相手からのメッセージが何通目か確認する
+      # mohumohu
+
+      # 返信するをクリック
+      res_do = driver.find_elements(By.CLASS_NAME, value="color_variations_05")
+      res_do[1].click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(10)
+      # メッセージを入力　name=comment
+      text_area = driver.find_elements(By.NAME, value="comment")
+      text_area[0].send_keys(fst_message)
+      time.sleep(6)
+      # 画像があれば送信
+      # 7777777777777
+      send_button = driver.find_elements(By.NAME, value="sendbutton")
+      send_button[0].click()
+      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+      time.sleep(20)
+
 
       
 
