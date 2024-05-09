@@ -139,54 +139,59 @@ def check_new_mail(driver, wait, name):
   time.sleep(2)
   interacting_user_list = []
   interacting_users = driver.find_elements(By.CLASS_NAME, value="icon_sex_m")
-  # 未読以外でNEWのアイコンも存在してそう
-  if "未読" in interacting_users[0].text:
-  # deug
-  # if 1== 1:
-    print(777)
-    # 時間を取得　align_right
-    parent_usr_info = interacting_users[0].find_element(By.XPATH, "./..")
-    parent_usr_info = parent_usr_info.find_element(By.XPATH, "./..")
-    next_element = parent_usr_info.find_element(By.XPATH, value="following-sibling::*[1]")
-    print(next_element.text)
-    current_year = datetime.now().year
-    date_string = f"{current_year} {next_element.text}"
-    date_format = "%Y %m/%d %H:%M" 
-    date_object = datetime.strptime(date_string, date_format)
-    now = datetime.today()
-    
-    elapsed_time = now - date_object
-    print(interacting_users[0].text)
-    print(f"メール到着からの経過時間{elapsed_time}")
-    if elapsed_time >= timedelta(minutes=4):
-      print("4分以上経過しています。")
-      # リンクを取得
-      link_element = interacting_users[0].find_element(By.XPATH, "./..")
-      print(666)
-      print(link_element.get_attribute("href"))
-      print(link_element.tag_name)
-      driver.get(link_element.get_attribute("href"))
-      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      time.sleep(2)
-      # 相手からのメッセージが何通目か確認する
-      # mohumohu
+  for interacting_user in interacting_users:
+    # 未読以外でNEWのアイコンも存在してそう
+    print(7777777777777)
+    print(interacting_user.text)
+    if "未読" in interacting_user.text:
+    # deug
+    # if 1== 1:
+      # 時間を取得　align_right
+      parent_usr_info = interacting_user.find_element(By.XPATH, "./..")
+      parent_usr_info = parent_usr_info.find_element(By.XPATH, "./..")
+      next_element = parent_usr_info.find_element(By.XPATH, value="following-sibling::*[1]")
+      print(next_element.text)
+      current_year = datetime.now().year
+      date_string = f"{current_year} {next_element.text}"
+      date_format = "%Y %m/%d %H:%M" 
+      date_object = datetime.strptime(date_string, date_format)
+      now = datetime.today()
+      
+      elapsed_time = now - date_object
+      print(interacting_user.text)
+      print(f"メール到着からの経過時間{elapsed_time}")
+      if elapsed_time >= timedelta(minutes=4):
+        print("4分以上経過しています。")
+        # リンクを取得
+        link_element = interacting_user.find_element(By.XPATH, "./..")
+       
+        driver.get(link_element.get_attribute("href"))
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(2)
+        # 相手からのメッセージが何通目か確認する
+        # mohumohu
 
-      # 返信するをクリック
-      res_do = driver.find_elements(By.CLASS_NAME, value="color_variations_05")
-      res_do[1].click()
-      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      time.sleep(10)
-      # メッセージを入力　name=comment
-      text_area = driver.find_elements(By.NAME, value="comment")
-      text_area[0].send_keys(fst_message)
-      time.sleep(6)
-      # 画像があれば送信
-      # 7777777777777
-      send_button = driver.find_elements(By.NAME, value="sendbutton")
-      send_button[0].click()
-      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      time.sleep(20)
-
+        # 返信するをクリック
+        res_do = driver.find_elements(By.CLASS_NAME, value="color_variations_05")
+        res_do[1].click()
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(2)
+        # メッセージを入力　name=comment
+        text_area = driver.find_elements(By.NAME, value="comment")
+        text_area[0].send_keys(fst_message)
+        time.sleep(4)
+        # 画像があれば送信
+        # 7777777777777
+        send_button = driver.find_elements(By.NAME, value="sendbutton")
+        send_button[0].click()
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(2)
+        # メール一覧に戻る　message_back
+        back_parent = driver.find_elements(By.CLASS_NAME, value="message_back")
+        back = back_parent[0].find_elements(By.TAG_NAME, value="a")
+        back.click()
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(2)
 
       
 
