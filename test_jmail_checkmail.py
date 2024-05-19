@@ -43,6 +43,7 @@ order_list = [
 ]
 order_list = [
   ["つむぎ", "tumtum.jpwa@gmail.com"],
+  ["ハル", "haruru414510@gmail.com"],
    ]
 def get_driver(debug):
     options = Options()
@@ -86,6 +87,7 @@ def check_mail():
   jmail_return_foot_count_dic = {
         
         "つむぎ": 0,
+         "ハル": 0,
        
     }
   
@@ -132,6 +134,10 @@ def check_mail():
 
         #     driver.quit()
         # jmail
+        now = datetime.today()
+        repost_day_flug = False
+        repost_night_flug = False
+
         try:
             driver, wait = get_driver(debug)
             jmail_new, return_foot_cnt = jmail.check_new_mail(driver, wait, order_info[0])
@@ -208,7 +214,7 @@ def check_mail():
     print(f"<<<<<<<<<<<<<<<<<<<<足跡返し総数　　開始時間{current_datetime}, 経過時間{elapsed_time_formatted}>>>>>>>>>>>>>>>>>>>>")
     print(pcmax_return_foot_count_dic)
     print("<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>")
-    # print(jmail_return_foot_count_dic)
+    print(jmail_return_foot_count_dic)
 
 
 
