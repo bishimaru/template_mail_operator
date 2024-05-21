@@ -27,6 +27,7 @@ order_list = [
    ["いおり", "iori547253@gmail.com"],
    ["えりか", "k.erika414510@gmail.com"],
    ["きりこ", "kiriko414510@gmail.com"],
+   ["くみ", "kumi414510@gmail.com"],
    ["さな", "sana.cnfwijl@gmail.com"],
    ["すい", "sui187586@gmail.com"],
    ["つむぎ", "tumtum.jpwa@gmail.com"],
@@ -67,9 +68,9 @@ def get_driver(debug):
 def check_mail():
   pcmax_return_foot_count_dic = {
         "アスカ": 0,
-        "あやか": 0,
         "えりか": 0,
         "きりこ": 0,
+        "くみ": 0,
         "さな": 0,
         "すい": 0,
         "つむぎ": 0,
