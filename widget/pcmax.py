@@ -1228,6 +1228,10 @@ def check_new_mail(driver, wait, name):
           # 受信メッセージにメールアドレスが含まれているか
           received_mail_elem = driver.find_elements(By.CLASS_NAME, value="left_balloon_m")
           received_mail = received_mail_elem[-1].text
+          # ＠を@に変換する
+          if "＠" in received_mail:
+            received_mail = received_mail.replace("＠", "@")
+
           # メールアドレスを抽出する正規表現
           email_pattern = r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+'
           # email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
