@@ -193,15 +193,20 @@ def check_mail():
             address_to = "ryapya694@ruru.be"
             # address_to = 'misuzu414510@gmail.com'
 
-            smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
-            smtpobj.starttls()
-            smtpobj.login(mailaddress, password)
-            msg = MIMEText(text)
-            msg['Subject'] = subject
-            msg['From'] = address_from
-            msg['To'] = address_to
-            msg['Date'] = formatdate()
-            smtpobj.send_message(msg)
+            try:
+                smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
+                smtpobj.starttls()
+                smtpobj.login(mailaddress, password)
+                msg = MIMEText(text)
+                msg['Subject'] = subject
+                msg['From'] = address_from
+                msg['To'] = address_to
+                msg['Date'] = formatdate()
+                smtpobj.send_message(msg)
+            except smtplib.SMTPDataError as e:
+                print(f"SMTPDataError: {e}")
+            except Exception as e:
+                print(f"An error occurred: {e}")
             smtpobj.close()
     elapsed_time = time.time() - start_time  
     elapsed_timedelta = timedelta(seconds=elapsed_time)
