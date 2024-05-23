@@ -82,8 +82,8 @@ def get_windowhandle(site, name):
   conn.close()
   return w_h
 
-def send_conditional(user_name, user_address, mailaddress, password, text):
-  subject = f'pcmaxでやり取りしてた{user_name}さんでしょうか？'
+def send_conditional(user_name, user_address, mailaddress, password, text, site):
+  subject = f'{site}でやり取りしてた{user_name}さんでしょうか？'
   text = text
   address_from = mailaddress
   address_to = user_address

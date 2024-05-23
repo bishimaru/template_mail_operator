@@ -148,6 +148,7 @@ def check_new_mail(driver, wait, name):
   interacting_users = driver.find_elements(By.CLASS_NAME, value="icon_sex_m")
   # 未読メールをチェック
   send_count = 0
+  sended_mail = False
   for interacting_user_cnt in range(len(interacting_users)):
     # interacting_userリストを取得
     interacting_user_name = interacting_users[interacting_user_cnt].text
@@ -165,7 +166,7 @@ def check_new_mail(driver, wait, name):
     new_icon = interacting_users[interacting_user_cnt].find_elements(By.TAG_NAME, value="img")
     if "未読" in interacting_users[interacting_user_cnt].text or len(new_icon):
     # deug
-    # if "masa" in interacting_users[interacting_user_cnt].text:
+    # if "のの" in interacting_users[interacting_user_cnt].text:
       # 時間を取得　align_right
       parent_usr_info = interacting_users[interacting_user_cnt].find_element(By.XPATH, "./..")
       parent_usr_info = parent_usr_info.find_element(By.XPATH, "./..")
@@ -225,23 +226,24 @@ def check_new_mail(driver, wait, name):
                   text = row[0]
                   password = row[1]
                   mailaddress = row[2]
-              
-              func.send_conditional(interacting_user_name, user_address, mailaddress, password, text)
+              site = "jメール"
+              func.send_conditional(interacting_user_name, user_address, mailaddress, password, text, site)
             interacting_users = driver.find_elements(By.CLASS_NAME, value="icon_sex_m")
-            continue
+            sended_mail = True
           
         # 相手からのメッセージが何通目か確認する
-        send_by_me = driver.find_elements(By.CLASS_NAME, value="balloon_right")
-        if len(send_by_me) == 0:
-          send_message = fst_message
-        elif len(send_by_me) == 1:
-          send_message = second_message
-        elif second_message in send_by_me[0].text:
-          print("捨てメアドに通知")
-          print(f"{name}   {login_id}  {login_pass} : {interacting_user_name}  ;;;;{send_by_user_message}")
-          return_message = f"{name}jmail,{login_id}:{login_pass}\n{interacting_user_name}「{send_by_user_message}」"
-          return_list.append(return_message)
-          print("捨てメアドに、送信しました")
+        if not sended_mail:
+          send_by_me = driver.find_elements(By.CLASS_NAME, value="balloon_right")
+          if len(send_by_me) == 0:
+            send_message = fst_message
+          elif len(send_by_me) == 1:
+            send_message = second_message
+          elif second_message in send_by_me[0].text:
+            print("捨てメアドに通知")
+            print(f"{name}   {login_id}  {login_pass} : {interacting_user_name}  ;;;;{send_by_user_message}")
+            return_message = f"{name}jmail,{login_id}:{login_pass}\n{interacting_user_name}「{send_by_user_message}」"
+            return_list.append(return_message)  
+            print("捨てメアドに、送信しました")
 
         if send_message:
           # 返信するをクリック
@@ -265,6 +267,132 @@ def check_new_mail(driver, wait, name):
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(2)
         interacting_users = driver.find_elements(By.CLASS_NAME, value="icon_sex_m")
+
+      
+  # 5/23 pager 実装中
+  pager = driver.find_elements(By.CLASS_NAME, value="pager")
+  if len(pager):
+    next_pager = pager[0].find_elements(By.TAG_NAME, value="a")
+    next_pager[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(2)
+    for interacting_user_cnt in range(len(interacting_users)):
+    # interacting_userリストを取得
+      interacting_user_name = interacting_users[interacting_user_cnt].text
+      if "未読" in interacting_user_name:
+        interacting_user_name = interacting_user_name.replace("未読", "")
+      if "退会" in interacting_user_name:
+        interacting_user_name = interacting_user_name.replace("退会", "")
+      if " " in interacting_user_name:
+        interacting_user_name = interacting_user_name.replace(" ", "")
+      if "　" in interacting_user_name:
+        interacting_user_name = interacting_user_name.replace("　", "")
+      # 未読、退会以外でNEWのアイコンも存在してそう
+      interacting_user_list.append(interacting_user_name)
+      # NEWアイコンがあるかチェック
+      new_icon = interacting_users[interacting_user_cnt].find_elements(By.TAG_NAME, value="img")
+      if "未読" in interacting_users[interacting_user_cnt].text or len(new_icon):
+      # deug
+      # if "のの" in interacting_users[interacting_user_cnt].text:
+        # 時間を取得　align_right
+        parent_usr_info = interacting_users[interacting_user_cnt].find_element(By.XPATH, "./..")
+        parent_usr_info = parent_usr_info.find_element(By.XPATH, "./..")
+        next_element = parent_usr_info.find_element(By.XPATH, value="following-sibling::*[1]")
+        current_year = datetime.now().year
+        date_string = f"{current_year} {next_element.text}"
+        date_format = "%Y %m/%d %H:%M" 
+        date_object = datetime.strptime(date_string, date_format)
+        now = datetime.today()
+        
+        elapsed_time = now - date_object
+        print(interacting_users[interacting_user_cnt].text)
+        print(f"メール到着からの経過時間{elapsed_time}")
+        if elapsed_time >= timedelta(minutes=4):
+          print("4分以上経過しています。")
+          send_message = ""
+          # リンクを取得
+          link_element = interacting_users[interacting_user_cnt].find_element(By.XPATH, "./..")
+          driver.get(link_element.get_attribute("href"))
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(2)
+
+          # 受信メッセージにメールアドレスが含まれていれば条件文を送信
+          send_by_user = driver.find_elements(By.CLASS_NAME, value="balloon_left")
+          send_by_user_message = send_by_user[0].find_elements(By.CLASS_NAME, value="balloon")[0].text
+          # メールアドレスを抽出する正規表現
+          email_pattern = r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+'
+          email_list = re.findall(email_pattern, send_by_user_message)
+          if email_list:
+            print("メールアドレスが含まれています")
+            print(email_list)
+            # icloudの場合
+            if "icloud.com" in send_by_user_message:
+              print("icloud.comが含まれています")
+              icloud_text = "メール送ったんですけど、ブロックされちゃって届かないのでこちらのアドレスにお名前添えて送ってもらえますか？"
+              dbpath = 'firstdb.db'
+              conn = sqlite3.connect(dbpath)
+              # # SQLiteを操作するためのカーソルを作成
+              cur = conn.cursor()
+              # # 順番
+              # # データ検索
+              cur.execute('SELECT mail_address FROM jmail WHERE name = ?', (name,))
+              for row in cur:
+                  mail_address = row[0]
+              send_message = icloud_text + "\n" + mail_address
+            # gmailで条件文を送信
+            else:
+              for user_address in email_list:
+                dbpath = 'firstdb.db'
+                conn = sqlite3.connect(dbpath)
+                # # SQLiteを操作するためのカーソルを作成
+                cur = conn.cursor()
+                # # 順番
+                # # データ検索
+                cur.execute('SELECT condition_message, gmail_password, mail_address FROM jmail WHERE name = ?', (name,))
+                for row in cur:
+                    text = row[0]
+                    password = row[1]
+                    mailaddress = row[2]
+                site = "jメール"
+                func.send_conditional(interacting_user_name, user_address, mailaddress, password, text, site)
+              interacting_users = driver.find_elements(By.CLASS_NAME, value="icon_sex_m")
+              sended_mail = True
+            
+          # 相手からのメッセージが何通目か確認する
+          if not sended_mail:
+            send_by_me = driver.find_elements(By.CLASS_NAME, value="balloon_right")
+            if len(send_by_me) == 0:
+              send_message = fst_message
+            elif len(send_by_me) == 1:
+              send_message = second_message
+            elif second_message in send_by_me[0].text:
+              print("捨てメアドに通知")
+              print(f"{name}   {login_id}  {login_pass} : {interacting_user_name}  ;;;;{send_by_user_message}")
+              return_message = f"{name}jmail,{login_id}:{login_pass}\n{interacting_user_name}「{send_by_user_message}」"
+              return_list.append(return_message)  
+              print("捨てメアドに、送信しました")
+
+          if send_message:
+            # 返信するをクリック
+            res_do = driver.find_elements(By.CLASS_NAME, value="color_variations_05")
+            res_do[1].click()
+            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+            time.sleep(2)
+            # メッセージを入力　name=comment
+            text_area = driver.find_elements(By.NAME, value="comment")
+            text_area[0].send_keys(send_message)
+            time.sleep(4)
+            # 画像があれば送信
+            send_button = driver.find_elements(By.NAME, value="sendbutton")
+            send_button[0].click()
+            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+            time.sleep(2)
+          # メール一覧に戻る　message_back
+          back_parent = driver.find_elements(By.CLASS_NAME, value="message_back")
+          back = back_parent[0].find_elements(By.TAG_NAME, value="a")
+          back[0].click()
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(2)
 
   # # あしあと返し
   #メニューをクリック

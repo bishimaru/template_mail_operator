@@ -1294,7 +1294,8 @@ def check_new_mail(driver, wait, name):
                 cur.execute('SELECT mail_address FROM gmail WHERE name = ?', (name,))
                 for row in cur:
                     mailaddress = row[0]
-                func.send_conditional(user_name, user_address, mailaddress, password, text)
+                site = "pcmax"
+                func.send_conditional(user_name, user_address, mailaddress, password, text, site)
             # 見ちゃいや登録
             latest_mail = driver.find_element(By.ID, value="dlink")
             latest_mail.click()
