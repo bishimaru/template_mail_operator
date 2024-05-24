@@ -269,13 +269,16 @@ def check_new_mail(driver, wait, name):
         interacting_users = driver.find_elements(By.CLASS_NAME, value="icon_sex_m")
 
       
-  # 5/23 pager 実装中
   pager = driver.find_elements(By.CLASS_NAME, value="pager")
+  print(8888)
+  print(len(pager))
+  print(len(interacting_user_list))
   if len(pager):
     next_pager = pager[0].find_elements(By.TAG_NAME, value="a")
     next_pager[0].click()
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
     time.sleep(2)
+    interacting_users = driver.find_elements(By.CLASS_NAME, value="icon_sex_m")
     for interacting_user_cnt in range(len(interacting_users)):
     # interacting_userリストを取得
       interacting_user_name = interacting_users[interacting_user_cnt].text
@@ -339,6 +342,7 @@ def check_new_mail(driver, wait, name):
               for row in cur:
                   mail_address = row[0]
               send_message = icloud_text + "\n" + mail_address
+              sended_mail = True
             # gmailで条件文を送信
             else:
               for user_address in email_list:
@@ -414,6 +418,7 @@ def check_new_mail(driver, wait, name):
     print("足跡リストのユーザーがメールリストになければ足跡を返す")
     print(name_element[foot_return_cnt].text)
     print("メールリストのユーザーリスト")
+    print(len(interacting_user_list))
     print(interacting_user_list)
     foot_user_name = name_element[foot_return_cnt].text
     if foot_user_name not in interacting_user_list:
