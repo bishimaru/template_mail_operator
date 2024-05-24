@@ -116,7 +116,13 @@ def send_error(chara, error_message):
   msg['From'] = address_from
   msg['To'] = address_to
   msg['Date'] = formatdate()
-  smtpobj.send_message(msg)
+  try:
+    smtpobj.send_message(msg)
+  except smtplib.SMTPDataError as e:
+    print(f"SMTPDataError: {e}")
+  except Exception as e:
+    print(f"An error occurred: {e}")
+  
   smtpobj.close()
 
 def send_mail(message):
