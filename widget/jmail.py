@@ -226,7 +226,7 @@ def check_new_mail(driver, wait, name):
                   text = row[0]
                   password = row[1]
                   mailaddress = row[2]
-              site = "jメール"
+              site = "Jメール"
               func.send_conditional(interacting_user_name, user_address, mailaddress, password, text, site)
             interacting_users = driver.find_elements(By.CLASS_NAME, value="icon_sex_m")
             sended_mail = True

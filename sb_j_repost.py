@@ -18,7 +18,7 @@ from datetime import timedelta
 
 def jmail_repost():
   options = Options()
-  # options.add_argument('--headless')
+  options.add_argument('--headless')
   options.add_argument("--incognito")
   options.add_argument("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1")
   options.add_argument("--no-sandbox")
@@ -34,7 +34,7 @@ def jmail_repost():
     "きりこ", "さな", "すい", "つむぎ", "なお", 
   ]
   chara_order = [  
-    "つむぎ",
+    "つむぎ", "ハル",
   ]
   def timer(sec, functions):
     start_time = time.time() 
@@ -67,13 +67,13 @@ def jmail_repost():
   return_cnt_list.append(f"サイト回し一周タイム： {elapsed_time_formatted}")
   str_return_cnt_list = ", ".join(return_cnt_list)
   func.send_mail(str_return_cnt_list)
-  try:
-    jmail.re_post(driver, name)
-    driver.quit() 
-  except Exception as e:
-    print(f"{name}:エラー")
-    print(traceback.format_exc())
-    driver.quit() 
+  # try:
+  #   jmail.re_post(driver, name)
+  #   driver.quit() 
+  # except Exception as e:
+  #   print(f"{name}:エラー")
+  #   print(traceback.format_exc())
+  #   driver.quit() 
   
 
 if __name__ == '__main__':

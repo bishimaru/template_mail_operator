@@ -84,11 +84,11 @@ def check_mail():
         "ゆっこ": 0,
         "ゆかり": 0,   
     }
-#   jmail_return_foot_count_dic = {
-        
-#         "つむぎ": 0,
+  jmail_return_foot_count_dic = {
+        "つむぎ": 0,
+         "ハル": 0,
        
-#     }
+    }
   
   while True:
     start_time = time.time() 
@@ -133,27 +133,27 @@ def check_mail():
 
             driver.quit()
         # jmail
-        # try:
-        #     driver, wait = get_driver(debug)
-        #     jmail_new, return_foot_cnt = jmail.check_new_mail(driver, wait, order_info[0])
+        try:
+            driver, wait = get_driver(debug)
+            jmail_new, return_foot_cnt = jmail.check_new_mail(driver, wait, order_info[0])
             
-        #     if jmail_new != 1:
-        #         new_mail_lists.append(jmail_new)
+            if jmail_new != 1:
+                new_mail_lists.append(jmail_new)
            
-        #     if return_foot_cnt:     
-        #         for r_f_user in jmail_return_foot_count_dic:
-        #             if order_info[0] == r_f_user:
-        #                 # print(777)
-        #                 # print(return_foot_count_dic[r_f_user])
-        #                 jmail_return_foot_count_dic[r_f_user] = jmail_return_foot_count_dic[r_f_user] + return_foot_cnt
-        #                 # print(return_foot_count_dic[r_f_user])
-        #     driver.quit()
-        # except Exception as e:
-        #     print(f"<<<<<<<<<<メールチェックエラー：jmail{order_info[0]}>>>>>>>>>>>")
-        #     print(traceback.format_exc())
-        #     func.send_error(f"メールチェックエラー：jmail{order_info[0]}", traceback.format_exc())
+            if return_foot_cnt:     
+                for r_f_user in jmail_return_foot_count_dic:
+                    if order_info[0] == r_f_user:
+                        # print(777)
+                        # print(return_foot_count_dic[r_f_user])
+                        jmail_return_foot_count_dic[r_f_user] = jmail_return_foot_count_dic[r_f_user] + return_foot_cnt
+                        # print(return_foot_count_dic[r_f_user])
+            driver.quit()
+        except Exception as e:
+            print(f"<<<<<<<<<<メールチェックエラー：jmail{order_info[0]}>>>>>>>>>>>")
+            print(traceback.format_exc())
+            func.send_error(f"メールチェックエラー：jmail{order_info[0]}", traceback.format_exc())
 
-        #     driver.quit()
+            driver.quit()
         # gmail
         # try:
         #     time.sleep(2)
