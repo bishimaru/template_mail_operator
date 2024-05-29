@@ -49,12 +49,6 @@ def login_jmail(driver, wait, login_id, login_pass):
     time.sleep(1)
     send_form = driver.find_element(By.ID, value="B1login")
     send_form.click()
-  errormsg = driver.find_elements(By.CLASS_NAME, value="errormsg")
-  if len(errormsg):
-    return False
-  else:
-    return True
-    
 
 def re_post(driver, name):
   try:
@@ -143,9 +137,7 @@ def check_new_mail(driver, wait, name):
   if login_id == None or login_id == "":
     print(f"{name}のjmailキャラ情報を取得できませんでした")
     return 1, 0
-  login_flug = login_jmail(driver, wait, login_id, login_pass)
-  if not login_flug:
-    return 2, 0
+  login_jmail(driver, wait, login_id, login_pass)
   # メールアイコンをクリック
   mail_icon = driver.find_elements(By.CLASS_NAME, value="mail-off")
   link = mail_icon[0].find_element(By.XPATH, "./..")
@@ -234,7 +226,7 @@ def check_new_mail(driver, wait, name):
                   text = row[0]
                   password = row[1]
                   mailaddress = row[2]
-              site = "Jメール"
+              site = "jメール"
               func.send_conditional(interacting_user_name, user_address, mailaddress, password, text, site)
             interacting_users = driver.find_elements(By.CLASS_NAME, value="icon_sex_m")
             sended_mail = True
@@ -451,6 +443,11 @@ def check_new_mail(driver, wait, name):
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(2)
       name_element = driver.find_elements(By.CLASS_NAME, value="icon_sex_m")
+
+
+
+
+
   if len(return_list):
     return return_list, send_count
   else:
