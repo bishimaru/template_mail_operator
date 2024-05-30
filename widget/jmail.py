@@ -240,6 +240,14 @@ def check_new_mail(driver, wait, name):
           time.sleep(2)
           favorite = driver.find_elements(By.CLASS_NAME, value="menu03")
           favorite[0].click()
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(2)
+          prev_white = driver.find_elements(By.CLASS_NAME, value="prev_white")
+          prev = prev_white[0].find_elements(By.TAG_NAME, value="a")
+          prev[0].click()
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(2)
+
         
         # 相手からのメッセージが何通目か確認する
         if not sended_mail:
@@ -269,13 +277,10 @@ def check_new_mail(driver, wait, name):
           time.sleep(4)
           # 画像があれば送信
           if send_image and mail_img:
-            print(77777777777777)
             img_input = driver.find_elements(By.NAME, value="image1")
-            print(len(img_input))
             img_input[0].send_keys(mail_img)
             wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
             time.sleep(2)
-            print(6666666666)
           send_button = driver.find_elements(By.NAME, value="sendbutton")
           send_button[0].click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
