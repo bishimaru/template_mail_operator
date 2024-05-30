@@ -135,8 +135,6 @@ def check_new_mail(driver, wait, name):
     return_foot_message = row[3]
     second_message = row[4]
     mail_img = row[5]
-    print(5555)
-    print(mail_img)
   if login_id == None or login_id == "":
     print(f"{name}のjmailキャラ情報を取得できませんでした")
     return 1, 0
@@ -444,7 +442,7 @@ def check_new_mail(driver, wait, name):
     # print(interacting_user_list)
     foot_user_name = name_element[foot_return_cnt].text
     if foot_user_name not in interacting_user_list:
-      print(f"{foot_user_name}はメールリストになかった")
+      # print(f"{foot_user_name}はメールリストになかった")
       foot_user_link = name_element[foot_return_cnt].find_element(By.XPATH, "./..")
       driver.get(foot_user_link.get_attribute("href"))
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
