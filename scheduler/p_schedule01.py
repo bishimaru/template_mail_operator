@@ -6,7 +6,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from widget import pcmax, happymail, func
 import h_footprint01
 import sb_h_day_shift
-import s_check_mail_hp
+import s_check_mail_hpj
 from fst_mail_pcmax import template_multiple_fst_mail, chara_order_fstmail
 from datetime import datetime, timedelta
 
