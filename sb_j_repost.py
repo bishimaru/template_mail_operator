@@ -32,9 +32,11 @@ def jmail_repost():
   chara_order = [  
     "アスカ", "あやか", "いおり", "えりか", 
     "きりこ", "さな", "すい", "つむぎ", "なお", 
+
   ]
   chara_order = [  
-    "つむぎ", "ハル",
+    # "つむぎ", "ハル",
+    "いおり", "きりこ","ゆっこ",
   ]
   def timer(sec, functions):
     start_time = time.time() 
@@ -67,13 +69,7 @@ def jmail_repost():
   return_cnt_list.append(f"サイト回し一周タイム： {elapsed_time_formatted}")
   str_return_cnt_list = ", ".join(return_cnt_list)
   func.send_mail(str_return_cnt_list)
-  # try:
-  #   jmail.re_post(driver, name)
-  #   driver.quit() 
-  # except Exception as e:
-  #   print(f"{name}:エラー")
-  #   print(traceback.format_exc())
-  #   driver.quit() 
+ 
   
 
 if __name__ == '__main__':

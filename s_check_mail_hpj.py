@@ -68,6 +68,7 @@ def get_driver(debug):
 def check_mail():
   pcmax_return_foot_count_dic = {
         "アスカ": 0,
+        "いおり": 0,
         "えりか": 0,
         "きりこ": 0,
         "くみ": 0,
@@ -85,8 +86,11 @@ def check_mail():
         "ゆかり": 0,   
     }
   jmail_return_foot_count_dic = {
+       "いおり": 0,
         "つむぎ": 0,
          "ハル": 0,
+         "きりこ": 0,
+         "ゆっこ": 0,
        
     }
   

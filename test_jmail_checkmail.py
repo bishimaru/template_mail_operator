@@ -42,8 +42,9 @@ order_list = [
   
 ]
 order_list = [
-  ["つむぎ", "tumtum.jpwa@gmail.com"],
-  ["ハル", "haruru414510@gmail.com"],
+     ["きりこ", "kiriko414510@gmail.com"],
+  ["ゆっこ", "yuko414510@gmail.com"], 
+   ["いおり", "iori547253@gmail.com"],
    ]
 def get_driver(debug):
     options = Options()
@@ -86,8 +87,9 @@ def check_mail():
     }
   jmail_return_foot_count_dic = {
         
-        "つむぎ": 0,
-         "ハル": 0,
+        # "つむぎ": 0,
+        #  "ハル": 0,
+          "ゆっこ": 0,
        
     }
   
@@ -134,15 +136,14 @@ def check_mail():
 
         #     driver.quit()
         # jmail
-        now = datetime.today()
-        repost_day_flug = False
-        repost_night_flug = False
 
         try:
             driver, wait = get_driver(debug)
             jmail_new, return_foot_cnt = jmail.check_new_mail(driver, wait, order_info[0])
             
             if jmail_new != 1:
+                new_mail_lists.append(jmail_new)
+            if jmail_new == 2:
                 new_mail_lists.append(jmail_new)
            
             if return_foot_cnt:     

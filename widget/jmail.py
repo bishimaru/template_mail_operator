@@ -126,7 +126,7 @@ def check_new_mail(driver, wait, name):
   dbpath = 'firstdb.db'
   conn = sqlite3.connect(dbpath)
   cur = conn.cursor()
-  cur.execute('SELECT login_id, login_passward, fst_message, return_foot_message, second_message FROM jmail WHERE name = ?', (name,))
+  cur.execute('SELECT login_id, login_passward, fst_message, return_foot_message, second_message, mail_img FROM jmail WHERE name = ?', (name,))
   login_id = None
   for row in cur:
     login_id = row[0]
@@ -134,6 +134,9 @@ def check_new_mail(driver, wait, name):
     fst_message = row[2]
     return_foot_message = row[3]
     second_message = row[4]
+    mail_img = row[5]
+    print(5555)
+    print(mail_img)
   if login_id == None or login_id == "":
     print(f"{name}のjmailキャラ情報を取得できませんでした")
     return 1, 0
@@ -212,6 +215,8 @@ def check_new_mail(driver, wait, name):
             for row in cur:
                 mail_address = row[0]
             send_message = icloud_text + "\n" + mail_address
+            sended_mail = True
+            send_image = False
           # gmailで条件文を送信
           else:
             for user_address in email_list:
@@ -230,14 +235,23 @@ def check_new_mail(driver, wait, name):
               func.send_conditional(interacting_user_name, user_address, mailaddress, password, text, site)
             interacting_users = driver.find_elements(By.CLASS_NAME, value="icon_sex_m")
             sended_mail = True
-          
+          # お気に入りに追加
+          menu = driver.find_elements(By.CLASS_NAME, value="color_variations_05")
+          menu[0].click()
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(2)
+          favorite = driver.find_elements(By.CLASS_NAME, value="menu03")
+          favorite[0].click()
+        
         # 相手からのメッセージが何通目か確認する
         if not sended_mail:
           send_by_me = driver.find_elements(By.CLASS_NAME, value="balloon_right")
           if len(send_by_me) == 0:
             send_message = fst_message
+            send_image = True
           elif len(send_by_me) == 1:
             send_message = second_message
+            send_image = False
           elif second_message in send_by_me[0].text:
             print("捨てメアドに通知")
             print(f"{name}   {login_id}  {login_pass} : {interacting_user_name}  ;;;;{send_by_user_message}")
@@ -256,6 +270,14 @@ def check_new_mail(driver, wait, name):
           text_area[0].send_keys(send_message)
           time.sleep(4)
           # 画像があれば送信
+          if send_image and mail_img:
+            print(77777777777777)
+            img_input = driver.find_elements(By.NAME, value="image1")
+            print(len(img_input))
+            img_input[0].send_keys(mail_img)
+            wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+            time.sleep(2)
+            print(6666666666)
           send_button = driver.find_elements(By.NAME, value="sendbutton")
           send_button[0].click()
           wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -432,11 +454,21 @@ def check_new_mail(driver, wait, name):
       time.sleep(1)
       text_area[0].send_keys(return_foot_message)
       time.sleep(4)
+      # 画像があれば送付
+      if mail_img:
+        print(77777777777777)
+        img_input = driver.find_elements(By.ID, value="upload_file")
+        print(len(img_input))
+        img_input[0].send_keys(mail_img)
+        wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+        time.sleep(2)
+        print(6666666666)
       send_btn = driver.find_elements(By.CLASS_NAME, value="send_btn")
       send_btn[0].click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(2)
       interacting_user_list.append(foot_user_name)
+      send_count += 1
 
       # あしあとリストに戻る
       driver.back()

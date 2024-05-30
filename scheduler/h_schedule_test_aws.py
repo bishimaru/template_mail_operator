@@ -5,7 +5,7 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from widget import pcmax, happymail, func
 import sb_h_test_aws
-import s_check_mail_hp
+import s_check_mail_hpj
 from datetime import datetime, timedelta
 
 
