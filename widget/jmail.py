@@ -292,9 +292,9 @@ def check_new_mail(driver, wait, name):
 
       
   pager = driver.find_elements(By.CLASS_NAME, value="pager")
-  print(8888)
-  print(len(pager))
-  print(len(interacting_user_list))
+  # print(8888)
+  # print(len(pager))
+  # print(len(interacting_user_list))
   if len(pager):
     next_pager = pager[0].find_elements(By.TAG_NAME, value="a")
     next_pager[0].click()
@@ -437,11 +437,11 @@ def check_new_mail(driver, wait, name):
   # interacting_user_listになければ足跡返す
   name_element = driver.find_elements(By.CLASS_NAME, value="icon_sex_m")
   for foot_return_cnt in range(len(name_element)):
-    print("足跡リストのユーザーがメールリストになければ足跡を返す")
-    print(name_element[foot_return_cnt].text)
-    print("メールリストのユーザーリスト")
-    print(len(interacting_user_list))
-    print(interacting_user_list)
+    # print("足跡リストのユーザーがメールリストになければ足跡を返す")
+    # print(name_element[foot_return_cnt].text)
+    # print("メールリストのユーザーリスト")
+    # print(len(interacting_user_list))
+    # print(interacting_user_list)
     foot_user_name = name_element[foot_return_cnt].text
     if foot_user_name not in interacting_user_list:
       print(f"{foot_user_name}はメールリストになかった")
@@ -456,13 +456,10 @@ def check_new_mail(driver, wait, name):
       time.sleep(4)
       # 画像があれば送付
       if mail_img:
-        print(77777777777777)
         img_input = driver.find_elements(By.ID, value="upload_file")
-        print(len(img_input))
         img_input[0].send_keys(mail_img)
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(2)
-        print(6666666666)
       send_btn = driver.find_elements(By.CLASS_NAME, value="send_btn")
       send_btn[0].click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
