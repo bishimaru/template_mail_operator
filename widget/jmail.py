@@ -347,12 +347,16 @@ def check_new_mail(driver, wait, name):
           # 受信メッセージにメールアドレスが含まれていれば条件文を送信
           send_by_user = driver.find_elements(By.CLASS_NAME, value="balloon_left")
           send_by_user_message = send_by_user[0].find_elements(By.CLASS_NAME, value="balloon")[0].text
+          # ＠を@に変換する
+          if "＠" in send_by_user_message:
+            send_by_user_message = send_by_user_message.replace("＠", "@")
           # メールアドレスを抽出する正規表現
           email_pattern = r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+'
           email_list = re.findall(email_pattern, send_by_user_message)
           if email_list:
             print("メールアドレスが含まれています")
             print(email_list)
+            
             # icloudの場合
             if "icloud.com" in send_by_user_message:
               print("icloud.comが含まれています")
