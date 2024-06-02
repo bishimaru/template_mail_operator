@@ -444,14 +444,14 @@ def check_new_mail(driver, wait, name):
   # interacting_user_listになければ足跡返す
   name_element = driver.find_elements(By.CLASS_NAME, value="icon_sex_m")
   for foot_return_cnt in range(len(name_element)):
-    # print("足跡リストのユーザーがメールリストになければ足跡を返す")
-    # print(name_element[foot_return_cnt].text)
-    # print("メールリストのユーザーリスト")
-    # print(len(interacting_user_list))
-    # print(interacting_user_list)
+    print("足跡リストのユーザーがメールリストになければ足跡を返す")
+    print(name_element[foot_return_cnt].text)
+    print("メールリストのユーザーリスト")
+    print(len(interacting_user_list))
+    print(interacting_user_list)
     foot_user_name = name_element[foot_return_cnt].text
     if foot_user_name not in interacting_user_list:
-      # print(f"{foot_user_name}はメールリストになかった")
+      print(f"{foot_user_name}はメールリストになかった")
       foot_user_link = name_element[foot_return_cnt].find_element(By.XPATH, "./..")
       driver.get(foot_user_link.get_attribute("href"))
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
@@ -462,6 +462,7 @@ def check_new_mail(driver, wait, name):
       text_area[0].send_keys(return_foot_message)
       time.sleep(4)
       # 画像があれば送付
+      # DEBUG用　# mail_img = ""
       if mail_img:
         img_input = driver.find_elements(By.ID, value="upload_file")
         img_input[0].send_keys(mail_img)
@@ -471,9 +472,29 @@ def check_new_mail(driver, wait, name):
       send_btn[0].click()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(2)
-      interacting_user_list.append(foot_user_name)
-      send_count += 1
-      print(f"jmail足跡返し {name}: {send_count + 1}件送信")
+      loader = driver.find_elements(By.ID, value="loader")
+      wait_cnt = 0
+      
+      while len(loader):
+        print("待機中")
+        time.sleep(5)
+        wait_cnt += 1
+        if wait_cnt > 3:
+          print("ロード時間が20秒以上かかっています")
+          break
+        loader = driver.find_elements(By.ID, value="loader")
+      # 要素のCSSプロパティを取得
+      send_complete = driver.find_elements(By.ID, value="modal_message_send")
+
+      display= send_complete[0].value_of_css_property("display")
+     
+      # displayがnoneであるかチェック
+      if display == "none":
+          print("送信失敗しました")
+      else:
+          interacting_user_list.append(foot_user_name)
+          send_count += 1
+          print(f"jmail足跡返し {name}: {send_count + 1}件送信")
 
 
       # あしあとリストに戻る

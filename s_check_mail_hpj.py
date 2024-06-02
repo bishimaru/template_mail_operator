@@ -148,12 +148,11 @@ def check_mail():
             if return_foot_cnt:     
                 for r_f_user in jmail_return_foot_count_dic:
                     if order_info[0] == r_f_user:
-
-                        print(777)
-                        print(jmail_return_foot_count_dic[r_f_user])
-                        print(return_foot_cnt)
+                        
+                        # print(777)
+                        # print(return_foot_count_dic[r_f_user])
                         jmail_return_foot_count_dic[r_f_user] = jmail_return_foot_count_dic[r_f_user] + return_foot_cnt
-                        print(jmail_return_foot_count_dic[r_f_user])
+                        # print(return_foot_count_dic[r_f_user])
             driver.quit()
         except Exception as e:
             print(f"<<<<<<<<<<メールチェックエラー：jmail{order_info[0]}>>>>>>>>>>>")
