@@ -469,6 +469,8 @@ def check_new_mail(driver, wait, name):
       time.sleep(2)
       interacting_user_list.append(foot_user_name)
       send_count += 1
+      print(f"jmail {name}: {send_count + 1}件送信")
+
 
       # あしあとリストに戻る
       driver.back()

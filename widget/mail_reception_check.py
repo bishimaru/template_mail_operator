@@ -19,7 +19,9 @@ from selenium.common.exceptions import TimeoutException
 def mail_reception_check(window_handle, driver, wait):
    try:
       new_mail = ""
+      print(999)
       driver.switch_to.window(window_handle)
+      print(888)
       try:
          url = WebDriverWait(driver, 10).until(lambda driver: driver.current_url)
          # url = driver.current_url
