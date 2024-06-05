@@ -219,7 +219,7 @@ def check_mail():
     print(f"<<<<<<<<<<<<<<<<<<<<足跡返し総数　　開始時間{current_datetime}, 経過時間{elapsed_time_formatted}>>>>>>>>>>>>>>>>>>>>")
     print(pcmax_return_foot_count_dic)
     print("<<<<<<<<<<<<<<<jmail>>>>>>>>>>>>>>>>>>>>>>>")
-    # print(jmail_return_foot_count_dic)
+    print(jmail_return_foot_count_dic)
 
 
 
