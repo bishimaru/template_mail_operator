@@ -37,6 +37,11 @@ def login_jmail(driver, wait, login_id, login_pass):
     send_form.click()
     wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
     time.sleep(1)
+    error_msg = driver.find_elements(By.CLASS_NAME, value="errormsg")
+    if len(error_msg):
+      return False
+    else:
+      return True
   except TimeoutException as e:
     print("TimeoutException")
     driver.refresh()
@@ -49,6 +54,14 @@ def login_jmail(driver, wait, login_id, login_pass):
     time.sleep(1)
     send_form = driver.find_element(By.ID, value="B1login")
     send_form.click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(1)
+    error_msg = driver.find_elements(By.CLASS_NAME, value="errormsg")
+    if len(error_msg):
+      return False
+    else:
+      return True
+  
 
 def re_post(driver, name):
   try:
@@ -138,7 +151,10 @@ def check_new_mail(driver, wait, name):
   if login_id == None or login_id == "":
     print(f"{name}のjmailキャラ情報を取得できませんでした")
     return 1, 0
-  login_jmail(driver, wait, login_id, login_pass)
+  login_flug = login_jmail(driver, wait, login_id, login_pass)
+  if not login_flug:
+    print(f"jmail:{name}に警告画面が出ている可能性があります")
+    return 1, 0
   # メールアイコンをクリック
   mail_icon = driver.find_elements(By.CLASS_NAME, value="mail-off")
   link = mail_icon[0].find_element(By.XPATH, "./..")
@@ -444,10 +460,10 @@ def check_new_mail(driver, wait, name):
   # interacting_user_listになければ足跡返す
   name_element = driver.find_elements(By.CLASS_NAME, value="icon_sex_m")
   for foot_return_cnt in range(len(name_element)):
-    print("足跡リストのユーザーがメールリストになければ足跡を返す")
-    print(name_element[foot_return_cnt].text)
-    print("メールリストのユーザーリスト")
-    print(len(interacting_user_list))
+    # print("足跡リストのユーザーがメールリストになければ足跡を返す")
+    # print(name_element[foot_return_cnt].text)
+    # print("メールリストのユーザーリスト")
+    # print(len(interacting_user_list))
     print(interacting_user_list)
     foot_user_name = name_element[foot_return_cnt].text
     if foot_user_name not in interacting_user_list:
@@ -476,7 +492,6 @@ def check_new_mail(driver, wait, name):
       wait_cnt = 0
       
       while len(loader):
-        print("待機中")
         time.sleep(5)
         wait_cnt += 1
         if wait_cnt > 3:
