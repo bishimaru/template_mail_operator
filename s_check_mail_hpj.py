@@ -147,8 +147,8 @@ def check_mail():
         try:
             driver, wait = get_driver(debug)
             jmail_new, return_foot_cnt = jmail.check_new_mail(driver, wait, order_info[0])
-            print(1111111111)
-            print(return_foot_cnt)
+            # print(1111111111)
+            # print(return_foot_cnt)
             if jmail_new == 2:
                 new_mail_lists.append(f"jmail:{order_info[0]} ログインできませんでした")
             elif jmail_new != 1:
@@ -230,7 +230,6 @@ def check_mail():
 
     # 現在時刻を取得
     now = datetime.now()
-
     # 現在時刻の時間と分を取得
     current_hour = now.hour
     current_minute = now.minute

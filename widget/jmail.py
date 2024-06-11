@@ -460,11 +460,11 @@ def check_new_mail(driver, wait, name):
   # interacting_user_listになければ足跡返す
   name_element = driver.find_elements(By.CLASS_NAME, value="icon_sex_m")
   for foot_return_cnt in range(len(name_element)):
-    print("足跡リストのユーザーがメールリストになければ足跡を返す")
-    print(name_element[foot_return_cnt].text)
-    print("メールリストのユーザーリスト")
-    # print(len(interacting_user_list))
-    print(interacting_user_list)
+    # print("足跡リストのユーザーがメールリストになければ足跡を返す")
+    # print(name_element[foot_return_cnt].text)
+    # print("メールリストのユーザーリスト")
+    # # print(len(interacting_user_list))
+    # print(interacting_user_list)
 
     # 地域を判定
     next_to_next_element = name_element[foot_return_cnt].find_element(By.XPATH, "following-sibling::*[2]")
@@ -529,8 +529,7 @@ def check_new_mail(driver, wait, name):
         display= send_complete[0].value_of_css_property("display")
       
         # displayがnoneであるかチェック
-        print(999)
-        print(display)
+        
         if display == "none":
             print("送信失敗しました")
         else:

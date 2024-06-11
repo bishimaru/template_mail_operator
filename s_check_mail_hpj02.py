@@ -151,11 +151,11 @@ def check_mail():
             if return_foot_cnt:     
                 for r_f_user in jmail_return_foot_count_dic:
                     if order_info[0] == r_f_user:
-                        print(777)
-                        print(jmail_return_foot_count_dic[r_f_user])
-                        print(return_foot_cnt)
+                        # print(777)
+                        # print(jmail_return_foot_count_dic[r_f_user])
+                        # print(return_foot_cnt)
                         jmail_return_foot_count_dic[r_f_user] = jmail_return_foot_count_dic[r_f_user] + return_foot_cnt
-                        print(jmail_return_foot_count_dic[r_f_user])
+                        # print(jmail_return_foot_count_dic[r_f_user])
             driver.quit()
         except Exception as e:
             print(f"<<<<<<<<<<メールチェックエラー：jmail{order_info[0]}>>>>>>>>>>>")
@@ -223,6 +223,40 @@ def check_mail():
     print(pcmax_return_foot_count_dic)
     print("<<<<<<<<<<<<<<<jmail>>>>>>>>>>>>>>>>>>>>>>>")
     print(jmail_return_foot_count_dic)
+
+    # 現在時刻を取得
+    now = datetime.now()
+    # 現在時刻の時間と分を取得
+    current_hour = now.hour
+    current_minute = now.minute
+    # もし現在時刻が10:00から10:20の間だったら
+    if current_hour == 10 and 0 <= current_minute <= 20:
+        print("現在時刻は10:00から10:20の間です。特定の動作を実行します。")
+        # ここに実行したい動作を追加
+        mailaddress = 'kenta.bishi777@gmail.com'
+        password = 'rjdzkswuhgfvslvd'
+        text = jmail_return_foot_count_dic
+        subject = "jメール足跡返し件数"
+        address_from = 'kenta.bishi777@gmail.com'
+        # address_to = 'bidato@wanko.be'
+        address_to = "ryapya694@ruru.be"
+        # address_to = 'misuzu414510@gmail.com'
+        try:
+            smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
+            smtpobj.starttls()
+            smtpobj.login(mailaddress, password)
+            msg = MIMEText(text)
+            msg['Subject'] = subject
+            msg['From'] = address_from
+            msg['To'] = address_to
+            msg['Date'] = formatdate()
+            smtpobj.send_message(msg)
+        except smtplib.SMTPDataError as e:
+            print(f"SMTPDataError: {e}")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+        smtpobj.close()
+
 
 
 
