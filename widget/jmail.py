@@ -460,66 +460,87 @@ def check_new_mail(driver, wait, name):
   # interacting_user_listになければ足跡返す
   name_element = driver.find_elements(By.CLASS_NAME, value="icon_sex_m")
   for foot_return_cnt in range(len(name_element)):
-    # print("足跡リストのユーザーがメールリストになければ足跡を返す")
-    # print(name_element[foot_return_cnt].text)
-    # print("メールリストのユーザーリスト")
+    print("足跡リストのユーザーがメールリストになければ足跡を返す")
+    print(name_element[foot_return_cnt].text)
+    print("メールリストのユーザーリスト")
     # print(len(interacting_user_list))
     print(interacting_user_list)
+
+    # 地域を判定
+    next_to_next_element = name_element[foot_return_cnt].find_element(By.XPATH, "following-sibling::*[2]")
+    if "大阪" in next_to_next_element.text or "兵庫" in next_to_next_element.text:
+      continue
+
     foot_user_name = name_element[foot_return_cnt].text
+    if "未読" in foot_user_name:
+        foot_user_name = foot_user_name.replace("未読", "")
+    if "退会" in foot_user_name:
+      foot_user_name = foot_user_name.replace("退会", "")
+    if " " in foot_user_name:
+      foot_user_name = foot_user_name.replace(" ", "")
+    if "　" in foot_user_name:
+      foot_user_name = foot_user_name.replace("　", "")
+
+
     if foot_user_name not in interacting_user_list:
-      print(f"{foot_user_name}はメールリストになかった")
+      send_status = True
+      # print(f"{foot_user_name}はメールリストになかった")
       foot_user_link = name_element[foot_return_cnt].find_element(By.XPATH, "./..")
       driver.get(foot_user_link.get_attribute("href"))
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(2)
-      text_area = driver.find_elements(By.ID, value="textarea")
-      driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", text_area[0])
-      time.sleep(1)
-      text_area[0].send_keys(return_foot_message)
-      time.sleep(4)
-      # 画像があれば送付
-      # DEBUG用　# mail_img = ""
-      if mail_img:
-        img_input = driver.find_elements(By.ID, value="upload_file")
-        img_input[0].send_keys(mail_img)
+      # 自己紹介文チェック
+      profile = driver.find_elements(By.CLASS_NAME, value="prof_pr")
+      if len(profile):
+        profile = profile[0].text.replace(" ", "").replace("\n", "")
+        if '通報' in profile or '業者' in profile:
+          print('自己紹介文に危険なワードが含まれていました')
+          send_status = False
+      if send_status:
+        text_area = driver.find_elements(By.ID, value="textarea")
+        driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", text_area[0])
+        time.sleep(1)
+        text_area[0].send_keys(return_foot_message)
+        time.sleep(4)
+        # 画像があれば送付
+        # DEBUG用　# mail_img = ""
+        if mail_img:
+          img_input = driver.find_elements(By.ID, value="upload_file")
+          img_input[0].send_keys(mail_img)
+          wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+          time.sleep(2)
+        send_btn = driver.find_elements(By.CLASS_NAME, value="send_btn")
+        send_btn[0].click()
         wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
         time.sleep(2)
-      send_btn = driver.find_elements(By.CLASS_NAME, value="send_btn")
-      send_btn[0].click()
-      wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-      time.sleep(2)
-      loader = driver.find_elements(By.ID, value="loader")
-      wait_cnt = 0
-      
-      while len(loader):
-        time.sleep(5)
-        wait_cnt += 1
-        if wait_cnt > 3:
-          print("ロード時間が20秒以上かかっています")
-          break
         loader = driver.find_elements(By.ID, value="loader")
-      # 要素のCSSプロパティを取得
-      send_complete = driver.find_elements(By.ID, value="modal_message_send")
+        wait_cnt = 0
+      
+        while len(loader):
+          time.sleep(4)
+          wait_cnt += 1
+          if wait_cnt > 4:
+            print("ロード時間が20秒以上かかっています")
+            break
+          loader = driver.find_elements(By.ID, value="loader")
+        # 要素のCSSプロパティを取得
+        send_complete = driver.find_elements(By.ID, value="modal_message_send")
 
-      display= send_complete[0].value_of_css_property("display")
-     
-      # displayがnoneであるかチェック
-      if display == "none":
-          print("送信失敗しました")
-      else:
-          interacting_user_list.append(foot_user_name)
-          send_count += 1
-          print(f"jmail足跡返し {name}: {send_count + 1}件送信")
-
-
+        display= send_complete[0].value_of_css_property("display")
+      
+        # displayがnoneであるかチェック
+        print(999)
+        print(display)
+        if display == "none":
+            print("送信失敗しました")
+        else:
+            send_count += 1
+            print(f"jmail足跡返し {name}: {send_count}件送信")
       # あしあとリストに戻る
       driver.back()
       wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
       time.sleep(2)
       name_element = driver.find_elements(By.CLASS_NAME, value="icon_sex_m")
-
-
-
 
 
   if len(return_list):
