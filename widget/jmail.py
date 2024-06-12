@@ -547,7 +547,10 @@ def check_new_mail(driver, wait, name):
   else:
     return 1, send_count
 
-   
+def make_footprints(name, jmail_id, jmail_pass, driver, wait):
+  print(777)
+  login_jmail(driver, wait, jmail_id, jmail_pass)
+
 
    
    
