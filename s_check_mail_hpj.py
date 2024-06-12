@@ -234,7 +234,8 @@ def check_mail():
     current_hour = now.hour
     current_minute = now.minute
     # もし現在時刻が10:00から10:20の間だったら
-    if current_hour == 10 and 0 <= current_minute <= 20:
+    print(f"{current_hour}  {current_minute}")
+    if current_hour == 10 and 0 <= current_minute <= 30:
         print("現在時刻は10:00から10:20の間です。特定の動作を実行します。")
         # ここに実行したい動作を追加
         mailaddress = 'kenta.bishi777@gmail.com'
