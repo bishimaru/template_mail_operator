@@ -548,8 +548,20 @@ def check_new_mail(driver, wait, name):
     return 1, send_count
 
 def make_footprints(name, jmail_id, jmail_pass, driver, wait):
-  print(777)
   login_jmail(driver, wait, jmail_id, jmail_pass)
+  #メニューをクリック
+  menu_icon = driver.find_elements(By.CLASS_NAME, value="menu-off")
+  menu_icon[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(2)
+  menu = driver.find_elements(By.CLASS_NAME, value="iconMenu")
+  #プロフ検索をクリック
+  foot_menus = menu[0].find_elements(By.TAG_NAME, value="p")
+  foot_menu = foot_menus[0].find_elements(By.XPATH, "//*[contains(text(), 'プロフ検索')]")
+  foot_menu_link = foot_menu[0].find_element(By.XPATH, "./..")
+  driver.get(foot_menu_link.get_attribute("href"))
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(200)
 
 
    
