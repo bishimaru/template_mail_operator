@@ -513,11 +513,10 @@ def return_matching(name, wait, wait_time, driver, user_name_list, duplication_u
       # 画像があれば送信
       if return_foot_img:
         img_conform = driver.find_element(By.ID, value="media-confirm")
-        plus_icon = driver.find_elements(By.CLASS_NAME, value="icon-message_plus")
+        plus_icon = driver.find_elements(By.ID, value="ds_js_media_display_btn")
         driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", plus_icon[1])
         time.sleep(1)
         driver.execute_script("arguments[0].click();", plus_icon[1])
-        # plus_icon[1].click()
         time.sleep(1)
         upload_file = driver.find_element(By.ID, "upload_file")
         upload_file.send_keys(return_foot_img)
@@ -664,14 +663,16 @@ def return_type(name, wait, wait_time, driver, user_name_list, duplication_user,
       # 画像があれば送信
       if return_foot_img:
         img_conform = driver.find_element(By.ID, value="media-confirm")
-        plus_icon = driver.find_elements(By.CLASS_NAME, value="icon-message_plus")
+        plus_icon = driver.find_elements(By.ID, value="ds_js_media_display_btn")
         driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", plus_icon[1])
         time.sleep(1)
-        plus_icon[1].click()
+        driver.execute_script("arguments[0].click();", plus_icon[1])
         time.sleep(1)
         upload_file = driver.find_element(By.ID, "upload_file")
+        # DEBUG用
+        # upload_file.send_keys("/Users/yamamotokenta/Desktop/myprojects/mail_operator/widget/picture/chara_img01.jpg")
         upload_file.send_keys(return_foot_img)
-        time.sleep(2)
+        time.sleep(1)
         submit = driver.find_element(By.ID, value="submit_button")
         driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", submit)
         driver.execute_script("arguments[0].click();", submit)
@@ -886,13 +887,15 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
         # 画像があれば送信
         if return_foot_img:
           img_conform = driver.find_element(By.ID, value="media-confirm")
-          plus_icon = driver.find_elements(By.CLASS_NAME, value="icon-message_plus")
-          driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", plus_icon[1])
+          plus_icon = driver.find_elements(By.ID, value="ds_js_media_display_btn")
+          driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", plus_icon[0])
           time.sleep(1)
-          plus_icon[1].click()
+          driver.execute_script("arguments[0].click();", plus_icon[0])         
           time.sleep(1)
           upload_file = driver.find_element(By.ID, "upload_file")
-          upload_file.send_keys(return_foot_img)
+          # DEBUG
+          upload_file.send_keys("/Users/yamamotokenta/Desktop/myprojects/mail_operator/widget/picture/kumi_mizugi.jpeg")
+          # upload_file.send_keys(return_foot_img)
           time.sleep(2)
           submit = driver.find_element(By.ID, value="submit_button")
           driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", submit)
