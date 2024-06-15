@@ -895,7 +895,7 @@ def return_footpoint(name, happy_windowhandle, driver, return_foot_message, cnt,
           upload_file = driver.find_element(By.ID, "upload_file")
           # DEBUG
           # upload_file.send_keys("/Users/yamamotokenta/Desktop/myprojects/mail_operator/widget/picture/kumi_mizugi.jpeg")
-          # upload_file.send_keys(return_foot_img)
+          upload_file.send_keys(return_foot_img)
           time.sleep(2)
           submit = driver.find_element(By.ID, value="submit_button")
           driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", submit)

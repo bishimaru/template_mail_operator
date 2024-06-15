@@ -561,8 +561,71 @@ def make_footprints(name, jmail_id, jmail_pass, driver, wait):
   foot_menu_link = foot_menu[0].find_element(By.XPATH, "./..")
   driver.get(foot_menu_link.get_attribute("href"))
   wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
-  time.sleep(200)
+  time.sleep(2)
+  # 詳しく検索
+  detail_query = driver.find_elements(By.ID, value="ac2h2")
+  detail_query[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(2)
+  # 年齢を選択
+  age18_21 = driver.find_elements(By.XPATH, '//label[@for="CheckAge1"]')
+  age18_21[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  # time.sleep(1)
+  age22_25 = driver.find_elements(By.XPATH, '//label[@for="CheckAge2"]')
+  age22_25[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  # time.sleep(1)
+  age26_29 = driver.find_elements(By.XPATH, '//label[@for="CheckAge3"]')
+  age26_29[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  # time.sleep(1)
+  age30_34 = driver.find_elements(By.XPATH, '//label[@for="CheckAge4"]')
+  age30_34[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  # time.sleep(1)
+  # 身長を選択
+  height150 = driver.find_elements(By.XPATH, '//label[@for="CheckHeight1"]')
+  height150[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  # time.sleep(1)
+  height154 = driver.find_elements(By.XPATH, '//label[@for="CheckHeight2"]')
+  height154[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  # time.sleep(1)
+  height159 = driver.find_elements(By.XPATH, '//label[@for="CheckHeight3"]')
+  height159[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  # time.sleep(1)
+  height164 = driver.find_elements(By.XPATH, '//label[@for="CheckHeight4"]')
+  height164[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  # time.sleep(1)
+  height169 = driver.find_elements(By.XPATH, '//label[@for="CheckHeight5"]')
+  height169[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  # time.sleep(1)
 
+  # 地域を選択
+  tokyo_state = selected_state = driver.find_elements(By.XPATH, '//label[@for="CheckState-9"]')
+  tokyo_state[0].click()
+  area_id_dict = {"東京都":"CheckState-8", "神奈川県":"CheckState-9",}
+  random_selected = random.choice(list(area_id_dict.values()))
+  xpath = f'//label[@for="{random_selected}"]'
+  selected_state = driver.find_elements(By.XPATH, xpath)
+  background_color = selected_state[0].value_of_css_property('background-color')
+  
+  driver.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", selected_state[0])
+  if background_color == "rgba(0, 0, 0, 0)":
+    selected_state[0].click()
+    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+    time.sleep(1)
+  # 検索する
+  query_submit = driver.find_elements(By.ID, value="button")
+  query_submit[0].click()
+  wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
+  time.sleep(100)
+  
 
    
    

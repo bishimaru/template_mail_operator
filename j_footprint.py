@@ -32,7 +32,6 @@ def jmail_footprints(driver, wait):
   #                    ]
 
   for row in cur:
-      print(row[0])
       if row[0] in foot_order_list:
         jmail_user_list.append(row)
   # print(happy_user_list)
