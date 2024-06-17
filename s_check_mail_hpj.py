@@ -240,7 +240,7 @@ def check_mail():
         # ここに実行したい動作を追加
         mailaddress = 'kenta.bishi777@gmail.com'
         password = 'rjdzkswuhgfvslvd'
-        text = jmail_return_foot_count_dic
+        text = str(jmail_return_foot_count_dic)  # 辞書を文字列に変換
         subject = "jメール足跡返し件数"
         address_from = 'kenta.bishi777@gmail.com'
         # address_to = 'bidato@wanko.be'
