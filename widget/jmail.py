@@ -468,7 +468,7 @@ def check_new_mail(driver, wait, name):
 
     # 地域を判定
     next_to_next_element = name_element[foot_return_cnt].find_element(By.XPATH, "following-sibling::*[2]")
-    if "大阪" in next_to_next_element.text or "兵庫" in next_to_next_element.text:
+    if "大阪" in next_to_next_element.text or "兵庫" in next_to_next_element.text or "石川" in next_to_next_element.text:
       continue
 
     foot_user_name = name_element[foot_return_cnt].text
