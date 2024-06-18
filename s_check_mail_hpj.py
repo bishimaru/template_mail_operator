@@ -99,7 +99,7 @@ def check_mail():
         "ゆうな": 0,
        
     }
-  
+  send_flug = True
   while True:
     start_time = time.time() 
     current_datetime = datetime.utcfromtimestamp(int(start_time))
@@ -261,6 +261,9 @@ def check_mail():
         except Exception as e:
             print(f"An error occurred: {e}")
         smtpobj.close()
+        send_flug = False
+    if current_hour == 11:
+        send_flug = True
 
 
 

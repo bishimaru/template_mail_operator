@@ -42,7 +42,7 @@ order_list = [
   
 ]
 order_list = [
-    #  ["ハル", "haruru414510@gmail.com"],
+     ["ハル", "haruru414510@gmail.com"],
    ]
 def get_driver(debug):
     options = Options()
@@ -178,8 +178,8 @@ def check_mail():
     # もし現在時刻が10:00から10:20の間だったら
     print(f"{current_hour}  {current_minute}")
     time.sleep(4)
-    # if current_hour == 10 and 0 <= current_minute <= 30:
-    if True:
+    if current_hour == 10 and 0 <= current_minute <= 30:
+    # if True:
         print("現在時刻は10:00から10:20の間です。特定の動作を実行します。")
         # ここに実行したい動作を追加
         mailaddress = 'kenta.bishi777@gmail.com'

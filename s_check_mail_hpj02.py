@@ -96,7 +96,7 @@ def check_mail():
         "ゆうな": 0,
        
     }
-  
+  send_flug = True
   while True:
     start_time = time.time() 
     current_datetime = datetime.utcfromtimestamp(int(start_time))
@@ -230,7 +230,7 @@ def check_mail():
     current_hour = now.hour
     current_minute = now.minute
     # もし現在時刻が10:00から10:20の間だったら
-    if current_hour == 10 and 0 <= current_minute <= 20:
+    if current_hour == 10 and 0 <= current_minute <= 20 and send_flug:
         print("現在時刻は10:00から10:20の間です。特定の動作を実行します。")
         # ここに実行したい動作を追加
         mailaddress = 'kenta.bishi777@gmail.com'
@@ -256,6 +256,9 @@ def check_mail():
         except Exception as e:
             print(f"An error occurred: {e}")
         smtpobj.close()
+        send_flug = False
+    if current_hour == 11:
+        send_flug = True
 
 
 
