@@ -21,7 +21,7 @@ if __name__ == '__main__':
     scheduler.add_job(sb_h_day_shift.sb_h_all_do, 'cron', hour=8, minute=0, args=[20], max_instances=1,misfire_grace_time=60*60)
     scheduler.add_job(sb_h_day_shift.sb_h_all_do, 'cron', hour=14, minute=0, args=[15], max_instances=1,misfire_grace_time=60*60)
     scheduler.add_job(sb_h_day_shift.sb_h_all_do, 'cron', hour=18, minute=0, args=[15], max_instances=1,misfire_grace_time=60*60)
-    scheduler.add_job(sb_h_day_shift.sb_h_all_do, 'cron', hour=20, minute=8, args=[15], max_instances=1,misfire_grace_time=60*60)
+    scheduler.add_job(sb_h_day_shift.sb_h_all_do, 'cron', hour=20, minute=0, args=[15], max_instances=1,misfire_grace_time=60*60)
     scheduler.add_job(sb_h_day_shift.sb_h_all_do, 'cron', hour=22, minute=0, args=[20], max_instances=1,misfire_grace_time=60*60)
 
     # scheduler.add_job(tick, 'interval', second=5)  
