@@ -17,6 +17,7 @@ from selenium.webdriver.chrome.service import Service
 from datetime import timedelta
 import setting 
 
+
 def happymail_footprints(driver, wait):
   dbpath = setting.db
   conn = sqlite3.connect(dbpath)
@@ -26,17 +27,17 @@ def happymail_footprints(driver, wait):
   # # データ検索
   cur.execute('SELECT name, login_id, passward FROM happymail')
   happy_user_list = []
-  foot_order_list = [
-     "アスカ","くみ","いおり", "えりか", "きりこ"
-  ]
-  # foot_order_list = ["アスカ",
-  #                    ]
+  # foot_order_list = [
+  
+  # ]
+  
 
   for row in cur:
-      # print(row[0])
-      if row[0] in foot_order_list:
-        happy_user_list.append(row)
-  # print(happy_user_list)
+      print(row[0])
+      happy_user_list.append(row)
+      # if row[0] in foot_order_list:
+      #   happy_user_list.append(row)
+  print(happy_user_list)
   for i in range(9999):
     start_time = time.time() 
     for user_list in happy_user_list:
@@ -62,11 +63,9 @@ if __name__ == '__main__':
   # options.add_argument("--remote-debugging-port=9222")
   options.add_experimental_option("detach", True)
   options.add_argument("--disable-cache")
-  service = Service(ChromeDriverManager().install())
-  # service = Service(executable_path="./chromedriver")
 
-  driver = webdriver.Chrome(service=service, options=options)
-  # driver = func.get_debug_chromedriver()
+  service = Service(executable_path=ChromeDriverManager().install())
+  driver = webdriver.Chrome(options=options, service=service)
   wait = WebDriverWait(driver, 15)
 
   happymail_footprints(driver, wait)

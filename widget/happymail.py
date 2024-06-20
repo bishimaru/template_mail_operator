@@ -958,7 +958,8 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    select.select_by_visible_text("プロフ一覧")
    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
    time.sleep(wait_time)
-   for i in range(15):
+   for i in range(2):
+  #  for i in range(15):
       user_list = driver.find_elements(By.CLASS_NAME, value="ds_user_post_link_item_r")
       no_history_user = False
       #  メールアイコン（送信履歴）があるかチェック
@@ -987,7 +988,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
       # ランダムな数値を生成し、実行確率と比較
       type_flag = False
       # 実行確率
-      execution_probability = 0.99
+      execution_probability = 0.50
       if random.random() < execution_probability:
         type_button = driver.find_element(By.ID, value="btn-type")
         type_button.click()
@@ -997,7 +998,7 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
       # ランダムな数値を生成し、実行確率と比較
       like_flag = False
       # 実行確率
-      execution_probability = 0.99
+      execution_probability = 0.50
       if random.random() < execution_probability:
         others_icon = driver.find_elements(By.CLASS_NAME, value="icon-profile_other_on")
         others_icon[0].click()
