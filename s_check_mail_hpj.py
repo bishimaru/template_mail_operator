@@ -31,7 +31,7 @@ order_list = [
    ["さな", "sana.cnfwijl@gmail.com"],
    ["すい", "sui187586@gmail.com"],
    ["つむぎ", "tumtum.jpwa@gmail.com"],
-#    ["なお", "n414510a@gmail.com"],
+   ["なお", "n414510a@gmail.com"],
 #    ["ハル", "haruru414510@gmail.com"],
 #    ["はづき", "k.haru414510@gmail.com"], 
 #    ["めあり", "meari414510@gmail.com"],

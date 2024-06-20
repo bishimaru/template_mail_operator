@@ -31,7 +31,7 @@ order_list = [
   #  ["さな", "sana.cnfwijl@gmail.com"],
   #  ["すい", "sui187586@gmail.com"],
   #  ["つむぎ", "tumtum.jpwa@gmail.com"],
-   ["なお", "n414510a@gmail.com"],
+#    ["なお", "n414510a@gmail.com"],
    ["ハル", "haruru414510@gmail.com"],
    ["はづき", "k.haru414510@gmail.com"], 
    ["めあり", "meari414510@gmail.com"],
@@ -40,6 +40,8 @@ order_list = [
    ["ゆうな", "y8708336@gmail.com"],
    ["ゆっこ", "yuko414510@gmail.com"], 
    ["ゆかり", "y216154@gmail.com"],
+   ["わかな", "wakana30810@gmail.com"],
+
   
 ]
 # order_list = [
@@ -84,6 +86,8 @@ def check_mail():
         "ゆうな": 0,
         "ゆっこ": 0,
         "ゆかり": 0,   
+        "わかな": 0,   
+
     }
   jmail_return_foot_count_dic = {
        "いおり": 0,
