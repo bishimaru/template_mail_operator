@@ -958,8 +958,8 @@ def make_footprints(name, happymail_id, happymail_pass, driver, wait):
    select.select_by_visible_text("プロフ一覧")
    wait.until(lambda driver: driver.execute_script('return document.readyState') == 'complete')
    time.sleep(wait_time)
-   for i in range(2):
-  #  for i in range(15):
+  #  for i in range(2):
+   for i in range(15):
       user_list = driver.find_elements(By.CLASS_NAME, value="ds_user_post_link_item_r")
       no_history_user = False
       #  メールアイコン（送信履歴）があるかチェック
