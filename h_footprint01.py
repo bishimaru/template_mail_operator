@@ -30,7 +30,6 @@ def happymail_footprints(driver, wait):
   # foot_order_list = [
   
   # ]
-  
 
   for row in cur:
       print(row[0])

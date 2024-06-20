@@ -15,16 +15,26 @@ import traceback
 from datetime import timedelta
 from sb_p_repost import pcmax_repost
 from sb_h_repost_return_foot import sb_h_repost_returnfoot
+import sqlite3
+
 
 
 def sb_h_all_do(return_foot_cnt):
-  chara_order = [  
-    "アスカ", "いおり", "えりか", "くみ",
-    "きりこ", "さな", "すい", "つむぎ", "なお", 
-  ]
-  # chara_order = [  
-  #   "アスカ", 
-  # ]
+  
+  dbpath = setting.db
+  conn = sqlite3.connect(dbpath)
+  # # SQLiteを操作するためのカーソルを作成
+  cur = conn.cursor()
+  # # 順番
+  # # データ検索
+  cur.execute('SELECT name, login_id, passward FROM happymail')
+  chara_order = []
+  for row in cur:
+      # print(row[0])
+      chara_order.append(row[0])
+      # if row[0] in foot_order_list:
+      #   happy_user_list.append(row)
+  # print(chara_order)
 
   def timer(sec, functions):
     start_time = time.time() 
@@ -46,8 +56,10 @@ def sb_h_all_do(return_foot_cnt):
   return_cnt_list = []
 
   for chara in chara_order:
+    
     try:
-      return_func = timer(wait_cnt, [lambda: pcmax_repost(chara), lambda: sb_h_repost_returnfoot(chara, return_foot_cnt)])
+      # return_func = timer(wait_cnt, [lambda: pcmax_repost(chara), lambda: sb_h_repost_returnfoot(chara, return_foot_cnt)])
+      return_func = timer(wait_cnt, [ lambda: sb_h_repost_returnfoot(chara, return_foot_cnt)])
       if return_func is not None:
         return_cnt_list.append(f"{chara}:足跡返し {return_func}件")
     except Exception as e:
