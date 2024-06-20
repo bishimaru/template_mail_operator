@@ -31,7 +31,7 @@ def get_driver():
     return driver, wait
 
 def sb_h_repost_returnfoot(name, cnt): 
-  dbpath = 'firstdb.db'
+  dbpath = setting.db
   conn = sqlite3.connect(dbpath)
   cur = conn.cursor()
   cur.execute('SELECT login_id, passward, post_title, post_contents, return_foot_message, mail_img, fst_message FROM happymail WHERE name = ?', (name,))

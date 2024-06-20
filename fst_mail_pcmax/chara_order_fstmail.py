@@ -7,7 +7,7 @@ from concurrent.futures import ThreadPoolExecutor
 import traceback
 import random
 from datetime import datetime
-
+import setting
 
 
 def main(maji_soushin, chara_name_list, end_hour, end_minute):
@@ -37,7 +37,7 @@ def main(maji_soushin, chara_name_list, end_hour, end_minute):
     # "自己PR更新順"
   ]
   
-  dbpath = 'firstdb.db'
+  dbpath = setting.db
   conn = sqlite3.connect(dbpath)
   # SQLiteを操作するためのカーソルを作成
   cur = conn.cursor()

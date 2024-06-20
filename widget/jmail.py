@@ -18,6 +18,7 @@ from datetime import datetime, timedelta
 import difflib
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
+import setting
 
 
 def login_jmail(driver, wait, login_id, login_pass):
@@ -66,7 +67,7 @@ def login_jmail(driver, wait, login_id, login_pass):
 def re_post(driver, name):
   try:
     wait = WebDriverWait(driver, 15)
-    dbpath = 'firstdb.db'
+    dbpath = setting.db
     conn = sqlite3.connect(dbpath)
     # SQLiteを操作するためのカーソルを作成
     cur = conn.cursor()
@@ -136,7 +137,7 @@ def re_post(driver, name):
 
 def check_new_mail(driver, wait, name):
   return_list = []
-  dbpath = 'firstdb.db'
+  dbpath = setting.db
   conn = sqlite3.connect(dbpath)
   cur = conn.cursor()
   cur.execute('SELECT login_id, login_passward, fst_message, return_foot_message, second_message, mail_img FROM jmail WHERE name = ?', (name,))
@@ -219,7 +220,7 @@ def check_new_mail(driver, wait, name):
           if "icloud.com" in send_by_user_message:
             print("icloud.comが含まれています")
             icloud_text = "メール送ったんですけど、ブロックされちゃって届かないのでこちらのアドレスにお名前添えて送ってもらえますか？"
-            dbpath = 'firstdb.db'
+            dbpath = setting.db
             conn = sqlite3.connect(dbpath)
             # # SQLiteを操作するためのカーソルを作成
             cur = conn.cursor()
@@ -234,7 +235,7 @@ def check_new_mail(driver, wait, name):
           # gmailで条件文を送信
           else:
             for user_address in email_list:
-              dbpath = 'firstdb.db'
+              dbpath = setting.db
               conn = sqlite3.connect(dbpath)
               # # SQLiteを操作するためのカーソルを作成
               cur = conn.cursor()
@@ -379,7 +380,7 @@ def check_new_mail(driver, wait, name):
               if "icloud.com" in send_by_user_message:
                 print("icloud.comが含まれています")
                 icloud_text = "メール送ったんですけど、ブロックされちゃって届かないのでこちらのアドレスにお名前添えて送ってもらえますか？"
-                dbpath = 'firstdb.db'
+                dbpath = setting.db
                 conn = sqlite3.connect(dbpath)
                 # # SQLiteを操作するためのカーソルを作成
                 cur = conn.cursor()
@@ -393,7 +394,7 @@ def check_new_mail(driver, wait, name):
               # gmailで条件文を送信
               else:
                 for user_address in email_list:
-                  dbpath = 'firstdb.db'
+                  dbpath = setting.db
                   conn = sqlite3.connect(dbpath)
                   # # SQLiteを操作するためのカーソルを作成
                   cur = conn.cursor()

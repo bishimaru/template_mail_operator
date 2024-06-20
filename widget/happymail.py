@@ -17,6 +17,7 @@ import re
 from datetime import datetime, timedelta
 import difflib
 from selenium.common.exceptions import NoSuchElementException
+import setting
 
 # 警告画面
 def catch_warning_screen(driver):
@@ -1147,7 +1148,7 @@ def send_fst_message(name_list):
         limit_cnt = 3
       h_w = func.get_windowhandle("happymail", name)
       # print(name)
-      dbpath = 'firstdb.db'
+      dbpath = setting.db
       conn = sqlite3.connect(dbpath)
       # SQLiteを操作するためのカーソルを作成
       cur = conn.cursor()
@@ -1272,7 +1273,7 @@ def send_fst_message(name_list):
 
 def check_new_mail(driver, wait, name):
   return_list = []
-  dbpath = 'firstdb.db'
+  dbpath = setting.db
   conn = sqlite3.connect(dbpath)
   cur = conn.cursor()
   cur.execute('SELECT login_id, passward, fst_message, return_foot_message, conditions_message FROM happymail WHERE name = ?', (name,))
@@ -1450,7 +1451,7 @@ def check_new_mail(driver, wait, name):
     return None
   
 def re_registration(name, driver):
-  dbpath = 'firstdb.db'
+  dbpath = setting.db
   conn = sqlite3.connect(dbpath)
   cur = conn.cursor()
   cur.execute('SELECT * FROM happymail WHERE name = ?', (name,))

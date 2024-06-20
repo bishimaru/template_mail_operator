@@ -5,7 +5,7 @@ from fst_mail_pcmax import pcmax
 import sqlite3
 from concurrent.futures import ThreadPoolExecutor
 import traceback
-
+import setting
 
 def main(maji_soushin, chara_name_list):
   # 〜〜〜〜〜〜検索設定〜〜〜〜〜〜
@@ -47,7 +47,7 @@ def main(maji_soushin, chara_name_list):
     # "自己PR更新順"
   ]
   
-  dbpath = 'firstdb.db'
+  dbpath = setting.db
   conn = sqlite3.connect(dbpath)
   # SQLiteを操作するためのカーソルを作成
   cur = conn.cursor()

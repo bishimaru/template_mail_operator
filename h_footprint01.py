@@ -15,9 +15,10 @@ from widget import pcmax, happymail, func
 import sqlite3
 from selenium.webdriver.chrome.service import Service
 from datetime import timedelta
+import setting 
 
 def happymail_footprints(driver, wait):
-  dbpath = 'firstdb.db'
+  dbpath = setting.db
   conn = sqlite3.connect(dbpath)
   # # SQLiteを操作するためのカーソルを作成
   cur = conn.cursor()
@@ -61,7 +62,8 @@ if __name__ == '__main__':
   # options.add_argument("--remote-debugging-port=9222")
   options.add_experimental_option("detach", True)
   options.add_argument("--disable-cache")
-  service = Service(executable_path="./chromedriver")
+  service = Service(ChromeDriverManager().install())
+  # service = Service(executable_path="./chromedriver")
 
   driver = webdriver.Chrome(service=service, options=options)
   # driver = func.get_debug_chromedriver()

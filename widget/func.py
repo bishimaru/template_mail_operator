@@ -22,6 +22,7 @@ from selenium.common.exceptions import TimeoutException
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.firefox.options import Options
+import setting
 
 
 def get_driver():
@@ -66,7 +67,7 @@ def timer(fnc, seconds, h_cnt, p_cnt):
 
 def get_windowhandle(site, name):
   # DB
-  dbpath = 'firstdb.db'
+  dbpath = setting.db
   conn = sqlite3.connect(dbpath)
   # SQLiteを操作するためのカーソルを作成
   cur = conn.cursor()
@@ -517,7 +518,7 @@ def check_new_mail_gmail(driver, wait, name, mail_address):
   if not mail_address:
     return None
   return_list = []
-  dbpath = 'firstdb.db'
+  dbpath = setting.db
   conn = sqlite3.connect(dbpath)
   cur = conn.cursor()
   cur.execute('SELECT window_Handle FROM gmail WHERE mail_address = ?', (mail_address,))

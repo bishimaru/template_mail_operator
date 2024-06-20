@@ -22,7 +22,7 @@ text = """メアド交換ありがとうございます(^ ^)
 # func.send_conditional(user_name, user_address, mailaddress, password, text)
 
 def conditional_mail(name, user_address):
-  dbpath = 'firstdb.db'
+  dbpath = setting.db
   conn = sqlite3.connect(dbpath)
   # # SQLiteを操作するためのカーソルを作成
   cur = conn.cursor()

@@ -8,7 +8,7 @@ import widget.pcmax
 import time
 import sqlite3
 from selenium.common.exceptions import TimeoutException
-
+import setting
 
 options = Options()
 options.add_argument('--headless')
@@ -20,7 +20,7 @@ service = Service(executable_path="./chromedriver")
 driver = webdriver.Chrome(service=service, options=options)
 wait = WebDriverWait(driver, 15)
 
-dbpath = 'firstdb.db'
+dbpath = setting.db
 conn = sqlite3.connect(dbpath)
 # SQLiteを操作するためのカーソルを作成
 cur = conn.cursor()

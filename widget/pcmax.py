@@ -21,7 +21,7 @@ import sqlite3
 from selenium.webdriver.chrome.service import Service as ChromeService
 from datetime import datetime, timedelta
 from selenium.webdriver.support import expected_conditions as EC
-
+import setting
 
 
 genre_dic = {0:"スグ会いたい", 1:"スグじゃないけど"}
@@ -89,7 +89,7 @@ def re_post(name, pcmax_windowhandle, driver, genre_flag):
     handle_array = driver.window_handles
     driver.switch_to.window(pcmax_windowhandle)
   else:
-    dbpath = 'firstdb.db'
+    dbpath = setting.db
     conn = sqlite3.connect(dbpath)
     # # SQLiteを操作するためのカーソルを作成
     cur = conn.cursor()
@@ -1034,7 +1034,7 @@ def send_fst_mail(name, maji_soushin, select_areas, youngest_age, oldest_age, ng
 
 def check_new_mail(driver, wait, name):
   return_list = []
-  dbpath = 'firstdb.db'
+  dbpath = setting.db
   conn = sqlite3.connect(dbpath)
   cur = conn.cursor()
   cur.execute('SELECT login_id, passward, fst_mail, mail_img, second_message, return_foot_message FROM pcmax WHERE name = ?', (name,))
@@ -1245,7 +1245,7 @@ def check_new_mail(driver, wait, name):
             if "icloud.com" in received_mail:
               print("icloud.comが含まれています")
               icloud_text = "メール送ったんですけど、ブロックされちゃって届かないのでこちらのアドレスにお名前添えて送ってもらえますか？"
-              dbpath = 'firstdb.db'
+              dbpath = setting.db
               conn = sqlite3.connect(dbpath)
               # # SQLiteを操作するためのカーソルを作成
               cur = conn.cursor()
@@ -1281,7 +1281,7 @@ def check_new_mail(driver, wait, name):
               name_elem = driver.find_elements(By.CLASS_NAME, value="content_header_center")
               user_name = name_elem[0].text
               for user_address in email_list:
-                dbpath = 'firstdb.db'
+                dbpath = setting.db
                 conn = sqlite3.connect(dbpath)
                 # # SQLiteを操作するためのカーソルを作成
                 cur = conn.cursor()
@@ -1614,7 +1614,7 @@ def check_new_mail(driver, wait, name):
 def re_registration(name, driver):
   print(name)
   wait = WebDriverWait(driver, 15)  
-  dbpath = 'firstdb.db'
+  dbpath = setting.db
   conn = sqlite3.connect(dbpath)
   # # SQLiteを操作するためのカーソルを作成
   cur = conn.cursor()

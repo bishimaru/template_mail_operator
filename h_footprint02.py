@@ -15,9 +15,10 @@ from widget import pcmax, happymail, func
 import sqlite3
 from selenium.webdriver.chrome.service import Service
 from datetime import timedelta
+import setting
 
 def happymail_footprints(driver, wait):
-  dbpath = 'firstdb.db'
+  dbpath = setting.db
   conn = sqlite3.connect(dbpath)
   # # SQLiteを操作するためのカーソルを作成
   cur = conn.cursor()

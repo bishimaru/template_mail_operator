@@ -7,7 +7,7 @@ from concurrent.futures import ThreadPoolExecutor
 import traceback
 import random
 from datetime import datetime
-
+import setting
 
 def main(maji_soushin):
   # 〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜設定エリア〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜
@@ -60,7 +60,7 @@ def main(maji_soushin):
   # 〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜
 
 
-  dbpath = 'firstdb.db'
+  dbpath = setting.db
   conn = sqlite3.connect(dbpath)
   # SQLiteを操作するためのカーソルを作成
   cur = conn.cursor()
