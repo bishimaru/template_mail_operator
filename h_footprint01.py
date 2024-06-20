@@ -27,15 +27,15 @@ def happymail_footprints(driver, wait):
   # # データ検索
   cur.execute('SELECT name, login_id, passward FROM happymail')
   happy_user_list = []
-  # foot_order_list = [
-  
-  # ]
+  foot_order_list = [  
+    "アスカ", "いおり", "えりか", "きりこ"
+                    ]
 
   for row in cur:
-      print(row[0])
-      happy_user_list.append(row)
-      # if row[0] in foot_order_list:
-      #   happy_user_list.append(row)
+      # print(row[0])
+      
+      if row[0] in foot_order_list:
+        happy_user_list.append(row)
   print(happy_user_list)
   for i in range(9999):
     start_time = time.time() 
