@@ -131,9 +131,11 @@ def send_mail(message):
   password = 'rjdzkswuhgfvslvd'
   text = message
   subject = "ハッピーメールサイト回し件数"
-  address_from = 'kenta.bishi777@gmail.com'
-  # address_to = "ryapya694@ruru.be"
-  address_to = "gifopeho@kmail.li"
+  # address_from = 'kenta.bishi777@gmail.com'
+  address_from = setting.address_from
+
+  # address_to = "gifopeho@kmail.li"
+  address_to = setting.address_to
   smtpobj = smtplib.SMTP('smtp.gmail.com', 587)
   smtpobj.starttls()
   smtpobj.login(mailaddress, password)
