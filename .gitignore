@@ -11,3 +11,4 @@ __pycache__
 myenv
 firstdb.db
 firstdb.sqbpro
+*log*
